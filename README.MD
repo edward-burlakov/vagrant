@@ -27,21 +27,28 @@ VIDEO:4mb
 6) Ознакомьтесь с возможностями конфигурации VirtualBox через Vagrantfile: документация. 
    Как добавить оперативной памяти или ресурсов процессора виртуальной машине? 
 
-Вариант 1:
-  Добавить две строки в файле конфигурации  VagrantFile:
-     
-        Vagrant.configure("2") do |config|
-            config.vm.box = "bento/ubuntu-20.04"
-            v.memory = 1024
-            v.cpus = 2
+Вариант 1: 
+  Через команды ВМ , чтобы перезаписать параметры конфигурации ,заданные гипервизором VirtualBox
+    Vagrant.configure("2") do |config|
+    config.vm.box = "bento/ubuntu-20.04"
+        сonfig.vm.provider "virtualbox" do |vb|
+        vb.memory = "1024"
+        vb.cpu = "2"
         end
+    end
 
-Вариант 2: 
-  Через команды ВМ
-   config.vm.provider "virtualbox" do |vb|
-     vb.memory = "1024"
-     vb.cpu = "2"
-   end
+Вариант 2:
+   Установить новые параметры конфигурации для данной виртуальной машине в гипервизоре VirtualBox c помощью графического интерфейса
+   и обратиться к данным параметрам через внутренние переменные при запуске vagrant бокса : 
+    
+    Vagrant.configure("2") do |config|
+    config.vm.box = "bento/ubuntu-20.04"
+        сonfig.vm.provider "virtualbox" do |vb|
+        vb.customize ["modifyvm", :id, "--memory", ENV['ram_memory_size_mb']]
+        vb.customize ["modifyvm", :id, "--cpus", ENV['cpu_count']]
+        end
+    end 	
+
 
 7) Команда vagrant ssh из директории, в которой содержится Vagrantfile, 
     позволит вам оказаться внутри виртуальной машины без каких-либо дополнительных настроек. 
