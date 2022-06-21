@@ -34,8 +34,8 @@ VIDEO:4mb
     Vagrant.configure("2") do |config|
     config.vm.box = "bento/ubuntu-20.04"
         сonfig.vm.provider "virtualbox" do |vb|
-        vb.memory = "1024"
-        vb.cpu = "2"
+        vb.memory = "2048"
+        vb.cpu = "4"
         end
     end
 
