@@ -124,9 +124,9 @@ bash: /usr/bin/touch: Argument list too long
         vagrant@vagrant:~$ tune2fs -l /dev/sda2 | grep "Inode count:"
         Inode count:              98304
 
-  2) "Argument list too long” indicates when a user feeds too many arguments 
-     into a single command which hits the ARG_MAX limit. 
-     The ARG_MAX defines the maximum length of arguments to the exec function.
+  2) "Argument list too long” отображается когла пользователь загружает слишком много аргументов
+      в единую команду, которые превышают лимит, оговоренный константой ARG_MAX. 
+      ARG_MAX определяет максимальную длину аргументов для функции exec .
     
 
 11) В man bash поищите по /\[\[. Что делает конструкция [[ -d /tmp ]]
