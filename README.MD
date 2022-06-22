@@ -113,11 +113,16 @@ Manual page bash line 197
 root@vagrant:~/test# touch new-file-{1..300000}.txt
 bash: /usr/bin/touch: Argument list too long
 
-Второй вариант невозможен, поскольку указанное кол-во файлов превышает кол-во inode - указателей 
-на объекты на логическом диске, доступных для файлов и каталогов - 98304. 
+Данная команда неуспешна, поскольку: 
+  1) Указанное кол-во файлов превышает кол-во inode - указателей на объекты на логическом диске,
+     доступных для файлов и каталогов - 98304. 
 
-         vagrant@vagrant:~$ tune2fs -l /dev/sda2 | grep "Inode count:"
-         Inode count:              98304
+        vagrant@vagrant:~$ tune2fs -l /dev/sda2 | grep "Inode count:"
+        Inode count:              98304
+
+  2) Вторая причина: "Argument list too long” indicates when a user feeds too many arguments 
+     into a single command which hits the ARG_MAX limit. 
+     The ARG_MAX defines the maximum length of arguments to the exec function.
     
 
 11) В man bash поищите по /\[\[. Что делает конструкция [[ -d /tmp ]]
