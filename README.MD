@@ -17,11 +17,15 @@
 5) Ознакомьтесь с графическим интерфейсом VirtualBox, посмотрите как выглядит виртуальная машина, 
    которую создал для вас Vagrant, какие аппаратные ресурсы ей выделены. 
    Какие ресурсы выделены по-умолчанию?
-  Ответ:
+
+Ответ:
 
 RAM:1024mb
+
 CPU:2 cpu
+
 HDD:64gb
+
 VIDEO:4mb
 
 6) Ознакомьтесь с возможностями конфигурации VirtualBox через Vagrantfile: документация. 
@@ -81,7 +85,7 @@ VIDEO:4mb
         в историю команд с пробелом в начале строки и повторяющихся подряд команд.
 
         vagrant@vagrant:~$ echo "HISTCONTROL=ignoreboth" >>~/.bashrc
-        vagrant@vagrant:~$ source ~/.bashrc для применения настроек налету  или перезайти в терминал .
+        vagrant@vagrant:~$ source ~/.bashrc для применения настроек на лету  или перезайти в терминал .
 
 9) В каких сценариях использования применимы скобки {} и на какой строчке man bash это описано?
 
@@ -120,7 +124,7 @@ bash: /usr/bin/touch: Argument list too long
         vagrant@vagrant:~$ tune2fs -l /dev/sda2 | grep "Inode count:"
         Inode count:              98304
 
-  2) Вторая причина: "Argument list too long” indicates when a user feeds too many arguments 
+  2) "Argument list too long” indicates when a user feeds too many arguments 
      into a single command which hits the ARG_MAX limit. 
      The ARG_MAX defines the maximum length of arguments to the exec function.
     
