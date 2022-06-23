@@ -114,6 +114,7 @@ Manual page bash line 197
 Получится ли аналогичным образом создать 300000? Если нет, то почему?
 
 Ответ:
+
 root@vagrant:~/test# touch new-file-{1..300000}.txt
 bash: /usr/bin/touch: Argument list too long
 
@@ -124,9 +125,9 @@ bash: /usr/bin/touch: Argument list too long
         vagrant@vagrant:~$ tune2fs -l /dev/sda2 | grep "Inode count:"
         Inode count:              98304
 
-  2. "Argument list too long” отображается когла пользователь загружает слишком много аргументов
-      в единую команду, которые превышают лимит, оговоренный константой ARG_MAX. 
-      ARG_MAX определяет максимальную длину аргументов для функции exec.
+  2. Сообщение "Argument list too long” отображается, когда пользователь загружает в единую команду 
+     число аргументов, которое превышает лимит, оговоренный константой ARG_MAX. 
+     ARG_MAX определяет максимальную длину аргументов для функции exec.
 
 11) В man bash поищите по /\[\[. Что делает конструкция [[ -d /tmp ]]
     
