@@ -213,6 +213,7 @@ nx rdtscp lm constant_tsc rep_good nopl xtopology nonstop_tsc cpuid tsc_known_fr
     Однако: 
     
       vagrant@netology1:~$ ssh localhost 'tty'
+
       not a tty
 
    Почитайте, почему так происходит, и как изменить поведение.
