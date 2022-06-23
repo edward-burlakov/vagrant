@@ -221,11 +221,12 @@ WIKI: Команда tty обычно используется для прове
 то в stdout выводится «not a tty», и команда завершается со статусом выхода 1.
 
 Для запуска ssh можно добавить ключ -t, и команда выполнится c принудительным созданием псевдотерминала на удаленной стороне.
-vagrant@vagrant:~$ ssh -t localhost 'tty'
-vagrant@localhost's password: 
-/dev/pts/2
-Connection to localhost closed.
-vagrant@vagrant:~$ 
+
+    vagrant@vagrant:~$ssh -t localhost 'tty'
+    vagrant@localhost's password:
+    /dev/pts/2
+    Connection to localhost closed.
+    vagrant@vagrant:~$ 
 
 #----------------------------------------------------------------------------------------------------------------------------------------------------
 
