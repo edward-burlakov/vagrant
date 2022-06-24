@@ -91,7 +91,7 @@ cd is a shell builtin.
 
     root@vagrant:~/test# touch test1 test2   # Создаем два файла
     root@vagrant:~/test# echo 12345 > test1  # Заполняем файл test1  
-    root@vagrant:~/test# cat test1 > test2   # Выводим stdout в файл test1
+    root@vagrant:~/test# cat test1 > test2   # Выводим поток stdout процесса команды cat в файл test1
     root@vagrant:~/test# cat test2           # Анализируем содержимое файла test2 
     12345
 
