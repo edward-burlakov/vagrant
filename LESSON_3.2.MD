@@ -11,7 +11,6 @@ cd is a shell builtin.
     При запуске данной команды ключевым параметром, который оболочка BASH передает процессу "cd" - это текущий каталог. 
     И данный параметр не изменится, пока не завершится исполнение процесса "cd" и он не умрет.
 
-
     - Если очередной  инстанс процесса "cd" будет запущен, пока не завершился предыдущий, то переданное ему 
       значение переменной текущего каталога для выполнения команды "cd" 
       с "относительными" атрибутами (ссылающимися на текущий каталог) может быть некорректным.
@@ -218,8 +217,8 @@ Manual page proc(5) line 279
 
     root@vagrant:~# lscpu | grep sse
     flags    : fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush mmx fxsr sse sse2 ht syscall 
-    nx rdtscp lm constant_tsc rep_good nopl xtopology nonstop_tsc cpuid tsc_known_freq pni ssse3 cx16 pcid sse4_1 sse
-    4_2 hypervisor lahf_lm pti fsgsbase md_clear flush_l1d arch_capabilities
+    nx rdtscp lm constant_tsc rep_good nopl xtopology nonstop_tsc cpuid tsc_known_freq pni ssse3 cx16 pcid sse4_1 
+    sse4_2 hypervisor lahf_lm pti fsgsbase md_clear flush_l1d arch_capabilities
 
 Ответ: sse - старшая версия набора инструкций.
 
@@ -283,11 +282,11 @@ Manual page proc(5) line 279
      Итог: Приложение  отображается на терминале /dev/pts/1 
 
 
-Вариант 2 - более сложный - с отключением  процесса-родителя .
+Вариант 2 - более сложный - с отключением  процесса-родителя ( пример автора reptyr ).
 
     root@vagrant:/home/vagrant# top       #  Запускаем программу top
 
-    Ctrl-Z -                              # Посылаем в бэкграунд и приостанавливаем запущенную программу .
+    Ctrl-Z                                # Посылаем в бэкграунд и приостанавливаем запущенную программу .
 
     root@vagrant:/home/vagrant# bg        # Снимаем  с паузы этот процесс в бэкграунде
 
@@ -321,7 +320,8 @@ Manual page proc(5) line 279
     1) В файл, указанный в качестве параметра, предварительно очищая его .
 
     2) В stdout  -  окно терминала. 
-    В данном примере команда получает вывод из stdin, перенаправленный через конвейер от stdout команды echo.
+
+    В этом примере команда tee получает в поток stdin  данные, перенаправленные через конвейер от потока stdout команды echo.
     Так как команда tee запущена c  правами суперпользователя, соответственно имеет права на запись в файл.
 
     root@vagrant:/home/vagrant# echo "Привет!"  | sudo tee /root/new_file
