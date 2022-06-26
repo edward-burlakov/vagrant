@@ -88,9 +88,9 @@ cd is a shell builtin.
     
 Ответ неверный:
 
-    root@vagrant:~/test# cat test1 > test2   # Выводим поток stdout процесса команды cat в файл test1
+    root@vagrant:~/test# cat test1 > test2   # Выводим поток stdout процесса команды cat в файл test2
 
-Ответ верный :
+Ответ верный:
 
     root@vagrant:~/test# cat <test1 >test2      # Передаем содержимое файла test1 на входной поток stdin команды cat
                                                 # Отправляем поток stdout  команды cat в файл test2    
