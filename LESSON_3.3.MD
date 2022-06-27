@@ -105,8 +105,10 @@
         tail    1302 root    3r      REG  253,0   110984  131289 /var/log/syslog
         tail    1302 root    4r  a_inode  0,14        0   10385 inotify  
 
-       - Закрываем  канал записи в несуществующий файл системным вызовом
-         root@vagrant:~/test#  gdb -p 1302  /usr/bin/tail   
+        - Запускаем gdb для найденного процесса
+         root@vagrant:~/test#  gdb -p 1302  /usr/bin/tail
+
+        - Системным вызовом закрываем  канал записи в несуществующий файл 
          (gdb) p close(1)                                      
          $1 = 0
     
