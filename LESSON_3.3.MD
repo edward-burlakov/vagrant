@@ -9,11 +9,12 @@
    Обратите внимание, что strace выдаёт результат своей работы в поток stderr, а не в stdout.
 
 Ответ:
-   Выводим
+
+   Выводим:
 
       strace /bin/bash -c 'cd /tmp' 2<&1 | less
 
-   Ищем 
+   Ищем системный вызов: 
     
       chdir("/tmp") 
 
@@ -29,7 +30,7 @@
 
 Ответ:
 
-     root@vagrant:~/test# file /dev/tty
+     root@vagrant:~/test# file /dev/tty           
      /dev/tty: character special (5/0)
  
      root@vagrant:~/test# file /dev/sda*
@@ -42,17 +43,26 @@
      /bin/bash: ELF 64-bit LSB shared object, x86-64, version 1 (SYSV), dynamically linked, interpreter 
      /lib64/ld-linux-x86-64.so.2, BuildID[sha1]=2a9f157890930ced4c3ad0e74fc1b1b84aad71e6, for GNU/Linux 3.2.0, stripped
 
-3) Используя strace выясните, где находится база данных file, на основании которой она делает свои догадки.
-   Предположим, приложение пишет лог в текстовый файл. Этот файл оказался удален (deleted в lsof), 
+   Используя strace выясните, где находится база данных file, на основании которой она делает свои догадки.
+
+     1.Сначала база ищется в домашнем каталоге пользователя
+     ~/.magic.mgc    -файл   
+     ~/.magic        -каталог
+
+     2. Затем в /etc
+     /etc/magic.mgc - файл  
+     /etc/magic     -  каталог
+
+     3. Затем в /usr/share/misc/magic.mgc и   /usr/share/misc/magic  
+     /usr/share/misc/magic.mgc  - символическая ссылка на искомый файл     /usr/lib/file/magic.mgc
+     /usr/share/misc/magic      - символическая ссылка на искомый каталог  /usr/share/file/magic 
+
+3)  Предположим, приложение пишет лог в текстовый файл. Этот файл оказался удален (deleted в lsof), 
    однако возможности сигналом сказать приложению переоткрыть файлы или просто перезапустить приложение – нет. 
    Так как приложение продолжает писать в удаленный файл, место на диске постепенно заканчивается. 
-   Основываясь на знаниях о перенаправлении потоков предложите способ обнуления открытого удаленного файла (чтобы освободить место на файловой системе).
-
-    Сначала база ищется в /etc/magic.mgc , затем в  /usr/share/misc/magic.mgc
-
-    /usr/share/misc/magic.mgc  - символическая ссылка на файл /usr/lib/file/magic.mgc
-    /usr/share/misc/magic      - символическая ссылка на каталог  /usr/share/file/magic 
-     
+   Основываясь на знаниях о перенаправлении потоков предложите способ обнуления открытого удаленного файла 
+   (чтобы освободить место на файловой системе).
+    
        
        root@vagrant:~/test#  apt-get install gdb            #  Устанавливаем  программу GBD
 
@@ -94,13 +104,21 @@
        The program is running. Quit anyway (and detach it)? (y or n) y   # Оставляем программу tail запущенной 
        Detaching from program: /usr/bin/tail, process 1302       
  
-       Итог: Файл trace очищенен юез прерывания процесса логирования в него продожается писаться лог .       
+       Итог: Файл trace очищенен без прерывания процесса логирования в него продожается писаться лог .       
 
-5) Занимают ли зомби-процессы какие-то ресурсы в ОС (CPU, RAM, IO)?
-   В iovisor BCC есть утилита opensnoop:
+4) Занимают ли зомби-процессы какие-то ресурсы в ОС (CPU, RAM, IO)?
+
+
+
+
+5) В iovisor BCC есть утилита opensnoop:
    root@vagrant:~# dpkg -L bpfcc-tools | grep sbin/opensnoop
    /usr/sbin/opensnoop-bpfcc
 
+    Утилита отслеживает системный вызов open(), показывая какие процессы пытаются открыть файлы и какие файлы.
+    Установим пакет iovisor BCC:
+
+       root@vagrant:~/test#  sudo apt-get install bpfcc-tools linux-headers-$(uname -r)
 
 
 
