@@ -48,12 +48,60 @@
    Так как приложение продолжает писать в удаленный файл, место на диске постепенно заканчивается. 
    Основываясь на знаниях о перенаправлении потоков предложите способ обнуления открытого удаленного файла (чтобы освободить место на файловой системе).
 
-4) Занимают ли зомби-процессы какие-то ресурсы в ОС (CPU, RAM, IO)?
+    Сначала база ищется в /etc/magic.mgc , затем в  /usr/share/misc/magic.mgc
+
+    /usr/share/misc/magic.mgc  - символическая ссылка на файл /usr/lib/file/magic.mgc
+    /usr/share/misc/magic      - символическая ссылка на каталог  /usr/share/file/magic 
+     
+       
+       root@vagrant:~/test#  apt-get install gdb            #  Устанавливаем  программу GBD
+
+       root@vagrant:~/test#  tail -f /var/log/syslog > /root/test/trace &     # Запускаем вывод процесса в файл и посылаем в фон.
+
+       root@vagrant:~/test# ps -aux | grep tail             # Получаем PID процесcа
+       root        1302  0.0  0.0   5512   580 pts/0    S    07:07   0:00 tail -f /var/log/syslog
+       root        1685  0.0  0.0   6300   720 pts/0    S+   07:49   0:00 grep --color=auto tail
+    
+       root@vagrant:~/test#  ls -l /proc/1302/fd            # Получаем список дескрипторов процесса
+ 
+       total 0
+       lrwx------ 1 root root 64 Jun 27 07:08 0 -> /dev/pts/0
+       l-wx------ 1 root root 64 Jun 27 07:08 1 -> /root/test/trace
+       lrwx------ 1 root root 64 Jun 27 07:08 2 -> /dev/pts/0
+       lr-x------ 1 root root 64 Jun 27 07:08 3 -> /var/log/syslog
+       lr-x------ 1 root root 64 Jun 27 07:08 4 -> anon_inode:inotify
+  
+       root@vagrant:~/test# lsof -p 1302                     # Ищем файл, в который пишется лог процесса tail
+       COMMAND  PID USER   FD      TYPE DEVICE SIZE/OFF    NODE NAME
+       tail    1302 root  cwd       DIR  253,0  1167360 1179762 /root/test
+       tail    1302 root  rtd       DIR  253,0     4096       2 /
+       tail    1302 root  txt       REG  253,0    72088 1051114 /usr/bin/tail
+       tail    1302 root  mem       REG  253,0  3035952 1048854 /usr/lib/locale/locale-archive
+       tail    1302 root  mem       REG  253,0  2029592 1049479 /usr/lib/x86_64-linux-gnu/libc-2.31.so
+       tail    1302 root  mem       REG  253,0   191504 1049280 /usr/lib/x86_64-linux-gnu/ld-2.31.so
+       tail    1302 root    0u      CHR  136,0      0t0       3 /dev/pts/0
+       tail    1302 root    1w      REG  253,0     2968 1179656 /root/test/trace       # Файл , в который пишется лог
+       tail    1302 root    2u      CHR  136,0      0t0       3 /dev/pts/0
+       tail    1302 root    3r      REG  253,0   110984  131289 /var/log/syslog
+       tail    1302 root    4r  a_inode  0,14        0   10385 inotify  
+
+       root@vagrant:~/test#  gdb -p 1302  /usr/bin/tail   
+       (gdb) p close(1)                                       # Закрываем  канал записи в несуществующий файл системным вызовом
+       $1 = 0
+       (gdb) p creat("/root/test/trace", 0600)               #  Cистемным вызовом пересоздаем  целевой файл trace 
+       $2 = 1                                                 # и перенаправляем вывод потока stdout команды tail в данный файл.
+       (gdb) q                                                # Выходим из gdb  
+       The program is running. Quit anyway (and detach it)? (y or n) y   # Оставляем программу tail запущенной 
+       Detaching from program: /usr/bin/tail, process 1302       
+ 
+       Итог: Файл trace очищенен юез прерывания процесса логирования в него продожается писаться лог .       
+
+5) Занимают ли зомби-процессы какие-то ресурсы в ОС (CPU, RAM, IO)?
    В iovisor BCC есть утилита opensnoop:
    root@vagrant:~# dpkg -L bpfcc-tools | grep sbin/opensnoop
    /usr/sbin/opensnoop-bpfcc
 
-5) На какие файлы вы увидели вызовы группы open за первую секунду работы утилиты? 
+6) На какие файлы вы увидели вызовы группы open за первую секунду работы утилиты? 
    Воспользуйтесь пакетом bpfcc-tools для Ubuntu 20.04. Дополнительные сведения по установке.
    Какой системный вызов использует uname -a? Приведите цитату из man по этому системному вызову, 
    где описывается альтернативное местоположение в /proc, где можно узнать версию ядра и релиз ОС.
@@ -104,6 +152,8 @@
 Опции режима bash set -euxo pipefail
 
    -e Прерывает процесс, если результат выполнения очередной команды не равен "0"(Успех) .
+      В скриптах заставляет скрипт завершить работу, если любой из вызываемых им процессов 
+      выдает ненулевой код возврата.Все, что не равно нулю, считается неудачей.
 
    -x Печатать команды и их аргументы по мере их выполнения.
 
