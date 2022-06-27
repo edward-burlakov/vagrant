@@ -62,37 +62,36 @@
 
 #----------------------------------------------------------------------------------------------------------------------------------------------------
 
-3)  Предположим, приложение пишет лог в текстовый файл. Этот файл оказался удален (deleted в lsof), 
+3) Предположим, приложение пишет лог в текстовый файл. Этот файл оказался удален (deleted в lsof), 
    однако возможности сигналом сказать приложению переоткрыть файлы или просто перезапустить приложение – нет. 
    Так как приложение продолжает писать в удаленный файл, место на диске постепенно заканчивается. 
    Основываясь на знаниях о перенаправлении потоков предложите способ обнуления открытого удаленного файла 
    (чтобы освободить место на файловой системе).
     
-       
-       root@vagrant:~/test#  apt-get install gdb            #  Устанавливаем  программу GBD
-
-       root@vagrant:~/test#  tail -f /var/log/syslog > /root/test/trace &     # Запускаем вывод процесса в файл и посылаем в фон.
-
-       root@vagrant:~/test# ps -aux | grep tail             # Получаем PID процесcа
-
+       - Устанавливаем  программу GBD
+       root@vagrant:~/test#  apt-get install gdb
+    
+       - Запускаем вывод процесса в файл и посылаем в фон.
+       root@vagrant:~/test#  tail -f /var/log/syslog > /root/test/trace &        
+    
+       - Получаем PID процесcа
+       root@vagrant:~/test# ps -aux | grep tail                
        root        1302  0.0  0.0   5512   580 pts/0    S    07:07   0:00 tail -f /var/log/syslog
-
        root        1685  0.0  0.0   6300   720 pts/0    S+   07:49   0:00 grep --color=auto tail
     
-       root@vagrant:~/test#  ls -l /proc/1302/fd            # Получаем список дескрипторов процесса
- 
-            total 0
-            lrwx------ 1 root root 64 Jun 27 07:08 0 -> /dev/pts/0
+         - Получаем список дескрипторов процесса
 
-            l-wx------ 1 root root 64 Jun 27 07:08 1 -> /root/test/trace
-
-            lrwx------ 1 root root 64 Jun 27 07:08 2 -> /dev/pts/0
-          
-            lr-x------ 1 root root 64 Jun 27 07:08 3 -> /var/log/syslog
-       
-            lr-x------ 1 root root 64 Jun 27 07:08 4 -> anon_inode:inotify
+         root@vagrant:~/test#  ls -l /proc/1302/fd              
+         total 0
+         lrwx------ 1 root root 64 Jun 27 07:08 0 -> /dev/pts/0
+         l-wx------ 1 root root 64 Jun 27 07:08 1 -> /root/test/trace
+         lrwx------ 1 root root 64 Jun 27 07:08 2 -> /dev/pts/0
+         lr-x------ 1 root root 64 Jun 27 07:08 3 -> /var/log/syslog
+         lr-x------ 1 root root 64 Jun 27 07:08 4 -> anon_inode:inotify
   
-       root@vagrant:~/test# lsof -p 1302                     # Ищем файл, в который пишется лог процесса tail
+       - Ищем файл, в который пишется лог процесса tail
+
+       root@vagrant:~/test# lsof -p 1302                     
 
        COMMAND  PID USER   FD      TYPE DEVICE SIZE/OFF    NODE NAME
 
@@ -118,14 +117,18 @@
 
        tail    1302 root    4r  a_inode  0,14        0   10385 inotify  
 
+       - Закрываем  канал записи в несуществующий файл системным вызовом
+
        root@vagrant:~/test#  gdb -p 1302  /usr/bin/tail   
-       (gdb) p close(1)                                      # Закрываем  канал записи в несуществующий файл системным вызовом
+       (gdb) p close(1)                                      
        $1 = 0
     
-       (gdb) p creat("/root/test/trace", 0600)               #  Cистемным вызовом пересоздаем  целевой файл trace 
-       $2 = 1                                                # и перенаправляем вывод потока stdout команды tail в данный файл.
+       - Cистемным вызовом пересоздаем  целевой файл trace и перенаправляем вывод потока stdout команды tail в данный файл.
+       (gdb) p creat("/root/test/trace", 0600)               
+       $2 = 1                                                 
    
-       (gdb) q                                               # Выходим из gdb  
+      - Выходим из gdb   
+      (gdb) q                                               
        The program is running. Quit anyway (and detach it)? (y or n) y   # Оставляем программу tail запущенной 
        Detaching from program: /usr/bin/tail, process 1302       
  
