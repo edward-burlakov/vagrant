@@ -88,24 +88,38 @@
        lr-x------ 1 root root 64 Jun 27 07:08 4 -> anon_inode:inotify
   
        root@vagrant:~/test# lsof -p 1302                     # Ищем файл, в который пишется лог процесса tail
+
        COMMAND  PID USER   FD      TYPE DEVICE SIZE/OFF    NODE NAME
+
        tail    1302 root  cwd       DIR  253,0  1167360 1179762 /root/test
+
        tail    1302 root  rtd       DIR  253,0     4096       2 /
+
        tail    1302 root  txt       REG  253,0    72088 1051114 /usr/bin/tail
+
        tail    1302 root  mem       REG  253,0  3035952 1048854 /usr/lib/locale/locale-archive
+
        tail    1302 root  mem       REG  253,0  2029592 1049479 /usr/lib/x86_64-linux-gnu/libc-2.31.so
+
        tail    1302 root  mem       REG  253,0   191504 1049280 /usr/lib/x86_64-linux-gnu/ld-2.31.so
+
        tail    1302 root    0u      CHR  136,0      0t0       3 /dev/pts/0
-       tail    1302 root    1w      REG  253,0     2968 1179656 /root/test/trace       # Файл , в который пишется лог
+
+       tail    1302 root    1w      REG  253,0     2968 1179656 /root/test/trace   # Файл , в который пишется лог
+
        tail    1302 root    2u      CHR  136,0      0t0       3 /dev/pts/0
+
        tail    1302 root    3r      REG  253,0   110984  131289 /var/log/syslog
+
        tail    1302 root    4r  a_inode  0,14        0   10385 inotify  
 
        root@vagrant:~/test#  gdb -p 1302  /usr/bin/tail   
        (gdb) p close(1)                                      # Закрываем  канал записи в несуществующий файл системным вызовом
        $1 = 0
+    
        (gdb) p creat("/root/test/trace", 0600)               #  Cистемным вызовом пересоздаем  целевой файл trace 
        $2 = 1                                                # и перенаправляем вывод потока stdout команды tail в данный файл.
+   
        (gdb) q                                               # Выходим из gdb  
        The program is running. Quit anyway (and detach it)? (y or n) y   # Оставляем программу tail запущенной 
        Detaching from program: /usr/bin/tail, process 1302       
@@ -180,17 +194,18 @@
 7) Чем отличается последовательность команд через ; и через && в bash? Например:
 
    Ответ:
-   #  shell BASH просто выполнит эти команды последовательно:  
+
+   Оболочка BASH просто выполнит эти команды последовательно:  
 
        root@netology1:~# test -d /tmp/some_dir; echo Hi
        Hi
 
-  #  Shell BASH выполнит вторую команду поcле оператора оператор AND (&&)
-  #  только в том случае, если при выполнении первой команды SUCCEEDS, 
-  #  т.е. состояние выхода первой команды равно «0» — программа выполнена успешно.  
-  #  Команда test проверила, что  файл /tmp/some_dir не существует 
-  #  и не является каталогом и получила в выходной поток stdout значение ошибки - "1" .
-  #  Поэтому последовательность команд был остановлена.
+  Shell BASH выполнит вторую команду поcле оператора оператор AND (&&)
+  только в том случае, если при выполнении первой команды SUCCEEDS, 
+  т.е. состояние выхода первой команды равно «0» — программа выполнена успешно.  
+  Команда test проверила, что  файл /tmp/some_dir не существует 
+  и не является каталогом и получила в выходной поток stdout значение ошибки - "1" .
+  Поэтому последовательность команд был остановлена.
 
        root@netology1:~# test -d /tmp/some_dir && echo Hi   
        root@netology1:~#   
@@ -243,8 +258,10 @@
 Ответ :
 
    Наиболее частый статус процессов это:
-   S  -  В  состоянии ожидания  "interruptible sleep" (waiting for an event to complete)
-   I -   Бездействующие потоки ядра.
+  
+      S - В  состоянии ожидания  "interruptible sleep" (waiting for an event to complete)
+
+      I - Бездействующие потоки ядра.
 
    Дополнительные аттрибуты статуса S
     <    Высокий приоритет                      high-priority (not nice to other users)
