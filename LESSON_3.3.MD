@@ -115,13 +115,30 @@
    root@vagrant:~# dpkg -L bpfcc-tools | grep sbin/opensnoop
    /usr/sbin/opensnoop-bpfcc
 
-    Утилита отслеживает системный вызов open(), показывая какие процессы пытаются открыть файлы и какие файлы.
-    Установим пакет iovisor BCC:
+Ответ:
 
-       root@vagrant:~/test#  sudo apt-get install bpfcc-tools linux-headers-$(uname -r)
+   Утилита отслеживает системный вызов open(), показывая какие процессы пытаются открыть файлы и какие файлы.
 
+    root@vagrant:~/test# /usr/sbin/opensnoop-bpfcc
+    PID    COMM               FD ERR PATH
+    628    irqbalance          6   0 /proc/interrupts
+    628    irqbalance          6   0 /proc/stat
+    628    irqbalance          6   0 /proc/irq/20/smp_affinity
+    628    irqbalance          6   0 /proc/irq/0/smp_affinity
+    628    irqbalance          6   0 /proc/irq/1/smp_affinity
+    628    irqbalance          6   0 /proc/irq/8/smp_affinity
+    628    irqbalance          6   0 /proc/irq/12/smp_affinity
+    628    irqbalance          6   0 /proc/irq/14/smp_affinity
+    628    irqbalance          6   0 /proc/irq/15/smp_affinity    
 
+/proc/interrupts  - содержит статистику прерываний: номер прерывания, число прерываний этого типа, 
+                 полученных каждым процессорным ядром, тип прерывания и список драйверов, обрабатывающих это прерывание.
 
+/proc/stat       - коллекция статистики таймингов ядра ОС.
+
+/proc/irq/XX/smp_affinity  - Прерываниям соответствует параметр smp_affinity,определяющий целевые ядра, 
+                             которые будут принимать участие в обслуживании и какие целевые процессоры 
+                             разрешены для данного источника IRQ.
 
 
 6) На какие файлы вы увидели вызовы группы open за первую секунду работы утилиты? 
