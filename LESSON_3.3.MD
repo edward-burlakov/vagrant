@@ -121,14 +121,14 @@
    Это может быть полезно для определения местоположения конфигурационных и лог файлов, 
    или для траблшутинга приложений - что упало, особенно при запуске. 
 
-    root@vagrant:~# /usr/sbin/opensnoop-bpfcc -d 1
-    PID    COMM               FD ERR PATH
-    1      systemd            12   0 /proc/606/cgroup                    # Процесс systemd обращается к файлу /proc/606/cgroup 
-    865    vminfo              6   0 /var/run/utmp                       # Процесс vminfo обращается к файлу /var/run/utmp
-    622    dbus-daemon        -1   2 /usr/local/share/dbus-1/system-services   # Процесс dbus-daemon обращается к несуществующему каталогу system-services
-    622    dbus-daemon        20   0 /usr/share/dbus-1/system-services         # Процесс dbus-daemon обращается к каталогу system-services
-    622    dbus-daemon        -1   2 /lib/dbus-1/system-services               # Процесс dbus-daemon обращается к несуществующему каталогу system-services  
-    622    dbus-daemon        20   0 /var/lib/snapd/dbus-1/system-services/    # Процесс dbus-daemon обращается к пустому каталогу system-services
+    root@vagrant:~# /usr/sbin/opensnoop-bpfcc -d 1                        # Задаем ключем время работы команды 1 sec
+    PID   COMM           FD ERR PATH
+    1     systemd        12   0 /proc/606/cgroup                          # Процесс systemd обращается к файлу /proc/606/cgroup 
+    865   vminfo          6   0 /var/run/utmp                             # Процесс vminfo обращается к файлу /var/run/utmp
+    622   dbus-daemon    -1   2 /usr/local/share/dbus-1/system-services   # Процесс dbus-daemon обращается к несуществующему каталогу system-services
+    622   dbus-daemon    20   0 /usr/share/dbus-1/system-services         # Процесс dbus-daemon обращается к каталогу system-services
+    622   dbus-daemon    -1   2 /lib/dbus-1/system-services               # Процесс dbus-daemon обращается к несуществующему каталогу system-services  
+    622   dbus-daemon    20   0 /var/lib/snapd/dbus-1/system-services/    # Процесс dbus-daemon обращается к пустому каталогу system-services
 
     
 6) На какие файлы вы увидели вызовы группы open за первую секунду работы утилиты? 
