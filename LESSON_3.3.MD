@@ -24,13 +24,12 @@
 
 2) Попробуйте использовать команду file на объекты разных типов на файловой системе. Например:
 
-  
-    vagrant@netology1:~$ file /dev/tty
-    /dev/tty: character special (5/0)
-    vagrant@netology1:~$ file /dev/sda
-    /dev/sda: block special (8/0)
-    vagrant@netology1:~$ file /bin/bash
-    /bin/bash: ELF 64-bit LSB shared object, x86-64
+       vagrant@netology1:~$file /dev/tty
+       /dev/tty: character special (5/0)
+       vagrant@netology1:~$file /dev/sda
+       /dev/sda: block special (8/0)
+       vagrant@netology1:~$file /bin/bash
+       /bin/bash: ELF 64-bit LSB shared object, x86-64
 
 Ответ:
 
@@ -145,7 +144,7 @@
 
 5) В iovisor BCC есть утилита opensnoop:
    root@vagrant:~# dpkg -L bpfcc-tools | grep sbin/opensnoop
-   /usr/sbin/opensnoop-bpfcc  
+   /usr/sbin/opensnoop-bpfcc
    На какие файлы вы увидели вызовы группы open за первую секунду работы утилиты? 
    Воспользуйтесь пакетом bpfcc-tools для Ubuntu 20.04.
 
