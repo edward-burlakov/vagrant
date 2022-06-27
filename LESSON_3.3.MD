@@ -49,11 +49,11 @@
      ~/.magic.mgc    -файл   
      ~/.magic        -каталог
 
-     2. Затем в /etc
+     2. Затем база ищется в /etc
      /etc/magic.mgc - файл  
      /etc/magic     -  каталог
 
-     3. Затем в /usr/share/misc/magic.mgc и   /usr/share/misc/magic  
+     3. База найдена в /usr/share/misc/magic.mgc  и  /usr/share/misc/magic  
      /usr/share/misc/magic.mgc  - символическая ссылка на искомый файл     /usr/lib/file/magic.mgc
      /usr/share/misc/magic      - символическая ссылка на искомый каталог  /usr/share/file/magic 
 
@@ -96,11 +96,11 @@
        tail    1302 root    4r  a_inode  0,14        0   10385 inotify  
 
        root@vagrant:~/test#  gdb -p 1302  /usr/bin/tail   
-       (gdb) p close(1)                                       # Закрываем  канал записи в несуществующий файл системным вызовом
+       (gdb) p close(1)                                      # Закрываем  канал записи в несуществующий файл системным вызовом
        $1 = 0
        (gdb) p creat("/root/test/trace", 0600)               #  Cистемным вызовом пересоздаем  целевой файл trace 
-       $2 = 1                                                 # и перенаправляем вывод потока stdout команды tail в данный файл.
-       (gdb) q                                                # Выходим из gdb  
+       $2 = 1                                                # и перенаправляем вывод потока stdout команды tail в данный файл.
+       (gdb) q                                               # Выходим из gdb  
        The program is running. Quit anyway (and detach it)? (y or n) y   # Оставляем программу tail запущенной 
        Detaching from program: /usr/bin/tail, process 1302       
  
