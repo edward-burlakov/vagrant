@@ -75,17 +75,23 @@
        root@vagrant:~/test#  tail -f /var/log/syslog > /root/test/trace &     # Запускаем вывод процесса в файл и посылаем в фон.
 
        root@vagrant:~/test# ps -aux | grep tail             # Получаем PID процесcа
+
        root        1302  0.0  0.0   5512   580 pts/0    S    07:07   0:00 tail -f /var/log/syslog
+
        root        1685  0.0  0.0   6300   720 pts/0    S+   07:49   0:00 grep --color=auto tail
     
        root@vagrant:~/test#  ls -l /proc/1302/fd            # Получаем список дескрипторов процесса
  
-       total 0
-       lrwx------ 1 root root 64 Jun 27 07:08 0 -> /dev/pts/0
-       l-wx------ 1 root root 64 Jun 27 07:08 1 -> /root/test/trace
-       lrwx------ 1 root root 64 Jun 27 07:08 2 -> /dev/pts/0
-       lr-x------ 1 root root 64 Jun 27 07:08 3 -> /var/log/syslog
-       lr-x------ 1 root root 64 Jun 27 07:08 4 -> anon_inode:inotify
+            total 0
+            lrwx------ 1 root root 64 Jun 27 07:08 0 -> /dev/pts/0
+
+            l-wx------ 1 root root 64 Jun 27 07:08 1 -> /root/test/trace
+
+            lrwx------ 1 root root 64 Jun 27 07:08 2 -> /dev/pts/0
+          
+            lr-x------ 1 root root 64 Jun 27 07:08 3 -> /var/log/syslog
+       
+            lr-x------ 1 root root 64 Jun 27 07:08 4 -> anon_inode:inotify
   
        root@vagrant:~/test# lsof -p 1302                     # Ищем файл, в который пишется лог процесса tail
 
