@@ -121,28 +121,16 @@
    Это может быть полезно для определения местоположения конфигурационных и лог файлов, 
    или для траблшутинга приложений - что упало, особенно при запуске. 
 
-    root@vagrant:~/test# /usr/sbin/opensnoop-bpfcc
+    root@vagrant:~# /usr/sbin/opensnoop-bpfcc -d 1
     PID    COMM               FD ERR PATH
-    628    irqbalance          6   0 /proc/interrupts
-    628    irqbalance          6   0 /proc/stat
-    628    irqbalance          6   0 /proc/irq/20/smp_affinity
-    628    irqbalance          6   0 /proc/irq/0/smp_affinity
-    628    irqbalance          6   0 /proc/irq/1/smp_affinity
-    628    irqbalance          6   0 /proc/irq/8/smp_affinity
-    628    irqbalance          6   0 /proc/irq/12/smp_affinity
-    628    irqbalance          6   0 /proc/irq/14/smp_affinity
-    628    irqbalance          6   0 /proc/irq/15/smp_affinity    
+    1      systemd            12   0 /proc/606/cgroup                    #  Процесс  systemd  Обращается к файлу /proc/606/cgroup 
+    865    vminfo              6   0 /var/run/utmp                       #  Процесс  vminfo  Обращается к файлу  /var/run/utmp
+    622    dbus-daemon        -1   2 /usr/local/share/dbus-1/system-services   #  Процесс  vminfo  Обращается к файлу  system-services
+    622    dbus-daemon        20   0 /usr/share/dbus-1/system-services         #  Процесс  vminfo  Обращается к файлу  system-services
+    622    dbus-daemon        -1   2 /lib/dbus-1/system-services               #  Процесс  vminfo  Обращается к файлу  system-services  
+    622    dbus-daemon        20   0 /var/lib/snapd/dbus-1/system-services/    #  Процесс  vminfo  Обращается к файлу  system-services
 
-/proc/interrupts  - содержит статистику прерываний: номер прерывания, число прерываний этого типа, 
-                 полученных каждым процессорным ядром, тип прерывания и список драйверов, обрабатывающих это прерывание.
-
-/proc/stat       - коллекция статистики таймингов ядра ОС.
-
-/proc/irq/XX/smp_affinity  - Прерываниям соответствует параметр smp_affinity,определяющий целевые ядра, 
-                             которые будут принимать участие в обслуживании и какие целевые процессоры 
-                             разрешены для данного источника IRQ.
-
-
+    
 6) На какие файлы вы увидели вызовы группы open за первую секунду работы утилиты? 
    Воспользуйтесь пакетом bpfcc-tools для Ubuntu 20.04. Дополнительные сведения по установке.
    Какой системный вызов использует uname -a? Приведите цитату из man по этому системному вызову, 
