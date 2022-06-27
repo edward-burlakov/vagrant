@@ -115,7 +115,9 @@
 
 5) В iovisor BCC есть утилита opensnoop:
    root@vagrant:~# dpkg -L bpfcc-tools | grep sbin/opensnoop
-   /usr/sbin/opensnoop-bpfcc
+   /usr/sbin/opensnoop-bpfcc  
+   На какие файлы вы увидели вызовы группы open за первую секунду работы утилиты? 
+   Воспользуйтесь пакетом bpfcc-tools для Ubuntu 20.04.
 
 Ответ:
 
@@ -131,11 +133,6 @@
     622   dbus-daemon    20   0 /usr/share/dbus-1/system-services         # Процесс dbus-daemon обращается к каталогу system-services
     622   dbus-daemon    -1   2 /lib/dbus-1/system-services               # Процесс dbus-daemon обращается к несуществующему каталогу system-services  
     622   dbus-daemon    20   0 /var/lib/snapd/dbus-1/system-services/    # Процесс dbus-daemon обращается к пустому каталогу system-services
-
-    
-   На какие файлы вы увидели вызовы группы open за первую секунду работы утилиты? 
-   Воспользуйтесь пакетом bpfcc-tools для Ubuntu 20.04. Дополнительные сведения по установке.
-
   
 6) Какой системный вызов использует uname -a? Приведите цитату из man по этому системному вызову, 
    где описывается альтернативное местоположение в /proc, где можно узнать версию ядра и релиз ОС.
