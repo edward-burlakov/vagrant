@@ -114,12 +114,12 @@
     
        - Cистемным вызовом пересоздаем  целевой файл trace и перенаправляем вывод потока stdout команды tail в данный файл.
          (gdb) p creat("/root/test/trace", 0600)               
-         $2 = 1                                                 
-   
-      - Выходим из gdb   
-      (gdb) q                                               
-       The program is running. Quit anyway (and detach it)? (y or n) y   # Оставляем программу tail запущенной 
-       Detaching from program: /usr/bin/tail, process 1302       
+         $2 = 1
+
+       - Выходим из gdb   
+         (gdb) q                                               
+         The program is running. Quit anyway (and detach it)? (y or n) y   # Оставляем программу tail запущенной 
+         Detaching from program: /usr/bin/tail, process 1302       
  
        Итог: Файл trace очищенен без прерывания процесса логирования в него продожается писаться лог .       
 
