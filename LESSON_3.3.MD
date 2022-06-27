@@ -259,20 +259,20 @@
 
    Наиболее частый статус процессов это:
   
-      S - В  состоянии ожидания  "interruptible sleep" (waiting for an event to complete)
+        S - В  состоянии ожидания  "interruptible sleep" (waiting for an event to complete)
 
-      I - Бездействующие потоки ядра.
+        I - Бездействующие потоки ядра.
 
    Дополнительные аттрибуты статуса S
 
-    <    Высокий приоритет                      high-priority (not nice to other users)
+        < Высокий приоритет                      high-priority (not nice to other users)
 
-    N    Низкий приоритет                       low-priority (nice to other users)
+        N Низкий приоритет                       low-priority (nice to other users)
 
-    L    Имеет страницы, залоченные в памяти    has pages locked into memory (for real-time and custom IO)
+        L Имеет страницы, залоченные в памяти    has pages locked into memory (for real-time and custom IO)
 
-    s    Основатель сессии                      is a session leader
+        s Основатель сессии                      is a session leader
 
-    l    мультипотоковый                        is multi-threaded (using CLONE_THREAD, like NPTL pthreads do)
+        l Мультипотоковый                        is multi-threaded (using CLONE_THREAD, like NPTL pthreads do)
 
-    +    находится в группе процессов переднего плана   is in the foreground process group                    
+        + Находится в группе процессов переднего плана   is in the foreground process group                    
