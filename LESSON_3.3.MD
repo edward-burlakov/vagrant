@@ -223,8 +223,10 @@
 
 Ответ :
 
-   Наиболее частый статус процессов это  S  -   в  состоянии ожидания  "interruptible sleep" (waiting for an event to complete)
-   
+   Наиболее частый статус процессов это:
+   S  -   в  состоянии ожидания  "interruptible sleep" (waiting for an event to complete)
+   R+ -   запущенные процессы переднего плана
+
    Дополнительные аттрибуты статуса S
     <    Высокий приоритет                      high-priority (not nice to other users)
     N    Низкий приоритет                       low-priority (nice to other users)
