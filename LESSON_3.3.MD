@@ -69,17 +69,17 @@
    (чтобы освободить место на файловой системе).
     
        - Устанавливаем  программу GBD
-       root@vagrant:~/test#  apt-get install gdb
+         root@vagrant:~/test#  apt-get install gdb
     
        - Запускаем вывод процесса в файл и посылаем в фон.
-       root@vagrant:~/test#  tail -f /var/log/syslog > /root/test/trace &        
+         root@vagrant:~/test#  tail -f /var/log/syslog > /root/test/trace &        
     
        - Получаем PID процесcа
-       root@vagrant:~/test# ps -aux | grep tail                
-       root        1302  0.0  0.0   5512   580 pts/0    S    07:07   0:00 tail -f /var/log/syslog
-       root        1685  0.0  0.0   6300   720 pts/0    S+   07:49   0:00 grep --color=auto tail
+         root@vagrant:~/test# ps -aux | grep tail                
+         root        1302  0.0  0.0   5512   580 pts/0    S    07:07   0:00 tail -f /var/log/syslog
+         root        1685  0.0  0.0   6300   720 pts/0    S+   07:49   0:00 grep --color=auto tail
     
-         - Получаем список дескрипторов процесса
+       - Получаем список дескрипторов процесса
 
          root@vagrant:~/test#  ls -l /proc/1302/fd              
          total 0
@@ -91,41 +91,28 @@
   
        - Ищем файл, в который пишется лог процесса tail
 
-       root@vagrant:~/test# lsof -p 1302                     
-
+       root@vagrant:~/test# lsof -p 1302   
        COMMAND  PID USER   FD      TYPE DEVICE SIZE/OFF    NODE NAME
-
-       tail    1302 root  cwd       DIR  253,0  1167360 1179762 /root/test
-
-       tail    1302 root  rtd       DIR  253,0     4096       2 /
-
-       tail    1302 root  txt       REG  253,0    72088 1051114 /usr/bin/tail
-
-       tail    1302 root  mem       REG  253,0  3035952 1048854 /usr/lib/locale/locale-archive
-
-       tail    1302 root  mem       REG  253,0  2029592 1049479 /usr/lib/x86_64-linux-gnu/libc-2.31.so
-
-       tail    1302 root  mem       REG  253,0   191504 1049280 /usr/lib/x86_64-linux-gnu/ld-2.31.so
-
-       tail    1302 root    0u      CHR  136,0      0t0       3 /dev/pts/0
-
-       tail    1302 root    1w      REG  253,0     2968 1179656 /root/test/trace   # Файл , в который пишется лог
-
-       tail    1302 root    2u      CHR  136,0      0t0       3 /dev/pts/0
-
-       tail    1302 root    3r      REG  253,0   110984  131289 /var/log/syslog
-
-       tail    1302 root    4r  a_inode  0,14        0   10385 inotify  
+        tail    1302 root  cwd       DIR  253,0  1167360 1179762 /root/test
+        tail    1302 root  rtd       DIR  253,0     4096       2 /
+        tail    1302 root  txt       REG  253,0    72088 1051114 /usr/bin/tail
+        tail    1302 root  mem       REG  253,0  3035952 1048854 /usr/lib/locale/locale-archive
+        tail    1302 root  mem       REG  253,0  2029592 1049479 /usr/lib/x86_64-linux-gnu/libc-2.31.so
+        tail    1302 root  mem       REG  253,0   191504 1049280 /usr/lib/x86_64-linux-gnu/ld-2.31.so
+        tail    1302 root    0u      CHR  136,0      0t0       3 /dev/pts/0
+        tail    1302 root    1w      REG  253,0     2968 1179656 /root/test/trace   # Файл , в который пишется лог
+        tail    1302 root    2u      CHR  136,0      0t0       3 /dev/pts/0
+        tail    1302 root    3r      REG  253,0   110984  131289 /var/log/syslog
+        tail    1302 root    4r  a_inode  0,14        0   10385 inotify  
 
        - Закрываем  канал записи в несуществующий файл системным вызовом
-
-       root@vagrant:~/test#  gdb -p 1302  /usr/bin/tail   
-       (gdb) p close(1)                                      
-       $1 = 0
+         root@vagrant:~/test#  gdb -p 1302  /usr/bin/tail   
+         (gdb) p close(1)                                      
+         $1 = 0
     
        - Cистемным вызовом пересоздаем  целевой файл trace и перенаправляем вывод потока stdout команды tail в данный файл.
-       (gdb) p creat("/root/test/trace", 0600)               
-       $2 = 1                                                 
+         (gdb) p creat("/root/test/trace", 0600)               
+         $2 = 1                                                 
    
       - Выходим из gdb   
       (gdb) q                                               
