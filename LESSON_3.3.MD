@@ -101,24 +101,38 @@
    root@vagrant:~# dpkg -L bpfcc-tools | grep sbin/opensnoop
    /usr/sbin/opensnoop-bpfcc
 
+
+
+
+
+
 6) На какие файлы вы увидели вызовы группы open за первую секунду работы утилиты? 
    Воспользуйтесь пакетом bpfcc-tools для Ubuntu 20.04. Дополнительные сведения по установке.
    Какой системный вызов использует uname -a? Приведите цитату из man по этому системному вызову, 
    где описывается альтернативное местоположение в /proc, где можно узнать версию ядра и релиз ОС.
  
-Ответ: сиcтемный вызов uname - Получить имя и информацию о текущем ядре. 
+Ответ: Cиcтемный вызов uname - при запуске получает имя ядра и информацию о текущем ядре. 
  
    Вариант 2:
 
-      root@vagrant:/home/vagrant# /usr/bin/lsb_release -a
+      root@vagrant:~/test# /usr/bin/lsb_release -a
+      No LSB modules are available.
+      Distributor ID: Ubuntu
+      Description:    Ubuntu 20.04.4 LTS
+      Release:        20.04
+      Codename:       focal
    
    Вариант 3:
-     Manual page uname(2) line 58/76
+       Источник:  Manual page uname(2) line 58/76
 
-      root@vagrant:/home/vagrant#  cat /proc/sys/kernel/ostype  /proc/sys/kernel/hostname  /proc/sys/kernel/osrelease   
+      root@vagrant:/home/vagrant#  cat /proc/sys/kernel/ostype  /proc/sys/kernel/hostname  /proc/sys/kernel/osrelease
       /proc/sys/kernel/version  /proc/sys/kernel/domainname
-
-
+      Linux
+      vagrant
+      5.4.0-110-generic
+      #124-Ubuntu SMP Thu Apr 14 19:46:19 UTC 2022
+      (none)
+      
 6) Чем отличается последовательность команд через ; и через && в bash? Например:
 
    Ответ:
