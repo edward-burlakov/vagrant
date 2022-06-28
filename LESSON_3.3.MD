@@ -106,11 +106,11 @@
        -Запускаем gdb для найденного процесса
          root@vagrant:~/test#  gdb -p 1302  /usr/bin/tail
 
-        - Системным вызовом закрываем  канал записи в несуществующий файл 
+        - Системным вызовом закрываем канал записи в несуществующий файл 
          (gdb) p close(1)                                      
          $1 = 0
     
-        - Cистемным вызовом пересоздаем  целевой файл trace и перенаправляем вывод потока stdout команды tail в данный файл.
+        - Cистемным вызовом пересоздаем целевой файл trace и перенаправляем вывод потока stdout команды tail в данный файл.
           (gdb) p creat("/root/test/trace", 0600)               
           $2 = 1
 
@@ -125,16 +125,8 @@
    
         - Проверяем статус cron, что он активен.
 
-        root@vagrant:~/test# systemctl status cron
-        ● cron.service - Regular background program processing daemon
-             Loaded: loaded (/lib/systemd/system/cron.service; enabled; vendor preset: >
-             Active: active (running) since Mon 2022-06-27 21:32:31 +07; 1 day 1h ago
-               Docs: man:cron(8)
-           Main PID: 654 (cron)
-              Tasks: 1 (limit: 2274)
-             Memory: 3.7M
-             CGroup: /system.slice/cron.service
-                     └─654 /usr/sbin/cron -f
+        root@vagrant:~/test# systemctl status cron | grep active
+        Active: active (running) since Mon 2022-06-27 21:32:31 +07; 1 day 3h ago        
 
        - Открываем файл расписаний  crontab на редактирование  и добавляем задание, работающее каждые 4 часа.
 
