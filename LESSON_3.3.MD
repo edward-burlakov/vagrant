@@ -117,7 +117,7 @@
          The program is running. Quit anyway (and detach it)? (y or n) y   # Оставляем программу tail запущенной 
          Detaching from program: /usr/bin/tail, process 1302       
  
-       Итог: Файл trace очищенен без прерывания процесса логирования. В него продожается писаться лог.      
+       Итог: Файл trace очищен без прерывания процесса логирования. В него продожается писаться лог.      
 
    Вариант 2:
    
@@ -161,7 +161,7 @@
        - Открываем файл расписаний  crontab на редактирование  и добавляем задание, работающее каждые 4 часа.
 
          root@vagrant:/home/vagrant# crontab -e
-         Вставляем строку    00 */4  * * * * *   echo /dev/null  > /var/log/syslog
+         Вставляем строку    00 */4  * * * * *   cat /dev/null  > /var/log/syslog
 
        - Закрываем с сохрнением.
 
