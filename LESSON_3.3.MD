@@ -141,7 +141,6 @@
 
 1. Создаем файл скрипта выполнения дебаггера  /root/test/gdb_batch  
 
-       touch /root/test/gdb_batch 
        echo 'p close(1)'  > /root/test/gdb_batch
        echo 'p creat("/root/test/trace", 0600)' >> /root/test/gdb_batch 
 
