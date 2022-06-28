@@ -127,13 +127,13 @@
 
          root@vagrant:~/test# tail -f /var/log/syslog
 
-       - Ищем его PID 
+       - Ищем его PID . Он равен 2758 .
 
          root@vagrant:/home/vagrant# ps -ax | grep tail
          2758 pts/0    S      0:00 tail -f /var/log/syslog
          2776 pts/2    S+     0:00 grep --color=auto tail
 
-       - Смотрим его дексрипторы ( just in case)
+       - Смотрим его символьные дескрипторы ( just in case)
 
          root@vagrant:/home/vagrant# ls -la /proc/2758/fd
          total 0
@@ -144,7 +144,21 @@
          lrwx------ 1 root root 64 Jun 28 22:47 2 -> /dev/pts/0
          lr-x------ 1 root root 64 Jun 28 22:47 3 -> /var/log/syslog
          lr-x------ 1 root root 64 Jun 28 22:47 4 -> anon_inode:inotify
-                 
+       
+       - Файл логов мною как бы случайно удален, но пространство на диске и дескриптор 3 процесса не очищены :
+
+         root@vagrant:/home/vagrant# rm /var/log/syslog
+
+         root@vagrant:/home/vagrant# ls -la /proc/2758/fd
+         total 0
+         dr-x------ 2 root root  0 Jun 28 22:47 .
+         dr-xr-xr-x 9 root root  0 Jun 28 22:46 ..
+         lrwx------ 1 root root 64 Jun 28 22:47 0 -> /dev/pts/0
+         lrwx------ 1 root root 64 Jun 28 22:47 1 -> /dev/pts/0
+         lrwx------ 1 root root 64 Jun 28 22:47 2 -> /dev/pts/0
+         lr-x------ 1 root root 64 Jun 28 22:47 3 -> '/var/log/syslog  (deleted)' 
+         lr-x------ 1 root root 64 Jun 28 22:47 4 -> anon_inode:inotify
+
        - Проверяем статус cron, что он активен.
 
          root@vagrant:~/test# systemctl status cron
@@ -161,7 +175,7 @@
        - Открываем файл расписаний  crontab на редактирование  и добавляем задание, работающее каждые 4 часа.
 
          root@vagrant:/home/vagrant# crontab -e
-         Вставляем строку    00 */4  * * * * *   cat /dev/null  > /var/log/syslog
+         Вставляем строку    0 */4  * * * *    cat /dev/null  > /proc/2758/fd/3
 
        - Закрываем с сохрнением.
 
