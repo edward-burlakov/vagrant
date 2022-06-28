@@ -60,7 +60,10 @@
    Так как приложение продолжает писать в удаленный файл, место на диске постепенно заканчивается. 
    Основываясь на знаниях о перенаправлении потоков предложите способ обнуления открытого удаленного файла 
    (чтобы освободить место на файловой системе).
-    
+
+
+   Вариант 1 :
+
        - Устанавливаем  программу gdb - GNU Debugger.
          root@vagrant:~/test#  apt-get install gdb
     
@@ -115,6 +118,54 @@
          Detaching from program: /usr/bin/tail, process 1302       
  
        Итог: Файл trace очищенен без прерывания процесса логирования. В него продожается писаться лог.      
+
+   Вариант 2:
+   
+   Очистка открытого файла лога /var/log/syslog по расписанию раз в 4 часа.
+
+       -  Запускаем непрерывный процесс
+
+         root@vagrant:~/test# tail -f /var/log/syslog
+
+       - Ищем его PID 
+
+         root@vagrant:/home/vagrant# ps -ax | grep tail
+         2758 pts/0    S      0:00 tail -f /var/log/syslog
+         2776 pts/2    S+     0:00 grep --color=auto tail
+
+       - Смотрим его дексрипторы ( just in case)
+
+         root@vagrant:/home/vagrant# ls -la /proc/2758/fd
+         total 0
+         dr-x------ 2 root root  0 Jun 28 22:47 .
+         dr-xr-xr-x 9 root root  0 Jun 28 22:46 ..
+         lrwx------ 1 root root 64 Jun 28 22:47 0 -> /dev/pts/0
+         lrwx------ 1 root root 64 Jun 28 22:47 1 -> /dev/pts/0
+         lrwx------ 1 root root 64 Jun 28 22:47 2 -> /dev/pts/0
+         lr-x------ 1 root root 64 Jun 28 22:47 3 -> /var/log/syslog
+         lr-x------ 1 root root 64 Jun 28 22:47 4 -> anon_inode:inotify
+                 
+       - Проверяем статус cron, что он активен.
+
+         root@vagrant:~/test# systemctl status cron
+         ● cron.service - Regular background program processing daemon
+              Loaded: loaded (/lib/systemd/system/cron.service; enabled; vendor preset: >
+              Active: active (running) since Mon 2022-06-27 21:32:31 +07; 1 day 1h ago
+                Docs: man:cron(8)
+            Main PID: 654 (cron)
+               Tasks: 1 (limit: 2274)
+              Memory: 3.7M
+              CGroup: /system.slice/cron.service
+                      └─654 /usr/sbin/cron -f
+
+       - Открываем файл расписаний  crontab на редактирование  и добавляем задание, работающее каждые 4 часа.
+
+         root@vagrant:/home/vagrant# crontab -e
+         Вставляем строку    00 */4  * * * * *   echo /dev/null  > /var/log/syslog
+
+       - Закрываем с сохрнением.
+
+
 
 #----------------------------------------------------------------------------------------------------------------------------------------------------
 
