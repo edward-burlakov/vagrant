@@ -149,7 +149,7 @@
        root@vagrant:~/test# systemctl status cron | grep active
        Active: active (running) since Mon 2022-06-27 21:32:31 +07; 1 day 3h ago        
 
-3. Открываем файл расписаний  crontab на редактирование  и добавляем задание, работающее каждые 4 часа.
+3. Открываем файл расписаний crontab на редактирование и добавляем задание, работающее каждые 4 часа.
 
        root@vagrant:/home/vagrant# crontab -e
        Вставляем строку    0 */4  * * * *    gdb -p 1302 -quiet -batch -x /root/test/gdb_batch 
@@ -167,7 +167,7 @@
         Active: active (running) since Mon 2022-06-27 21:32:31 +07; 1 day 3h ago        
 
 
-2. Открываем файл расписаний  crontab на редактирование  и добавляем задание, работающее каждые 4 часа.
+2. Открываем файл расписаний crontab на редактирование и добавляем задание, работающее каждые 4 часа.
 
         root@vagrant:/home/vagrant# crontab -e
 
