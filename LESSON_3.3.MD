@@ -64,10 +64,8 @@
 
    Вариант 1 :
 
-       - Устанавливаем  программу gdb - GNU Debugger.
-         root@vagrant:~/test#  apt-get install gdb
-    
-       - Запускаем вывод процесса в файл и посылаем в фон.
+
+       - Запускаем непрерывный вывод процесса в файл и посылаем в фон.
          root@vagrant:~/test#  tail -f /var/log/syslog > /root/test/trace &        
     
        - Получаем PID процесcа
@@ -75,110 +73,75 @@
          root        1302  0.0  0.0   5512   580 pts/0    S    07:07   0:00 tail -f /var/log/syslog
          root        1685  0.0  0.0   6300   720 pts/0    S+   07:49   0:00 grep --color=auto tail
     
-       - Получаем список дескрипторов процесса
+       - Получаем список символьных дескрипторов процесса .Ищем файл, в который пишется лог процесса tail
 
          root@vagrant:~/test#  ls -l /proc/1302/fd              
          total 0
          lrwx------ 1 root root 64 Jun 27 07:08 0 -> /dev/pts/0
-         l-wx------ 1 root root 64 Jun 27 07:08 1 -> /root/test/trace
+         l-wx------ 1 root root 64 Jun 27 07:08 1 -> /root/test/trace     # Файл , в который пишется лог
          lrwx------ 1 root root 64 Jun 27 07:08 2 -> /dev/pts/0
          lr-x------ 1 root root 64 Jun 27 07:08 3 -> /var/log/syslog
          lr-x------ 1 root root 64 Jun 27 07:08 4 -> anon_inode:inotify
   
-       - Ищем файл, в который пишется лог процесса tail
+       - Файл /root/test/trace  мною как бы случайно удален, но пространство на диске и дескриптор 1 процесса не очищены :
 
-       root@vagrant:~/test# lsof -p 1302   
-       COMMAND  PID USER   FD      TYPE DEVICE SIZE/OFF    NODE NAME
-        tail    1302 root  cwd       DIR  253,0  1167360 1179762 /root/test
-        tail    1302 root  rtd       DIR  253,0     4096       2 /
-        tail    1302 root  txt       REG  253,0    72088 1051114 /usr/bin/tail
-        tail    1302 root  mem       REG  253,0  3035952 1048854 /usr/lib/locale/locale-archive
-        tail    1302 root  mem       REG  253,0  2029592 1049479 /usr/lib/x86_64-linux-gnu/libc-2.31.so
-        tail    1302 root  mem       REG  253,0   191504 1049280 /usr/lib/x86_64-linux-gnu/ld-2.31.so
-        tail    1302 root    0u      CHR  136,0      0t0       3 /dev/pts/0
-        tail    1302 root    1w      REG  253,0     2968 1179656 /root/test/trace   # Файл , в который пишется лог
-        tail    1302 root    2u      CHR  136,0      0t0       3 /dev/pts/0
-        tail    1302 root    3r      REG  253,0   110984  131289 /var/log/syslog
-        tail    1302 root    4r  a_inode  0,14        0   10385 inotify  
+         root@vagrant:/home/vagrant# rm /var/log/syslog
 
-        - Запускаем gdb для найденного процесса
+       - "Случайно" удаляем файл  /root/test/trace
+
+         root@vagrant:~/test#  ls -l /proc/1302/fd              
+         total 0
+         lrwx------ 1 root root 64 Jun 27 07:08 0 -> /dev/pts/0
+         l-wx------ 1 root root 64 Jun 27 07:08 1 -> '/root/test/trace  (  deleted )'    # Файл , в который пишется лог
+         lrwx------ 1 root root 64 Jun 27 07:08 2 -> /dev/pts/0
+         lr-x------ 1 root root 64 Jun 27 07:08 3 -> /var/log/syslog
+         lr-x------ 1 root root 64 Jun 27 07:08 4 -> anon_inode:inotify
+
+
+Вариант 1 ( одноразовый )
+       - Устанавливаем  программу gdb - GNU Debugger.
+         root@vagrant:~/test#  apt-get install gdb    
+
+
+       -Запускаем gdb для найденного процесса
          root@vagrant:~/test#  gdb -p 1302  /usr/bin/tail
 
         - Системным вызовом закрываем  канал записи в несуществующий файл 
          (gdb) p close(1)                                      
          $1 = 0
     
-       - Cистемным вызовом пересоздаем  целевой файл trace и перенаправляем вывод потока stdout команды tail в данный файл.
-         (gdb) p creat("/root/test/trace", 0600)               
-         $2 = 1
+        - Cистемным вызовом пересоздаем  целевой файл trace и перенаправляем вывод потока stdout команды tail в данный файл.
+          (gdb) p creat("/root/test/trace", 0600)               
+          $2 = 1
 
-       - Выходим из gdb   
-         (gdb) q                                               
-         The program is running. Quit anyway (and detach it)? (y or n) y   # Оставляем программу tail запущенной 
-         Detaching from program: /usr/bin/tail, process 1302       
+        - Выходим из gdb   
+          (gdb) q                                               
+          The program is running. Quit anyway (and detach it)? (y or n) y   # Оставляем программу tail запущенной 
+          Detaching from program: /usr/bin/tail, process 1302       
  
-       Итог: Файл trace очищен без прерывания процесса логирования. В него продожается писаться лог.      
+          Итог: Файл trace очищен без прерывания процесса логирования. В него продожается писаться лог.      
 
-   Вариант 2:
+Вариант 2 (Очистка открытого файла лога /var/log/syslog по расписанию раз в 4 часа):
    
-   Очистка открытого файла лога /var/log/syslog по расписанию раз в 4 часа.
+        - Проверяем статус cron, что он активен.
 
-       -  Запускаем непрерывный процесс
-
-         root@vagrant:~/test# tail -f /var/log/syslog
-
-       - Ищем его PID . Он равен 2758 .
-
-         root@vagrant:/home/vagrant# ps -ax | grep tail
-         2758 pts/0    S      0:00 tail -f /var/log/syslog
-         2776 pts/2    S+     0:00 grep --color=auto tail
-
-       - Смотрим его символьные дескрипторы ( just in case)
-
-         root@vagrant:/home/vagrant# ls -la /proc/2758/fd
-         total 0
-         dr-x------ 2 root root  0 Jun 28 22:47 .
-         dr-xr-xr-x 9 root root  0 Jun 28 22:46 ..
-         lrwx------ 1 root root 64 Jun 28 22:47 0 -> /dev/pts/0
-         lrwx------ 1 root root 64 Jun 28 22:47 1 -> /dev/pts/0
-         lrwx------ 1 root root 64 Jun 28 22:47 2 -> /dev/pts/0
-         lr-x------ 1 root root 64 Jun 28 22:47 3 -> /var/log/syslog
-         lr-x------ 1 root root 64 Jun 28 22:47 4 -> anon_inode:inotify
-       
-       - Файл логов мною как бы случайно удален, но пространство на диске и дескриптор 3 процесса не очищены :
-
-         root@vagrant:/home/vagrant# rm /var/log/syslog
-
-         root@vagrant:/home/vagrant# ls -la /proc/2758/fd
-         total 0
-         dr-x------ 2 root root  0 Jun 28 22:47 .
-         dr-xr-xr-x 9 root root  0 Jun 28 22:46 ..
-         lrwx------ 1 root root 64 Jun 28 22:47 0 -> /dev/pts/0
-         lrwx------ 1 root root 64 Jun 28 22:47 1 -> /dev/pts/0
-         lrwx------ 1 root root 64 Jun 28 22:47 2 -> /dev/pts/0
-         lr-x------ 1 root root 64 Jun 28 22:47 3 -> '/var/log/syslog  (deleted)' 
-         lr-x------ 1 root root 64 Jun 28 22:47 4 -> anon_inode:inotify
-
-       - Проверяем статус cron, что он активен.
-
-         root@vagrant:~/test# systemctl status cron
-         ● cron.service - Regular background program processing daemon
-              Loaded: loaded (/lib/systemd/system/cron.service; enabled; vendor preset: >
-              Active: active (running) since Mon 2022-06-27 21:32:31 +07; 1 day 1h ago
-                Docs: man:cron(8)
-            Main PID: 654 (cron)
-               Tasks: 1 (limit: 2274)
-              Memory: 3.7M
-              CGroup: /system.slice/cron.service
-                      └─654 /usr/sbin/cron -f
+        root@vagrant:~/test# systemctl status cron
+        ● cron.service - Regular background program processing daemon
+             Loaded: loaded (/lib/systemd/system/cron.service; enabled; vendor preset: >
+             Active: active (running) since Mon 2022-06-27 21:32:31 +07; 1 day 1h ago
+               Docs: man:cron(8)
+           Main PID: 654 (cron)
+              Tasks: 1 (limit: 2274)
+             Memory: 3.7M
+             CGroup: /system.slice/cron.service
+                     └─654 /usr/sbin/cron -f
 
        - Открываем файл расписаний  crontab на редактирование  и добавляем задание, работающее каждые 4 часа.
 
          root@vagrant:/home/vagrant# crontab -e
          Вставляем строку    0 */4  * * * *    cat /dev/null  > /proc/2758/fd/3
 
-       - Закрываем с сохрнением.
-
+       - Закрываем с сохранением.
 
 
 #----------------------------------------------------------------------------------------------------------------------------------------------------
