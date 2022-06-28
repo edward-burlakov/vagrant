@@ -65,107 +65,109 @@
    Вариант 1 :
 
 
-       - Запускаем непрерывный вывод процесса в файл и посылаем в фон.
+1. Запускаем непрерывный вывод процесса в файл и посылаем в фон.
 
        root@vagrant:~/test#  tail -f /var/log/syslog > /root/test/trace &        
+
     
-       - Получаем PID процесcа
+2. Получаем PID процесcа
 
        root@vagrant:~/test# ps -aux | grep tail                
        root        1302  0.0  0.0   5512   580 pts/0    S    07:07   0:00 tail -f /var/log/syslog
        root        1685  0.0  0.0   6300   720 pts/0    S+   07:49   0:00 grep --color=auto tail
+
+3. Получаем список символьных дескрипторов процесса. Ищем файл, в который копируется syslog процессом tail
+
+       root@vagrant:~/test#  ls -l /proc/1302/fd
+       total 0
+       lrwx------ 1 root root 64 Jun 27 07:08 0 -> /dev/pts/0
+       l-wx------ 1 root root 64 Jun 27 07:08 1 -> /root/test/trace     # Файл, в который копируется syslog
+       lrwx------ 1 root root 64 Jun 27 07:08 2 -> /dev/pts/0
+       lr-x------ 1 root root 64 Jun 27 07:08 3 -> /var/log/syslog
+       lr-x------ 1 root root 64 Jun 27 07:08 4 -> anon_inode:inotify
     
-       - Получаем список символьных дескрипторов процесса. Ищем файл, в который копируется syslog процессом tail
+4. Файл /root/test/trace  мною как бы случайно удален, но пространство на диске и дескриптор 1 процесса не очищены:
 
-      root@vagrant:~/test#  ls -l /proc/1302/fd              
-      total 0
-      lrwx------ 1 root root 64 Jun 27 07:08 0 -> /dev/pts/0
-      l-wx------ 1 root root 64 Jun 27 07:08 1 -> /root/test/trace     # Файл, в который копируется syslog
-      lrwx------ 1 root root 64 Jun 27 07:08 2 -> /dev/pts/0
-      lr-x------ 1 root root 64 Jun 27 07:08 3 -> /var/log/syslog
-      lr-x------ 1 root root 64 Jun 27 07:08 4 -> anon_inode:inotify
-  
-      - Файл /root/test/trace  мною как бы случайно удален, но пространство на диске и дескриптор 1 процесса не очищены :
+       root@vagrant:/home/vagrant# rm /var/log/syslog
 
-      root@vagrant:/home/vagrant# rm /var/log/syslog
+5. "Случайно" удаляем файл  /root/test/trace
 
-      - "Случайно" удаляем файл  /root/test/trace
-
-      root@vagrant:~/test#  ls -l /proc/1302/fd              
-      total 0
-      lrwx------ 1 root root 64 Jun 27 07:08 0 -> /dev/pts/0
-      l-wx------ 1 root root 64 Jun 27 07:08 1 -> '/root/test/trace  (  deleted )'  # Файл, в который пишется лог
-      lrwx------ 1 root root 64 Jun 27 07:08 2 -> /dev/pts/0
-      lr-x------ 1 root root 64 Jun 27 07:08 3 -> /var/log/syslog
-      lr-x------ 1 root root 64 Jun 27 07:08 4 -> anon_inode:inotify
+       root@vagrant:~/test#  ls -l /proc/1302/fd              
+       total 0
+       lrwx------ 1 root root 64 Jun 27 07:08 0 -> /dev/pts/0
+       l-wx------ 1 root root 64 Jun 27 07:08 1 -> '/root/test/trace  (  deleted )'  # Файл, в который пишется лог
+       lrwx------ 1 root root 64 Jun 27 07:08 2 -> /dev/pts/0
+       lr-x------ 1 root root 64 Jun 27 07:08 3 -> /var/log/syslog
+       lr-x------ 1 root root 64 Jun 27 07:08 4 -> anon_inode:inotify
 
 Далее 4 варианта:
 
 Вариант 1 ( одноразовый )
 
-       - Устанавливаем  программу gdb - GNU Debugger.
+1. Устанавливаем  программу gdb - GNU Debugger.
        
        root@vagrant:~/test#  apt-get install gdb    
 
 
-       -Запускаем gdb для найденного процесса
+2. Запускаем gdb для найденного процесса
        
        root@vagrant:~/test#  gdb -p 1302  /usr/bin/tail
 
-       - Системным вызовом закрываем канал записи в несуществующий файл 
+3. Системным вызовом закрываем канал записи в несуществующий файл 
        
        (gdb) p close(1)                                      
        $1 = 0
-    
-       - Cистемным вызовом пересоздаем целевой файл trace и перенаправляем вывод потока stdout команды tail в данный файл.
+
+4. Cистемным вызовом пересоздаем целевой файл trace и перенаправляем вывод потока stdout команды tail в данный файл.
       
        (gdb) p creat("/root/test/trace", 0600)               
        $2 = 1
 
-       - Выходим из gdb   
+5. Выходим из gdb   
        (gdb) q                                               
-       The program is running. Quit anyway (and detach it)? (y or n) y   # Оставляем программу tail запущенной 
-       Detaching from program: /usr/bin/tail, process 1302       
+   The program is running. Quit anyway (and detach it)? (y or n) y   # Оставляем программу tail запущенной 
+   Detaching from program: /usr/bin/tail, process 1302       
  
-     Итог: Файл trace очищен без прерывания процесса логирования. В него продожается писаться лог.
+   Итог: Файл trace очищен без прерывания процесса логирования. В него продолжается писаться лог.
 
 
 Вариант 2 (по расписанию)
 
-        - Создаем файл скрипта выполнения дебаггера  /root/test/gdb_batch  
+1. Создаем файл скрипта выполнения дебаггера  /root/test/gdb_batch  
 
-          touch /root/test/gdb_batch 
-          echo 'p close(1)'  > /root/test/gdb_batch
-          echo 'p creat("/root/test/trace", 0600)' >> /root/test/gdb_batch 
+       touch /root/test/gdb_batch 
+       echo 'p close(1)'  > /root/test/gdb_batch
+       echo 'p creat("/root/test/trace", 0600)' >> /root/test/gdb_batch 
 
-        - Проверяем статус cron, что он активен.
+2. Проверяем статус cron, что он активен.
 
-          root@vagrant:~/test# systemctl status cron | grep active
-          Active: active (running) since Mon 2022-06-27 21:32:31 +07; 1 day 3h ago        
+       root@vagrant:~/test# systemctl status cron | grep active
+       Active: active (running) since Mon 2022-06-27 21:32:31 +07; 1 day 3h ago        
 
-        - Открываем файл расписаний  crontab на редактирование  и добавляем задание, работающее каждые 4 часа.
+3. Открываем файл расписаний  crontab на редактирование  и добавляем задание, работающее каждые 4 часа.
 
-          root@vagrant:/home/vagrant# crontab -e
-          Вставляем строку    0 */4  * * * *    gdb -p 1302 -quiet -batch -x /root/test/gdb_batch 
+       root@vagrant:/home/vagrant# crontab -e
+       Вставляем строку    0 */4  * * * *    gdb -p 1302 -quiet -batch -x /root/test/gdb_batch 
 
 
 
 Вариант 3 (Очистка открытого файла лога /var/log/syslog по расписанию раз в 4 часа, если не требуется пересоздание):
-   
-        - Проверяем статус cron, что он активен.
 
-        root@vagrant:~/test# systemctl status cron | grep active
+1. Проверяем статус cron, что он активен.
+
+       root@vagrant:~/test# systemctl status cron | grep active
 
         Active: active (running) since Mon 2022-06-27 21:32:31 +07; 1 day 3h ago        
 
 
-        - Открываем файл расписаний  crontab на редактирование  и добавляем задание, работающее каждые 4 часа.
+2. Открываем файл расписаний  crontab на редактирование  и добавляем задание, работающее каждые 4 часа.
 
         root@vagrant:/home/vagrant# crontab -e
 
-        - Вставляем строку    0 */4  * * * *    cat /dev/null  > /proc/1302/fd/1
+3. Вставляем строку    0 */4  * * * *    cat /dev/null  > /proc/1302/fd/1
 
-        - Закрываем с сохранением.
+4. Закрываем с сохранением.
+
 
 Вариант 4 (Очистка открытого файла лога /var/log/syslog по расписанию раз в 4 часа, если не требуется пересоздание):
 
