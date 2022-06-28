@@ -73,12 +73,12 @@
          root        1302  0.0  0.0   5512   580 pts/0    S    07:07   0:00 tail -f /var/log/syslog
          root        1685  0.0  0.0   6300   720 pts/0    S+   07:49   0:00 grep --color=auto tail
     
-       - Получаем список символьных дескрипторов процесса .Ищем файл, в который пишется лог процесса tail
+       - Получаем список символьных дескрипторов процесса. Ищем файл, в который копируется syslog процессом tail
 
          root@vagrant:~/test#  ls -l /proc/1302/fd              
          total 0
          lrwx------ 1 root root 64 Jun 27 07:08 0 -> /dev/pts/0
-         l-wx------ 1 root root 64 Jun 27 07:08 1 -> /root/test/trace     # Файл , в который пишется лог
+         l-wx------ 1 root root 64 Jun 27 07:08 1 -> /root/test/trace     # Файл, в который копируется syslog
          lrwx------ 1 root root 64 Jun 27 07:08 2 -> /dev/pts/0
          lr-x------ 1 root root 64 Jun 27 07:08 3 -> /var/log/syslog
          lr-x------ 1 root root 64 Jun 27 07:08 4 -> anon_inode:inotify
@@ -92,7 +92,7 @@
          root@vagrant:~/test#  ls -l /proc/1302/fd              
          total 0
          lrwx------ 1 root root 64 Jun 27 07:08 0 -> /dev/pts/0
-         l-wx------ 1 root root 64 Jun 27 07:08 1 -> '/root/test/trace  (  deleted )'    # Файл , в который пишется лог
+         l-wx------ 1 root root 64 Jun 27 07:08 1 -> '/root/test/trace  (  deleted )'  # Файл, в который пишется лог
          lrwx------ 1 root root 64 Jun 27 07:08 2 -> /dev/pts/0
          lr-x------ 1 root root 64 Jun 27 07:08 3 -> /var/log/syslog
          lr-x------ 1 root root 64 Jun 27 07:08 4 -> anon_inode:inotify
@@ -139,7 +139,7 @@
        - Открываем файл расписаний  crontab на редактирование  и добавляем задание, работающее каждые 4 часа.
 
          root@vagrant:/home/vagrant# crontab -e
-         Вставляем строку    0 */4  * * * *    cat /dev/null  > /proc/2758/fd/3
+         Вставляем строку    0 */4  * * * *    cat /dev/null  > /proc/1302/fd/1
 
        - Закрываем с сохранением.
 
