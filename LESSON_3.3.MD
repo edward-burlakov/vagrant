@@ -126,7 +126,7 @@
 
 Вариант 2 (по расписанию)
 
-        - Создаем файл скрипта выполнения дебаггера   
+        - Создаем файл скрипта выполнения дебаггера  /root/test/gdb_batch  
 
           touch /root/test/gdb_batch 
           echo 'p close(1)'  > /root/test/gdb_batch
