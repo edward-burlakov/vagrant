@@ -97,6 +97,7 @@
          lr-x------ 1 root root 64 Jun 27 07:08 3 -> /var/log/syslog
          lr-x------ 1 root root 64 Jun 27 07:08 4 -> anon_inode:inotify
 
+Далее 4 варианта:
 
 Вариант 1 ( одноразовый )
 
@@ -120,14 +121,35 @@
           The program is running. Quit anyway (and detach it)? (y or n) y   # Оставляем программу tail запущенной 
           Detaching from program: /usr/bin/tail, process 1302       
  
-          Итог: Файл trace очищен без прерывания процесса логирования. В него продожается писаться лог.      
+          Итог: Файл trace очищен без прерывания процесса логирования. В него продожается писаться лог.
 
-Вариант 2 (Очистка открытого файла лога /var/log/syslog по расписанию раз в 4 часа):
+
+Вариант 2 (по расписанию)
+
+        - Создаем файл скрипта выполнения дебаггера   
+
+          touch /root/test/gdb_batch 
+          echo 'p close(1)'  > /root/test/gdb_batch
+          echo 'p creat("/root/test/trace", 0600)' >> /root/test/gdb_batch 
+
+        - Проверяем статус cron, что он активен.
+
+          root@vagrant:~/test# systemctl status cron | grep active
+          Active: active (running) since Mon 2022-06-27 21:32:31 +07; 1 day 3h ago        
+
+        - Открываем файл расписаний  crontab на редактирование  и добавляем задание, работающее каждые 4 часа.
+
+          root@vagrant:/home/vagrant# crontab -e
+          Вставляем строку    0 */4  * * * *    gdb -p 1302 -quiet -batch -x /root/test/gdb_batch 
+
+
+
+Вариант 3 (Очистка открытого файла лога /var/log/syslog по расписанию раз в 4 часа, если не требуется пересоздание):
    
         - Проверяем статус cron, что он активен.
 
-        root@vagrant:~/test# systemctl status cron | grep active
-        Active: active (running) since Mon 2022-06-27 21:32:31 +07; 1 day 3h ago        
+          root@vagrant:~/test# systemctl status cron | grep active
+          Active: active (running) since Mon 2022-06-27 21:32:31 +07; 1 day 3h ago        
 
        - Открываем файл расписаний  crontab на редактирование  и добавляем задание, работающее каждые 4 часа.
 
@@ -136,7 +158,7 @@
 
        - Закрываем с сохранением.
 
-Вариант 3 (Очистка открытого файла лога /var/log/syslog по расписанию раз в 4 часа):
+Вариант 4 (Очистка открытого файла лога /var/log/syslog по расписанию раз в 4 часа, если не требуется пересоздание):
 
          root@vagrant:/home/vagrant# crontab -e
          Вставляем строку    0 */4  * * * *   truncate -s 0 /proc/1302/fd/1
