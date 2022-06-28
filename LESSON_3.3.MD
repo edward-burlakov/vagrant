@@ -239,7 +239,7 @@ Cиcтемный вызов uname - при запуске получает им�
       #124-Ubuntu SMP Thu Apr 14 19:46:19 UTC 2022
       (none)
 
-Варинат 4:
+Вариант 4:
 
       root@vagrant:~/test# dmesg | grep 'Linux version'
       [    0.000000] Linux version 5.4.0-110-generic (buildd@ubuntu) (gcc version 9.4.0 (Ubuntu 9.4.0-1ubuntu1~20.04.1)) 
