@@ -99,6 +99,7 @@
 
 
 Вариант 1 ( одноразовый )
+
        - Устанавливаем  программу gdb - GNU Debugger.
          root@vagrant:~/test#  apt-get install gdb    
 
