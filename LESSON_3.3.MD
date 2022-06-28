@@ -134,7 +134,7 @@
 
 Ответ:
 
-   1. Создаем файл со python скриптом ( https://ru.wikipedia.org/wiki/wiki/Процесс-зомби )
+Создаем файл со python скриптом ( https://ru.wikipedia.org/wiki/wiki/Процесс-зомби )
 
          // #!/usr/bin/env python2
          // # -*- coding: utf8 -*-
@@ -157,7 +157,7 @@
          
          time.sleep(5)
 
-   2. Запускаем его
+Запускаем python-скрипт
 
           root@vagrant:~/test# ps -alx | awk '$10 ~ /STAT|Z/'
           F   UID   PID    PPID  PRI  NI    VSZ   RSS WCHAN  STAT TTY        TIME COMMAND
@@ -200,13 +200,13 @@
  
 Ответ: 
 
-   Вариант 1: 
+Вариант 1: 
       
       root@vagrant:~/test# uname -a
 
-    Cиcтемный вызов uname - при запуске получает имя ядра и информацию о текущем ядре. 
+Cиcтемный вызов uname - при запуске получает имя ядра и информацию о текущем ядре. 
  
-   Вариант 2:
+Вариант 2:
 
       root@vagrant:~/test# /usr/bin/lsb_release -a
       No LSB modules are available.
@@ -215,8 +215,7 @@
       Release:        20.04
       Codename:       focal
    
-   Вариант 3:
-       Источник:  Manual page uname(2) line 58/76
+Вариант 3:   Источник:  Manual page uname(2) line 58/76
 
       root@vagrant:/home/vagrant#  cat /proc/sys/kernel/ostype  /proc/sys/kernel/hostname  /proc/sys/kernel/osrelease
       /proc/sys/kernel/version  /proc/sys/kernel/domainname
@@ -228,25 +227,25 @@
 
 #----------------------------------------------------------------------------------------------------------------------------------------------------
       
-7) Чем отличается последовательность команд через ; и через && в bash? Например:
+6) Чем отличается последовательность команд через ; и через && в bash? Например:
    
 Ответ:
 
-   Оболочка BASH просто выполнит эти команды последовательно:  
+Оболочка BASH просто выполнит эти команды последовательно:  
 
        root@netology1:~# test -d /tmp/some_dir; echo Hi
        Hi
 
-  Shell BASH выполнит вторую команду поcле оператора AND (&&)
-  только в том случае, если при выполнении первой команды SUCCEEDS, 
-  т.е. состояние выхода первой команды равно «0»  (Успех).
+Shell BASH выполнит вторую команду поcле оператора AND (&&)
+только в том случае, если при выполнении первой команды SUCCEEDS, 
+т.е. состояние выхода первой команды равно «0»  (Успех).
 
-  Ниже команда test проверила, что  файл /tmp/some_dir не существует 
-  и не является каталогом и получила в выходной поток stdout значение ошибки - "1" .
-  Поэтому последовательность команд был остановлена.
+Ниже команда test проверила, что  файл /tmp/some_dir не существует 
+и не является каталогом и получила в выходной поток stdout значение ошибки - "1" .
+Поэтому последовательность команд был остановлена.
 
-       root@netology1:~# test -d /tmp/some_dir && echo Hi   
-       root@netology1:~#   
+     root@netology1:~# test -d /tmp/some_dir && echo Hi   
+     root@netology1:~#   
 
 Есть ли смысл использовать в bash &&, если применить set -e?
 
