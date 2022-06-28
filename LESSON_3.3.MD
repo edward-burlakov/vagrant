@@ -86,11 +86,9 @@
        lr-x------ 1 root root 64 Jun 27 07:08 3 -> /var/log/syslog
        lr-x------ 1 root root 64 Jun 27 07:08 4 -> anon_inode:inotify
     
-4. Файл /root/test/trace  мною как бы случайно удален, но пространство на диске и дескриптор 1 процесса не очищены:
+4. Файл /root/test/trace мною как-бы случайно удален, но пространство на диске и дескриптор 1 процесса не очищены:
 
        root@vagrant:/home/vagrant# rm /var/log/syslog
-
-5. "Случайно" удаляем файл  /root/test/trace
 
        root@vagrant:~/test#  ls -l /proc/1302/fd              
        total 0
