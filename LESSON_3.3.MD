@@ -173,8 +173,9 @@
 
         root@vagrant:/home/vagrant# crontab -e
 
+4. Вставляем строку    
 
-4. Вставляем строку    0 */4  * * *    cat /dev/null  > /proc/1302/fd/1
+       0 */4  * * *    cat /dev/null  > /proc/1302/fd/1
 
 5. Закрываем с сохранением.
 
@@ -197,9 +198,11 @@
    
        root@vagrant:/home/vagrant# crontab -e
         
-4. Вставляем строку    0 */4  * * *   truncate -s 0 /proc/1302/fd/1
+4. Вставляем строку    
+   
+       0 */4  * * *   truncate -s 0 /proc/1302/fd/1
 
-5. Закрываем с сохранением.
+6. Закрываем с сохранением.
 
 
 
