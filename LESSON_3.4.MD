@@ -16,7 +16,7 @@
 
   2. Скачиваем node_exporter-1.3.1
 
-       root@vagrant:/# wget https://github.com/prometheus/node_exporter/releases/download/v1.3.1/node_exporter-1.3.1.linux-amd64.tar.gz -P /tmp
+       root@vagrant:/# wget https://github.com/prometheus/node_exporter/releases/download/v1.3.1/node_exporter-1.3.1.linux-amd64.tar.gz    -P /tmp
        root@vagrant:/# cd /tmp
 
   3. Распаковываем, переносим в каталог /usr/local/bin, назначаем владельца
@@ -29,6 +29,7 @@
   4. Создаем Systemd Unit
    
        root@vagrant:/# sudo nano /etc/systemd/system/node_exporter.service
+
        [Unit]
        Description=Prometheus Node Exporter
        Wants=network-online.target
@@ -50,11 +51,13 @@
        root@vagrant:/# sudo systemctl enable --now node_exporter
 
        root@vagrant:/# sudo systemctl status node_exporter | grep  active
+
        Active: active (running) since Fri 2022-07-01 23:27:05 +07; 19min ago
 
   6. Проверяем работу сокета
 
        root@vagrant:/# sudo ss -pnltu | grep 9100
+
        tcp     LISTEN   0    4096     *:9100    *:*      users:(("node_exporter",pid=1529,fd=3))
 
 
