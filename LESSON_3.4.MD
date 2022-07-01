@@ -85,9 +85,10 @@
 2) Ознакомьтесь с опциями node_exporter и выводом /metrics по-умолчанию. 
    Приведите несколько опций, которые вы бы выбрали для базового мониторинга хоста по CPU, памяти, диску и сети.
     
-Ответ: Рекомендованные опции для добавления  в  /usr/local/bin/node_exporter :
+Ответ: Рекомендованные опции для добавления  в  /etc/systemd/system/node_exporter.service :
 
-      --collector.cpu  --collector.diskstats  --collector.meminfo --collector.meminfo
+    root@vagrant:/etc/systemd/system# cat /etc/systemd/system/node_exporter.service  | grep ExecStart
+    ExecStart=/usr/local/bin/node_exporter  --collector.cpu  --collector.diskstats  --collector.meminfo  --collector.ethtool --web.telemetry-path="/metrics"
 
 3Установите в свою виртуальную машину Netdata. Воспользуйтесь готовыми пакетами для установки (sudo apt install -y netdata). 
    После успешной установки:
