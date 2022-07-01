@@ -10,60 +10,64 @@
 
 Ответ :
 
-1. Добавляем системного пользователя, от которого будет работать Node Exporter
+  1. Добавляем системного пользователя, от которого будет работать Node Exporter
 
         root@vagrant:/# sudo useradd -r -M -s /bin/false node_exporter
 
-2. Скачиваем node_exporter-1.3.1
+  2. Скачиваем node_exporter-1.3.1
 
        root@vagrant:/# wget https://github.com/prometheus/node_exporter/releases/download/v1.3.1/node_exporter-1.3.1.linux-amd64.tar.gz -P /tmp
        root@vagrant:/# cd /tmp
 
-3. Распаковываем, переносим в каталог /usr/local/bin, назначаем владельца
+  3. Распаковываем, переносим в каталог /usr/local/bin, назначаем владельца
 
        root@vagrant:/# tar -zxpvf node_exporter-1.3.1.linux-amd64.tar.gz
        root@vagrant:/# cd node_exporter-1.3.1.linux-amd64
        root@vagrant:/# sudo cp node_exporter /usr/local/bin
        root@vagrant:/# sudo chown node_exporter:node_exporter /usr/local/bin/node_exporter
 
-4. Создаем Systemd Unit
+  4. Создаем Systemd Unit
    
        root@vagrant:/# sudo nano /etc/systemd/system/node_exporter.service
-      [Unit]
-      Description=Prometheus Node Exporter
-      Wants=network-online.target
-      After=network-online.target
+       [Unit]
+       Description=Prometheus Node Exporter
+       Wants=network-online.target
+       After=network-online.target
       
-      [Service]
-      User=node_exporter
-      Group=node_exporter
-      Type=simple
-      ExecStart=/usr/local/bin/node_exporter
+       [Service]
+       User=node_exporter
+       Group=node_exporter
+       Type=simple
+       ExecStart=/usr/local/bin/node_exporter
       
-      [Install]
-      WantedBy=multi-user.target
+       [Install]
+       WantedBy=multi-user.target
 
-5. Добавляем сервис в автозагрузку, запускаем его, проверяем статус
+  5. Добавляем сервис в автозагрузку, запускаем его, проверяем статус
 
        root@vagrant:/# sudo systemctl daemon-reload
+
        root@vagrant:/# sudo systemctl enable --now node_exporter
+
        root@vagrant:/# sudo systemctl status node_exporter | grep  active
-  
        Active: active (running) since Fri 2022-07-01 23:27:05 +07; 19min ago
 
-6. Проверяем работу сокета
+  6. Проверяем работу сокета
 
        root@vagrant:/# sudo ss -pnltu | grep 9100
        tcp     LISTEN   0    4096     *:9100    *:*      users:(("node_exporter",pid=1529,fd=3))
 
 
+  7. Проверяем, что сервис добавлен в автозагрузку:
+
+      root@vagrant:/# systemctl list-unit-files --type=service --state=enabled  | grep  node_exporter
+      node_exporter.service     enabled enabled
 
 
 
 
 
 
-systemctl list-unit-files --type=service --state=enabled
 
 2) Ознакомьтесь с опциями node_exporter и выводом /metrics по-умолчанию. 
    Приведите несколько опций, которые вы бы выбрали для базового мониторинга хоста по CPU, памяти, диску и сети.
