@@ -88,24 +88,68 @@
 Ответ: Рекомендованные опции для добавления  в  /etc/systemd/system/node_exporter.service :
 
     root@vagrant:/etc/systemd/system# cat /etc/systemd/system/node_exporter.service  | grep ExecStart
-    ExecStart=/usr/local/bin/node_exporter  --collector.cpu  --collector.diskstats  --collector.meminfo  --collector.ethtool --web.telemetry-path="/metrics"
 
-3Установите в свою виртуальную машину Netdata. Воспользуйтесь готовыми пакетами для установки (sudo apt install -y netdata). 
+    ExecStart=/usr/local/bin/node_exporter  --collector.cpu  --collector.meminfo --collector.diskstats --collector.ethtool --web.telemetry-path="/metrics"
+
+3) Установите в свою виртуальную машину Netdata. Воспользуйтесь готовыми пакетами для установки (sudo apt install -y netdata). 
    После успешной установки:
    в конфигурационном файле /etc/netdata/netdata.conf в секции [web] замените значение с localhost на bind to = 0.0.0.0, 
    добавьте в Vagrantfile проброс порта Netdata на свой локальный компьютер и сделайте vagrant reload:
    config.vm.network "forwarded_port", guest: 19999, host: 19999
 
+Ответ:   
+
+    root@vagrant:~# sudo apt install -y netdata
+    root@vagrant:~# echo /etc/netdata/netdata.conf
+    ...
+    [web]
+    bind to = 0.0.0.0
+    ...
+
    После успешной перезагрузки в браузере на своем ПК (не в виртуальной машине) вы должны суметь зайти на localhost:19999. 
    Ознакомьтесь с метриками, с которыми по умолчанию собираются Netdata и с комментариями, что даны к этим метрикам.
+
+      Готово. Впечатляет. 
 
 
 4) Можно ли по выводу dmesg понять, осознает ли ОС, что загружена не на настоящем оборудовании, а на системе виртуализации?
 
+Ответ:
+
+     vagrant@vagrant:~$ dmesg | grep virtual
+     [    0.007087] CPU MTRRs all blank - virtualized system.
+     [    0.056585] Booting paravirtualized kernel on KVM
+     [   31.151645] systemd[1]: Detected virtualization oracle.
 
 
 5) Как настроен sysctl fs.nr_open на системе по-умолчанию? Узнайте, что означает этот параметр. 
    Какой другой существующий лимит не позволит достичь такого числа (ulimit --help)?
+
+Ответ:
+  
+    Параметр nr_open - жесткий лимит на  количество открытых дескрипторов в системе.
+       
+       root@vagrant:/home/vagrant# sysctl fs.nr_open
+       fs.nr_open = 1048576
+
+    или 
+    
+       root@vagrant:/etc/sysctl.d# cat /proc/sys/fs/nr_open
+       1048576
+
+    Утилита ulimit позволяет модифицировать ресурсы оболочки. 
+    Обеспечивает ограничение ресурсов, доступных оболочке bash и запускаемым в ней процессам.  
+
+    Ниже указан лимит на количество одлновременно открытых файлов  в bash
+
+       root@vagrant:/etc/sysctl.d# ulimit -a | grep open
+       open files                      (-n) 1024
+
+    Для подсчета общего числа файлов ,откырытых в текущее время в системе  используем
+    первое значение в выводе команды "cat /proc/sys/fs/file-nr"
+
+       root@vagrant:/etc/sysctl.d# cat /proc/sys/fs/file-nr
+       1472    0       9223372036854775807
 
 
 6) Запустите любой долгоживущий процесс (не ls, который отработает мгновенно, а, например, sleep 1h) в отдельном неймспейсе процессов; 
