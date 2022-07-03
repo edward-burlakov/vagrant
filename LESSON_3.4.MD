@@ -165,6 +165,8 @@
 
 Ответ:
  
+Запускаем два идентичных процесса в разных пространствах: 
+
         root@vagrant:/home/vagrant# which sleep
         /usr/bin/sleep
 
@@ -186,20 +188,20 @@
         root      142316  0.0  0.0   6432   656 pts/0    S+   22:58   0:00 grep --color=auto sleep
 
 
-        ... где 142268 -  Первый  процесс sleep, запущенный в изолированном по PID пространстве :
+... где 142268 -  Первый  процесс sleep, запущенный в изолированном по PID пространстве :
 
             142268 pts/0    S    22:55   0:00 /usr/bin/sleep 1h
 
-        ... а  142300   - Второй процесс sleep ,запущенный в изолированном по PID пространстве :
+... а  142300   - Второй процесс sleep, запущенный в изолированном по PID пространстве :
 
             142300  pts/0    S    22:55   0:00 /usr/bin/sleep 1h
 
-        Входим внутрь простаранства namespace с PID 142300  :
+Входим внутрь пространства-namespace с PID 142300  :
 
         root@vagrant:/home/vagrant#  nsenter --target 142300 --pid --mount
         root@vagrant:/#
 
-        Убедимся, что процесс sleep имеет родительский номер PID, равный 1 :
+Убедимся, что процесс sleep имеет родительский номер PID, равный 1 :
 
         root@vagrant:/# ps  aux
         USER         PID %CPU %MEM    VSZ   RSS TTY      STAT START   TIME COMMAND
