@@ -10,23 +10,23 @@
 
 Ответ :
 
-1. Добавляем системного пользователя, от которого будет работать Node Exporter
+  1. Добавляем системного пользователя, от которого будет работать Node Exporter
 
         root@vagrant:/# sudo useradd -r -M -s /bin/false node_exporter
 
-2. Скачиваем node_exporter-1.3.1
+  2. Скачиваем node_exporter-1.3.1
 
        root@vagrant:/# wget https://github.com/prometheus/node_exporter/releases/download/v1.3.1/node_exporter-1.3.1.linux-amd64.tar.gz    -P /tmp
        root@vagrant:/# cd /tmp
 
-3. Распаковываем, переносим в каталог /usr/local/bin, назначаем владельца
+  3. Распаковываем, переносим в каталог /usr/local/bin, назначаем владельца
 
        root@vagrant:/# tar -zxpvf node_exporter-1.3.1.linux-amd64.tar.gz
        root@vagrant:/# cd node_exporter-1.3.1.linux-amd64
        root@vagrant:/# sudo cp node_exporter /usr/local/bin
        root@vagrant:/# sudo chown node_exporter:node_exporter /usr/local/bin/node_exporter
 
-4. Создаем Systemd Unit
+  4. Создаем Systemd Unit
    
        root@vagrant:/# sudo nano /etc/systemd/system/node_exporter.service
 
@@ -44,7 +44,7 @@
        [Install]
        WantedBy=multi-user.target
 
-5. Добавляем сервис в автозагрузку, запускаем его, проверяем статус
+  5. Добавляем сервис в автозагрузку, запускаем его, проверяем статус
 
        root@vagrant:/# sudo systemctl daemon-reload
 
@@ -54,31 +54,31 @@
 
        Active: active (running) since Fri 2022-07-01 23:27:05 +07; 19min ago
 
-6. Проверяем работу сокета
+  6. Проверяем работу сокета
 
        root@vagrant:/# sudo ss -pnltu | grep 9100
 
          tcp     LISTEN   0    4096     *:9100    *:*      users:(("node_exporter",pid=1529,fd=3))
 
 
-7. Проверяем, что сервис добавлен в автозагрузку:
+  7. Проверяем, что сервис добавлен в автозагрузку:
 
        root@vagrant:/# systemctl list-unit-files --type=service --state=enabled  | grep  node_exporter
        node_exporter.service     enabled enabled
 
-8. Останавливаем сервис, проверяем его статус м опять стартуем и проверяем :
+  8. Останавливаем сервис, проверяем его статус опять стартуем и проверяем:
       
        root@vagrant:/# systemctl stop  node_exporter.service
    
        root@vagrant:/# systemctl  status node_exporter.service | grep Active:
 
-       Active: inactive (dead) since Sat 2022-07-02 00:11:40 +07; 2min 40s ago
+         Active: inactive (dead) since Sat 2022-07-02 00:11:40 +07; 2min 40s ago
      
        root@vagrant:/# systemctl  start node_exporter.service
 
        root@vagrant:/# systemctl  status node_exporter.service | grep Active:
  
-       Active: active (running) since Sat 2022-07-02 00:20:12 +07; 36s ago
+         Active: active (running) since Sat 2022-07-02 00:20:12 +07; 36s ago
 
      
 
@@ -145,16 +145,20 @@
        root@vagrant:/etc/sysctl.d# ulimit -a | grep open
        open files                      (-n) 1024
 
-    Для подсчета общего числа файлов ,откырытых в текущее время в системе  используем
+    Для подсчета общего числа файлов, откырытых в текущее время в системе  используем
     первое значение в выводе команды "cat /proc/sys/fs/file-nr"
 
        root@vagrant:/etc/sysctl.d# cat /proc/sys/fs/file-nr
        1472    0       9223372036854775807
 
 
-6) Запустите любой долгоживущий процесс (не ls, который отработает мгновенно, а, например, sleep 1h) в отдельном неймспейсе процессов; 
-   покажите, что ваш процесс работает под PID 1 через nsenter. Для простоты работайте в данном задании под root (sudo -i). 
+6) Запустите любой долгоживущий процесс (не ls, который отработает мгновенно, а, например, sleep 1h) 
+   в отдельном неймспейсе процессов; 
+   покажите, что ваш процесс работает под PID 1 через nsenter. 
+   Для простоты работайте в данном задании под root (sudo -i). 
    Под обычным пользователем требуются дополнительные опции (--map-root-user) и т.д.
+
+
 
 
 7) Найдите информацию о том, что такое :(){ :|:& };:. Запустите эту команду в своей виртуальной машине Vagrant с Ubuntu 20.04
@@ -162,3 +166,27 @@
    после чего (минуты) – ОС должна стабилизироваться. 
    Вызов dmesg расскажет, какой механизм помог автоматической стабилизации. 
    Как настроен этот механизм по-умолчанию, и как изменить число процессов, которое можно создать в сессии?
+
+   Идут непрерывно сообщения 
+   bash: fork: retry: Resource temporarily unavailable.
+
+   Это форк-бомба.
+   Источник:
+   https://itsecforu.ru/2021/12/21/%F0%9F%92%A3-%D1%84%D0%BE%D1%80%D0%BA-%D0%B1%D0%BE%D0%BC%D0%B1%D0%B0-%D0%BD%D0%B0-linux/
+  
+        : – это имя функции
+        :|: вызывает саму функцию и порождает другой процесс
+        & переводит процесс в фоновый режим, чтобы его нельзя было легко убить
+        ; отмечает конец функции
+        : снова вызывает функцию
+
+   Лучший способ наложить ограничение на количество процессов, которые может порождать пользователь, 
+   – это отредактировать файл /etc/security/limits.conf. 
+
+   В нем мы можем указать как на отдельного  пользователя, так и на группу.
+   Например, для vagrant ставим ограничение на 500 процессов - добавляем запись
+
+        root@vagrant:~# vim  /etc/security/limits.conf
+        >  vagrant hard nproc 500
+
+ 
