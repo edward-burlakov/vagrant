@@ -109,7 +109,12 @@
    После успешной перезагрузки в браузере на своем ПК (не в виртуальной машине) вы должны суметь зайти на localhost:19999. 
    Ознакомьтесь с метриками, с которыми по умолчанию собираются Netdata и с комментариями, что даны к этим метрикам.
 
+Ответ :    
+
+      https://github.com/edward-burlakov/vagrant/blob/main/netdata_screenshot.jpg
+
       Готово. Впечатляет. 
+      
 
 
 4) Можно ли по выводу dmesg понять, осознает ли ОС, что загружена не на настоящем оборудовании, а на системе виртуализации?
@@ -152,20 +157,55 @@
        1472    0       9223372036854775807
 
 
-6) Запустите любой долгоживущий процесс (не ls, который отработает мгновенно, а, например, sleep 1h) 
+6) Запустите любой долгоживущий процесс (не ls, который отработает мгновенно, а, например, sleep 1h ) 
    в отдельном неймспейсе процессов; 
    покажите, что ваш процесс работает под PID 1 через nsenter. 
    Для простоты работайте в данном задании под root (sudo -i). 
    Под обычным пользователем требуются дополнительные опции (--map-root-user) и т.д.
 
+Ответ:
+ 
+        root@vagrant:/home/vagrant# which sleep
+        /usr/bin/sleep
+
+        root@vagrant:/home/vagrant# sleep 1h  &
+        [1] 142268
+
+        root@vagrant:/home/vagrant# ps -aux | grep sleep
+        root      142268  0.0  0.0   5476   580 pts/0    S    22:48   0:00 sleep 1h
+        root      142271  0.0  0.0   6432   720 pts/0    S+   22:48   0:00 grep --color=auto sleep
+
+        root@vagrant:/home/vagrant# unshare -f --pid --mount-proc /usr/bin/sleep 1h &
+        [2] 142299
+
+        root@vagrant:/home/vagrant# ps -aux | grep sleep
+        root      142268  0.0  0.0   5476   580 pts/0    S    22:48   0:00 sleep 1h
+        root      142298  0.0  0.0   5476   580 pts/0    S    22:55   0:00 /usr/bin/sleep 1h
+        root      142299  0.0  0.0   5480   580 pts/0    S    22:55   0:00 unshare -f --pid --mount-proc /usr/bin/sleep 1h
+        root      142300  0.0  0.0   5476   516 pts/0    S    22:55   0:00 /usr/bin/sleep 1h
+        root      142316  0.0  0.0   6432   656 pts/0    S+   22:58   0:00 grep --color=auto sleep
 
 
+        ... где 142268 -  Первый  процесс sleep, запущенный в изолированном по PID пространстве :
 
+            142268 pts/0    S    22:55   0:00 /usr/bin/sleep 1h
 
+        ... а  142300   - Второй процесс sleep ,запущенный в изолированном по PID пространстве :
 
+            142300  pts/0    S    22:55   0:00 /usr/bin/sleep 1h
 
+        Входим внутрь простаранства namespace с PID 142300  :
 
+        root@vagrant:/home/vagrant#  nsenter --target 142300 --pid --mount
+        root@vagrant:/#
 
+        Убедимся, что процесс sleep имеет родительский номер PID, равный 1 :
+
+        root@vagrant:/# ps  aux
+        USER         PID %CPU %MEM    VSZ   RSS TTY      STAT START   TIME COMMAND
+        root           1  0.0  0.0   5476   516 pts/0    S    22:55   0:00 /usr/bin/sleep 1h
+        root           4  0.0  0.2   7356  4124 pts/0    S    23:21   0:00 -bash
+        root          15  0.0  0.1   8888  3284 pts/0    R+   23:21   0:00 ps aux
 
 
 7) Найдите информацию о том, что такое :(){ :|:& };:. Запустите эту команду в своей виртуальной машине Vagrant с Ubuntu 20.04
