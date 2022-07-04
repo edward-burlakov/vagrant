@@ -135,12 +135,12 @@
   
     Параметр nr_open - жесткий лимит на  количество открытых дескрипторов в системе.
        
-       root@vagrant:/home/vagrant# sysctl fs.nr_open
+       root@vagrant:~# sysctl fs.nr_open
        fs.nr_open = 1048576
 
     или 
     
-       root@vagrant:/etc/sysctl.d# cat /proc/sys/fs/nr_open
+       root@vagrant:~# cat /proc/sys/fs/nr_open
        1048576
 
     Утилита ulimit позволяет модифицировать ресурсы оболочки. 
@@ -148,15 +148,15 @@
 
     Ниже указан лимит на максимальное количество одновременно открытых файловых дескрипторов  в bash
 
-       root@vagrant:/etc/sysctl.d# ulimit -a | grep open
+       root@vagrant:~# ulimit -a | grep open
        open files                      (-n) 1024
 
-       root@vagrant:/etc/sysctl.d# ulimit -Sn
+       root@vagrant:~# ulimit -Sn
        1024
 
     - мягкий лимит "soft" (так же ulimit -n)на пользователя (может быть увеличен самими процессами при выполнении)
 
-       root@vagrant:/etc/sysctl.d# ulimit -Hn
+       root@vagrant:~# ulimit -Hn
        1048576
 
     - жесткий лимит "hard" на пользователя (не может быть увеличен, только уменьшен)
@@ -166,7 +166,7 @@
      Для подсчета общего числа файлов, открытых в ТЕКУЩИЙ МОМЕНТ  в системе  используем
      первое значение в выводе команды "cat /proc/sys/fs/file-nr" :
 
-       root@vagrant:/etc/sysctl.d# cat /proc/sys/fs/file-nr
+       root@vagrant:~# cat /proc/sys/fs/file-nr
        1472    0       9223372036854775807
 
 
@@ -211,7 +211,7 @@
 
 Входим внутрь пространства-namespace с PID 142300  :
 
-        root@vagrant:/home/vagrant#  nsenter --target 142300 --pid --mount
+        root@vagrant:~#  nsenter --target 142300 --pid --mount
         root@vagrant:/#
 
 Убедимся, что процесс sleep имеет родительский номер PID, равный 1 :
@@ -244,11 +244,11 @@
 
    Лучший способ наложить ограничение на количество процессов, которые может порождать пользователь, 
    – это отредактировать файл /etc/security/limits.conf. 
-
    В нем мы можем указать как на отдельного пользователя, так и на группу.
-   Например, для root ставим ограничение на 500 процессов - добавляем запись
+   Например, для root ставим ограничение на 100 процессов - добавляем запись
 
         root@vagrant:~# vim  /etc/security/limits.conf
-        >  root hard nproc 500
+        >  root hard nproc 100
 
- 
+   Или устанавливаем лимит числа процессов с помошью ulimit для пользователя:
+        ulimit -u 100 число процессов будет ограничено 100. 
