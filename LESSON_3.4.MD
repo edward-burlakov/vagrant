@@ -233,7 +233,9 @@
    bash: fork: retry: Resource temporarily unavailable.
 
    Это форк-бомба.
+
    Источник:
+
    https://itsecforu.ru/2021/12/21/%F0%9F%92%A3-%D1%84%D0%BE%D1%80%D0%BA-%D0%B1%D0%BE%D0%BC%D0%B1%D0%B0-%D0%BD%D0%B0-linux/
   
         : – это имя функции
@@ -251,4 +253,5 @@
         >  root hard nproc 100
 
    Или устанавливаем лимит числа процессов с помошью ulimit для пользователя:
+
         ulimit -u 100 число процессов будет ограничено 100. 
