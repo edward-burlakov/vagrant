@@ -25,7 +25,7 @@
 
 Ответ:
 
-    Имеем в распоряжении  три дисковых устройствв
+    Имеем в распоряжении  три дисковых устройства
 
     root@vagrant:/home/vagrant# dmesg | grep sda
     [    6.824670] sd 2:0:0:0: [sda] 134217728 512-byte logical blocks: (68.7 GB/64.0 GiB)
@@ -50,7 +50,7 @@
     [    8.009872] sd 4:0:0:0: [sdc] Write cache: enabled, read cache: enabled, doesn't support DPO or FUA
     [    8.321314] sd 4:0:0:0: [sdc] Attached SCSI disk
 
-Создаем   логичский диска нd втором дисковом усройстве :
+Создаем логический диск на втором дисковом устройстве:
      
     root@vagrant:/home/vagrant# fdisk /dev/sdb
     
@@ -90,7 +90,7 @@
 
 Ответ:
 
-Создаем аналогичный по размеру раздел на втором устройстве  /dev/sdc
+Создаем аналогичный по размеру раздел на втором устройстве /dev/sdc
 
     root@vagrant:/home/vagrant# fdisk  /dev/sdc
 
