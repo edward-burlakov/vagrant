@@ -117,7 +117,7 @@
     Calling ioctl() to re-read partition table.
     Syncing disks.
 
-Копируем целиком первого дисковое устройство /dev/sbd на второе /dev/sdc :
+Копируем содержимое первого дискового устройства /dev/sbd на второе /dev/sdc :
 
     root@vagrant:/home/vagrant# sfdisk -d  /dev/sdb /dev/sdc
 
