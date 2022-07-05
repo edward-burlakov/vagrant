@@ -122,6 +122,7 @@
     root@vagrant:/home/vagrant# sfdisk -d  /dev/sdb /dev/sdc
 
 Проверяем наличие логического раздела Linux dev/sdc1 на втором устройстве dev/sdc 
+
     root@vagrant:/home/vagrant# fdisk -l /dev/sdc
     Disk /dev/sdc: 2.51 GiB, 2684354560 bytes, 5242880 sectors
     Disk model: VBOX HARDDISK
