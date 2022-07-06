@@ -91,12 +91,16 @@
         go_gc_duration_seconds{quantile="0.25"} 4.5926e-05
         go_gc_duration_seconds{quantile="0.5"} 5.846e-05
 
-Рекомендованные опции для добавления  в  /etc/systemd/system/node_exporter.service  помещаем в отдельный файл в /etc:
+Рекомендованные опции для добавления в /etc/systemd/system/node_exporter.service  
+помещаем в отдельный файл в /etc/.node_exporter.conf  :
+
          root@vagrant:/#  touch /etc/.node_exporter.conf   
          root@vagrant:/#  echo 'ARG1=--collector.cpu \ ARG2=--collector.meminfo \ ARG3=--collector.diskstats \ ARG4=--collector.ethtool \ 
          ARG5=--web.telemetry-path="/metrics" '  > /etc/.node_exporter.conf         
 
-Добавляем в раздел [Service]  следующие строки
+Добавляем в раздел [Service]  файла /etc/systemd/system/node_exporter.service
+  следующие строки :
+
          EnvironmentFile=/etc/.node_exporter.conf
          ExecStart = ExecStart=/usr/local/bin/node_exporter $ARG1 $ARG2 $ARG3 $ARG4 $ARG5
 
