@@ -57,13 +57,22 @@
 
          tcp     LISTEN   0    4096     *:9100    *:*      users:(("node_exporter",pid=1529,fd=3))
 
+  7. Проверяем работу метрик
 
-  7. Проверяем, что сервис добавлен в автозагрузку:
+           root@vagrant:/#curl http://localhost:9100/metrics
+
+           # HELP go_gc_duration_seconds A summary of the GC invocation durations.
+           # TYPE go_gc_duration_seconds summary
+           go_gc_duration_seconds{quantile="0"} 3.8996e-05
+           go_gc_duration_seconds{quantile="0.25"} 4.5926e-05
+           go_gc_duration_seconds{quantile="0.5"} 5.846e-05
+
+  8. Проверяем, что сервис добавлен в автозагрузку:
 
        root@vagrant:/# systemctl list-unit-files --type=service --state=enabled  | grep  node_exporter
        node_exporter.service     enabled enabled
 
-  8. Останавливаем сервис, проверяем его статус опять стартуем и проверяем:
+  9. Останавливаем сервис, проверяем его статус опять стартуем и проверяем:
       
        root@vagrant:/# systemctl stop  node_exporter.service
    
