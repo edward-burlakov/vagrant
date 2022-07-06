@@ -441,7 +441,7 @@
 Ответ:
 
 Создаем логический том с именем LogicalVolume размером 100Mb 
-на физическом рейд-массиве RAID0 ,входящем в volume-группу vg00. 
+на физическом рейд-массиве RAID0, входящем в volume-группу vg00. 
 
       root@vagrant:~# lvcreate  -L100M -nLogicalVolume00 vg00 /dev/md2
       Logical volume "LogicalVolume00" created.
@@ -464,7 +464,7 @@
       root@vagrant:~# fdisk -l  | grep LogicalVolume00
       Disk /dev/mapper/vg00-LogicalVolume00: 100 MiB, 104857600 bytes, 204800 sectors
 
-Используем его при форматировании:
+Используем его при форматировании ( или /dev/vg00/vg00-LogicalVolume00 ) :
 
       root@vagrant:~# mkfs.ext4 /dev/mapper/vg00-LogicalVolume00
       mke2fs 1.45.5 (07-Jan-2020)
