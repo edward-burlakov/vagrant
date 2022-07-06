@@ -85,11 +85,6 @@
 Проверяем работу метрик
 
         root@vagrant:/#  curl http://localhost:9100/metrics
-        # HELP go_gc_duration_seconds A summary of the GC invocation durations.
-        # TYPE go_gc_duration_seconds summary
-        go_gc_duration_seconds{quantile="0"} 3.8996e-05
-        go_gc_duration_seconds{quantile="0.25"} 4.5926e-05
-        go_gc_duration_seconds{quantile="0.5"} 5.846e-05
 
 Рекомендованные опции для добавления в /etc/systemd/system/node_exporter.service  
 помещаем в отдельный файл в /etc/.node_exporter.conf  :
