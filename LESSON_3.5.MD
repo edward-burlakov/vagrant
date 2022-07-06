@@ -2,7 +2,122 @@
 
 Ответ:
 
+Разрежённый файл (англ. sparse file) — файл, в котором последовательности нулевых байтов[1] заменены на информацию об этих последовательностях (список дыр).
+Дыра (англ. hole) — последовательность нулевых байт внутри файла, не записанная на диск. 
+Информация о дырах (смещение от начала файла в байтах и количество байт) хранится в метаданных файловой системы.
+
+ПРоверяем размер каталога /root
+
+      root@vagrant:~# du -c -s -h /root
+      56K     /root
+      56K     total
+
+Проверяем свободное место на корневом разделе до и после удаления
+
+      root@vagrant:~# df /root
+      Filesystem                        1K-blocks    Used Available Use% Mounted on
+      /dev/mapper/ubuntu--vg-ubuntu--lv  32118592 3858784  26605232  13% /
+
+
+Создаем разреженный файл  размером 200 Gb
+
+        root@vagrant:~# truncate -s200G ./sparse-file
+        root@vagrant:~# ls -la
+        total 36
+        drwx------  5 root root         4096 Jul  6 12:58 .
+        drwxr-xr-x 19 root root         4096 Jun  7 11:49 ..
+        -rw-------  1 root root          713 Jul  5 17:12 .bash_history
+        -rw-r--r--  1 root root         3106 Dec  5  2019 .bashrc
+        drwxr-xr-x  3 root root         4096 Jul  6 01:15 .local
+        -rw-r--r--  1 root root          161 Dec  5  2019 .profile
+        drwx------  3 root root         4096 Jun  7 11:50 snap
+        -rw-r--r--  1 root root 214748364800 Jul  6 12:58 sparse-file
+        drwx------  2 root root         4096 Jun  7 11:50 .ssh
+        -rw-r--r--  1 root root          165 Jul  6 01:16 .wget-hsts
+        root@vagrant:~# du -c -s -h /root
+        56K     /root
+        56K     total
+
+
+Проверяем размер каталога /root - он не поменялся .
+
+      root@vagrant:~# du -c -s -h /root
+      56K     /root
+      56K     total
+
+Проверяем свободное место - оно не поменялось.
+
+      root@vagrant:~# df /root
+      Filesystem                        1K-blocks    Used Available Use% Mounted on
+      /dev/mapper/ubuntu--vg-ubuntu--lv  32118592 3858784  26605232  13% /
+  
+
 2) Могут ли файлы, являющиеся жесткой ссылкой на один объект, иметь разные права доступа и владельца? Почему?
+
+Нет, поскольку это лишь ссылки на один файловый объект на конкретном логическом разделе.
+
+Создаем хардлинк на файл
+
+       root@vagrant:~# root@vagrant:~# ln testfile linkfile
+       
+       root@vagrant:~# root@vagrant:~# ls -la
+       drwxr-xr-x  3 root root         4096 Jul  6 01:15 .local
+       -rw-r--r--  1 root root          161 Dec  5  2019 .profile
+       drwx------  3 root root         4096 Jun  7 11:50 snap
+       -rw-r--r--  1 root root 214748364800 Jul  6 13:00 sparse-file
+       drwx------  2 root root         4096 Jun  7 11:50 .ssh
+       -rw-r--r--  2 root root            0 Jul  6 13:46 testfile
+       -rw-r--r--  1 root root          165 Jul  6 01:16 .wget-hsts
+
+Права доступа на оба хардлинка совпадают
+
+        root@vagrant:~#  stat testfile ; stat linkfile
+        File: testfile
+        Size: 0               Blocks: 0          IO Block: 4096   regular empty file
+        Device: fd00h/64768d    Inode: 1179744     Links: 2
+        Access: (0644/-rw-r--r--)  Uid: (    0/    root)   Gid: (    0/    root)
+        Access: 2022-07-06 13:46:50.114624803 +0000
+        Modify: 2022-07-06 13:46:50.114624803 +0000
+        Change: 2022-07-06 13:47:14.762942788 +0000
+        Birth: -
+
+        File: linkfile
+        Size: 0               Blocks: 0          IO Block: 4096   regular empty file
+        Device: fd00h/64768d    Inode: 1179744     Links: 2
+        Access: (0644/-rw-r--r--)  Uid: (    0/    root)   Gid: (    0/    root)
+        Access: 2022-07-06 13:46:50.114624803 +0000
+        Modify: 2022-07-06 13:46:50.114624803 +0000
+        Change: 2022-07-06 13:47:14.762942788 +0000
+        Birth: -
+
+Меняем права доступа на файл testfile  - права доступа на linkfile сменились аналогично.
+
+        root@vagrant:~# chmod 770 testfile
+        root@vagrant:~# stat testfile ; stat linkfile
+        File: testfile
+        Size: 0               Blocks: 0          IO Block: 4096   regular empty file
+        Device: fd00h/64768d    Inode: 1179744     Links: 2
+        Access: (0770/-rwxrwx---)  Uid: (    0/    root)   Gid: (    0/    root)
+        Access: 2022-07-06 13:46:50.114624803 +0000
+        Modify: 2022-07-06 13:46:50.114624803 +0000
+        Change: 2022-07-06 13:48:27.711398795 +0000
+        Birth: -
+
+         File: linkfile
+        Size: 0               Blocks: 0          IO Block: 4096   regular empty file
+        Device: fd00h/64768d    Inode: 1179744     Links: 2
+        Access: (0770/-rwxrwx---)  Uid: (    0/    root)   Gid: (    0/    root)
+        Access: 2022-07-06 13:46:50.114624803 +0000
+        Modify: 2022-07-06 13:46:50.114624803 +0000
+        Change: 2022-07-06 13:48:27.711398795 +0000
+        Birth: -
+
+Сменив владельца на один из хардлинков, мы автоматически меняем и на второй хардлинк.       
+
+        root@vagrant:~# chown vagrant testfile
+        root@vagrant:~# ls -la | grep vagrant
+        -rwxrwx---  2 vagrant root            0 Jul  6 13:46 linkfile
+        -rwxrwx---  2 vagrant root            0 Jul  6 13:46 testfile
 
 3) Сделайте vagrant destroy на имеющийся инстанс Ubuntu. Замените содержимое Vagrantfile следующим:
 
