@@ -84,18 +84,21 @@
      
 Проверяем работу метрик
 
-        root@vagrant:/#curl http://localhost:9100/metrics
+        root@vagrant:/#  curl http://localhost:9100/metrics
         # HELP go_gc_duration_seconds A summary of the GC invocation durations.
         # TYPE go_gc_duration_seconds summary
         go_gc_duration_seconds{quantile="0"} 3.8996e-05
         go_gc_duration_seconds{quantile="0.25"} 4.5926e-05
         go_gc_duration_seconds{quantile="0.5"} 5.846e-05
 
-Рекомендованные опции для добавления  в  /etc/systemd/system/node_exporter.service :
+Рекомендованные опции для добавления  в  /etc/systemd/system/node_exporter.service  помещаем в отдельный файл в /etc:
+         root@vagrant:/#  touch /etc/.node_exporter.conf   
+         root@vagrant:/#  echo 'ARG1=--collector.cpu \ ARG2=--collector.meminfo \ ARG3=--collector.diskstats \ ARG4=--collector.ethtool \ 
+         ARG5=--web.telemetry-path="/metrics" '  > /etc/.node_exporter.conf         
 
-         root@vagrant:/etc/systemd/system# cat /etc/systemd/system/node_exporter.service  | grep ExecStart
-
-         ExecStart=/usr/local/bin/node_exporter  --collector.cpu  --collector.meminfo --collector.diskstats --collector.ethtool --web.telemetry-path="/metrics"
+Добавляем в раздел [Service]  следующие строки
+         EnvironmentFile=/etc/.node_exporter.conf
+         ExecStart = ExecStart=/usr/local/bin/node_exporter $ARG1 $ARG2 $ARG3 $ARG4 $ARG5
 
 3) Установите в свою виртуальную машину Netdata. Воспользуйтесь готовыми пакетами для установки (sudo apt install -y netdata). 
    После успешной установки:
