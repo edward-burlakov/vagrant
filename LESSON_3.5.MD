@@ -409,17 +409,71 @@
 
 Ответ:
 
+      root@vagrant:/etc/mdadm# pvcreate /dev/md1 /dev/md2
+      Physical volume "/dev/md1" successfully created.
+      Physical volume "/dev/md2" successfully created.
+
 9) Создайте общую volume-group на этих двух PV.
 
 Ответ:
+
+Создаем группу:
+
+      root@vagrant:/etc/mdadm# vgcreate vg00 /dev/md1 /dev/md2
+      Volume group "vg00" successfully created
+
+Активируем группу:
+
+      root@vagrant:/etc/mdadm# vgchange -a y vg00
+      0 logical volume(s) in volume group "vg00" now active
+
+Проверяем созданную volume-группу :
+
+      root@vagrant:/etc/mdadm# vgs
+      VG        #PV #LV #SN Attr   VSize   VFree
+      ubuntu-vg   1   1   0 wz--n- <62.50g 31.25g
+      vg00        2   1   0 wz--n-  <2.99g  2.89g
+
 
 10) Создайте LV размером 100 Мб, указав его расположение на PV с RAID0.
 
 Ответ:
 
+Создаем логический том с именем LogicalVolume размером 100Mb 
+на физическом рейд-массиве RAID0 ,входящем в volume-группу vg00. 
+
+      root@vagrant:~# lvcreate  -L100M -nLogicalVolume00 vg00 /dev/md2
+      Logical volume "LogicalVolume00" created.
+
+Проверяем созданную логическую группу:  
+
+      root@vagrant:/etc/mdadm# lvs 
+      LV              VG        Attr       LSize   Pool Origin Data%  Meta%  Move Log Cpy%Sync Convert
+      ubuntu-lv       ubuntu-vg -wi-ao---- <31.25g                                                 
+      LogicalVolume00 vg00      -wi-a----- 100.00m    
+
 11) Создайте mkfs.ext4 ФС на получившемся LV.
 
 Ответ:
+
+Находим дескриптор, ссылающийся на логическую группу LogicalVolume00 
+
+      root@vagrant:~#  fdisk -l  | grep LogicalVolume00   
+
+      root@vagrant:/etc/mdadm# fdisk -l  | grep LogicalVolume00
+      Disk /dev/mapper/vg00-LogicalVolume00: 100 MiB, 104857600 bytes, 204800 sectors
+
+Используем его при форматировании:
+
+      root@vagrant:~# mkfs.ext4 /dev/mapper/vg00-LogicalVolume00
+      mke2fs 1.45.5 (07-Jan-2020)
+      Creating filesystem with 25600 4k blocks and 25600 inodes
+      
+      Allocating group tables: done
+      Writing inode tables: done
+      Creating journal (1024 blocks): done
+      Writing superblocks and filesystem accounting information: done
+
 
 12) Смонтируйте этот раздел в любую директорию, например, /tmp/new.
 
