@@ -140,6 +140,24 @@
 
 Ответ:
 
+    root@vagrant:~# lsblk
+    NAME                      MAJ:MIN RM  SIZE RO TYPE MOUNTPOINT
+    loop0                       7:0    0 67.2M  1 loop /snap/lxd/21835
+    loop1                       7:1    0 61.9M  1 loop /snap/core20/1328
+    loop2                       7:2    0 43.6M  1 loop /snap/snapd/14978
+    loop3                       7:3    0 61.9M  1 loop /snap/core20/1518
+    loop4                       7:4    0   47M  1 loop /snap/snapd/16292
+    loop5                       7:5    0 67.8M  1 loop /snap/lxd/22753
+    sda                         8:0    0   64G  0 disk
+    ├─sda1                      8:1    0    1M  0 part
+    ├─sda2                      8:2    0  1.5G  0 part /boot
+    └─sda3                      8:3    0 62.5G  0 part
+      └─ubuntu--vg-ubuntu--lv 253:0    0 31.3G  0 lvm  /
+    sdb                         8:16   0  2.5G  0 disk
+    └─sdb1                      8:17   0    2G  0 part 
+    sdc                         8:32   0  2.5G  0 disk
+    └─sdc1                      8:33   0    2G  0 part 
+
     Имеем в распоряжении  три дисковых устройства
 
     root@vagrant:/home/vagrant# dmesg | grep sda
@@ -200,53 +218,56 @@
     /dev/sdb1        2048 4196351 4194304   2G 83 Linux
      root@vagrant:/home/vagrant# 
 
-
 5) Используя sfdisk, перенесите данную таблицу разделов на второй диск.
 
 Ответ:
 
-Создаем аналогичный по размеру раздел на втором устройстве /dev/sdc
+Копируем таблицу разделов первого дискового устройства /dev/sdb на втором /dev/sdc :
 
-    root@vagrant:/home/vagrant# fdisk  /dev/sdc
+    root@vagrant:~# sfdisk --dump /dev/sdb | sfdisk --force /dev/sdc
+    Checking that no-one is using this disk right now ... OK
 
-    Welcome to fdisk (util-linux 2.34).
-    Changes will remain in memory only, until you decide to write them.
-    Be careful before using the write command.
-    
-    Device does not contain a recognized partition table.
-    Created a new DOS disklabel with disk identifier 0x1acb580f.
-    
-    Command (m for help): n
-    Partition type
-       p   primary (0 primary, 0 extended, 4 free)
-       e   extended (container for logical partitions)
-    Select (default p): p
-    Partition number (1-4, default 1):
-    First sector (2048-5242879, default 2048):
-    Last sector, +/-sectors or +/-size{K,M,G,T,P} (2048-5242879, default 5242879): +2G
-    
-    Created a new partition 1 of type 'Linux' and of size 2 GiB.
-    
-    Command (m for help): w
-    The partition table has been altered.
-    Calling ioctl() to re-read partition table.
-    Syncing disks.
-
-Копируем содержимое первого дискового устройства /dev/sbd на второе /dev/sdc :
-
-    root@vagrant:/home/vagrant# sfdisk -d  /dev/sdb /dev/sdc
-
-Проверяем наличие логического раздела Linux dev/sdc1 на втором устройстве dev/sdc 
-
-    root@vagrant:/home/vagrant# fdisk -l /dev/sdc
     Disk /dev/sdc: 2.51 GiB, 2684354560 bytes, 5242880 sectors
     Disk model: VBOX HARDDISK
     Units: sectors of 1 * 512 = 512 bytes
     Sector size (logical/physical): 512 bytes / 512 bytes
     I/O size (minimum/optimal): 512 bytes / 512 bytes
     Disklabel type: dos
-    Disk identifier: 0x1acb580f
-    
+    Disk identifier: 0x555bdceb
+
+    Old situation:
+
+    >>> Script header accepted.
+    >>> Script header accepted.
+    >>> Script header accepted.
+    >>> Script header accepted.
+    >>> Created a new DOS disklabel with disk identifier 0x555bdceb.
+    /dev/sdc1: Created a new partition 1 of type 'Linux' and of size 2 GiB.
+    Partition #1 contains a ext2 signature.
+    /dev/sdc2: Done.
+
+    New situation:
+    Disklabel type: dos
+    Disk identifier: 0x555bdceb
+
+    Device     Boot Start     End Sectors Size Id Type
+    /dev/sdc1        2048 4196351 4194304   2G 83 Linux
+
+    The partition table has been altered.
+    Calling ioctl() to re-read partition table.
+    Syncing disks.
+
+Проверяем состояние дискового массива  dev/sdс . На нем появился аналогичный Linux раздел /dev/sdc1 .
+
+    root@vagrant:~# fdisk -l /dev/sdc
+    Disk /dev/sdc: 2.51 GiB, 2684354560 bytes, 5242880 sectors
+    Disk model: VBOX HARDDISK
+    Units: sectors of 1 * 512 = 512 bytes
+    Sector size (logical/physical): 512 bytes / 512 bytes
+    I/O size (minimum/optimal): 512 bytes / 512 bytes
+    Disklabel type: dos
+    Disk identifier: 0x555bdceb
+
     Device     Boot Start     End Sectors Size Id Type
     /dev/sdc1        2048 4196351 4194304   2G 83 Linux
 
@@ -254,13 +275,135 @@
 
 Ответ:
 
-
-
+    root@vagrant:~# mdadm --create --verbose /dev/md1 -l 1 -n 2 /dev/sd{b1,c1}
+    mdadm: /dev/sdb1 appears to contain an ext2fs file system
+           size=2097152K  mtime=Wed Jul  6 14:59:25 2022
+    mdadm: Note: this array has metadata at the start and
+        may not be suitable as a boot device.  If you plan to
+        store '/boot' on this device please ensure that
+        your boot-loader understands md/v1.x metadata, or use
+        --metadata=0.90
+    mdadm: /dev/sdc1 appears to contain an ext2fs file system
+           size=2097152K  mtime=Wed Jul  6 14:59:32 2022
+    mdadm: size set to 2094080K
+    Continue creating array? y
+    mdadm: Defaulting to version 1.2 metadata
+    mdadm: array /dev/md1 started.  
 
 
 7) Соберите mdadm RAID0 на второй паре маленьких разделов.
 
 Ответ:
+
+1. Создаем два раздела  /dev/sdb2 и  /dev/sdc2  по 511Mb
+
+        root@vagrant:~# fdisk  /dev/sdb
+        Welcome to fdisk (util-linux 2.34).
+        Changes will remain in memory only, until you decide to write them.
+        Be careful before using the write command.
+
+        Command (m for help): n
+        Partition type
+           p   primary (1 primary, 0 extended, 3 free)
+           e   extended (container for logical partitions)
+        Select (default p): p
+        Partition number (2-4, default 2):
+        First sector (4196352-5242879, default 4196352):
+        Last sector, +/-sectors or +/-size{K,M,G,T,P} (4196352-5242879, default 5242879):
+        
+        Created a new partition 2 of type 'Linux' and of size 511 MiB.
+        
+        Command (m for help): w
+        The partition table has been altered.
+        Syncing disks.
+        
+2.      root@vagrant:~# fdisk  /dev/sdc
+        
+        Welcome to fdisk (util-linux 2.34).
+        Changes will remain in memory only, until you decide to write them.
+        Be careful before using the write command.
+        
+        
+        Command (m for help): n
+        Partition type
+           p   primary (1 primary, 0 extended, 3 free)
+           e   extended (container for logical partitions)
+        Select (default p): p
+        Partition number (2-4, default 2):
+        First sector (4196352-5242879, default 4196352):
+        Last sector, +/-sectors or +/-size{K,M,G,T,P} (4196352-5242879, default 5242879):
+        
+        Created a new partition 2 of type 'Linux' and of size 511 MiB.
+        
+        Command (m for help): w
+        The partition table has been altered.
+        Syncing disks.
+
+3. Создаем stripe массив :
+
+        root@vagrant:~# mdadm --create --verbose /dev/md2 -l 0 -n 2 /dev/sd{b2,c2}
+        mdadm: chunk size defaults to 512K
+        mdadm: Defaulting to version 1.2 metadata
+        mdadm: array /dev/md2 started.
+
+4. Результат:
+   
+       root@vagrant:~#  lsblk
+       NAME                      MAJ:MIN RM  SIZE RO TYPE  MOUNTPOINT
+       loop0                       7:0    0 67.2M  1 loop  /snap/lxd/21835
+       loop1                       7:1    0 61.9M  1 loop  /snap/core20/1328
+       loop2                       7:2    0 43.6M  1 loop  /snap/snapd/14978
+       loop3                       7:3    0 61.9M  1 loop  /snap/core20/1518
+       loop4                       7:4    0   47M  1 loop  /snap/snapd/16292
+       loop5                       7:5    0 67.8M  1 loop  /snap/lxd/22753
+       sda                         8:0    0   64G  0 disk
+       ├─sda1                      8:1    0    1M  0 part
+       ├─sda2                      8:2    0  1.5G  0 part  /boot
+       └─sda3                      8:3    0 62.5G  0 part
+         └─ubuntu--vg-ubuntu--lv 253:0    0 31.3G  0 lvm   /
+       sdb                         8:16   0  2.5G  0 disk
+       ├─sdb1                      8:17   0    2G  0 part
+       │ └─md1                     9:1    0    2G  0 raid1
+       └─sdb2                      8:18   0  511M  0 part
+         └─md2                     9:2    0 1018M  0 raid0
+       sdc                         8:32   0  2.5G  0 disk
+       ├─sdc1                      8:33   0    2G  0 part
+       │ └─md1                     9:1    0    2G  0 raid1
+       └─sdc2                      8:34   0  511M  0 part
+         └─md2                     9:2    0 1018M  0 raid0
+
+5. Записываем состояние рейд-массивов в конфигурационный файл
+      
+       root@vagrant:/etc/mdadm# mdadm --detail --scan >>  /etc/mdadm/mdadm.conf
+
+6. Результат
+
+      root@vagrant:/etc/mdadm# cat  /etc/mdadm/mdadm.conf
+      # mdadm.conf
+      #
+      # !NB! Run update-initramfs -u after updating this file.
+      # !NB! This will ensure that initramfs has an uptodate copy.
+      #
+      # Please refer to mdadm.conf(5) for information about this file.
+      #
+      
+      # by default (built-in), scan all partitions (/proc/partitions) and all
+      # containers for MD superblocks. alternatively, specify devices to scan, using
+      # wildcards if desired.
+      #DEVICE partitions containers
+      
+      # automatically tag new arrays as belonging to the local system
+      HOMEHOST <system>
+      
+      # instruct the monitoring daemon where to send mail alerts
+      MAILADDR root
+      
+      # definitions of existing MD arrays
+      
+      # This configuration was auto-generated on Wed, 23 Feb 2022 08:54:41 +0000 by mkconf
+      ARRAY /dev/md1 metadata=1.2 name=vagrant:1 UUID=cbcbc76b:db79ac9b:f16e45d0:80596d3b
+      ARRAY /dev/md2 metadata=1.2 name=vagrant:2 UUID=80425bc1:54275659:7f7523b8:608d8a66
+
 
 8) Создайте 2 независимых PV на получившихся md-устройствах.
 
