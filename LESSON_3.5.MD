@@ -447,7 +447,7 @@
 
 Проверяем созданную логическую группу:  
 
-      root@vagrant:/etc/mdadm# lvs 
+      root@vagrant:~# lvs 
       LV              VG        Attr       LSize   Pool Origin Data%  Meta%  Move Log Cpy%Sync Convert
       ubuntu-lv       ubuntu-vg -wi-ao---- <31.25g                                                 
       LogicalVolume00 vg00      -wi-a----- 100.00m    
@@ -460,7 +460,7 @@
 
       root@vagrant:~#  fdisk -l  | grep LogicalVolume00   
 
-      root@vagrant:/etc/mdadm# fdisk -l  | grep LogicalVolume00
+      root@vagrant:~# fdisk -l  | grep LogicalVolume00
       Disk /dev/mapper/vg00-LogicalVolume00: 100 MiB, 104857600 bytes, 204800 sectors
 
 Используем его при форматировании:
@@ -479,21 +479,66 @@
 
 Ответ:
 
+      root@vagrant:~# mkdir /tmp/new
+      root@vagrant:~# mount /dev/mapper/vg00-LogicalVolume00  /tmp/new           
+
+
+
 13) Поместите туда тестовый файл, например wget https://mirror.yandex.ru/ubuntu/ls-lR.gz -O /tmp/new/test.gz.
 
 Ответ:
+
+      root@vagrant:/tmp# wget https://mirror.yandex.ru/ubuntu/ls-lR.gz -O /tmp/new/test.gz
+      --2022-07-06 16:39:03--  https://mirror.yandex.ru/ubuntu/ls-lR.gz
+      Resolving mirror.yandex.ru (mirror.yandex.ru)... 213.180.204.183, 2a02:6b8::183
+      Connecting to mirror.yandex.ru (mirror.yandex.ru)|213.180.204.183|:443... connected.
+      HTTP request sent, awaiting response... 200 OK
+      Length: 23815737 (23M) [application/octet-stream]
+      Saving to: ‘/tmp/new/test.gz’
+
+      /tmp/new/test.gz        100%[==============================>]  22.71M  2.84MB/s    in 9.7s
+
+      2022-07-06 16:39:14 (2.34 MB/s) - ‘/tmp/new/test.gz’ saved [23815737/23815737]
 
 14) Прикрепите вывод lsblk.
 
 Ответ:
 
+      root@vagrant:/tmp# lsblk
+      NAME                       MAJ:MIN RM  SIZE RO TYPE  MOUNTPOINT
+      loop0                        7:0    0 67.2M  1 loop  /snap/lxd/21835
+      loop1                        7:1    0 61.9M  1 loop  /snap/core20/1328
+      loop2                        7:2    0 43.6M  1 loop  /snap/snapd/14978
+      loop3                        7:3    0 61.9M  1 loop  /snap/core20/1518
+      loop4                        7:4    0   47M  1 loop  /snap/snapd/16292
+      loop5                        7:5    0 67.8M  1 loop  /snap/lxd/22753
+      sda                          8:0    0   64G  0 disk
+      ├─sda1                       8:1    0    1M  0 part
+      ├─sda2                       8:2    0  1.5G  0 part  /boot
+      └─sda3                       8:3    0 62.5G  0 part
+        └─ubuntu--vg-ubuntu--lv  253:0    0 31.3G  0 lvm   /
+      sdb                          8:16   0  2.5G  0 disk
+      ├─sdb1                       8:17   0    2G  0 part
+      │ └─md1                      9:1    0    2G  0 raid1
+      └─sdb2                       8:18   0  511M  0 part
+        └─md2                      9:2    0 1018M  0 raid0
+          └─vg00-LogicalVolume00 253:1    0  100M  0 lvm   /tmp/new
+      sdc                          8:32   0  2.5G  0 disk
+      ├─sdc1                       8:33   0    2G  0 part
+      │ └─md1                      9:1    0    2G  0 raid1
+      └─sdc2                       8:34   0  511M  0 part
+
+
 15) Протестируйте целостность файла:
+
+Ответ:
 
          root@vagrant:~# gzip -t /tmp/new/test.gz
          root@vagrant:~# echo $?
-          0
-Ответ:
+         0
 
+         echo $? - команда возвращает статус предыдущей команды. 
+         Поскольку ошибок в архиве не обнаружено, возвращен 0.
 
 16) Используя pvmove, переместите содержимое PV с RAID0 на RAID1.
 
