@@ -7,23 +7,23 @@
 
 Ответ :
 
-  1. Добавляем системного пользователя, от которого будет работать Node Exporter
+1. Добавляем системного пользователя, от которого будет работать Node Exporter
 
-        root@vagrant:/# sudo useradd -r -M -s /bin/false node_exporter
+       root@vagrant:/# sudo useradd -r -M -s /bin/false node_exporter
 
-  2. Скачиваем node_exporter-1.3.1
+2. Скачиваем node_exporter-1.3.1
 
        root@vagrant:/# wget https://github.com/prometheus/node_exporter/releases/download/v1.3.1/node_exporter-1.3.1.linux-amd64.tar.gz    -P /tmp
        root@vagrant:/# cd /tmp
 
-  3. Распаковываем, переносим в каталог /usr/local/bin, назначаем владельца
+3. Распаковываем, переносим в каталог /usr/local/bin, назначаем владельца
 
        root@vagrant:/# tar -zxpvf node_exporter-1.3.1.linux-amd64.tar.gz
        root@vagrant:/# cd node_exporter-1.3.1.linux-amd64
        root@vagrant:/# sudo cp node_exporter /usr/local/bin
        root@vagrant:/# sudo chown node_exporter:node_exporter /usr/local/bin/node_exporter
 
-  4. Создаем Systemd Unit
+4. Создаем Systemd Unit
    
        root@vagrant:/# sudo nano /etc/systemd/system/node_exporter.service
 
@@ -41,7 +41,7 @@
        [Install]
        WantedBy=multi-user.target
 
-  5. Добавляем сервис в автозагрузку, запускаем его, проверяем статус
+5. Добавляем сервис в автозагрузку, запускаем его, проверяем статус
 
        root@vagrant:/# sudo systemctl daemon-reload
 
@@ -51,51 +51,51 @@
 
        Active: active (running) since Fri 2022-07-01 23:27:05 +07; 19min ago
 
-  6. Проверяем работу сокета
+6. Проверяем работу сокета
 
-       root@vagrant:/# sudo ss -pnltu | grep 9100
+     root@vagrant:/# sudo ss -pnltu | grep 9100
 
-         tcp     LISTEN   0    4096     *:9100    *:*      users:(("node_exporter",pid=1529,fd=3))
+       tcp     LISTEN   0    4096     *:9100    *:*      users:(("node_exporter",pid=1529,fd=3))
 
-  7. Проверяем работу метрик
-
-           root@vagrant:/#curl http://localhost:9100/metrics
-
-           # HELP go_gc_duration_seconds A summary of the GC invocation durations.
-           # TYPE go_gc_duration_seconds summary
-           go_gc_duration_seconds{quantile="0"} 3.8996e-05
-           go_gc_duration_seconds{quantile="0.25"} 4.5926e-05
-           go_gc_duration_seconds{quantile="0.5"} 5.846e-05
-
-  8. Проверяем, что сервис добавлен в автозагрузку:
+7. Проверяем, что сервис добавлен в автозагрузку:
 
        root@vagrant:/# systemctl list-unit-files --type=service --state=enabled  | grep  node_exporter
        node_exporter.service     enabled enabled
 
-  9. Останавливаем сервис, проверяем его статус опять стартуем и проверяем:
+8. Останавливаем сервис, проверяем его статус опять стартуем и проверяем:
       
-       root@vagrant:/# systemctl stop  node_exporter.service
+        root@vagrant:/# systemctl stop  node_exporter.service
    
-       root@vagrant:/# systemctl  status node_exporter.service | grep Active:
+        root@vagrant:/# systemctl  status node_exporter.service | grep Active:
 
-         Active: inactive (dead) since Sat 2022-07-02 00:11:40 +07; 2min 40s ago
+        Active: inactive (dead) since Sat 2022-07-02 00:11:40 +07; 2min 40s ago
      
-       root@vagrant:/# systemctl  start node_exporter.service
+        root@vagrant:/# systemctl  start node_exporter.service
 
-       root@vagrant:/# systemctl  status node_exporter.service | grep Active:
+     root@vagrant:/# systemctl  status node_exporter.service | grep Active:
  
-         Active: active (running) since Sat 2022-07-02 00:20:12 +07; 36s ago
-
+       Active: active (running) since Sat 2022-07-02 00:20:12 +07; 36s ago
      
 
 2) Ознакомьтесь с опциями node_exporter и выводом /metrics по-умолчанию. 
    Приведите несколько опций, которые вы бы выбрали для базового мониторинга хоста по CPU, памяти, диску и сети.
-    
-Ответ: Рекомендованные опции для добавления  в  /etc/systemd/system/node_exporter.service :
+   
+Ответ: 
+     
+Проверяем работу метрик
 
-    root@vagrant:/etc/systemd/system# cat /etc/systemd/system/node_exporter.service  | grep ExecStart
+        root@vagrant:/#curl http://localhost:9100/metrics
+        # HELP go_gc_duration_seconds A summary of the GC invocation durations.
+        # TYPE go_gc_duration_seconds summary
+        go_gc_duration_seconds{quantile="0"} 3.8996e-05
+        go_gc_duration_seconds{quantile="0.25"} 4.5926e-05
+        go_gc_duration_seconds{quantile="0.5"} 5.846e-05
 
-    ExecStart=/usr/local/bin/node_exporter  --collector.cpu  --collector.meminfo --collector.diskstats --collector.ethtool --web.telemetry-path="/metrics"
+Рекомендованные опции для добавления  в  /etc/systemd/system/node_exporter.service :
+
+         root@vagrant:/etc/systemd/system# cat /etc/systemd/system/node_exporter.service  | grep ExecStart
+
+         ExecStart=/usr/local/bin/node_exporter  --collector.cpu  --collector.meminfo --collector.diskstats --collector.ethtool --web.telemetry-path="/metrics"
 
 3) Установите в свою виртуальную машину Netdata. Воспользуйтесь готовыми пакетами для установки (sudo apt install -y netdata). 
    После успешной установки:
