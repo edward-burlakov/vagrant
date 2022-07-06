@@ -95,8 +95,12 @@
 помещаем в отдельный файл в /etc/.node_exporter.conf  :
 
          root@vagrant:/#  touch /etc/.node_exporter.conf   
-         root@vagrant:/#  echo 'ARG1=--collector.cpu \ ARG2=--collector.meminfo \ ARG3=--collector.diskstats \ ARG4=--collector.ethtool \ 
-         ARG5=--web.telemetry-path="/metrics" '  > /etc/.node_exporter.conf         
+         root@vagrant:/#  nano /etc/.node_exporter.conf
+            ARG1=--collector.cpu
+            ARG2=--collector.meminfo 
+            ARG3=--collector.diskstats 
+            ARG4=--collector.ethtool 
+            ARG5=--web.telemetry-path="/metrics" '
 
 Добавляем в раздел [Service]  файла /etc/systemd/system/node_exporter.service
   следующие строки :
