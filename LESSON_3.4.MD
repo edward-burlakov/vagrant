@@ -84,7 +84,18 @@
      
 Проверяем работу метрик
 
-        root@vagrant:/#  curl http://localhost:9100/metrics
+      root@vagrant:~# curl http://localhost:9100/metrics
+      # HELP go_gc_duration_seconds A summary of the pause duration of garbage collect                                                                                                              ion cycles.
+      # TYPE go_gc_duration_seconds summary
+      go_gc_duration_seconds{quantile="0"} 0
+      go_gc_duration_seconds{quantile="0.25"} 0
+      go_gc_duration_seconds{quantile="0.5"} 0
+      go_gc_duration_seconds{quantile="0.75"} 0
+      go_gc_duration_seconds{quantile="1"} 0
+      go_gc_duration_seconds_sum 0
+      go_gc_duration_seconds_count 0
+      
+      ... и т.д.
 
 Рекомендованные опции для добавления в /etc/systemd/system/node_exporter.service  
 помещаем в отдельный файл в /etc/.node_exporter.conf  :
