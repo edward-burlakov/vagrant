@@ -615,7 +615,7 @@
 
 Смотрим детализированный статус RAID массива:
 
-      root@vagrant:/dev/vg00# mdadm -D /dev/md1
+      root@vagrant:/dev/vg00# mdadm -D -t /dev/md1
       /dev/md1:
       Version : 1.2
       Creation Time : Thu Jul  7 04:04:45 2022
