@@ -1,6 +1,8 @@
 Vagrant.configure("2") do |config|
 config.vm.box = "bento/ubuntu-20.04"
 config.vm.provider :virtualbox do |vb|
+  vb.memory = "2048"
+  vb.cpus = "2"
   lvm_experiments_disk0_path = "/disks/lvm_experiments_disk0.vmdk"
   lvm_experiments_disk1_path = "/disks/lvm_experiments_disk1.vmdk"
   vb.customize ['createmedium', '--filename', lvm_experiments_disk0_path, '--size', 2560]

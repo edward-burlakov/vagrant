@@ -275,6 +275,8 @@
 6) Соберите mdadm RAID1 на паре разделов 2 Гб.
 
 Ответ:
+     
+Для создания RAID1 массива /dev/md1 выполняем команду:
 
     root@vagrant:~# mdadm --create --verbose /dev/md1 -l 1 -n 2 /dev/sd{b1,c1}
     mdadm: /dev/sdb1 appears to contain an ext2fs file system
@@ -296,7 +298,7 @@
 
 Ответ:
 
-1. Создаем два раздела  /dev/sdb2 и  /dev/sdc2  по 511Mb
+1. Для создания RAID0 массива  сначала создаем два раздела  /dev/sdb2 и  /dev/sdc2  по 511Mb
 
         root@vagrant:~# fdisk  /dev/sdb
         Welcome to fdisk (util-linux 2.34).
@@ -404,7 +406,11 @@
       # This configuration was auto-generated on Wed, 23 Feb 2022 08:54:41 +0000 by mkconf
       ARRAY /dev/md1 metadata=1.2 name=vagrant:1 UUID=cbcbc76b:db79ac9b:f16e45d0:80596d3b
       ARRAY /dev/md2 metadata=1.2 name=vagrant:2 UUID=80425bc1:54275659:7f7523b8:608d8a66
+   
+7. Обязательное требование,чтобы сгенерировать свежий образ initramfs вй каталоге  boot:  
 
+       root@vagrant:/etc/mdadm# update-initramfs -u
+       update-initramfs: Generating /boot/initrd.img-5.4.0-110-generic
 
 8) Создайте 2 независимых PV на получившихся md-устройствах.
 
@@ -464,7 +470,7 @@
       root@vagrant:~# fdisk -l  | grep LogicalVolume00
       Disk /dev/mapper/vg00-LogicalVolume00: 100 MiB, 104857600 bytes, 204800 sectors
 
-Используем его при форматировании ( или /dev/vg00/vg00-LogicalVolume00 ) :
+Используем его при форматировании ( или /dev/vg00/LogicalVolume00 ) :
 
       root@vagrant:~# mkfs.ext4 /dev/mapper/vg00-LogicalVolume00
       mke2fs 1.45.5 (07-Jan-2020)
@@ -485,7 +491,7 @@
 
 
 
-13) Поместите туда тестовый файл, например wget https://mirror.yandex.ru/ubuntu/ls-lR.gz -O /tmp/new/test.gz.
+13) Поместите туда тестовый файл, например wget https://mirror.yandex.ru/ubuntu/ls-lR.gz -O /tmp/new/test.gz
 
 Ответ:
 
@@ -505,11 +511,11 @@
 
 Ответ:
 
-      root@vagrant:/tmp# lsblk
+      root@vagrant:/dev/vg00# lsblk
       NAME                       MAJ:MIN RM  SIZE RO TYPE  MOUNTPOINT
       loop0                        7:0    0 67.2M  1 loop  /snap/lxd/21835
-      loop1                        7:1    0 61.9M  1 loop  /snap/core20/1328
-      loop2                        7:2    0 43.6M  1 loop  /snap/snapd/14978
+      loop1                        7:1    0 43.6M  1 loop  /snap/snapd/14978
+      loop2                        7:2    0 61.9M  1 loop  /snap/core20/1328
       loop3                        7:3    0 61.9M  1 loop  /snap/core20/1518
       loop4                        7:4    0   47M  1 loop  /snap/snapd/16292
       loop5                        7:5    0 67.8M  1 loop  /snap/lxd/22753
@@ -517,17 +523,20 @@
       ├─sda1                       8:1    0    1M  0 part
       ├─sda2                       8:2    0  1.5G  0 part  /boot
       └─sda3                       8:3    0 62.5G  0 part
-        └─ubuntu--vg-ubuntu--lv  253:0    0 31.3G  0 lvm   /
+      └─ubuntu--vg-ubuntu--lv  253:0    0 31.3G  0 lvm   /
       sdb                          8:16   0  2.5G  0 disk
       ├─sdb1                       8:17   0    2G  0 part
       │ └─md1                      9:1    0    2G  0 raid1
       └─sdb2                       8:18   0  511M  0 part
-        └─md2                      9:2    0 1018M  0 raid0
-          └─vg00-LogicalVolume00 253:1    0  100M  0 lvm   /tmp/new
+      └─md2                      9:2    0 1018M  0 raid0
+      └─vg00-LogicalVolume00 253:1    0  100M  0 lvm   /tmp/new
       sdc                          8:32   0  2.5G  0 disk
       ├─sdc1                       8:33   0    2G  0 part
       │ └─md1                      9:1    0    2G  0 raid1
       └─sdc2                       8:34   0  511M  0 part
+      └─md2                      9:2    0 1018M  0 raid0
+      └─vg00-LogicalVolume00 253:1    0  100M  0 lvm   /tmp/new
+
 
 
 15) Протестируйте целостность файла:
@@ -546,25 +555,118 @@
 16) Используя pvmove, переместите содержимое PV с RAID0 на RAID1.
 
 Ответ:
+     
+ПРоверяем состяние физических томов - PV
+
+      root@vagrant:/dev/vg00# pvscan
+      PV /dev/sda3   VG ubuntu-vg       lvm2 [<62.50 GiB / 31.25 GiB free]
+      PV /dev/md1    VG vg00            lvm2 [<2.00 GiB / <2.00 GiB free]
+      PV /dev/md2    VG vg00            lvm2 [1016.00 MiB / 916.00 MiB free]
+      Total: 3 [65.48 GiB] / in use: 3 [65.48 GiB] / in no VG: 0 [0   ]
+
+И логических томов - LV
+
+      root@vagrant:/dev/vg00# lvscan
+      ACTIVE            '/dev/ubuntu-vg/ubuntu-lv' [<31.25 GiB] inherit
+      ACTIVE            '/dev/vg00/LogicalVolume00' [100.00 MiB] inherit
+
+Выполняем команду:
+
+       root@vagrant:/dev/vg00# pvmove /dev/md2
+      /dev/md2: Moved: 12.00%
+      /dev/md2: Moved: 100.00%
+
+Результат:
+
+     root@vagrant:/dev/vg00# lsblk
+      NAME                       MAJ:MIN RM  SIZE RO TYPE  MOUNTPOINT
+      loop0                        7:0    0 67.2M  1 loop  /snap/lxd/21835
+      loop1                        7:1    0 43.6M  1 loop  /snap/snapd/14978
+      loop2                        7:2    0 61.9M  1 loop  /snap/core20/1328
+      loop3                        7:3    0 61.9M  1 loop  /snap/core20/1518
+      loop4                        7:4    0   47M  1 loop  /snap/snapd/16292
+      loop5                        7:5    0 67.8M  1 loop  /snap/lxd/22753
+      sda                          8:0    0   64G  0 disk
+      ├─sda1                       8:1    0    1M  0 part
+      ├─sda2                       8:2    0  1.5G  0 part  /boot
+      └─sda3                       8:3    0 62.5G  0 part
+      └─ubuntu--vg-ubuntu--lv  253:0    0 31.3G  0 lvm   /
+      sdb                          8:16   0  2.5G  0 disk
+      ├─sdb1                       8:17   0    2G  0 part
+      │ └─md1                      9:1    0    2G  0 raid1
+      │   └─vg00-LogicalVolume00 253:1    0  100M  0 lvm   /tmp/new
+      └─sdb2                       8:18   0  511M  0 part
+      └─md2                      9:2    0 1018M  0 raid0
+      sdc                          8:32   0  2.5G  0 disk
+      ├─sdc1                       8:33   0    2G  0 part
+      │ └─md1                      9:1    0    2G  0 raid1
+      │   └─vg00-LogicalVolume00 253:1    0  100M  0 lvm   /tmp/new
+      └─sdc2                       8:34   0  511M  0 part
+      └─md2                      9:2    0 1018M  0 raid0
+
+
 
 17) Сделайте --fail на устройство в вашем RAID1 md.
 
 Ответ:
 
+      root@vagrant:/dev/vg00# mdadm /dev/md1 --fail /dev/sdb1
+      mdadm: set /dev/sdb1 faulty in /dev/md1
+
+Смотрим детализированный статус RAID массива:
+
+      root@vagrant:/dev/vg00# mdadm -D /dev/md1
+      /dev/md1:
+      Version : 1.2
+      Creation Time : Thu Jul  7 04:04:45 2022
+      Raid Level : raid1
+      Array Size : 2094080 (2045.00 MiB 2144.34 MB)
+      Used Dev Size : 2094080 (2045.00 MiB 2144.34 MB)
+      Raid Devices : 2
+      Total Devices : 2
+      Persistence : Superblock is persistent
+      
+             Update Time : Thu Jul  7 05:16:31 2022
+                   State : clean, degraded
+          Active Devices : 1
+      Working Devices : 1
+      Failed Devices : 1
+      Spare Devices : 0
+      
+      Consistency Policy : resync
+      
+                    Name : vagrant:1  (local to host vagrant)
+                    UUID : 96522feb:cc97852c:2cc89d3d:7c39bcb7
+                  Events : 19
+      
+      Number   Major   Minor   RaidDevice State
+      -       0        0        0      removed
+      1       8       33        1      active sync   /dev/sdc1
+      0       8       17        -      faulty   /dev/sdb1
+
 18) Подтвердите выводом dmesg, что RAID1 работает в деградированном состоянии.
 
 Ответ:
 
+      root@vagrant:/dev/vg00# dmesg |grep md1
+      [  714.193953] md/raid1:md1: not clean -- starting background reconstruction
+      [  714.193954] md/raid1:md1: active with 2 out of 2 mirrors
+      [  714.193965] md1: detected capacity change from 0 to 2144337920
+      [  714.194604] md: resync of RAID array md1
+      [  724.427271] md: md1: resync done.
+      [ 5019.030517] md/raid1:md1: Disk failure on sdb1, disabling device.
+      md/raid1:md1: Operation continuing on 1 devices.
+
+
 19) Протестируйте целостность файла, несмотря на "сбойный" диск он должен продолжать быть доступен:
 
-         root@vagrant:~# gzip -t /tmp/new/test.gz
-         root@vagrant:~# echo $?
-         0
+        root@vagrant:~# gzip -t /tmp/new/test.gz
+        root@vagrant:~# echo $?
+        0
 
-Ответ:
-
+Ответ:  Состояние  0 .
 
 
 20) Погасите тестовый хост, vagrant destroy.
 
-Ответ: Готово.
+Ответ:  Готово.
