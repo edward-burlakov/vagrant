@@ -382,28 +382,28 @@
 6. Результат
 
       root@vagrant:/etc/mdadm# cat  /etc/mdadm/mdadm.conf
-      # mdadm.conf
-      #
-      # !NB! Run update-initramfs -u after updating this file.
-      # !NB! This will ensure that initramfs has an uptodate copy.
-      #
-      # Please refer to mdadm.conf(5) for information about this file.
-      #
-      
-      # by default (built-in), scan all partitions (/proc/partitions) and all
-      # containers for MD superblocks. alternatively, specify devices to scan, using
-      # wildcards if desired.
+ //     # mdadm.conf
+ //     #
+ //     # !NB! Run update-initramfs -u after updating this file.
+ //     # !NB! This will ensure that initramfs has an uptodate copy.
+ //     #
+ //     # Please refer to mdadm.conf(5) for information about this file.
+ //     #
+ //     
+ //     # by default (built-in), scan all partitions (/proc/partitions) and all
+ //     # containers for MD superblocks. alternatively, specify devices to scan, using
+ //     # wildcards if desired.
       #DEVICE partitions containers
       
-      # automatically tag new arrays as belonging to the local system
+ //     # automatically tag new arrays as belonging to the local system
       HOMEHOST <system>
       
-      # instruct the monitoring daemon where to send mail alerts
+ //     # instruct the monitoring daemon where to send mail alerts
       MAILADDR root
       
-      # definitions of existing MD arrays
+ //     # definitions of existing MD arrays
       
-      # This configuration was auto-generated on Wed, 23 Feb 2022 08:54:41 +0000 by mkconf
+ //     # This configuration was auto-generated on Wed, 23 Feb 2022 08:54:41 +0000 by mkconf
       ARRAY /dev/md1 metadata=1.2 name=vagrant:1 UUID=cbcbc76b:db79ac9b:f16e45d0:80596d3b
       ARRAY /dev/md2 metadata=1.2 name=vagrant:2 UUID=80425bc1:54275659:7f7523b8:608d8a66
    
