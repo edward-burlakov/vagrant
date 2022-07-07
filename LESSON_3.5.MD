@@ -463,8 +463,6 @@
 
 Находим дескриптор, ссылающийся на логическую группу LogicalVolume00 
 
-      root@vagrant:~#  fdisk -l  | grep LogicalVolume00   
-
       root@vagrant:~# fdisk -l  | grep LogicalVolume00
       Disk /dev/mapper/vg00-LogicalVolume00: 100 MiB, 104857600 bytes, 204800 sectors
 
