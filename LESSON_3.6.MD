@@ -146,40 +146,64 @@
 Устанавливаем и запускаем утилиту "My traceroute" :
 
       root@vagrant:~#  apt install mtr
-      root@vagrant:~#
 
+      root@vagrant:~#  mtr -zn 8.8.8.8
 
+      Вывод экрана :
+
+      https://github.com/edward-burlakov/vagrant/blob/main/My%20traceroute.jpg
+
+      Самая  большаЯ задержка на автономной системе AS15169 компании Google LLC и адресе  209.85.246.111  
 
 7) Какие DNS сервера отвечают за доменное имя dns.google? Какие A записи? воспользуйтесь утилитой dig
 
+Ответ:  
 
+ DNS севера (севера имён):
+
+      root@vagrant:~# dig -t NS dns.google | grep ns
+      ; <<>> DiG 9.16.1-Ubuntu <<>> -t NS dns.google
+      ;; global options: +cmd
+      ;; Got answer:
+      ;dns.google.                    IN      NS
+      dns.google.             7182    IN      NS      ns1.zdns.google.
+      dns.google.             7182    IN      NS      ns3.zdns.google.
+      dns.google.             7182    IN      NS      ns2.zdns.google.
+      dns.google.             7182    IN      NS      ns4.zdns.google.
+
+
+A-записи доменной зоны указывают на адреса 8.8.4.4 и 8.8.8.8  :
+
+    root@vagrant:~# dig dns.google.
+
+    ; <<>> DiG 9.16.1-Ubuntu <<>> dns.google.
+    ;; global options: +cmd
+    ;; Got answer:
+    ;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 41155
+    ;; flags: qr rd ra; QUERY: 1, ANSWER: 2, AUTHORITY: 0, ADDITIONAL: 1
+
+    ;; OPT PSEUDOSECTION:
+    ; EDNS: version: 0, flags:; udp: 65494
+    ;; QUESTION SECTION:
+    ;dns.google.                    IN      A
+
+    ;; ANSWER SECTION:
+    dns.google.             796     IN      A       8.8.4.4
+    dns.google.             796     IN      A       8.8.8.8
+
+    ;; Query time: 3 msec
+    ;; SERVER: 127.0.0.53#53(127.0.0.53)
+    ;; WHEN: Thu Jul 07 17:44:23 UTC 2022
+    ;; MSG SIZE  rcvd: 71
+ 
 8) Проверьте PTR записи для IP адресов из задания 7. Какое доменное имя привязано к IP? воспользуйтесь утилитой dig
 
+       root@vagrant:~# dig -x 8.8.8.8 | grep PTR
+       ;8.8.8.8.in-addr.arpa.          IN      PTR
+       8.8.8.8.in-addr.arpa.   7184    IN      PTR     dns.google.
+
+       root@vagrant:~# dig -x 8.8.4.4 | grep PTR
+       ;4.4.8.8.in-addr.arpa.          IN      PTR
+       4.4.8.8.in-addr.arpa.   7092    IN      PTR     dns.google.
 
 
-
-
-
-
-
-
-
-
-Как сдавать задания
-Обязательными к выполнению являются задачи без указания звездочки. Их выполнение необходимо для получения зачета и диплома о профессиональной переподготовке.
-
-Задачи со звездочкой (*) являются дополнительными задачами и/или задачами повышенной сложности. Они не являются обязательными к выполнению, но помогут вам глубже понять тему.
-
-Домашнее задание выполните в файле readme.md в github репозитории. В личном кабинете отправьте на проверку ссылку на .md-файл в вашем репозитории.
-
-Также вы можете выполнить задание в Google Docs и отправить в личном кабинете на проверку ссылку на ваш документ. Название файла Google Docs должно содержать номер лекции и фамилию студента. Пример названия: "1.1. Введение в DevOps — Сусанна Алиева".
-
-Если необходимо прикрепить дополнительные ссылки, просто добавьте их в свой Google Docs.
-
-Перед тем как выслать ссылку, убедитесь, что ее содержимое не является приватным (открыто на комментирование всем, у кого есть ссылка), иначе преподаватель не сможет проверить работу. Чтобы это проверить, откройте ссылку в браузере в режиме инкогнито.
-
-Как предоставить доступ к файлам и папкам на Google Диске
-
-Как запустить chrome в режиме инкогнито
-
-Как запустить Safari в режиме инкогнито
