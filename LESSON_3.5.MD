@@ -552,7 +552,7 @@
 
 Ответ:
      
-ПРоверяем состяние физических томов - PV
+ПРоверяем состояние физических томов - PV
 
       root@vagrant:/dev/vg00# pvscan
       PV /dev/sda3   VG ubuntu-vg       lvm2 [<62.50 GiB / 31.25 GiB free]
@@ -609,7 +609,7 @@
       root@vagrant:/dev/vg00# mdadm /dev/md1 --fail /dev/sdb1
       mdadm: set /dev/sdb1 faulty in /dev/md1
 
-Смотрим детализированный статус RAID массива:
+Смотрим детализированный статус RAID массива: /dev/sdb1 - диск вышел из строя.
 
       root@vagrant:/dev/vg00# mdadm -D -t /dev/md1
       /dev/md1:
