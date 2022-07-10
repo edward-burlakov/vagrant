@@ -167,18 +167,23 @@
 
 -Проверка ARP таблицы
 
-        Linux   :  root@docker/~#  ip neigh  
-        Windows :  arp -a
+        Linux   :  root@docker/~#  ip neigh
+                    или   
+                   root@docker/~#  arp -n
+
+        Windows :  >arp -a
     
 -Полная очистка ARP таблицы на рабочей станции
          
         Linux   :  root@docker/~#  sudo ip neigp flush all
-        Windows :  netsh interface ip delete arpcache
 
--Удалить выбранную пару "mac - ip адрес".
+        Windows :  >netsh interface ip delete arpcache  
+                   или
+                   >arp -d 
+
+-Удалить выбранную пару "mac - ip адрес" :
 
         arp -d 192.168.1.1   
-
 
 
 8) Задание для самостоятельной отработки (необязательно к выполнению)
