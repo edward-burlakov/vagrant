@@ -14,7 +14,7 @@
   
       Протоколы   
       LLDP - протокол с отрытым стандартом.
-      CDP  - прориетарный протокол CISCO.
+      CDP  - проприетарный протокол CISCO.
 
       root@docker/~#  apt install lldpd
       root@docker/~#  systemctl enable lldpd && systemctl start lldpd
