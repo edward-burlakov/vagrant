@@ -171,7 +171,9 @@
                     или   
                    root@docker/~#  arp -n
 
-        Windows :  >arp -a
+        Windows :  >arp -a  
+                    или
+                  >arp -g
     
 -Полная очистка ARP таблицы на рабочей станции
          
