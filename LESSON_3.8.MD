@@ -1,194 +1,69 @@
 Домашнее задание к занятию "3.8. Компьютерные сети, лекция 3"
 
 1) Подключитесь к публичному маршрутизатору в интернет. Найдите маршрут к вашему публичному IP
+   telnet route-views.routeviews.org
+   Username: rviews
+   show ip route x.x.x.x/32
+   show bgp x.x.x.x/32
 
-    telnet route-views.routeviews.org
-    Username: rviews
-    show ip route x.x.x.x/32
-    show bgp x.x.x.x/32
+       route-views>show ip route 212.20.48.100
 
+       Routing entry for 212.20.0.0/18, supernet
+       Known via "bgp 6447", distance 20, metric 0
+       Tag 2497, type external
+       Last update from 202.232.0.2 7w0d ago
+       Routing Descriptor Blocks:
+       * 202.232.0.2, from 202.232.0.2, 7w0d ago
+       Route metric is 0, traffic share count is 1
+       AS Hops 2
 
-    route-views>show ip route 212.20.48.100
+       Route tag 2497
+       MPLS label: none
+       route-views>
 
-    Routing entry for 212.20.0.0/18, supernet
-    Known via "bgp 6447", distance 20, metric 0
-    Tag 2497, type external
-    Last update from 202.232.0.2 7w0d ago
-    Routing Descriptor Blocks:
-    * 202.232.0.2, from 202.232.0.2, 7w0d ago
-    Route metric is 0, traffic share count is 1
-    AS Hops 2
-    Route tag 2497
-    MPLS label: none
-    route-views>
+       route-views>ping  hwinfo.org
 
-    route-views>ping  hwinfo.org
+       Type escape sequence to abort.
+       Sending 5, 100-byte ICMP Echos to 162.255.119.150, timeout is 2 seconds: !!!!!
+       Success rate is 100 percent (5/5), round-trip min/avg/max = 44/44/45 ms
 
-    Type escape sequence to abort.
-    Sending 5, 100-byte ICMP Echos to 162.255.119.150, timeout is 2 seconds: !!!!!
-    Success rate is 100 percent (5/5), round-trip min/avg/max = 44/44/45 ms
+       route-views>show bgp 162.255.119.150
 
-    route-views>show bgp 162.255.119.150
-
-    BGP routing table entry for 162.255.119.0/24, version 2343588541
-    Paths: (23 available, best #14, table default)
-    Not advertised to any peer
-    Refresh Epoch 1
-    20912 3257 19551 19551 19551 19551 22612
-    212.66.96.126 from 212.66.96.126 (212.66.96.126)
-    Origin IGP, localpref 100, valid, external
-    Community: 3257:4000 3257:8908 3257:50002 3257:50122 3257:51300 3257:51303 20912:65004
-    path 7FE0FC1C0ED0 RPKI State not found
-    rx pathid: 0, tx pathid: 0
-    Refresh Epoch 1
-    3333 1103 19551 22612
-    193.0.0.56 from 193.0.0.56 (193.0.0.56)
-    Origin IGP, localpref 100, valid, external
-    path 7FE0B6EFC540 RPKI State not found
-    rx pathid: 0, tx pathid: 0
-    Refresh Epoch 1
-    4901 6079 19551 22612
-    162.250.137.254 from 162.250.137.254 (162.250.137.254)
-    Origin IGP, localpref 100, valid, external
-    Community: 65000:10100 65000:10300 65000:10400
-    path 7FE02765E390 RPKI State not found
-    rx pathid: 0, tx pathid: 0
-    Refresh Epoch 1
-    7018 3356 19551 22612
-    12.0.1.63 from 12.0.1.63 (12.0.1.63)
-    Origin IGP, localpref 100, valid, external
-    Community: 7018:5000 7018:37232
-    path 7FE096453B68 RPKI State not found
-    rx pathid: 0, tx pathid: 0
-    Refresh Epoch 1
-    3267 3356 19551 22612
-    194.85.40.15 from 194.85.40.15 (185.141.126.1)
-    Origin IGP, metric 0, localpref 100, valid, external
-    path 7FE125E178C0 RPKI State not found
-    rx pathid: 0, tx pathid: 0
-    Refresh Epoch 1
-    1351 11164 19551 22612
-    132.198.255.253 from 132.198.255.253 (132.198.255.253)
-    Origin IGP, localpref 100, valid, external
-    path 7FE14FC528D0 RPKI State not found
-    rx pathid: 0, tx pathid: 0
-    Refresh Epoch 1
-    101 19551 22612
-    209.124.176.223 from 209.124.176.223 (209.124.176.223)
-    Origin IGP, localpref 100, valid, external
-    Community: 101:20300 101:22100 19551:1996 19551:9998 19551:19551 19551:64800 19551:64880
-    path 7FE0B846F7B8 RPKI State not found
-    rx pathid: 0, tx pathid: 0
-    Refresh Epoch 1
-    49788 12552 19551 22612
-    91.218.184.60 from 91.218.184.60 (91.218.184.60)
-    Origin IGP, localpref 100, valid, external
-    Community: 12552:12000 12552:12700 12552:12701 12552:22000
-    Extended Community: 0x43:100:1
-    path 7FE13D97AC88 RPKI State not found
-    rx pathid: 0, tx pathid: 0
-    Refresh Epoch 1
-    852 3356 19551 22612
-    154.11.12.212 from 154.11.12.212 (96.1.209.43)
-    Origin IGP, metric 0, localpref 100, valid, external
-    path 7FE088F6F890 RPKI State not found
-    rx pathid: 0, tx pathid: 0
-    Refresh Epoch 1
-    8283 2914 19551 22612
-    94.142.247.3 from 94.142.247.3 (94.142.247.3)
-    Origin IGP, metric 0, localpref 100, valid, external
-    Community: 2914:410 2914:1206 2914:2203 2914:3200 8283:1 8283:101
-    unknown transitive attribute: flag 0xE0 type 0x20 length 0x18
-    value 0000 205B 0000 0000 0000 0001 0000 205B
-    0000 0005 0000 0001
-    path 7FE17BA1A950 RPKI State not found
-    rx pathid: 0, tx pathid: 0
-    Refresh Epoch 1
-    57866 6830 19551 22612
-    37.139.139.17 from 37.139.139.17 (37.139.139.17)
-    Origin IGP, metric 0, localpref 100, valid, external
-    Community: 6830:17000 6830:17531 6830:23001 6830:34403 57866:501 65010:65001 65010:65002
-    path 7FE120499EB0 RPKI State not found
-    rx pathid: 0, tx pathid: 0
-    Refresh Epoch 1
-    3549 3356 19551 22612
-    208.51.134.254 from 208.51.134.254 (67.16.168.191)
-    Origin IGP, metric 0, localpref 100, valid, external
-    Community: 3356:3 3356:22 3356:100 3356:123 3356:400 3356:575 3356:903 3356:2011 3549:2581 3549:30840
-    path 7FE178E317C8 RPKI State not found
-    rx pathid: 0, tx pathid: 0
-    Refresh Epoch 1
-    20130 6939 19551 22612
-    140.192.8.16 from 140.192.8.16 (140.192.8.16)
-    Origin IGP, localpref 100, valid, external
-    path 7FE025C3BEE8 RPKI State not found
-    rx pathid: 0, tx pathid: 0
-    Refresh Epoch 1
-    3356 19551 22612
-    4.68.4.46 from 4.68.4.46 (4.69.184.201)
-    Origin IGP, metric 0, localpref 100, valid, external, best
-    Community: 3356:3 3356:22 3356:100 3356:123 3356:400 3356:575 3356:903 3356:2012 65000:7713
-    path 7FE1347616B0 RPKI State not found
-    rx pathid: 0, tx pathid: 0x0
-    Refresh Epoch 1
-    53767 174 174 21859 19551 22612
-    162.251.163.2 from 162.251.163.2 (162.251.162.3)
-    Origin IGP, localpref 100, valid, external
-    Community: 174:21001 174:22027 53767:5000
-    path 7FE0522D7728 RPKI State not found
-    rx pathid: 0, tx pathid: 0
-    Refresh Epoch 1
-    6939 19551 22612
-    64.71.137.241 from 64.71.137.241 (216.218.252.164)
-    Origin IGP, localpref 100, valid, external
-    path 7FE01F2C0A40 RPKI State not found
-    rx pathid: 0, tx pathid: 0
-    Refresh Epoch 1
-    701 3356 19551 22612
-    137.39.3.55 from 137.39.3.55 (137.39.3.55)
-    Origin IGP, localpref 100, valid, external
-    path 7FE0D72F4730 RPKI State not found
-    rx pathid: 0, tx pathid: 0
-    Refresh Epoch 1
-    7660 2516 3491 19551 22612
-    203.181.248.168 from 203.181.248.168 (203.181.248.168)
-    Origin IGP, localpref 100, valid, external
-    Community: 2516:1050 7660:9003
-    path 7FE0242A0758 RPKI State not found
-    rx pathid: 0, tx pathid: 0
-    Refresh Epoch 1
-    3561 209 3356 19551 22612
-    206.24.210.80 from 206.24.210.80 (206.24.210.80)
-    Origin IGP, localpref 100, valid, external
-    path 7FE0F9E4E2D0 RPKI State not found
-    rx pathid: 0, tx pathid: 0
-    Refresh Epoch 1
-    3303 2914 19551 22612
-    217.192.89.50 from 217.192.89.50 (138.187.128.158)
-    Origin IGP, localpref 100, valid, external
-    Community: 2914:410 2914:1201 2914:2202 2914:3200 3303:1004 3303:1006 3303:3056
-    path 7FE016FC9418 RPKI State not found
-    rx pathid: 0, tx pathid: 0
-    Refresh Epoch 3
-    2497 2914 19551 22612
-    202.232.0.2 from 202.232.0.2 (58.138.96.254)
-    Origin IGP, localpref 100, valid, external
-    path 7FE1765D3F48 RPKI State not found
-    rx pathid: 0, tx pathid: 0
-    Refresh Epoch 1
-    1221 4637 6762 19551 22612
-    203.62.252.83 from 203.62.252.83 (203.62.252.83)
-    Origin IGP, localpref 100, valid, external
-    path 7FE0E6D16AB0 RPKI State not found
-    rx pathid: 0, tx pathid: 0
-    Refresh Epoch 1
-    3257 19551 19551 19551 19551 22612
-    89.149.178.10 from 89.149.178.10 (213.200.83.26)
-    Origin IGP, metric 10, localpref 100, valid, external
-    Community: 3257:4000 3257:8908 3257:50002 3257:50122 3257:51300 3257:51303
-    path 7FE0B60BE4B0 RPKI State not found
-    rx pathid: 0, tx pathid: 0
-    route-views>
+       _BGP routing table entry for 162.255.119.0/24, version 2343588541
+       Paths: (23 available, best #14, table default)
+       Not advertised to any peer
+       Refresh Epoch 1
+       20912 3257 19551 19551 19551 19551 22612
+       212.66.96.126 from 212.66.96.126 (212.66.96.126)
+       Origin IGP, localpref 100, valid, external
+       Community: 3257:4000 3257:8908 3257:50002 3257:50122 3257:51300 3257:51303 20912:65004
+       path 7FE0FC1C0ED0 RPKI State not found
+       rx pathid: 0, tx pathid: 0
+       Refresh Epoch 1
+       3333 1103 19551 22612
+       193.0.0.56 from 193.0.0.56 (193.0.0.56)
+       Origin IGP, localpref 100, valid, external
+       path 7FE0B6EFC540 RPKI State not found
+       rx pathid: 0, tx pathid: 0
+       Refresh Epoch 1
+       4901 6079 19551 22612
+       ....
+       ....
+       ....
+       Refresh Epoch 1
+       1221 4637 6762 19551 22612
+       203.62.252.83 from 203.62.252.83 (203.62.252.83)
+       Origin IGP, localpref 100, valid, external
+       path 7FE0E6D16AB0 RPKI State not found
+       rx pathid: 0, tx pathid: 0
+       Refresh Epoch 1
+       3257 19551 19551 19551 19551 22612
+       89.149.178.10 from 89.149.178.10 (213.200.83.26)
+       Origin IGP, metric 10, localpref 100, valid, external
+       Community: 3257:4000 3257:8908 3257:50002 3257:50122 3257:51300 3257:51303
+       path 7FE0B60BE4B0 RPKI State not found
+       rx pathid: 0, tx pathid: 0
+       route-views>
 
 2. Создайте dummy0 интерфейс в Ubuntu. Добавьте несколько статических маршрутов. Проверьте таблицу маршрутизации.
 
