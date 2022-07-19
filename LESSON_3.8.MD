@@ -171,7 +171,6 @@
                   addresses: [192.168.100.1/24]
            version: 2
       
-
 Добавляем постоянный статический маршрут в  файл /etc/netplan/01-netcfg.yaml  через интерфейс dummy0 :
 
         root@vagrant:~# cat /etc/netplan/01-netcfg.yaml
@@ -227,6 +226,8 @@
 5. Используя diagrams.net, создайте L3 диаграмму вашей домашней сети или любой другой сети, с которой вы работали.
 
       ![Диаграмма L3 домашней сети](https://github.com/edward-burlakov/vagrant/blob/main/Home%20network.png "Home network")
+
+
 
 
 
