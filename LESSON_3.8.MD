@@ -151,7 +151,7 @@
 
       Начиная с версии Ubuntu 18.04 LTS и выше, 
       операционная система использует файлы netplan YAML для настройки сети — они находятся в каталоге /etc/netplan.
-      Редактируем файлы системы централизованного управления сетевыми настройками netplan
+      Редактируем файлы системы netplan - централизованного управления сетевыми настройками 
 
         root@vagrant:~# cat /etc/netplan/00-installer-config.yaml
         # This is the network config written by 'subiquity'
