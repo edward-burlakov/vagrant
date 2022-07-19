@@ -1,10 +1,14 @@
 # Домашнее задание к занятию "3.8. Компьютерные сети, лекция 3"
 
-1) Подключитесь к публичному маршрутизатору в интернет. Найдите маршрут к вашему публичному IP
-   telnet route-views.routeviews.org
-   Username: rviews
-   show ip route x.x.x.x/32
-   show bgp x.x.x.x/32
+1) Подключитесь к публичному маршрутизатору в интернет. 
+   Найдите маршрут к вашему публичному IP
+
+        telnet route-views.routeviews.org
+        Username: rviews
+        show ip route x.x.x.x/32
+        show bgp x.x.x.x/32
+
+Ответ:
 
        route-views>show ip route 212.20.48.100
 
@@ -66,6 +70,8 @@
        route-views>
 
 2. Создайте dummy0 интерфейс в Ubuntu. Добавьте несколько статических маршрутов. Проверьте таблицу маршрутизации.
+
+Ответ:
 
 ## Вариант 1:
 
@@ -196,6 +202,8 @@
 
 3. Проверьте открытые TCP порты в Ubuntu, какие протоколы и приложения используют эти порты? Приведите несколько примеров.
 
+Ответ:
+
        root@vagrant:~# ss -tap
        State        Recv-Q     Send-Q    Local Address:Port      Peer Address:Port    Process
        LISTEN       0          4096      127.0.0.53%lo:domain    0.0.0.0:*            users:(("systemd-resolve",pid=815,fd=13))
@@ -209,6 +217,8 @@
        ssh 22 - Второй открытый порт - Служба удаленного доступа к консоли unix.
 
 4. Проверьте используемые UDP сокеты в Ubuntu, какие протоколы и приложения используют эти порты?
+
+Ответ:
 
        root@vagrant:~# ss -uanp
        State      Recv-Q     Send-Q     Local Address:Port       Peer Address:Port     Process
@@ -224,6 +234,8 @@
 
 
 5. Используя diagrams.net, создайте L3 диаграмму вашей домашней сети или любой другой сети, с которой вы работали.
+
+Ответ:
 
       ![Диаграмма L3 домашней сети](https://github.com/edward-burlakov/vagrant/blob/main/homenet.png "Home network")
 
