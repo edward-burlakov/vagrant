@@ -120,7 +120,7 @@
       link/ether e6:2b:c4:48:96:9a brd ff:ff:ff:ff:ff:ff
       root@vagrant:/home/vagrant#
 
-Назначаем подсеть созданному интерфейсу dummy0 :
+Назначаем ip адрес созданному интерфейсу dummy0 :
 
       root@vagrant:~# ip addr add 192.168.100.1/24 dev dummy0
 
@@ -172,7 +172,7 @@
            version: 2
       
 
-Добавляем постоянные статические маршруты в  файл /etc/netplan/01-netcfg.yaml  через интерфейс dummy0 :
+Добавляем постоянный статический маршрут в  файл /etc/netplan/01-netcfg.yaml  через интерфейс dummy0 :
 
         root@vagrant:~# cat /etc/netplan/01-netcfg.yaml
         network:
@@ -222,3 +222,6 @@ DNS (англ. Domain Name System «система доменных имён») 
 68 - Второй открытый порт - BOOTP (от англ. bootstrap protocol)   - Используется процессом systemd-network
 Сетевой протокол, используемый для автоматического получения клиентом IP-адреса. Это обычно происходит во время загрузки компьютера.
 BOOTP определён в RFC 951.
+
+5. Используя diagrams.net, создайте L3 диаграмму вашей домашней сети или любой другой сети, с которой вы работали.
+
