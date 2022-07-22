@@ -98,7 +98,6 @@
       default via 10.0.2.2 dev eth0 proto dhcp src 10.0.2.15 metric 100
       10.0.2.0/24 dev eth0 proto kernel scope link src 10.0.2.15
       10.0.2.2 dev eth0 proto dhcp scope link src 10.0.2.15 metric 100
-      192.168.100.0/24 dev dummy0 proto kernel scope link src 192.168.100.1
       root@vagrant:/home/vagrant#
 
 
