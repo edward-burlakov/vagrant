@@ -1064,6 +1064,7 @@
 ## 6. Переименуйте файлы ключей из задания 5. Настройте файл конфигурации SSH клиента, так чтобы вход на удаленный сервер осуществлялся по имени сервера.
 
 Ответ:
+
 Переименовываем файлы
 
          root@vagrant:~/.ssh# cd ~/.ssh
@@ -1107,7 +1108,7 @@
 
 ## 7. Соберите дамп трафика утилитой tcpdump в формате pcap, 100 пакетов. Откройте файл pcap в Wireshark.
 
-        root@vagrant:~# tcpdump -c 100 -w tcpdump.log
+        root@vagrant:~# tcpdump -c 100 -w tcpdump.log -i eth0
         tcpdump: listening on eth0, link-type EN10MB (Ethernet), capture size 262144 bytes
         100 packets captured
         105 packets received by filter
