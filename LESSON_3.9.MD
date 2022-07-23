@@ -1109,3 +1109,43 @@
    
 
 7. Соберите дамп трафика утилитой tcpdump в формате pcap, 100 пакетов. Откройте файл pcap в Wireshark.
+
+        root@vagrant:~# tcpdump -c 100 -w tcpdump.log
+        tcpdump: listening on eth0, link-type EN10MB (Ethernet), capture size 262144 bytes
+        100 packets captured
+        105 packets received by filter
+        0 packets dropped by kernel
+
+Скачиваем файл дампа на Windows c помощью psftp в составе putty
+
+       cd c:\tmp
+
+       c:\tmp>psftp
+       psftp: no hostname specified; use "open host.name" to connect
+       psftp> open 127.0.0.1 2222
+       login as: vagrant
+       vagrant@127.0.0.1's password:
+       Remote working directory is /home/vagrant
+       psftp> !lpwd
+       Current local directory is c:\tmp
+       psftp> get tcpdump.log
+       remote:/home/vagrant/tcpdump.log => local:tcpdump.log
+       psftp> quit
+       
+       c:\tmp
+   
+       c:\tmp>dir  c:\tmp
+       Том в устройстве C имеет метку SYSTEM
+       Серийный номер тома: 6105-DDBC
+
+Проверяем содержимое папки c:\tmp
+
+      23.07.2022  21:16    <DIR>          .
+      23.07.2022  21:16    <DIR>          ..
+      23.07.2022  21:16    15217 tcpdump.log
+               1 файлов        15  217 байт
+               2 папок  37 493 080 064 байт свободно
+
+Открываем файл tcpdump.log  в пакете WiresharkPortable64
+
+      ![Tcpdump Log](https://github.com/edward-burlakov/vagrant/blob/main/tcpdump_log.png "Tcpdump Log")
