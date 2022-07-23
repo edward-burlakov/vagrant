@@ -861,7 +861,203 @@
          (rec) -umac-128@openssh.com                 -- mac algorithm to remove
          (rec) -hmac-sha1-etm@openssh.com            -- mac algorithm to remove
          (rec) -umac-64-etm@openssh.com              -- mac algorithm to remove
- 
+
+Проверяем еще один сервер
+
+         root@vagrant:~/testssl.sh-3.0.4# ./testssl.sh --parallel https://www.renewal.ru/
+         
+         ###########################################################
+             testssl.sh       3.0.4 from https://testssl.sh/
+         
+               This program is free software. Distribution and
+                      modification under GPLv2 permitted.
+               USAGE w/o ANY WARRANTY. USE IT AT YOUR OWN RISK!
+         
+                Please file bugs @ https://testssl.sh/bugs/
+         
+         ###########################################################
+         
+          Using "OpenSSL 1.0.2-chacha (1.0.2k-dev)" [~183 ciphers]
+          on vagrant:./bin/openssl.Linux.x86_64
+          (built: "Jan 18 17:12:17 2019", platform: "linux-x86_64")
+         
+         
+          Start 2022-07-23 08:34:46        -->> 151.248.114.50:443 (www.renewal.ru) <<--
+         
+          rDNS (151.248.114.50):  151-248-114-50.cloudvps.regruhosting.ru.
+          Service detected:       HTTP
+         
+         
+          Testing protocols via sockets except NPN+ALPN
+         
+          SSLv2      not offered (OK)
+          SSLv3      not offered (OK)
+          TLS 1      offered (deprecated)
+          TLS 1.1    offered (deprecated)
+          TLS 1.2    offered (OK)
+          TLS 1.3    not offered and downgraded to a weaker protocol
+          NPN/SPDY   not offered
+          ALPN/HTTP2 http/1.1 (offered)
+         
+          Testing cipher categories
+         
+          NULL ciphers (no encryption)                  not offered (OK)
+          Anonymous NULL Ciphers (no authentication)    not offered (OK)
+          Export ciphers (w/o ADH+NULL)                 not offered (OK)
+          LOW: 64 Bit + DES, RC[2,4] (w/o export)       not offered (OK)
+          Triple DES Ciphers / IDEA                     not offered
+          Obsolete CBC ciphers (AES, ARIA etc.)         offered
+          Strong encryption (AEAD ciphers)              offered (OK)
+         
+         
+          Testing robust (perfect) forward secrecy, (P)FS -- omitting Null Authentication/Encryption, 3DES, RC4
+         
+          PFS is offered (OK)          ECDHE-RSA-AES256-GCM-SHA384 ECDHE-RSA-AES256-SHA384 ECDHE-RSA-AES256-SHA ECDHE-RSA-AES128-GCM-SHA256
+                                       ECDHE-RSA-AES128-SHA256 ECDHE-RSA-AES128-SHA
+          Elliptic curves offered:     sect283k1 sect283r1 sect409k1 sect409r1 sect571k1 sect571r1 secp256k1 prime256v1 secp384r1 secp521r1
+                                       brainpoolP256r1 brainpoolP384r1 brainpoolP512r1
+         
+         
+          Testing server preferences
+         
+          Has server cipher order?     yes (OK)
+          Negotiated protocol          TLSv1.2
+          Negotiated cipher            ECDHE-RSA-AES128-GCM-SHA256, 256 bit ECDH (P-256)
+          Cipher order
+             TLSv1:     ECDHE-RSA-AES128-SHA ECDHE-RSA-AES256-SHA AES256-SHA AES128-SHA
+             TLSv1.1:   ECDHE-RSA-AES128-SHA ECDHE-RSA-AES256-SHA AES256-SHA AES128-SHA
+             TLSv1.2:   ECDHE-RSA-AES128-GCM-SHA256 ECDHE-RSA-AES128-SHA256 ECDHE-RSA-AES128-SHA ECDHE-RSA-AES256-GCM-SHA384 ECDHE-RSA-AES256-SHA384
+                        ECDHE-RSA-AES256-SHA AES256-GCM-SHA384 AES256-SHA256 AES256-SHA AES128-GCM-SHA256 AES128-SHA256 AES128-SHA
+         
+         
+          Testing server defaults (Server Hello)
+         
+          TLS extensions (standard)    "server name/#0" "renegotiation info/#65281" "EC point formats/#11" "session ticket/#35" "heartbeat/#15"
+                                       "application layer protocol negotiation/#16"
+          Session Ticket RFC 5077 hint 300 seconds, session tickets keys seems to be rotated < daily
+          SSL Session ID support       yes
+          Session Resumption           Tickets: yes, ID: yes
+          TLS clock skew               Random values, no fingerprinting possible
+          Signature Algorithm          SHA256 with RSA
+          Server key size              RSA 2048 bits
+          Server key usage             Digital Signature, Key Encipherment
+          Server extended key usage    TLS Web Server Authentication, TLS Web Client Authentication
+          Serial / Fingerprints        03E1EEAAF663CD35D433BF3CDF445FB8AC2A / SHA1 0E07522C55AED118493BB94165AA5B667C6C7F6F
+                                       SHA256 BBD64F970379291B0861B6998FF639394896A8D4237884C69B1D17BAA094FE74
+          Common Name (CN)             renewal.ru  (CN in response to request w/o SNI: dev.renewal.ru )
+          subjectAltName (SAN)         renewal.ru www.renewal.ru
+          Issuer                       R3 (Let's Encrypt from US)
+          Trust (hostname)             Ok via SAN (SNI mandatory)
+          Chain of trust               NOT ok (expired)
+          EV cert (experimental)       no
+          ETS/"eTLS", visibility info  not present
+          Certificate Validity (UTC)   expires < 60 days (40) (2022-06-03 23:43 --> 2022-09-01 23:43)
+          # of certificates provided   3
+          Certificate Revocation List  --
+          OCSP URI                     http://r3.o.lencr.org
+          OCSP stapling                not offered
+          OCSP must staple extension   --
+          DNS CAA RR (experimental)    not offered
+          Certificate Transparency     yes (certificate extension)
+         
+         
+          Testing HTTP header response @ "/"
+         
+          HTTP Status Code             200 OK
+          HTTP clock skew              -5 sec from localtime
+          Strict Transport Security    not offered
+          Public Key Pinning           --
+          Server banner                Apache/2.4.18 (Ubuntu)
+          Application banner           --
+          Cookie(s)                    1 issued: NOT secure, 1/1 HttpOnly
+          Security headers             Cache-Control: no-store, no-cache, must-revalidate
+                                       Pragma: no-cache
+          Reverse Proxy banner         --
+         
+         
+          Testing vulnerabilities
+         
+          Heartbleed (CVE-2014-0160)                not vulnerable (OK), timed out
+          CCS (CVE-2014-0224)                       not vulnerable (OK)
+          Ticketbleed (CVE-2016-9244), experiment.  not vulnerable (OK)
+          ROBOT                                     not vulnerable (OK)
+          Secure Renegotiation (RFC 5746)           supported (OK)
+          Secure Client-Initiated Renegotiation     not vulnerable (OK)
+          CRIME, TLS (CVE-2012-4929)                not vulnerable (OK)
+          BREACH (CVE-2013-3587)                    potentially NOT ok, "none" HTTP compression detected. - only supplied "/" tested
+                                                    Can be ignored for static pages or if no secrets in the page
+          POODLE, SSL (CVE-2014-3566)               not vulnerable (OK), no SSLv3 support
+          TLS_FALLBACK_SCSV (RFC 7507)              Downgrade attack prevention supported (OK)
+          SWEET32 (CVE-2016-2183, CVE-2016-6329)    not vulnerable (OK)
+          FREAK (CVE-2015-0204)                     not vulnerable (OK)
+          DROWN (CVE-2016-0800, CVE-2016-0703)      not vulnerable on this host and port (OK)
+                                                    make sure you don't use this certificate elsewhere with SSLv2 enabled services
+                                                    https://censys.io/ipv4?q=BBD64F970379291B0861B6998FF639394896A8D4237884C69B1D17BAA094FE74 could help you to find out
+          LOGJAM (CVE-2015-4000), experimental      not vulnerable (OK): no DH EXPORT ciphers, no DH key detected with <= TLS 1.2
+          BEAST (CVE-2011-3389)                     TLS1: ECDHE-RSA-AES128-SHA ECDHE-RSA-AES256-SHA AES256-SHA AES128-SHA
+                                                    VULNERABLE -- but also supports higher protocols  TLSv1.1 TLSv1.2 (likely mitigated)
+          LUCKY13 (CVE-2013-0169), experimental     potentially VULNERABLE, uses cipher block chaining (CBC) ciphers with TLS. Check patches
+          RC4 (CVE-2013-2566, CVE-2015-2808)        no RC4 ciphers detected (OK)
+         
+         
+          Testing 370 ciphers via OpenSSL plus sockets against the server, ordered by encryption strength
+         
+         Hexcode  Cipher Suite Name (OpenSSL)       KeyExch.   Encryption  Bits     Cipher Suite Name (IANA/RFC)
+         -----------------------------------------------------------------------------------------------------------------------------
+          xc030   ECDHE-RSA-AES256-GCM-SHA384       ECDH 256   AESGCM      256      TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+          xc028   ECDHE-RSA-AES256-SHA384           ECDH 256   AES         256      TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384
+          xc014   ECDHE-RSA-AES256-SHA              ECDH 256   AES         256      TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA
+          x9d     AES256-GCM-SHA384                 RSA        AESGCM      256      TLS_RSA_WITH_AES_256_GCM_SHA384
+          x3d     AES256-SHA256                     RSA        AES         256      TLS_RSA_WITH_AES_256_CBC_SHA256
+          x35     AES256-SHA                        RSA        AES         256      TLS_RSA_WITH_AES_256_CBC_SHA
+          xc02f   ECDHE-RSA-AES128-GCM-SHA256       ECDH 256   AESGCM      128      TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
+          xc027   ECDHE-RSA-AES128-SHA256           ECDH 256   AES         128      TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256
+          xc013   ECDHE-RSA-AES128-SHA              ECDH 256   AES         128      TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA
+          x9c     AES128-GCM-SHA256                 RSA        AESGCM      128      TLS_RSA_WITH_AES_128_GCM_SHA256
+          x3c     AES128-SHA256                     RSA        AES         128      TLS_RSA_WITH_AES_128_CBC_SHA256
+          x2f     AES128-SHA                        RSA        AES         128      TLS_RSA_WITH_AES_128_CBC_SHA
+         
+         
+          Running client simulations (HTTP) via sockets
+         
+          Android 4.4.2                TLSv1.2 ECDHE-RSA-AES128-GCM-SHA256, 256 bit ECDH (P-256)
+          Android 5.0.0                TLSv1.2 ECDHE-RSA-AES128-GCM-SHA256, 256 bit ECDH (P-256)
+          Android 6.0                  TLSv1.2 ECDHE-RSA-AES128-GCM-SHA256, 256 bit ECDH (P-256)
+          Android 7.0 (native)         TLSv1.2 ECDHE-RSA-AES128-GCM-SHA256, 256 bit ECDH (P-256)
+          Android 8.1 (native)         TLSv1.2 ECDHE-RSA-AES128-GCM-SHA256, 256 bit ECDH (P-256)
+          Android 9.0 (native)         TLSv1.2 ECDHE-RSA-AES128-GCM-SHA256, 256 bit ECDH (P-256)
+          Android 10.0 (native)        TLSv1.2 ECDHE-RSA-AES128-GCM-SHA256, 256 bit ECDH (P-256)
+          Chrome 74 (Win 10)           TLSv1.2 ECDHE-RSA-AES128-GCM-SHA256, 256 bit ECDH (P-256)
+          Chrome 79 (Win 10)           TLSv1.2 ECDHE-RSA-AES128-GCM-SHA256, 256 bit ECDH (P-256)
+          Firefox 66 (Win 8.1/10)      TLSv1.2 ECDHE-RSA-AES128-GCM-SHA256, 256 bit ECDH (P-256)
+          Firefox 71 (Win 10)          TLSv1.2 ECDHE-RSA-AES128-GCM-SHA256, 256 bit ECDH (P-256)
+          IE 6 XP                      No connection
+          IE 8 Win 7                   TLSv1.0 ECDHE-RSA-AES128-SHA, 256 bit ECDH (P-256)
+          IE 8 XP                      No connection
+          IE 11 Win 7                  TLSv1.2 ECDHE-RSA-AES128-SHA256, 256 bit ECDH (P-256)
+          IE 11 Win 8.1                TLSv1.2 ECDHE-RSA-AES128-SHA256, 256 bit ECDH (P-256)
+          IE 11 Win Phone 8.1          TLSv1.2 ECDHE-RSA-AES128-SHA256, 256 bit ECDH (P-256)
+          IE 11 Win 10                 TLSv1.2 ECDHE-RSA-AES128-GCM-SHA256, 256 bit ECDH (P-256)
+          Edge 15 Win 10               TLSv1.2 ECDHE-RSA-AES128-GCM-SHA256, 256 bit ECDH (P-256)
+          Edge 17 (Win 10)             TLSv1.2 ECDHE-RSA-AES128-GCM-SHA256, 256 bit ECDH (P-256)
+          Opera 66 (Win 10)            TLSv1.2 ECDHE-RSA-AES128-GCM-SHA256, 256 bit ECDH (P-256)
+          Safari 9 iOS 9               TLSv1.2 ECDHE-RSA-AES128-GCM-SHA256, 256 bit ECDH (P-256)
+          Safari 9 OS X 10.11          TLSv1.2 ECDHE-RSA-AES128-GCM-SHA256, 256 bit ECDH (P-256)
+          Safari 10 OS X 10.12         TLSv1.2 ECDHE-RSA-AES128-GCM-SHA256, 256 bit ECDH (P-256)
+          Safari 12.1 (iOS 12.2)       TLSv1.2 ECDHE-RSA-AES128-GCM-SHA256, 256 bit ECDH (P-256)
+          Safari 13.0 (macOS 10.14.6)  TLSv1.2 ECDHE-RSA-AES128-GCM-SHA256, 256 bit ECDH (P-256)
+          Apple ATS 9 iOS 9            TLSv1.2 ECDHE-RSA-AES128-GCM-SHA256, 256 bit ECDH (P-256)
+          Java 6u45                    TLSv1.0 AES128-SHA, No FS
+          Java 7u25                    TLSv1.0 ECDHE-RSA-AES128-SHA, 256 bit ECDH (P-256)
+          Java 8u161                   TLSv1.2 ECDHE-RSA-AES128-GCM-SHA256, 256 bit ECDH (P-256)
+          Java 11.0.2 (OpenJDK)        TLSv1.2 ECDHE-RSA-AES128-GCM-SHA256, 256 bit ECDH (P-256)
+          Java 12.0.1 (OpenJDK)        TLSv1.2 ECDHE-RSA-AES128-GCM-SHA256, 256 bit ECDH (P-256)
+          OpenSSL 1.0.2e               TLSv1.2 ECDHE-RSA-AES128-GCM-SHA256, 256 bit ECDH (P-256)
+          OpenSSL 1.1.0l (Debian)      TLSv1.2 ECDHE-RSA-AES128-GCM-SHA256, 256 bit ECDH (P-256)
+          OpenSSL 1.1.1d (Debian)      TLSv1.2 ECDHE-RSA-AES128-GCM-SHA256, 256 bit ECDH (P-256)
+          Thunderbird (68.3)           TLSv1.2 ECDHE-RSA-AES128-GCM-SHA256, 256 bit ECDH (P-256)
+         
+          Done 2022-07-23 08:36:48 [ 125s] -->> 151.248.114.50:443 (www.renewal.ru) <<--
 
 6. Переименуйте файлы ключей из задания 5. Настройте файл конфигурации SSH клиента, 
    так чтобы вход на удаленный сервер осуществлялся по имени сервера.
