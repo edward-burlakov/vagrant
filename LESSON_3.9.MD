@@ -866,7 +866,7 @@
 
          root@vagrant:~/testssl.sh-3.0.4# ./testssl.sh --parallel https://www.renewal.ru/
          
-         ###########################################################
+//         ###########################################################
              testssl.sh       3.0.4 from https://testssl.sh/
          
                This program is free software. Distribution and
@@ -875,7 +875,7 @@
          
                 Please file bugs @ https://testssl.sh/bugs/
          
-         ###########################################################
+//         ###########################################################
          
           Using "OpenSSL 1.0.2-chacha (1.0.2k-dev)" [~183 ciphers]
           on vagrant:./bin/openssl.Linux.x86_64
