@@ -1147,5 +1147,5 @@
                2 папок  37 493 080 064 байт свободно
 
 Открываем файл tcpdump.log  в пакете WiresharkPortable64
+![Tcpdump Log](https://github.com/edward-burlakov/vagrant/blob/main/tcpdump_log.png "Tcpdump Log")
 
-      ![Tcpdump Log](https://github.com/edward-burlakov/vagrant/blob/main/tcpdump_log.png "Tcpdump Log")
