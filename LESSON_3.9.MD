@@ -1078,7 +1078,7 @@
              IdentityFile ~/.ssh/1.200_rsa
              User root
         
-Подключаемся к удаленному серверу по имени
+Подключаемся к удаленному серверу по имени ### asterisk
 
          root@vagrant:~/.ssh# ssh asterisk
          Last login: Sat Jul 23 20:43:09 2022 from 192.168.214.203
