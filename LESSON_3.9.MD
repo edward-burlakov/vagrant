@@ -468,6 +468,8 @@
 
 4. Проверьте на TLS уязвимости произвольный сайт в интернете (кроме сайтов МВД, ФСБ, МинОбр, НацБанк, РосКосмос, РосАтом, РосНАНО и любых госкомпаний, объектов КИИ, ВПК ... и тому подобное).
 
+Ответ:
+
    root@vagrant:~/testssl.sh-3.0.4#  ./testssl.sh --parallel https://pfk-obnovlenie.ru/
    
    ###########################################################
@@ -673,8 +675,197 @@
     Done 2022-07-23 07:43:52 [ 230s] -->> 212.17.23.150:443 (pfk-obnovlenie.ru) <<--
 
 
-5. Установите на Ubuntu ssh сервер, сгенерируйте новый приватный ключ. Скопируйте свой публичный ключ на другой сервер. Подключитесь к серверу по SSH-ключу.
+5. Установите на Ubuntu ssh сервер, сгенерируйте новый приватный ключ. Скопируйте свой публичный ключ на другой сервер. 
+   Подключитесь к серверу по SSH-ключу.
+
+Ответ:
+
+Проверяем установку openssh-server на Ubuntu
+
+         root@vagrant:~# apt show openssh-server | grep Version
+         WARNING: apt does not have a stable CLI interface. Use with caution in scripts.
+         Version: 1:8.2p1-4ubuntu0.5
+
+Проверяем статус службы: 
+
+        root@vagrant:~# systemctl status ssh | grep Active
+        Active: active (running) since Thu 2022-07-07 15:02:36 UTC; 2 weeks 1 days ago
+
+Открываем порт для входящих соединений для сервиса:
+
+        root@vagrant:~#  sudo ufw allow ssh
+
+Проверяем работу сервиса:
+
+         root@vagrant:~# ssh vagrant@127.0.0.1
+         The authenticity of host '127.0.0.1 (127.0.0.1)' can't be established.
+         ECDSA key fingerprint is SHA256:8Lb/tKqeyNQllMhaDRbn8d8aX/ef6T2IkQ5EWnKa01s.
+         Are you sure you want to continue connecting (yes/no/[fingerprint])? yes
+         Warning: Permanently added '127.0.0.1' (ECDSA) to the list of known hosts.
+         vagrant@127.0.0.1's password:
+
+Сгенерим ключи
+
+         root@vagrant:~# ssh-keygen
+         Generating public/private rsa key pair.
+         Enter file in which to save the key (/root/.ssh/id_rsa):
+         Enter passphrase (empty for no passphrase):
+         Enter same passphrase again:
+         Your identification has been saved in /root/.ssh/id_rsa
+         Your public key has been saved in /root/.ssh/id_rsa.pub
+         The key fingerprint is:
+         SHA256:Pj0/9Iy0jvRzwST4WnXNu90SGPS+H+DizaBzj9TfSxE root@vagrant
+         The key's randomart image is:
+         +---[RSA 3072]----+
+         |                 |
+         |            .    |
+         |           o . E.|
+         |          . o + =|
+         |        S  . X o.|
+         |       . .  O *..|
+         |        o +O B *+|
+         |         +=*@ O.=|
+         |         .++=B =+|
+         +----[SHA256]-----+
+
+Проверяем наличие пары ключей:
+
+         root@vagrant:~# ls -la  /root/.ssh
+         total 20
+         drwx------ 2 root root 4096 Jul 23 08:07 .
+         drwx------ 8 root root 4096 Jul 23 07:39 ..
+         -rw------- 1 root root    0 Jun  7 11:50 authorized_keys
+         -rw------- 1 root root 2602 Jul 23 08:07 id_rsa
+         -rw-r--r-- 1 root root  566 Jul 23 08:07 id_rsa.pub
+         -rw-r--r-- 1 root root  222 Jul 23 08:02 known_hosts
+
+Копируем публичный ключ на удаленный сервер в файл /root/.ssh/authorized_keys .   
+
+         root@vagrant:~# ssh-copy-id root@192.168.1.200
+         /usr/bin/ssh-copy-id: INFO: Source of key(s) to be installed: "/root/.ssh/id_rsa.pub"
+         The authenticity of host '192.168.1.200 (192.168.1.200)' can't be established.
+         ECDSA key fingerprint is SHA256:zKp2l2+i+2ySq3rIZ3A8FAjazIEWwsyJ8t46SwfS0B4.
+         Are you sure you want to continue connecting (yes/no/[fingerprint])? yes
+         /usr/bin/ssh-copy-id: INFO: attempting to log in with the new key(s), to filter out any that are already installed
+         /usr/bin/ssh-copy-id: INFO: 1 key(s) remain to be installed -- if you are prompted now it is to install the new keys
+         root@192.168.1.200's password:
+         
+         Number of key(s) added: 1
+         
+         Now try logging into the machine, with:   "ssh 'root@192.168.1.200'"
+         and check to make sure that only the key(s) you wanted were added.
+         
+         root@vagrant:~#
+
+Подключаемся по стандартному ключу без пароля к удаленному серверу:
+
+         root@vagrant:~# ssh root@192.168.1.200
+         Last login: Fri Jul  8 00:15:00 2022 from 192.168.1.114
+         
+           O @ @    Issabel is a product meant to be configured through a web browser.
+           @ @ O    Any changes made from within the command line may corrupt the system
+           @ O O    configuration and produce unexpected behavior; in addition, changes
+             O      made to system files through here may be lost when doing an update.
+         
+         To access your Issabel System, using a separate workstation (PC/MAC/Linux)
+         Open the Internet Browser using the following URL:
+         
+         https://192.168.1.200
+         
+         Your opportunity to give back: http://www.patreon.com/issabel
+         
+         System load:  0.01 (1min) 0.03 (5min) 0.05 (15min)        Uptime:  290 days
+         Asterisk:     Asterisk 16.7.0                       Active Calls:  0
+         Memory:       [=========>---------------------------------------]  21% 421/1999M
+         Usage on /:   [===============>---------------------------------]  31% 4.1/14G
+         Swap usage:   0.0%
+         SSH logins:   2 open sessions
+         Processes:    132 total, 93 yours
+         
+         [root@issabel1 ~]#
+
+Проверяем работу локальных SSH-ключей и получаем рекомендации по тонкой настройке файла /etc/ssh/sshd_config
+
+         root@vagrant:~# apt install -y ssh-audit
+         root@vagrant:~# ssh-audit localhost
+         # general
+         (gen) banner: SSH-2.0-OpenSSH_8.2p1 Ubuntu-4ubuntu0.5
+         (gen) software: OpenSSH 8.2p1
+         (gen) compatibility: OpenSSH 7.3+, Dropbear SSH 2016.73+
+         (gen) compression: enabled (zlib@openssh.com)
+         
+         # key exchange algorithms
+         (kex) curve25519-sha256                     -- [warn] unknown algorithm
+         (kex) curve25519-sha256@libssh.org          -- [info] available since OpenSSH 6.5, Dropbear SSH 2013.62
+         (kex) ecdh-sha2-nistp256                    -- [fail] using weak elliptic curves
+                                                     `- [info] available since OpenSSH 5.7, Dropbear SSH 2013.62
+         (kex) ecdh-sha2-nistp384                    -- [fail] using weak elliptic curves
+                                                     `- [info] available since OpenSSH 5.7, Dropbear SSH 2013.62
+         (kex) ecdh-sha2-nistp521                    -- [fail] using weak elliptic curves
+                                                     `- [info] available since OpenSSH 5.7, Dropbear SSH 2013.62
+         (kex) diffie-hellman-group-exchange-sha256  -- [warn] using custom size modulus (possibly weak)
+                                                     `- [info] available since OpenSSH 4.4
+         (kex) diffie-hellman-group16-sha512         -- [info] available since OpenSSH 7.3, Dropbear SSH 2016.73
+         (kex) diffie-hellman-group18-sha512         -- [info] available since OpenSSH 7.3
+         (kex) diffie-hellman-group14-sha256         -- [info] available since OpenSSH 7.3, Dropbear SSH 2016.73
+         
+         # host-key algorithms
+         (key) rsa-sha2-512                          -- [info] available since OpenSSH 7.2
+         (key) rsa-sha2-256                          -- [info] available since OpenSSH 7.2
+         (key) ssh-rsa                               -- [info] available since OpenSSH 2.5.0, Dropbear SSH 0.28
+         (key) ecdsa-sha2-nistp256                   -- [fail] using weak elliptic curves
+                                                     `- [warn] using weak random number generator could reveal the key
+                                                     `- [info] available since OpenSSH 5.7, Dropbear SSH 2013.62
+         (key) ssh-ed25519                           -- [info] available since OpenSSH 6.5
+         
+         # encryption algorithms (ciphers)
+         (enc) chacha20-poly1305@openssh.com         -- [info] available since OpenSSH 6.5
+                                                     `- [info] default cipher since OpenSSH 6.9.
+         (enc) aes128-ctr                            -- [info] available since OpenSSH 3.7, Dropbear SSH 0.52
+         (enc) aes192-ctr                            -- [info] available since OpenSSH 3.7
+         (enc) aes256-ctr                            -- [info] available since OpenSSH 3.7, Dropbear SSH 0.52
+         (enc) aes128-gcm@openssh.com                -- [info] available since OpenSSH 6.2
+         (enc) aes256-gcm@openssh.com                -- [info] available since OpenSSH 6.2
+         
+         # message authentication code algorithms
+         (mac) umac-64-etm@openssh.com               -- [warn] using small 64-bit tag size
+                                                     `- [info] available since OpenSSH 6.2
+         (mac) umac-128-etm@openssh.com              -- [info] available since OpenSSH 6.2
+         (mac) hmac-sha2-256-etm@openssh.com         -- [info] available since OpenSSH 6.2
+         (mac) hmac-sha2-512-etm@openssh.com         -- [info] available since OpenSSH 6.2
+         (mac) hmac-sha1-etm@openssh.com             -- [warn] using weak hashing algorithm
+                                                     `- [info] available since OpenSSH 6.2
+         (mac) umac-64@openssh.com                   -- [warn] using encrypt-and-MAC mode
+                                                     `- [warn] using small 64-bit tag size
+                                                     `- [info] available since OpenSSH 4.7
+         (mac) umac-128@openssh.com                  -- [warn] using encrypt-and-MAC mode
+                                                     `- [info] available since OpenSSH 6.2
+         (mac) hmac-sha2-256                         -- [warn] using encrypt-and-MAC mode
+                                                     `- [info] available since OpenSSH 5.9, Dropbear SSH 2013.56
+         (mac) hmac-sha2-512                         -- [warn] using encrypt-and-MAC mode
+                                                     `- [info] available since OpenSSH 5.9, Dropbear SSH 2013.56
+         (mac) hmac-sha1                             -- [warn] using encrypt-and-MAC mode
+                                                     `- [warn] using weak hashing algorithm
+                                                     `- [info] available since OpenSSH 2.1.0, Dropbear SSH 0.28
+         
+         # algorithm recommendations (for OpenSSH 8.2)
+         (rec) -diffie-hellman-group-exchange-sha256 -- kex algorithm to remove
+         (rec) -ecdh-sha2-nistp256                   -- kex algorithm to remove
+         (rec) -ecdh-sha2-nistp384                   -- kex algorithm to remove
+         (rec) -ecdh-sha2-nistp521                   -- kex algorithm to remove
+         (rec) -ecdsa-sha2-nistp256                  -- key algorithm to remove
+         (rec) -hmac-sha1                            -- mac algorithm to remove
+         (rec) -hmac-sha2-256                        -- mac algorithm to remove
+         (rec) -hmac-sha2-512                        -- mac algorithm to remove
+         (rec) -umac-64@openssh.com                  -- mac algorithm to remove
+         (rec) -umac-128@openssh.com                 -- mac algorithm to remove
+         (rec) -hmac-sha1-etm@openssh.com            -- mac algorithm to remove
+         (rec) -umac-64-etm@openssh.com              -- mac algorithm to remove
+ 
+
+
 
 6. Переименуйте файлы ключей из задания 5. Настройте файл конфигурации SSH клиента, так чтобы вход на удаленный сервер осуществлялся по имени сервера.
+
 
 7. Соберите дамп трафика утилитой tcpdump в формате pcap, 100 пакетов. Откройте файл pcap в Wireshark.
