@@ -1064,5 +1064,48 @@
 6. Переименуйте файлы ключей из задания 5. Настройте файл конфигурации SSH клиента, 
    так чтобы вход на удаленный сервер осуществлялся по имени сервера.
 
+Ответ:
+Переименовываем файлы
+
+         root@vagrant:~/.ssh# cd ~/.ssh
+         root@vagrant:~/.ssh# mv id_rsa 1.200_rsa
+         root@vagrant:~/.ssh# mv id_rsa.pub 1.200_rsa.pub
+
+Настраиваем файл конфигурации клиента
+
+         root@vagrant:~/.ssh# cat config
+             Host asterisk
+             HostName 192.168.1.200
+             IdentityFile ~/.ssh/1.200_rsa
+             User root
+        
+Подключаемся к удаленному серверу по имени
+
+         root@vagrant:~/.ssh# ssh asterisk
+         Last login: Sat Jul 23 20:43:09 2022 from 192.168.214.203
+         
+           O @ @    Issabel is a product meant to be configured through a web browser.
+           @ @ O    Any changes made from within the command line may corrupt the system
+           @ O O    configuration and produce unexpected behavior; in addition, changes
+             O      made to system files through here may be lost when doing an update.
+         
+         To access your Issabel System, using a separate workstation (PC/MAC/Linux)
+         Open the Internet Browser using the following URL:
+         
+         https://192.168.1.200
+         
+         Your opportunity to give back: http://www.patreon.com/issabel
+         
+         System load:  0.00 (1min) 0.02 (5min) 0.05 (15min)        Uptime:  291 days
+         Asterisk:     Asterisk 16.7.0                       Active Calls:  0
+         Memory:       [=========>---------------------------------------]  21% 421/1999M
+         Usage on /:   [===============>---------------------------------]  31% 4.1/14G
+         Swap usage:   0.0%
+         SSH logins:   2 open sessions
+         Processes:    132 total, 93 yours
+
+         [root@issabel1 ~]#
+
+   
 
 7. Соберите дамп трафика утилитой tcpdump в формате pcap, 100 пакетов. Откройте файл pcap в Wireshark.
