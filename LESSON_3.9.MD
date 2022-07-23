@@ -284,190 +284,190 @@
            0000 - 17 03 03 01 0a                                    .....
            read from 0x555fea3547c0 [0x555fea35dce8] (266 bytes => 266 (0x10A))
            0000 - 7d e5 a3 20 27 8e 51 93-a6 cf 8d 04 2c 60 3a b8   }.. '.Q.....,`:.
-          0010 - 9c c3 80 ab d7 01 e2 14-0d d1 83 8a 16 ce 41 33   ..............A3
-          0020 - e6 2e e1 c7 3f 87 51 b2-4e e0 cb b0 44 8b ff 06   ....?.Q.N...D...
-          0030 - 40 09 51 83 cf b1 a4 67-97 b1 f2 a1 b6 8f 0c f3   @.Q....g........
-          0040 - 33 10 c0 45 4f 75 68 d7-fb bb 35 59 f8 b6 73 da   3..EOuh...5Y..s.
-          0050 - 8f a7 47 62 d4 e6 10 be-b2 6b be ca bc cd e8 12   ..Gb.....k......
-          0060 - cc b6 3e ef a6 c7 c9 32-16 06 72 c6 8f 7a 26 5d   ..>....2..r..z&]
-          0070 - e5 64 61 7a bf 72 24 5f-fd 1f cd da 73 aa e2 45   .daz.r$_....s..E
-          0080 - 58 af ac 3f 57 c6 e7 7e-68 df 27 95 13 07 71 14   X..?W..~h.'...q.
-          0090 - 2a 9c 51 ac db c0 5f cf-11 0d ec ec a1 fa fe 10   *.Q..._.........
-          00a0 - 18 e5 27 75 ba 40 7c 7e-70 bb c5 a2 46 66 c9 74   ..'u.@|~p...Ff.t
-          00b0 - 54 e8 7a b9 bd 64 cf 57-51 5e 41 3f 80 be f8 11   T.z..d.WQ^A?....
-          00c0 - 60 c1 ea 72 e4 91 3a df-e2 c6 0c 22 52 17 93 a6   `..r..:...."R...
-          00d0 - 08 b2 0c de 34 2a 4e 2c-79 d1 ef ac 8c b4 be 29   ....4*N,y......)
-          00e0 - fb 13 b6 5b 5f 22 31 ed-c4 57 2f 77 96 66 82 87   ...[_"1..W/w.f..
-          00f0 - 78 88 f5 51 59 4b bf 03-a5 ab 2f 81 e3 3e 52 c8   x..QYK..../..>R.
-          0100 - a6 39 ea 4a 09 ef 41 9e-41 61                     .9.J..A.Aa
-          SSL_connect:SSL negotiation finished successfully
-          SSL_connect:SSL negotiation finished successfully
-          ---
-          Post-Handshake New Session Ticket arrived:
-          SSL-Session:
-          Protocol  : TLSv1.3
-          Cipher    : TLS_AES_256_GCM_SHA384
-          Session-ID: 34D456C6614755681FF0725BEBF44612BC2105B9291B52CFC9A1D6B85B6EA12F
-          Session-ID-ctx:
-          Resumption PSK: CF7F1EACEAC7968EB2DAE43E90757E997ACC15B87598193560346CB4A3B4783065D33A355FAAD9D063298AFF02970936
-          PSK identity: None
-          PSK identity hint: None
-          SRP username: None
-          TLS session ticket lifetime hint: 300 (seconds)
-          TLS session ticket:
-          0000 - 7c 36 d3 31 e0 52 71 bc-73 8c cc 1a de fc ea ef   |6.1.Rq.s.......
-          0010 - 41 34 cc 29 a0 96 83 bf-e7 c2 2e d5 36 34 8f cc   A4.)........64..
-          0020 - 56 cc 05 d8 49 54 8a 03-b9 bb e0 26 eb b1 12 c6   V...IT.....&....
-          0030 - c0 c2 e8 a2 25 99 89 3f-cc dc f8 b1 5a 8e 9d ea   ....%..?....Z...
-          0040 - bc 13 8c b0 3d 67 5a 57-6f 78 1b cc 32 8f 43 c0   ....=gZWox..2.C.
-          0050 - 0c d6 a8 39 a6 6b 0c 0b-f1 a1 e8 d5 7f 9e a8 be   ...9.k..........
-          0060 - 85 8d d5 dc ff 38 0f 3d-3a 15 7f 60 7f 28 0d d2   .....8.=:..`.(..
-          0070 - 3d 89 b3 ea 43 02 43 6a-91 51 f1 a1 ed 9e 6a fe   =...C.Cj.Q....j.
-          0080 - f0 19 a9 d0 74 2f 05 26-8c a8 6e 20 4b 37 3d 89   ....t/.&..n K7=.
-          0090 - 10 c2 6e fa 2e 40 0c 43-b7 20 e5 40 19 bd ff 27   ..n..@.C. .@...'
-          00a0 - 93 bb 89 7c 39 9e 71 6e-fa ef aa e0 7f fb b4 fe   ...|9.qn........
-          00b0 - 2f 3c 70 62 51 00 61 07-65 7a d2 1b 74 ff bc ef   /<pbQ.a.ez..t...
-          00c0 - 69 15 ef de e3 cd 7b e5-7d a7 aa 02 a8 2d e4 f9   i.....{.}....-..
-          00d0 - f6 6e 23 7f 38 97 a1 2d-62 87 98 6a a0 ba 45 ab   .n#.8..-b..j..E.
+           0010 - 9c c3 80 ab d7 01 e2 14-0d d1 83 8a 16 ce 41 33   ..............A3
+           0020 - e6 2e e1 c7 3f 87 51 b2-4e e0 cb b0 44 8b ff 06   ....?.Q.N...D...
+           0030 - 40 09 51 83 cf b1 a4 67-97 b1 f2 a1 b6 8f 0c f3   @.Q....g........
+           0040 - 33 10 c0 45 4f 75 68 d7-fb bb 35 59 f8 b6 73 da   3..EOuh...5Y..s.
+           0050 - 8f a7 47 62 d4 e6 10 be-b2 6b be ca bc cd e8 12   ..Gb.....k......
+           0060 - cc b6 3e ef a6 c7 c9 32-16 06 72 c6 8f 7a 26 5d   ..>....2..r..z&]
+           0070 - e5 64 61 7a bf 72 24 5f-fd 1f cd da 73 aa e2 45   .daz.r$_....s..E
+           0080 - 58 af ac 3f 57 c6 e7 7e-68 df 27 95 13 07 71 14   X..?W..~h.'...q.
+           0090 - 2a 9c 51 ac db c0 5f cf-11 0d ec ec a1 fa fe 10   *.Q..._.........
+           00a0 - 18 e5 27 75 ba 40 7c 7e-70 bb c5 a2 46 66 c9 74   ..'u.@|~p...Ff.t
+           00b0 - 54 e8 7a b9 bd 64 cf 57-51 5e 41 3f 80 be f8 11   T.z..d.WQ^A?....
+           00c0 - 60 c1 ea 72 e4 91 3a df-e2 c6 0c 22 52 17 93 a6   `..r..:...."R...
+           00d0 - 08 b2 0c de 34 2a 4e 2c-79 d1 ef ac 8c b4 be 29   ....4*N,y......)
+           00e0 - fb 13 b6 5b 5f 22 31 ed-c4 57 2f 77 96 66 82 87   ...[_"1..W/w.f..
+           00f0 - 78 88 f5 51 59 4b bf 03-a5 ab 2f 81 e3 3e 52 c8   x..QYK..../..>R.
+           0100 - a6 39 ea 4a 09 ef 41 9e-41 61                     .9.J..A.Aa
+           SSL_connect:SSL negotiation finished successfully
+           SSL_connect:SSL negotiation finished successfully
+           ---
+           Post-Handshake New Session Ticket arrived:
+           SSL-Session:
+           Protocol  : TLSv1.3
+           Cipher    : TLS_AES_256_GCM_SHA384
+           Session-ID: 34D456C6614755681FF0725BEBF44612BC2105B9291B52CFC9A1D6B85B6EA12F
+           Session-ID-ctx:
+           Resumption PSK: CF7F1EACEAC7968EB2DAE43E90757E997ACC15B87598193560346CB4A3B4783065D33A355FAAD9D063298AFF02970936
+           PSK identity: None
+           PSK identity hint: None
+            SRP username: None
+           TLS session ticket lifetime hint: 300 (seconds)
+           TLS session ticket:
+           0000 - 7c 36 d3 31 e0 52 71 bc-73 8c cc 1a de fc ea ef   |6.1.Rq.s.......
+           0010 - 41 34 cc 29 a0 96 83 bf-e7 c2 2e d5 36 34 8f cc   A4.)........64..
+           0020 - 56 cc 05 d8 49 54 8a 03-b9 bb e0 26 eb b1 12 c6   V...IT.....&....
+           0030 - c0 c2 e8 a2 25 99 89 3f-cc dc f8 b1 5a 8e 9d ea   ....%..?....Z...
+           0040 - bc 13 8c b0 3d 67 5a 57-6f 78 1b cc 32 8f 43 c0   ....=gZWox..2.C.
+           0050 - 0c d6 a8 39 a6 6b 0c 0b-f1 a1 e8 d5 7f 9e a8 be   ...9.k..........
+           0060 - 85 8d d5 dc ff 38 0f 3d-3a 15 7f 60 7f 28 0d d2   .....8.=:..`.(..
+           0070 - 3d 89 b3 ea 43 02 43 6a-91 51 f1 a1 ed 9e 6a fe   =...C.Cj.Q....j.
+           0080 - f0 19 a9 d0 74 2f 05 26-8c a8 6e 20 4b 37 3d 89   ....t/.&..n K7=.
+           0090 - 10 c2 6e fa 2e 40 0c 43-b7 20 e5 40 19 bd ff 27   ..n..@.C. .@...'
+           00a0 - 93 bb 89 7c 39 9e 71 6e-fa ef aa e0 7f fb b4 fe   ...|9.qn........
+           00b0 - 2f 3c 70 62 51 00 61 07-65 7a d2 1b 74 ff bc ef   /<pbQ.a.ez..t...
+           00c0 - 69 15 ef de e3 cd 7b e5-7d a7 aa 02 a8 2d e4 f9   i.....{.}....-..
+           00d0 - f6 6e 23 7f 38 97 a1 2d-62 87 98 6a a0 ba 45 ab   .n#.8..-b..j..E.
     
               Start Time: 1658499969
               Timeout   : 7200 (sec)
               Verify return code: 18 (self signed certificate)
               Extended master secret: no
               Max Early Data: 0
-          ---
-          SSL_connect:SSLv3/TLS read server session ticket
-          read R BLOCK
-          read from 0x555fea3547c0 [0x555fea35dce3] (5 bytes => 5 (0x5))
-          0000 - 17 03 03 01 0a                                    .....
-          read from 0x555fea3547c0 [0x555fea35dce8] (266 bytes => 266 (0x10A))
-          0000 - 8f 02 fa 45 57 2f 52 a4-a3 e8 2b bb 19 2a 6f 90   ...EW/R...+..*o.
-          0010 - 25 6c ce 3f 1a 40 34 e3-05 d8 aa b6 6d 09 84 59   %l.?.@4.....m..Y
-          0020 - 27 f0 0e 46 c3 d9 ee 50-0d c7 09 9b 5c e1 6a 4e   '..F...P....\.jN
-          0030 - f1 89 aa 65 56 72 cc 58-41 dc 1b 6e 3f 37 ba 20   ...eVr.XA..n?7.
-          0040 - a1 20 c1 9e fa 80 7c 46-e0 a0 13 68 f1 c4 18 da   . ....|F...h....
-          0050 - 1d 36 ef 43 76 d6 e2 22-d3 d3 6e 22 10 c1 1d c2   .6.Cv.."..n"....
-          0060 - 28 9d 15 27 1c 1f fd 84-11 43 31 7c e5 06 b8 ab   (..'.....C1|....
-          0070 - ce db c2 90 8e b6 6d 66-6f 69 a9 f7 1c ec ad 0b   ......mfoi......
-          0080 - 33 87 9f 03 37 70 bc aa-80 9b 62 42 39 7b 9c ac   3...7p....bB9{..
-          0090 - 5e c8 4b ae 3c 89 55 41-cd 6f dd 7c f8 61 24 54   ^.K.<.UA.o.|.a$T
-          00a0 - 8c 2c e7 2b ac a2 9d e7-af d7 be 46 e4 96 16 0d   .,.+.......F....
-          00b0 - d2 21 7a b4 73 ff 72 2e-fe 1f c8 8a d9 1e b1 b6   .!z.s.r.........
-          00c0 - ff bf 1a ce 45 e3 bb 75-ab ee 82 0a 9f 3b d5 33   ....E..u.....;.3
-          00d0 - 32 9d 98 1c 5a 2b 2c 3b-c7 83 9a 01 4e e1 cb ef   2...Z+,;....N...
-          00e0 - 0f 5f 9e 2a 4d 56 41 f5-c5 1c a7 aa 5d 84 f8 9a   ._.*MVA.....]...
-          00f0 - 2d ac a8 92 a9 8a 88 c1-0e 74 a5 d0 bd 82 72 68   -........t....rh
-          0100 - 60 76 37 b5 30 82 22 03-10 ce                     `v7.0."...
-          SSL_connect:SSL negotiation finished successfully
-          SSL_connect:SSL negotiation finished successfully
-          ---
-          Post-Handshake New Session Ticket arrived:
-          SSL-Session:
-          Protocol  : TLSv1.3
-          Cipher    : TLS_AES_256_GCM_SHA384
-          Session-ID: 9489629F667E8B727927F74A11429DDCA3F1C19A73DE2615826A621B1BF7939C
-          Session-ID-ctx:
-          Resumption PSK: 43FA6CB49108E97F7564D32EF7EE0B592EC8324ED9F6F037B75566CC29FDC37938F19D158CC115A51ABD7D47D5F26EBC
-          PSK identity: None
-          PSK identity hint: None
-          SRP username: None
-          TLS session ticket lifetime hint: 300 (seconds)
-          TLS session ticket:
-          0000 - 7c 36 d3 31 e0 52 71 bc-73 8c cc 1a de fc ea ef   |6.1.Rq.s.......
-          0010 - cc 07 1c d8 78 ee 80 bb-a4 f3 e7 0d 8f 84 39 05   ....x.........9.
-          0020 - df cb c6 ef 2a 60 0a 0a-24 14 0e 4d 93 2e 93 ec   ....*`..$..M....
-          0030 - 10 6e e6 d6 3f 92 f7 c8-c9 d2 e8 cf 8d 65 ce 85   .n..?........e..
-          0040 - 4c fe 58 b4 7d bd 4d de-13 d9 55 42 4c 24 c4 27   L.X.}.M...UBL$.'
-          0050 - 76 0d 16 cf dd 9c a4 96-d1 f0 34 b6 2b 56 12 50   v.........4.+V.P
-          0060 - 77 b3 91 b6 3f 46 d3 3c-66 59 9d 83 7b 2c 29 eb   w...?F.<fY..{,).
-          0070 - 7f 52 7e 3c 8e f1 4a 52-b7 8b b7 55 bf d7 92 2c   .R~<..JR...U...,
-          0080 - ed 00 d7 c1 1d 13 45 fb-28 3d b3 02 75 c6 42 97   ......E.(=..u.B.
-          0090 - 7a 13 bb e8 62 1c b5 ad-12 39 40 6e 15 8a 8d d6   z...b....9@n....
-          00a0 - 35 6c d8 3e 3b f1 f0 34-16 8a 08 9a 4d 47 5f 69   5l.>;..4....MG_i
-          00b0 - 51 7d 9c ea f6 aa ed c5-a0 52 47 15 6c dc 73 75   Q}.......RG.l.su
-          00c0 - f3 a2 03 0d 6e 0d 91 a7-32 ae 0a 56 69 25 3c 8e   ....n...2..Vi%<.
-          00d0 - 6d af 6b d3 4e 06 20 15-9d ad c2 64 bf 9e 25 aa   m.k.N. ....d..%.
+           ---
+           SSL_connect:SSLv3/TLS read server session ticket
+           read R BLOCK
+           read from 0x555fea3547c0 [0x555fea35dce3] (5 bytes => 5 (0x5))
+           0000 - 17 03 03 01 0a                                    .....
+           read from 0x555fea3547c0 [0x555fea35dce8] (266 bytes => 266 (0x10A))
+           0000 - 8f 02 fa 45 57 2f 52 a4-a3 e8 2b bb 19 2a 6f 90   ...EW/R...+..*o.
+           0010 - 25 6c ce 3f 1a 40 34 e3-05 d8 aa b6 6d 09 84 59   %l.?.@4.....m..Y
+           0020 - 27 f0 0e 46 c3 d9 ee 50-0d c7 09 9b 5c e1 6a 4e   '..F...P....\.jN
+           0030 - f1 89 aa 65 56 72 cc 58-41 dc 1b 6e 3f 37 ba 20   ...eVr.XA..n?7.
+           0040 - a1 20 c1 9e fa 80 7c 46-e0 a0 13 68 f1 c4 18 da   . ....|F...h....
+           0050 - 1d 36 ef 43 76 d6 e2 22-d3 d3 6e 22 10 c1 1d c2   .6.Cv.."..n"....
+           0060 - 28 9d 15 27 1c 1f fd 84-11 43 31 7c e5 06 b8 ab   (..'.....C1|....
+           0070 - ce db c2 90 8e b6 6d 66-6f 69 a9 f7 1c ec ad 0b   ......mfoi......
+           0080 - 33 87 9f 03 37 70 bc aa-80 9b 62 42 39 7b 9c ac   3...7p....bB9{..
+           0090 - 5e c8 4b ae 3c 89 55 41-cd 6f dd 7c f8 61 24 54   ^.K.<.UA.o.|.a$T
+           00a0 - 8c 2c e7 2b ac a2 9d e7-af d7 be 46 e4 96 16 0d   .,.+.......F....
+           00b0 - d2 21 7a b4 73 ff 72 2e-fe 1f c8 8a d9 1e b1 b6   .!z.s.r.........
+           00c0 - ff bf 1a ce 45 e3 bb 75-ab ee 82 0a 9f 3b d5 33   ....E..u.....;.3
+           00d0 - 32 9d 98 1c 5a 2b 2c 3b-c7 83 9a 01 4e e1 cb ef   2...Z+,;....N...
+           00e0 - 0f 5f 9e 2a 4d 56 41 f5-c5 1c a7 aa 5d 84 f8 9a   ._.*MVA.....]...
+           00f0 - 2d ac a8 92 a9 8a 88 c1-0e 74 a5 d0 bd 82 72 68   -........t....rh
+           0100 - 60 76 37 b5 30 82 22 03-10 ce                     `v7.0."...
+           SSL_connect:SSL negotiation finished successfully
+           SSL_connect:SSL negotiation finished successfully
+           ---
+           Post-Handshake New Session Ticket arrived:
+           SSL-Session:
+            Protocol  : TLSv1.3
+           Cipher    : TLS_AES_256_GCM_SHA384
+           Session-ID: 9489629F667E8B727927F74A11429DDCA3F1C19A73DE2615826A621B1BF7939C
+           Session-ID-ctx:
+            Resumption PSK: 43FA6CB49108E97F7564D32EF7EE0B592EC8324ED9F6F037B75566CC29FDC37938F19D158CC115A51ABD7D47D5F26EBC
+           PSK identity: None
+           PSK identity hint: None
+           SRP username: None
+           TLS session ticket lifetime hint: 300 (seconds)
+           TLS session ticket:
+           0000 - 7c 36 d3 31 e0 52 71 bc-73 8c cc 1a de fc ea ef   |6.1.Rq.s.......
+           0010 - cc 07 1c d8 78 ee 80 bb-a4 f3 e7 0d 8f 84 39 05   ....x.........9.
+           0020 - df cb c6 ef 2a 60 0a 0a-24 14 0e 4d 93 2e 93 ec   ....*`..$..M....
+           0030 - 10 6e e6 d6 3f 92 f7 c8-c9 d2 e8 cf 8d 65 ce 85   .n..?........e..
+           0040 - 4c fe 58 b4 7d bd 4d de-13 d9 55 42 4c 24 c4 27   L.X.}.M...UBL$.'
+           0050 - 76 0d 16 cf dd 9c a4 96-d1 f0 34 b6 2b 56 12 50   v.........4.+V.P
+           0060 - 77 b3 91 b6 3f 46 d3 3c-66 59 9d 83 7b 2c 29 eb   w...?F.<fY..{,).
+           0070 - 7f 52 7e 3c 8e f1 4a 52-b7 8b b7 55 bf d7 92 2c   .R~<..JR...U...,
+           0080 - ed 00 d7 c1 1d 13 45 fb-28 3d b3 02 75 c6 42 97   ......E.(=..u.B.
+           0090 - 7a 13 bb e8 62 1c b5 ad-12 39 40 6e 15 8a 8d d6   z...b....9@n....
+           00a0 - 35 6c d8 3e 3b f1 f0 34-16 8a 08 9a 4d 47 5f 69   5l.>;..4....MG_i
+           00b0 - 51 7d 9c ea f6 aa ed c5-a0 52 47 15 6c dc 73 75   Q}.......RG.l.su
+           00c0 - f3 a2 03 0d 6e 0d 91 a7-32 ae 0a 56 69 25 3c 8e   ....n...2..Vi%<.
+           00d0 - 6d af 6b d3 4e 06 20 15-9d ad c2 64 bf 9e 25 aa   m.k.N. ....d..%.
     
               Start Time: 1658499969
               Timeout   : 7200 (sec)
               Verify return code: 18 (self signed certificate)
               Extended master secret: no
               Max Early Data: 0
-          ---
-          SSL_connect:SSLv3/TLS read server session ticket
-          read R BLOCK
+           ---
+            SSL_connect:SSLv3/TLS read server session ticket
+            read R BLOCK
+     
+           write to 0x555fea3547c0 [0x555fea361e33] (23 bytes => 23 (0x17))
+           0000 - 17 03 03 00 12 0a e3 22-04 5c e1 63 1d ce 4c a4   .......".\.c..L.
+           0010 - db 39 38 6e 25 28 1f                              .98n%(.
+           read from 0x555fea3547c0 [0x555fea35dce3] (5 bytes => 5 (0x5))
+           0000 - 17 03 03 01 f5                                    .....
+           read from 0x555fea3547c0 [0x555fea35dce8] (501 bytes => 501 (0x1F5))
+           0000 - 6f 6b 1a 63 c4 53 2a 7e-49 73 cf a5 a8 4b 94 48   ok.c.S*~Is...K.H
+           0010 - 20 ea a1 89 eb 07 35 92-8d fa af 32 72 d6 0d 87    .....5....2r...
+           0020 - d5 5d 76 af 9b 28 33 53-71 05 bf 9d 8b 7b 78 b7   .]v..(3Sq....{x.
+           0030 - 49 a3 cb e0 a6 34 41 f1-17 8b f6 df 6a 9b 90 99   I....4A.....j...
+           0040 - 62 68 da f1 6d 73 26 64-77 c8 a9 ec 65 47 e9 27   bh..ms&dw...eG.'
+           0050 - 14 2e 46 53 6c ee 84 9f-a4 cf 93 77 57 0b c4 5f   ..FSl......wW.._
+           0060 - 51 fc d9 49 5a a9 6a cb-d1 ab 3b f2 72 b9 ef 55   Q..IZ.j...;.r..U
+           0070 - 90 b1 a7 ac 2e 6d d5 69-44 91 f6 d5 88 f9 6d a8   .....m.iD.....m.
+           0080 - f6 60 d8 fc 59 81 d6 97-c3 eb 97 3c e8 b9 d3 a7   .`..Y......<....
+           0090 - 14 64 bb 5d d8 e3 9f 71-56 4f 89 c7 9a a2 28 2e   .d.]...qVO....(.
+           00a0 - 9d 2b 81 b1 e4 7f 8f 35-df 0e 4a 40 2f 3f a6 ba   .+.....5..J@/?..
+           00b0 - c5 40 1c b1 93 08 ad 60-5a 47 97 b9 da 5f 8c d6   .@.....`ZG..._..
+           00c0 - cf 68 44 f3 e1 62 eb ac-97 a3 08 19 79 64 82 ae   .hD..b......yd..
+           00d0 - 21 82 50 e6 08 0f 31 b7-6a ed 1f 8c e5 9b c6 92   !.P...1.j.......
+           00e0 - 03 74 01 28 18 6b 51 51-58 d6 97 da 20 ad 3f 24   .t.(.kQQX... .?$
+           00f0 - 7d 7b 5e a8 50 35 84 37-03 a2 82 e5 7b 1b 84 b5   }{^.P5.7....{...
+           0100 - 86 fb ff 7d ae 21 13 84-ec 41 dc aa c9 82 88 6f   ...}.!...A.....o
+           0110 - 61 60 cf ce 8a f5 bf b5-5f eb f9 5b 63 c6 7b c3   a`......_..[c.{.
+           0120 - ed 57 ad f3 d9 ea 5e c8-4c 24 a2 b5 05 f0 eb 9b   .W....^.L$......
+           0130 - 3b 21 48 20 5f be d5 5d-0b b2 3a b8 5e 2f 92 bd   ;!H _..]..:.^/..
+           0140 - 38 93 c3 15 93 92 b2 88-63 20 a5 a3 29 ba 11 87   8.......c ..)...
+           0150 - 85 c7 36 ba a0 dc b1 7a-d6 fb 05 b8 05 09 5b 51   ..6....z......[Q
+           0160 - 38 4f 5e 2f ad 6b 69 1d-87 2b d3 49 45 57 c6 e0   8O^/.ki..+.IEW..
+           0170 - b4 05 f1 5b 94 bd a1 60-c6 23 69 63 89 d1 9d c0   ...[...`.#ic....
+           0180 - b4 ce 02 7f 04 cf fc 19-f1 2f 1c d8 52 0a f8 63   ........./..R..c
+           0190 - 25 8f 21 c1 4e 1d e3 7a-2d 48 65 e8 3e 66 0f 4b   %.!.N..z-He.>f.K
+           01a0 - ba 26 98 f3 06 7a b1 04-2b 9c 5f d2 e1 cd 88 83   .&...z..+._.....
+           01b0 - af da 57 d3 d8 23 46 8d-37 b5 77 28 a5 b1 e6 5f   ..W..#F.7.w(..._
+           01c0 - a1 5a 32 c5 54 c0 d1 17-5d 15 a4 34 67 8e 8a 28   .Z2.T...]..4g..(
+           01d0 - 40 34 25 45 0f b3 f0 1f-22 81 b6 17 1c c0 9c 01   @4%E....".......
+           01e0 - 24 c9 9a f9 bd 14 4c d7-06 07 0e 6a 52 db 6e 18   $.....L....jR.n.
+           01f0 - 6d 09 9f 9e 90                                    m....
+           HTTP/1.1 400 Bad Request
+           Date: Fri, 22 Jul 2022 14:26:12 GMT
+           Server: Apache/2.4.41 (Ubuntu)
+           Content-Length: 302
+           Connection: close
+           Content-Type: text/html; charset=iso-8859-1
     
-          write to 0x555fea3547c0 [0x555fea361e33] (23 bytes => 23 (0x17))
-          0000 - 17 03 03 00 12 0a e3 22-04 5c e1 63 1d ce 4c a4   .......".\.c..L.
-          0010 - db 39 38 6e 25 28 1f                              .98n%(.
-          read from 0x555fea3547c0 [0x555fea35dce3] (5 bytes => 5 (0x5))
-          0000 - 17 03 03 01 f5                                    .....
-          read from 0x555fea3547c0 [0x555fea35dce8] (501 bytes => 501 (0x1F5))
-          0000 - 6f 6b 1a 63 c4 53 2a 7e-49 73 cf a5 a8 4b 94 48   ok.c.S*~Is...K.H
-          0010 - 20 ea a1 89 eb 07 35 92-8d fa af 32 72 d6 0d 87    .....5....2r...
-          0020 - d5 5d 76 af 9b 28 33 53-71 05 bf 9d 8b 7b 78 b7   .]v..(3Sq....{x.
-          0030 - 49 a3 cb e0 a6 34 41 f1-17 8b f6 df 6a 9b 90 99   I....4A.....j...
-          0040 - 62 68 da f1 6d 73 26 64-77 c8 a9 ec 65 47 e9 27   bh..ms&dw...eG.'
-          0050 - 14 2e 46 53 6c ee 84 9f-a4 cf 93 77 57 0b c4 5f   ..FSl......wW.._
-          0060 - 51 fc d9 49 5a a9 6a cb-d1 ab 3b f2 72 b9 ef 55   Q..IZ.j...;.r..U
-          0070 - 90 b1 a7 ac 2e 6d d5 69-44 91 f6 d5 88 f9 6d a8   .....m.iD.....m.
-          0080 - f6 60 d8 fc 59 81 d6 97-c3 eb 97 3c e8 b9 d3 a7   .`..Y......<....
-          0090 - 14 64 bb 5d d8 e3 9f 71-56 4f 89 c7 9a a2 28 2e   .d.]...qVO....(.
-          00a0 - 9d 2b 81 b1 e4 7f 8f 35-df 0e 4a 40 2f 3f a6 ba   .+.....5..J@/?..
-          00b0 - c5 40 1c b1 93 08 ad 60-5a 47 97 b9 da 5f 8c d6   .@.....`ZG..._..
-          00c0 - cf 68 44 f3 e1 62 eb ac-97 a3 08 19 79 64 82 ae   .hD..b......yd..
-          00d0 - 21 82 50 e6 08 0f 31 b7-6a ed 1f 8c e5 9b c6 92   !.P...1.j.......
-          00e0 - 03 74 01 28 18 6b 51 51-58 d6 97 da 20 ad 3f 24   .t.(.kQQX... .?$
-          00f0 - 7d 7b 5e a8 50 35 84 37-03 a2 82 e5 7b 1b 84 b5   }{^.P5.7....{...
-          0100 - 86 fb ff 7d ae 21 13 84-ec 41 dc aa c9 82 88 6f   ...}.!...A.....o
-          0110 - 61 60 cf ce 8a f5 bf b5-5f eb f9 5b 63 c6 7b c3   a`......_..[c.{.
-          0120 - ed 57 ad f3 d9 ea 5e c8-4c 24 a2 b5 05 f0 eb 9b   .W....^.L$......
-          0130 - 3b 21 48 20 5f be d5 5d-0b b2 3a b8 5e 2f 92 bd   ;!H _..]..:.^/..
-          0140 - 38 93 c3 15 93 92 b2 88-63 20 a5 a3 29 ba 11 87   8.......c ..)...
-          0150 - 85 c7 36 ba a0 dc b1 7a-d6 fb 05 b8 05 09 5b 51   ..6....z......[Q
-          0160 - 38 4f 5e 2f ad 6b 69 1d-87 2b d3 49 45 57 c6 e0   8O^/.ki..+.IEW..
-          0170 - b4 05 f1 5b 94 bd a1 60-c6 23 69 63 89 d1 9d c0   ...[...`.#ic....
-          0180 - b4 ce 02 7f 04 cf fc 19-f1 2f 1c d8 52 0a f8 63   ........./..R..c
-          0190 - 25 8f 21 c1 4e 1d e3 7a-2d 48 65 e8 3e 66 0f 4b   %.!.N..z-He.>f.K
-          01a0 - ba 26 98 f3 06 7a b1 04-2b 9c 5f d2 e1 cd 88 83   .&...z..+._.....
-          01b0 - af da 57 d3 d8 23 46 8d-37 b5 77 28 a5 b1 e6 5f   ..W..#F.7.w(..._
-          01c0 - a1 5a 32 c5 54 c0 d1 17-5d 15 a4 34 67 8e 8a 28   .Z2.T...]..4g..(
-          01d0 - 40 34 25 45 0f b3 f0 1f-22 81 b6 17 1c c0 9c 01   @4%E....".......
-          01e0 - 24 c9 9a f9 bd 14 4c d7-06 07 0e 6a 52 db 6e 18   $.....L....jR.n.
-          01f0 - 6d 09 9f 9e 90                                    m....
-          HTTP/1.1 400 Bad Request
-          Date: Fri, 22 Jul 2022 14:26:12 GMT
-          Server: Apache/2.4.41 (Ubuntu)
-          Content-Length: 302
-          Connection: close
-          Content-Type: text/html; charset=iso-8859-1
-    
-          <!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 2.0//EN">
-          <html><head>
-          <title>400 Bad Request</title>
-          </head><body>
-          <h1>Bad Request</h1>
-          <p>Your browser sent a request that this server could not understand.<br />
-          </p>
-          <hr>
-          <address>Apache/2.4.41 (Ubuntu) Server at 127.0.1.1 Port 443</address>
-          </body></html>
-          read from 0x555fea3547c0 [0x555fea35dce3] (5 bytes => 5 (0x5))
-          0000 - 17 03 03 00 13                                    .....
-          read from 0x555fea3547c0 [0x555fea35dce8] (19 bytes => 19 (0x13))
-          0000 - f0 22 4a 2f eb 16 b8 c7-ba a2 69 67 32 f2 a3 29   ."J/......ig2..)
-          0010 - df 9e 9b                                          ...
-          SSL3 alert read:warning:close notify
-          closed
-          write to 0x555fea3547c0 [0x555fea361e33] (24 bytes => 24 (0x18))
-          0000 - 17 03 03 00 13 e9 da 3a-0a e9 c4 8b e8 f2 79 6e   .......:......yn
-          0010 - f9 4a 32 59 cc a6 c7 74-                          .J2Y...t
-          SSL3 alert write:warning:close notify
-          read from 0x555fea3547c0 [0x555fea34bf80] (8192 bytes => 0 (0x0))
-          root@vagrant:~#
+           <!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 2.0//EN">
+           <html><head>
+           <title>400 Bad Request</title>
+           </head><body>
+           <h1>Bad Request</h1>
+           <p>Your browser sent a request that this server could not understand.<br />
+           </p>
+           <hr>
+           <address>Apache/2.4.41 (Ubuntu) Server at 127.0.1.1 Port 443</address>
+           </body></html>
+           read from 0x555fea3547c0 [0x555fea35dce3] (5 bytes => 5 (0x5))
+           0000 - 17 03 03 00 13                                    .....
+           read from 0x555fea3547c0 [0x555fea35dce8] (19 bytes => 19 (0x13))
+           0000 - f0 22 4a 2f eb 16 b8 c7-ba a2 69 67 32 f2 a3 29   ."J/......ig2..)
+           0010 - df 9e 9b                                          ...
+            SSL3 alert read:warning:close notify
+           closed
+           write to 0x555fea3547c0 [0x555fea361e33] (24 bytes => 24 (0x18))
+           0000 - 17 03 03 00 13 e9 da 3a-0a e9 c4 8b e8 f2 79 6e   .......:......yn
+            0010 - f9 4a 32 59 cc a6 c7 74-                          .J2Y...t
+           SSL3 alert write:warning:close notify
+           read from 0x555fea3547c0 [0x555fea34bf80] (8192 bytes => 0 (0x0))
+           root@vagrant:~#
 
-
-## 4. Проверьте на TLS уязвимости произвольный сайт в интернете (кроме сайтов МВД, ФСБ, МинОбр, НацБанк, РосКосмос, РосАтом, РосНАНО и любых госкомпаний, объектов КИИ, ВПК ... и тому подобное).
+## 4. Проверьте на TLS уязвимости произвольный сайт в интернете (кроме сайтов МВД, ФСБ, МинОбр, НацБанк, 
+##    РосКосмос, РосАтом, РосНАНО и любых госкомпаний, объектов КИИ, ВПК ... и тому подобное).
 
  Ответ:
 
