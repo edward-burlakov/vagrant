@@ -55,7 +55,8 @@
 			if [[ $? -ne 0 ]]
 			then
 			   echo "Our website is unavailable now." >> curl.log
-			   sleep 5m
+               echo "Sleeping for 1 minute…"
+			   sleep 1m
 			else
 	  	       exit 0
 			fi
