@@ -22,7 +22,7 @@ c = a + b
 ### Вопросы:
 | Вопрос                                           | Ответ                                           |
 |--------------------------------------------------|-------------------------------------------------|
-| Какое значение будет присвоено переменной `c`?   | Строковое.  // >>> type(c) // <class 'str'>     |                                    
+| Какое значение будет присвоено переменной `c`?   | Строковое.  // >>> type(c) // <class 'str'>     |
 | Как получить для переменной `c` значение 12?     | // >>> c = str(a) + b    // >>> print (c) // 12 |
 | Как получить для переменной `c` значение 3?      | // >>> c = a + int(b) // >>> print (c) // 3     |
 
@@ -32,21 +32,34 @@ c = a + b
 потому что в его выводе есть не все изменённые файлы, а также непонятен полный путь к директории, где они находятся. 
 Как можно доработать скрипт ниже, чтобы он исполнял требования вашего руководителя?
 
+```
+python
 
-```python
-#!/usr/bin/env python3
+      #!/usr/bin/env python3
 
-import os
-import sys
+      import os
+      import sys
 
-bash_command = ["cd ~/netology/sysadm-homeworks", "git status"]
-result_os = os.popen(' && '.join(bash_command)).read()
-is_change = False
-for result in result_os.split('\n'):
-    if result.find('modified') != -1:
-        prepare_result = result.replace('\tmodified:   ', '')
-        print(prepare_result)
-        break
+      Переходим в каталог  с исходниками git и получаем статус git репозитория
+      bash_command = ["cd ~/netology/sysadm-homeworks", "git status"]
+
+        Open a pipe to or from command cmd. 
+        The return value is an open file object connected to the pipe, which can be read 
+        or written depending on whether mode is 'r' (default) or 'w'. 
+        The buffering argument has the same meaning as the corresponding argument to the built-in open() function.
+        The returned file object reads or writes text strings rather than bytes.
+
+       os.chdir ("C:\\Users\\med1094\\PycharmProjects\\Vagrant") 
+       cmd = "git status"
+# Читаем результат выполнения команды.
+
+        result_os = os.popen(' && '.join(bash_command)).read()
+        is_change = False
+        for result in result_os.split('\n'):
+            if result.find('modified') != -1:
+                prepare_result = result.replace('\tmodified:   ', '')
+                print(prepare_result)
+                break
 ```
 
 ### Ваш скрипт:
