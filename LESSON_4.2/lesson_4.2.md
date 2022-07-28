@@ -37,6 +37,7 @@ c = a + b
 #!/usr/bin/env python3
 
 import os
+import sys
 
 bash_command = ["cd ~/netology/sysadm-homeworks", "git status"]
 result_os = os.popen(' && '.join(bash_command)).read()
