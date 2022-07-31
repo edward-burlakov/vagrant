@@ -203,17 +203,16 @@ for result in result_os.split('\n'):
 
         vagrant@vagrant:~/$  python3 third.py
         Наши сервера: {'drive.google.com': '2.2.2.2', 'mail.google.com': '1.1.1.1', 'google.com': '8.8.8.8'}
-        0   31-07-2022 16:34 [ERROR] drive.google.com IP mistmatch: 2.2.2.2 142.251.1.194
-        1   31-07-2022 16:34 [ERROR] mail.google.com IP mistmatch: 1.1.1.1 173.194.73.17
-        2   31-07-2022 16:34 [ERROR] google.com IP mistmatch: 8.8.8.8 74.125.131.101
-        3   31-07-2022 16:34 [ERROR] mail.google.com IP mistmatch: 173.194.73.17 173.194.73.83
-        4   31-07-2022 16:34 [ERROR] mail.google.com IP mistmatch: 173.194.73.83 173.194.73.17
-        5   31-07-2022 16:34 [ERROR] google.com IP mistmatch: 74.125.131.101 74.125.131.139
-        6   31-07-2022 16:34 [ERROR] google.com IP mistmatch: 74.125.131.139 74.125.131.101
-        7   31-07-2022 16:34 [ERROR] mail.google.com IP mistmatch: 173.194.73.17 173.194.73.19
-        8   31-07-2022 16:35 [ERROR] google.com IP mistmatch: 74.125.131.101 74.125.131.100
-        9   31-07-2022 16:35 [ERROR] mail.google.com IP mistmatch: 173.194.73.19 173.194.73.17
-        10   31-07-2022 16:35 [ERROR] google.com IP mistmatch: 74.125.131.100 74.125.131.113
+        1   31-07-2022 16:34 [ERROR] drive.google.com IP mistmatch: 2.2.2.2 142.251.1.194
+        2   31-07-2022 16:34 [ERROR] mail.google.com IP mistmatch: 1.1.1.1 173.194.73.17
+        3   31-07-2022 16:34 [ERROR] google.com IP mistmatch: 8.8.8.8 74.125.131.101
+        4   31-07-2022 16:34 [ERROR] mail.google.com IP mistmatch: 173.194.73.17 173.194.73.83
+        5   31-07-2022 16:34 [ERROR] mail.google.com IP mistmatch: 173.194.73.83 173.194.73.17
+        6   31-07-2022 16:34 [ERROR] google.com IP mistmatch: 74.125.131.101 74.125.131.139
+        7   31-07-2022 16:34 [ERROR] google.com IP mistmatch: 74.125.131.139 74.125.131.101
+        8   31-07-2022 16:34 [ERROR] mail.google.com IP mistmatch: 173.194.73.17 173.194.73.19
+        9   31-07-2022 16:35 [ERROR] google.com IP mistmatch: 74.125.131.101 74.125.131.100
+        10  31-07-2022 16:35 [ERROR] mail.google.com IP mistmatch: 173.194.73.19 173.194.73.17
         vagrant@vagrant:~/$
 
 ## Дополнительное задание (со звездочкой*) - необязательно к выполнению
