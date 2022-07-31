@@ -1,5 +1,5 @@
 
-   ##     Самоучитель Python
+   ##     Самоучитель Python 3 для начинающих
    
         https://pythonworld.ru/samouchitel-python
 
