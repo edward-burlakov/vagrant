@@ -4,7 +4,7 @@ import os
 import sys
 
 # Проверяем наличие в аргументах проверяемого каталога репозитория
-if len(sys.argv) < 2:
+if  len(sys.argv) < 2:
     print("Укажите проверяемый каталог репозитория в виде >python3 first.py [repository_directory] !!!")
     quit()
 else:
@@ -27,8 +27,6 @@ else:
 
 # Читаем результат выполнения команды.
     print('\033[1;33;40m')
-    print("Изменённые файлы:")
-    # Читаем результат выполнения команды.
     result_os = os.popen(' && '.join(bash_command)).read()
     for result in result_os.split('\n'):
         if result.find('modified') != -1:
