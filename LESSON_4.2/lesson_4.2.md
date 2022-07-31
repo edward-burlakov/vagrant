@@ -54,31 +54,31 @@ for result in result_os.split('\n'):
 Убираем лишнюю переменную is_change  
 и команду break - прерывание процесса поиска изменённых файлов, при нахождении первого-же.  
 
-#!/usr/bin/env python3
+    #!/usr/bin/env python3
 
-import os
-import pwd
+    import os
+    import pwd
 
-# Выводим на экран имя текущего пользователя
+    ## Выводим на экран имя текущего пользователя
     curruser = str(os.getlogin())
     print("Текущий пользователь:", curruser )
 
-# Выводим на экран рабочий каталог пользователя
+    ## Выводим на экран рабочий каталог пользователя
     workdir = os.getcwd()
     print("Рабочий каталог:", workdir)
 
-# Определяем домашний каталог пользователя
+    ## Определяем домашний каталог пользователя
     homedir = pwd.getpwuid(os.getuid()).pw_dir
 
-# Переходим в каталог с исходниками git
+    ## Переходим в каталог с исходниками git
     os.chdir( homedir+"/netology/sysadm-homeworks")
     gitdir = os.getcwd()
     print("Смена текущего рабочего каталога на проверяемый: {0} ".format( gitdir ))
 
-# Получаем статус git репозитория
+    ## Получаем статус git репозитория
     bash_command = ["git status"]
     
-# Читаем результат выполнения команды.
+    ## Читаем результат выполнения команды.
     print('\033[1;33;40m')
     result_os = os.popen(' && '.join(bash_command)).read()
     for result in result_os.split('\n'):
@@ -87,19 +87,18 @@ import pwd
              print( os.getcwd()+'/'+ prepare_result )
     print('\033[0m')
 
-### Вывод скрипта при запуске при тестировании:
+## Вывод скрипта при запуске при тестировании:
 
-vagrant@vagrant:~/$ python3 first.py
-Текущий пользователь: vagrant
-Рабочий каталог: /home/vagrant/netology/sysadm-homeworks/LESSON_4.2
-Смена текущего рабочего каталога на проверяемый: /home/vagrant/netology/sysadm-homeworks
+    vagrant@vagrant:~/$ python3 first.py
+    Текущий пользователь: vagrant
+    Рабочий каталог: /home/vagrant/netology/sysadm-homeworks/LESSON_4.2
+    Смена текущего рабочего каталога на проверяемый: /home/vagrant/netology/sysadm-homeworks
+    
+    /home/vagrant/netology/sysadm-homeworks/LESSON_4.2/first.py
+    /home/vagrant/netology/sysadm-homeworks/LESSON_4.2/second.py
+    /home/vagrant/netology/sysadm-homeworks/LESSON_4.2/third.py
 
-/home/vagrant/netology/sysadm-homeworks/LESSON_4.2/first.py
-/home/vagrant/netology/sysadm-homeworks/LESSON_4.2/second.py
-/home/vagrant/netology/sysadm-homeworks/LESSON_4.2/third.py
-
-vagrant@vagrant:~/$
-
+    vagrant@vagrant:~/$
 
 ## Обязательная задача 3
 1. Доработать скрипт выше так, чтобы он мог проверять не только локальный репозиторий в текущей директории, а также умел воспринимать путь к репозиторию, который мы передаём как входной параметр. Мы точно знаем, что начальство коварное и будет проверять работу этого скрипта в директориях, которые не являются локальными репозиториями.
@@ -109,34 +108,34 @@ vagrant@vagrant:~/$
 <https://github.com/edward-burlakov/vagrant/blob/61aaeb87548eaa9bfd1dbd79f1088330f73d1ffc/LESSON_4.2/second.py>
 
 
-#!/usr/bin/env python3
+    #!/usr/bin/env python3
 
-import os
-import sys
+    import os
+    import sys
 
-# Проверяем наличие в аргументах проверяемого каталога репозитория
-if len(sys.argv) < 2:
-    print("Укажите проверяемый каталог репозитория в виде >python3 first.py [repository_directory] !!!")
-    quit()
-else:
+    ## Проверяем наличие в аргументах проверяемого каталога репозитория
+    if len(sys.argv) < 2:
+        print("Укажите проверяемый каталог репозитория в виде >python3 first.py [repository_directory] !!!")
+        quit()
+    else:
 
-# Выводим имя текущего пользователя
+    ## Выводим имя текущего пользователя
     curruser = str(os.getlogin())
     print("Текущий пользователь:", curruser)
 
-# Извлекаем проверяемый каталог из аргументов скрипта
+    ## Извлекаем проверяемый каталог из аргументов скрипта
     repodir = sys.argv[1]
     print("Проверяемый каталог репозитория:", repodir)
 
-# Переходим в каталог с исходниками git
+    # Переходим в каталог с исходниками git
     os.chdir(sys.argv[1])
     gitdir = os.getcwd()
     print("Смена текущего рабочего каталога на проверяемый: {0}     ".format(gitdir))
 
-# Получаем статус git репозитория
+    ## Получаем статус git репозитория
     bash_command = ["git status"]
 
-# Читаем результат выполнения команды.
+    ## Читаем результат выполнения команды.
     print('\033[1;33;40m')
     result_os = os.popen(' && '.join(bash_command)).read()
     for result in result_os.split('\n'):
@@ -147,16 +146,16 @@ else:
 
 ### Вывод скрипта при запуске при тестировании:
 
-vagrant@vagrant:~/$ python3 second.py ~/netology/sysadm-homeworks/
-Текущий пользователь: vagrant
-Проверяемый каталог репозитория: /home/vagrant/netology/sysadm-homeworks/
-Смена текущего рабочего каталога на проверяемый: /home/vagrant/netology/sysadm-homeworks
-
-/home/vagrant/netology/sysadm-homeworks/LESSON_4.2/first.py
-/home/vagrant/netology/sysadm-homeworks/LESSON_4.2/second.py
-/home/vagrant/netology/sysadm-homeworks/LESSON_4.2/third.py
-
-vagrant@vagrant:~/$
+    vagrant@vagrant:~/$ python3 second.py ~/netology/sysadm-homeworks/
+    Текущий пользователь: vagrant
+    Проверяемый каталог репозитория: /home/vagrant/netology/sysadm-homeworks/
+    Смена текущего рабочего каталога на проверяемый: /home/vagrant/netology/sysadm-homeworks
+    
+    /home/vagrant/netology/sysadm-homeworks/LESSON_4.2/first.py
+    /home/vagrant/netology/sysadm-homeworks/LESSON_4.2/second.py
+    /home/vagrant/netology/sysadm-homeworks/LESSON_4.2/third.py
+    
+    vagrant@vagrant:~/$
 
 
 
