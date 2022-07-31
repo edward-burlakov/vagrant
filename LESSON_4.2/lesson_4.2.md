@@ -179,8 +179,9 @@ for result in result_os.split('\n'):
     wait_sec = 5  # интервал проверок в секундах          # Устанавливаем переменные
     n = 0         # счетчик итераций проверок
 
-    webserver = {'drive.google.com':'2.2.2.2', 'mail.google.com':'1.1.1.1', 'google.com':'8.8.8.8'}   
-    print( "Наши сервера:", webserver)                    # Создаем объект списка с серверами и их исходными IP адресами:
+    ### Создаем объект словаря  с серверами и их исходными IP адресами:
+    webserver = {'drive.google.com': '2.2.2.2', 'mail.google.com': '1.1.1.1', 'google.com': '8.8.8.8'}   
+    print( "Наши сервера:", webserver)                    
 
     while [1 == 1]:
 
@@ -190,7 +191,7 @@ for result in result_os.split('\n'):
             current_time = datetime.now()
             print( str(n)+'   '+ str(current_time.strftime("%d-%m-%Y %H:%M")) + ' [ERROR] ' + str(host) + ' IP mistmatch: ' +
                       webserver[host] + ' ' + ip)        
-            webserver[host] = ip                           # Записываем новое значение IP для данного сервера в список-буфер для следующей проверки:
+            webserver[host] = ip                           # Записываем новое значение IP для данного сервера в словарь-буфер для следующей проверки:
     
             n = inc(n)                                     # Увеличиваем значение n на 1 и ограничиваем кол-во итераций опроса:  
             if n > 10:
@@ -233,9 +234,7 @@ for result in result_os.split('\n'):
 
 ### Ваш скрипт:
 ```python
-???
-```
+
 
 ### Вывод скрипта при запуске при тестировании:
 ```
-???
