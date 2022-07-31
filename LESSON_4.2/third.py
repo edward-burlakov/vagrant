@@ -16,7 +16,7 @@ n = 0         # счетчик итераций проверок
 ### Создаем объект словаря  с серверами и их исходными IP адресами:
 webserver = {'drive.google.com': '2.2.2.2', 'mail.google.com': '1.1.1.1', 'google.com': '8.8.8.8'}
 print( "Наши сервера:", webserver)
-print(list.count(webserver))
+
 
 while [1 == 1]:
 
