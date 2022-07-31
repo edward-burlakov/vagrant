@@ -110,7 +110,6 @@ for result in result_os.split('\n'):
 
 <https://github.com/edward-burlakov/vagrant/blob/61aaeb87548eaa9bfd1dbd79f1088330f73d1ffc/LESSON_4.2/second.py>
 
-
     #!/usr/bin/env python3
 
     import os
