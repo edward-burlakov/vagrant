@@ -164,6 +164,8 @@ for result in result_os.split('\n'):
 
 ### Ваш скрипт:
 
+<https://github.com/edward-burlakov/vagrant/blob/794dd9c77840492875beec4f739b2300e0627e59/LESSON_4.2/third.py>
+
     #!/usr/bin/env python3
 
     import socket as s
