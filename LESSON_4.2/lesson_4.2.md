@@ -48,55 +48,100 @@ for result in result_os.split('\n'):
 ```
 
 ### Ваш скрипт:
-```
+Убираем лишнюю переменную is_change  
+и команду break - прерывание процесса поиска изменённых файлов, при нахожденнии первого-же.  
 
-      #!/usr/bin/env python3
+#!/usr/bin/env python3
+    
+import os , pwd
+    
+# Выводим на экран имя текущего пользователя
+    curruser = str(os.getlogin())
+    print("Текущий пользователь:", curruser )
+    
+# Выводим на экран рабочий каталог пользователя
+    currdir = os.getcwd()
+    print("Рабочий каталог:", currdir)
+    
+# Определяем домашний каталог пользователя
+    homedir = pwd.getpwuid(os.getuid()).pw_dir
+    
+# Переходим в каталог  с исходниками git
+    os.chdir( homedir+"/netology/sysadm-homeworks")
+    currdir = os.getcwd()
+    print("Смена текущего рабочего каталога на проверяемый: {0} ".format( currdir ))
+    
+# Получаем статус git репозитория
+    bash_command = ["git status"]
+    
+# Читаем результат выполнения команды.
+    result_os = os.popen(' && '.join(bash_command)).read()
+    for result in result_os.split('\n'):
+        if result.find('modified') != -1:
+             prepare_result = result.replace('\tmodified:   ', '')
+             print(prepare_result)
 
-      import os
-
-      #    Переходим в каталог  с исходниками git и получаем статус git репозитория
-      bash_command = ["cd ~/netology/sysadm-homeworks", [pwd],["git status"]
-       
-      
-      
-      #  Open a pipe to or from command cmd. 
-      #  The return value is an open file object connected to the pipe, which can be read 
-      #  or written depending on whether mode is 'r' (default) or 'w'. 
-      #  The buffering argument has the same meaning as the corresponding argument to the built-in open() function.
-      #  The returned file object reads or writes text strings rather than bytes.
-
-      # Читаем результат выполнения команды.
-      
-        bash_command = ["cd ~/netology/sysadm-homeworks", "git status"]
-        result_os = os.popen(' && '.join(bash_command)).read()
-        for result in result_os.split('\n'):
-            if result.find('modified') != -1:
-                prepare_result = result.replace('\tmodified:   ', '')
-                print(prepare_result)                
-            else 
-                if result.find('created') != -1:
-                    prepare_result = result.replace('\tcreated:   ', '')
-                    print(prepare_result)
-                   
-```
 
 ### Вывод скрипта при запуске при тестировании:
-```
-???
-```
+
+    vagrant@vagrant:~/netology/sysadm-homeworks/LESSON_4.2$ python3 first.py
+    Текущий пользователь: vagrant
+    Рабочий каталог: /home/vagrant/netology/sysadm-homeworks/LESSON_4.2
+    Смена текущего рабочего каталога на проверяемый: /home/vagrant/netology/sysadm-homeworks
+    LESSON_4.2/first.py
+    vagrant@vagrant:~/netology/sysadm-homeworks/LESSON_4.2$
+
 
 ## Обязательная задача 3
 1. Доработать скрипт выше так, чтобы он мог проверять не только локальный репозиторий в текущей директории, а также умел воспринимать путь к репозиторию, который мы передаём как входной параметр. Мы точно знаем, что начальство коварное и будет проверять работу этого скрипта в директориях, которые не являются локальными репозиториями.
 
 ### Ваш скрипт:
-```python
-???
-```
+
+#!/usr/bin/env python3
+
+import os
+import sys
+
+# Проверяем наличие в аргументах проверяемого каталога репозитория
+if len(sys.argv) < 2:
+    print("Укажите проверяемый каталог репозитория !!!")
+    quit()
+else:
+
+# Выводим имя текущего пользователя
+    curruser = str(os.getlogin())
+    print("Текущий пользователь:", curruser)
+
+# Извлекаем проверяемый каталог из аргументов скрипта
+    checkdir = sys.argv[1]
+    print("Проверяемый каталог репозитория:", checkdir)
+
+# Переходим в каталог с исходниками git
+    os.chdir(sys.argv[1])
+    currdir = os.getcwd()
+    print("Смена текущего рабочего каталога на проверяемый: {0}     ".format(currdir))
+
+# Получаем статус git репозитория
+    bash_command = ["git status"]
+
+# Читаем результат выполнения команды.
+    print("Изменённые файлы:")
+    result_os = os.popen(' && '.join(bash_command)).read()
+    for result in result_os.split('\n'):
+        if result.find('modified') != -1:
+              prepare_result = result.replace('\tmodified:   ', '')
+              print(prepare_result)
 
 ### Вывод скрипта при запуске при тестировании:
-```
-???
-```
+
+    vagrant@vagrant:~/netology/sysadm-homeworks/LESSON_4.2$ python3 second.py ~/netology/sysadm-homeworks/ 
+    Текущий пользователь: vagrant
+    Проверяемый каталог репозитория: /home/vagrant/netology/sysadm-homeworks/
+    Смена текущего рабочего каталога на проверяемый: /home/vagrant/netology/sysadm-homeworks
+    Изменённые файлы:
+    LESSON_4.2/first.py
+    vagrant@vagrant:~/netology/sysadm-homeworks/LESSON_4.2$
+
 
 ## Обязательная задача 4
 1. Наша команда разрабатывает несколько веб-сервисов, доступных по http. Мы точно знаем, что на их стенде нет никакой балансировки, кластеризации, за DNS прячется конкретный IP сервера, где установлен сервис. Проблема в том, что отдел, занимающийся нашей инфраструктурой очень часто меняет нам сервера, поэтому IP меняются примерно раз в неделю, при этом сервисы сохраняют за собой DNS имена. Это бы совсем никого не беспокоило, если бы несколько раз сервера не уезжали в такой сегмент сети нашей компании, который недоступен для разработчиков. Мы хотим написать скрипт, который опрашивает веб-сервисы, получает их IP, выводит информацию в стандартный вывод в виде: <URL сервиса> - <его IP>. Также, должна быть реализована возможность проверки текущего IP сервиса c его IP из предыдущей проверки. Если проверка будет провалена - оповестить об этом в стандартный вывод сообщением: [ERROR] <URL сервиса> IP mismatch: <старый IP> <Новый IP>. Будем считать, что наша разработка реализовала сервисы: `drive.google.com`, `mail.google.com`, `google.com`.
