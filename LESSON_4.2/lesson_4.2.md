@@ -111,7 +111,7 @@ for result in result_os.split('\n'):
     import sys
     
     if len(sys.argv) < 2:             # Проверяем наличие в аргументах проверяемого каталога репозитория
-        print("Укажите проверяемый каталог репозитория в виде >python3 first.py [repository_directory] !!!")
+        print("Укажите проверяемый каталог репозитория в виде >python3 second.py [repository_directory] !!!")
         quit()
     else:
     
@@ -171,7 +171,6 @@ for result in result_os.split('\n'):
     import socket as s
     import time as t
     from datetime import datetime
-
 
     def inc(n):                                          # Определяем функцию инкремента
         n = n + 1
