@@ -49,7 +49,7 @@ for result in result_os.split('\n'):
 
 ### Ваш скрипт:
 
-![First.py](github.com/edward-burlakov/vagrant/blob/61aaeb87548eaa9bfd1dbd79f1088330f73d1ffc/LESSON_4.2/first.py "First.py"))
+<https://github.com/edward-burlakov/vagrant/blob/61aaeb87548eaa9bfd1dbd79f1088330f73d1ffc/LESSON_4.2/first.py>
 
 Убираем лишнюю переменную is_change  
 и команду break - прерывание процесса поиска изменённых файлов, при нахождении первого-же.  
@@ -106,7 +106,7 @@ vagrant@vagrant:~/$
 
 ### Ваш скрипт:
 
-![Second.py](https://github.com/edward-burlakov/vagrant/blob/61aaeb87548eaa9bfd1dbd79f1088330f73d1ffc/LESSON_4.2/second.py "Second.py"))
+<https://github.com/edward-burlakov/vagrant/blob/61aaeb87548eaa9bfd1dbd79f1088330f73d1ffc/LESSON_4.2/second.py>
 
 
 #!/usr/bin/env python3
