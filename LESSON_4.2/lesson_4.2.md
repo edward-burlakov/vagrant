@@ -51,10 +51,10 @@ for result in result_os.split('\n'):
 Убираем лишнюю переменную is_change  
 и команду break - прерывание процесса поиска изменённых файлов, при нахождении первого-же.  
 
-    #!/usr/bin/env python3
-    
-    import os
-    import pwd
+#!/usr/bin/env python3
+
+import os
+import pwd
 
 # Выводим на экран имя текущего пользователя
     curruser = str(os.getlogin())
