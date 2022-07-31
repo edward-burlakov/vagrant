@@ -59,28 +59,23 @@ for result in result_os.split('\n'):
     import os
     import pwd
 
-    ## Выводим на экран имя текущего пользователя
-    curruser = str(os.getlogin())
+    curruser = str(os.getlogin())                           # Выводим на экран имя текущего пользователя
     print("Текущий пользователь:", curruser )
+   
+    workdir = os.getcwd()                                   # Выводим на экран рабочий каталог пользователя
+    print("Рабочий каталог:", workdir) 
+    
+    homedir = pwd.getpwuid(os.getuid()).pw_dir             # Определяем домашний каталог пользователя
 
-    ## Выводим на экран рабочий каталог пользователя
-    workdir = os.getcwd()
-    print("Рабочий каталог:", workdir)
-
-    ## Определяем домашний каталог пользователя
-    homedir = pwd.getpwuid(os.getuid()).pw_dir
-
-    ## Переходим в каталог с исходниками git
-    os.chdir( homedir+"/netology/sysadm-homeworks")
+    os.chdir( homedir+"/netology/sysadm-homeworks")        # Переходим в каталог с исходниками git
     gitdir = os.getcwd()
     print("Смена текущего рабочего каталога на проверяемый: {0} ".format( gitdir ))
-
-    ## Получаем статус git репозитория
-    bash_command = ["git status"]
     
-    ## Читаем результат выполнения команды.
+    bash_command = ["git status"]                          # Получаем статус git репозитория
+    
+  
     print('\033[1;33;40m')
-    result_os = os.popen(' && '.join(bash_command)).read()
+    result_os = os.popen(' && '.join(bash_command)).read()      # Читаем результат выполнения команды.
     for result in result_os.split('\n'):
         if result.find('modified') != -1:
              prepare_result = result.replace('\tmodified:   ', '')
@@ -114,32 +109,26 @@ for result in result_os.split('\n'):
 
     import os
     import sys
-
-    ## Проверяем наличие в аргументах проверяемого каталога репозитория
-    if len(sys.argv) < 2:
+    
+    if len(sys.argv) < 2:             # Проверяем наличие в аргументах проверяемого каталога репозитория
         print("Укажите проверяемый каталог репозитория в виде >python3 first.py [repository_directory] !!!")
         quit()
     else:
-
-    ## Выводим имя текущего пользователя
-    curruser = str(os.getlogin())
+    
+    curruser = str(os.getlogin())         #  Выводим имя текущего пользователя
     print("Текущий пользователь:", curruser)
 
-    ## Извлекаем проверяемый каталог из аргументов скрипта
-    repodir = sys.argv[1]
+    repodir = sys.argv[1]                 # Извлекаем проверяемый каталог из аргументов скрипта  
     print("Проверяемый каталог репозитория:", repodir)
 
-    # Переходим в каталог с исходниками git
-    os.chdir(sys.argv[1])
+    os.chdir(sys.argv[1])                 # Переходим в каталог с исходниками git  
     gitdir = os.getcwd()
     print("Смена текущего рабочего каталога на проверяемый: {0}     ".format(gitdir))
-
-    ## Получаем статус git репозитория
-    bash_command = ["git status"]
-
-    ## Читаем результат выполнения команды.
+   
+    bash_command = ["git status"]          # Получаем статус git репозитория
+   
     print('\033[1;33;40m')
-    result_os = os.popen(' && '.join(bash_command)).read()
+    result_os = os.popen(' && '.join(bash_command)).read()     # Читаем результат выполнения команды.
     for result in result_os.split('\n'):
         if result.find('modified') != -1:
              prepare_result = result.replace('\tmodified:   ', '')
@@ -158,7 +147,6 @@ for result in result_os.split('\n'):
     /home/vagrant/netology/sysadm-homeworks/LESSON_4.2/third.py
     
     vagrant@vagrant:~/$
-
 
 
 ## Обязательная задача 4
