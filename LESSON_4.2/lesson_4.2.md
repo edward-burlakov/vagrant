@@ -163,14 +163,56 @@ for result in result_os.split('\n'):
 Будем считать, что наша разработка реализовала сервисы: `drive.google.com`, `mail.google.com`, `google.com`.
 
 ### Ваш скрипт:
-```python
-???
-```
+
+    #!/usr/bin/env python3
+
+    import socket as s
+    import time as t
+    from datetime import datetime
+
+
+    def inc(n):                                          # Определяем функцию инкремента
+        n = n + 1
+        return n
+
+    wait_sec = 5  # интервал проверок в секундах          # Устанавливаем переменные
+    n = 0         # счетчик итераций проверок
+
+    webserver = {'drive.google.com':'2.2.2.2', 'mail.google.com':'1.1.1.1', 'google.com':'8.8.8.8'}   
+    print( "Наши сервера:", webserver)                    # Создаем объект списка с серверами и их исходными IP адресами:
+
+    while [1 == 1]:
+
+    for host in webserver:        
+        ip = s.gethostbyname(host)                         # Обращаемся в интернет и получаем очередной IP по имени хоста:
+               if ip != webserver[host]:                   # Если значение IP не равно предыдущему - выводим строку ошибки:                 
+            current_time = datetime.now()
+            print( str(n)+'   '+ str(current_time.strftime("%d-%m-%Y %H:%M")) + ' [ERROR] ' + str(host) + ' IP mistmatch: ' +
+                      webserver[host] + ' ' + ip)        
+            webserver[host] = ip                           # Записываем новое значение IP для данного сервера в список-буфер для следующей проверки:
+    
+            n = inc(n)                                     # Увеличиваем значение n на 1 и ограничиваем кол-во итераций опроса:  
+            if n > 10:
+               exit(0)
+        
+            t.sleep(wait_sec)                              # Делаем паузу 
 
 ### Вывод скрипта при запуске при тестировании:
-```
-???
-```
+
+        vagrant@vagrant:~/$  python3 third.py
+        Наши сервера: {'drive.google.com': '2.2.2.2', 'mail.google.com': '1.1.1.1', 'google.com': '8.8.8.8'}
+        0   31-07-2022 16:34 [ERROR] drive.google.com IP mistmatch: 2.2.2.2 142.251.1.194
+        1   31-07-2022 16:34 [ERROR] mail.google.com IP mistmatch: 1.1.1.1 173.194.73.17
+        2   31-07-2022 16:34 [ERROR] google.com IP mistmatch: 8.8.8.8 74.125.131.101
+        3   31-07-2022 16:34 [ERROR] mail.google.com IP mistmatch: 173.194.73.17 173.194.73.83
+        4   31-07-2022 16:34 [ERROR] mail.google.com IP mistmatch: 173.194.73.83 173.194.73.17
+        5   31-07-2022 16:34 [ERROR] google.com IP mistmatch: 74.125.131.101 74.125.131.139
+        6   31-07-2022 16:34 [ERROR] google.com IP mistmatch: 74.125.131.139 74.125.131.101
+        7   31-07-2022 16:34 [ERROR] mail.google.com IP mistmatch: 173.194.73.17 173.194.73.19
+        8   31-07-2022 16:35 [ERROR] google.com IP mistmatch: 74.125.131.101 74.125.131.100
+        9   31-07-2022 16:35 [ERROR] mail.google.com IP mistmatch: 173.194.73.19 173.194.73.17
+        10   31-07-2022 16:35 [ERROR] google.com IP mistmatch: 74.125.131.100 74.125.131.113
+        vagrant@vagrant:~/$
 
 ## Дополнительное задание (со звездочкой*) - необязательно к выполнению
 

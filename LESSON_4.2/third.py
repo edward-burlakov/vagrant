@@ -1,36 +1,38 @@
-##!/usr/bin/env python3
+#!/usr/bin/env python3
 
 import socket as s
 import time as t
 from datetime import datetime
 
 
+def inc(n):                                                  # Определяем функцию инкремента
+    n = n + 1
+    return n
 
-# set variables
-i = 0    # счетчик проверок
-wait = 2 # интервал проверок в секундах
-# Задаем массив серверов с их исходными IP адресами:
-webservers = {'drive.google.com':'2.2.2.2', 'mail.google.com':'1.1.1.1', 'google.com':'8.8.8.8'}
-init=0
 
-print('*** start script ***')
-print(webservers)
-print('********************')
+wait_sec = 5  # интервал проверок в секундах                  # Устанавливаем переменные
+n = 0         # счетчик итераций проверок
 
-while [1==1] :
-#Ограничение числа проверок
-  i += 1
-  if i >= 10:
-    exit(0)
+# Создаем объект списка с серверами и их исходными IP адресами:
+webserver = {'drive.google.com':'2.2.2.2', 'mail.google.com':'1.1.1.1', 'google.com':'8.8.8.8'}
+print( "Наши сервера:", webserver)
 
-  for host in webservers:
-# Получаем IP адрес хоста
-    ip = s.gethostbyname(host)
-# Если значение IP не равно предыдущему - выводим строку ошибки.
-    if ip != srv[host]:
-      if i==1 and init !=1:
-        current_time = datetime.now()
-        print(str(current_time.strftime("%d-%m-%Y %H:%M")) +' [ERROR] ' + str(host) +' IP mistmatch: '+srv[host]+' '+ip)
-      Записываем значение IP в буфер для следующей проверки
-      srv[host]=ip
-  t.sleep(wait)
+while [1 == 1]:
+
+    for host in webserver:
+
+        ip = s.gethostbyname(host)                        # Обращаемся в интернет и получаем очередной IP по имени хоста:
+
+        if ip != webserver[host]:                         # Если значение IP не равно предыдущему - выводим строку ошибки:
+            current_time = datetime.now()
+            print( str(n)+'   '+ str(current_time.strftime("%d-%m-%Y %H:%M")) + ' [ERROR] ' + str(host) + ' IP mistmatch: ' +
+                      webserver[host] + ' ' + ip)
+
+            webserver[host] = ip                           # Записываем новое значение IP для данного сервера в список-буфер для следующей проверки:
+
+
+            n = inc(n)                                     # Увеличиваем значение n на 1 и ограничиваем кол-во итераций опроса:
+            if n > 10:
+               exit(0)
+
+            t.sleep(wait_sec)                             # Делаем паузу
