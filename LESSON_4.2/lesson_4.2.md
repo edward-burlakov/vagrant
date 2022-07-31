@@ -76,9 +76,7 @@ for result in result_os.split('\n'):
     bash_command = ["git status"]
     
 # Читаем результат выполнения команды.
-    print("Изменённые файлы:")
     print('\033[1;33;40m')
-    # Читаем результат выполнения команды.
     result_os = os.popen(' && '.join(bash_command)).read()
     for result in result_os.split('\n'):
         if result.find('modified') != -1:
@@ -93,7 +91,6 @@ vagrant@vagrant:~/$ python3 first.py
 Рабочий каталог: /home/vagrant/netology/sysadm-homeworks/LESSON_4.2
 Смена текущего рабочего каталога на проверяемый: /home/vagrant/netology/sysadm-homeworks
 
-Изменённые файлы:
 /home/vagrant/netology/sysadm-homeworks/LESSON_4.2/first.py
 /home/vagrant/netology/sysadm-homeworks/LESSON_4.2/second.py
 /home/vagrant/netology/sysadm-homeworks/LESSON_4.2/third.py
@@ -135,8 +132,6 @@ else:
 
 # Читаем результат выполнения команды.
     print('\033[1;33;40m')
-    print("Изменённые файлы:")
-    # Читаем результат выполнения команды.
     result_os = os.popen(' && '.join(bash_command)).read()
     for result in result_os.split('\n'):
         if result.find('modified') != -1:
@@ -151,7 +146,6 @@ vagrant@vagrant:~/$ python3 second.py ~/netology/sysadm-homeworks/
 Проверяемый каталог репозитория: /home/vagrant/netology/sysadm-homeworks/
 Смена текущего рабочего каталога на проверяемый: /home/vagrant/netology/sysadm-homeworks
 
-Изменённые файлы:
 /home/vagrant/netology/sysadm-homeworks/LESSON_4.2/first.py
 /home/vagrant/netology/sysadm-homeworks/LESSON_4.2/second.py
 /home/vagrant/netology/sysadm-homeworks/LESSON_4.2/third.py
