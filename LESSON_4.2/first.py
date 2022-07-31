@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
-import os , pwd
+import os
+import pwd
 
 # Выводим на экран имя текущего пользователя
 curruser = str(os.getlogin())

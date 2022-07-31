@@ -5,7 +5,7 @@ import sys
 
 # Проверяем наличие в аргументах проверяемого каталога репозитория
 if len(sys.argv) < 2:
-    print("Укажите проверяемый каталог репозитория в виде python3 first.py [repository_directory] !!!")
+    print("Укажите проверяемый каталог репозитория в виде >python3 first.py [repository_directory] !!!")
     quit()
 else:
 
