@@ -4,7 +4,6 @@ import socket as s
 import time as t
 from datetime import datetime
 
-
 def inc(n):                                                  # Определяем функцию инкремента
     n = n + 1
     return n
@@ -15,7 +14,6 @@ n = 1         # счетчик итераций проверок
 ### Создаем объект словаря  с серверами и их исходными IP адресами:
 webserver = {'drive.google.com': '2.2.2.2', 'mail.google.com': '1.1.1.1', 'google.com': '8.8.8.8'}
 print( "Наши сервера:", webserver)
-
 
 while [1 == 1]:
 
@@ -29,7 +27,6 @@ while [1 == 1]:
                       webserver[host] + ' ' + ip)
 
             webserver[host] = ip                           # Записываем новое значение IP для данного сервера в словарь-буфер для следующей проверки:
-
 
             n = inc(n)                                     # Увеличиваем значение n на 1 и ограничиваем кол-во итераций опроса:
             if n > 10:
