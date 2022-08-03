@@ -19,16 +19,16 @@ while [1 == 1]:
 
     for host in webserver:
 
-        ip = s.gethostbyname(host)                        # Обращаемся в интернет и получаем очередной IP по имени хоста:
+        ip = s.gethostbyname(host)                        # Обращаемся в интернет и получаем очередной IP по имени хоста
 
-        if ip != webserver[host]:                         # Если значение IP не равно предыдущему - выводим строку ошибки:
+        if ip != webserver[host]:                         # Если значение IP не равно предыдущему - выводим строку ошибки
             current_time = datetime.now()
             print( str(n)+'   '+ str(current_time.strftime("%d-%m-%Y %H:%M")) + ' [ERROR] ' + str(host) + ' IP mistmatch: ' +
                       webserver[host] + ' ' + ip)
 
-            webserver[host] = ip                           # Записываем новое значение IP для данного сервера в словарь-буфер для следующей проверки:
+            webserver[host] = ip                           # Записываем новое значение IP для данного сервера в словарь-буфер для следующей проверки
 
-            n = inc(n)                                     # Увеличиваем значение n на 1 и ограничиваем кол-во итераций опроса:
+            n = inc(n)                                     # Увеличиваем значение n на 1 и ограничиваем кол-во итераций опроса
             if n > 10:
                exit(0)
 
