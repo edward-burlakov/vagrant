@@ -32,4 +32,5 @@ else:
              prepare_result = result.replace('\tmodified:   ', '')
              print( os.getcwd()+'/'+prepare_result)
              break
+
     print('\033[0m')
