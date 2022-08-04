@@ -132,7 +132,7 @@ for result in result_os.split('\n'):
     for result in result_os.split('\n'):
         if result.find('modified') != -1:
              prepare_result = result.replace('\tmodified:   ', '')
-             print( os.getcwd()+'/'+ prepare_result)
+             print(os.getcwd()+'/'+ prepare_result)
     print('\033[0m')
 
 ### Вывод скрипта при запуске при тестировании:
@@ -183,7 +183,7 @@ for result in result_os.split('\n'):
     webserver = {'drive.google.com': '2.2.2.2', 'mail.google.com': '1.1.1.1', 'google.com': '8.8.8.8'}   
     print( "Наши сервера:", webserver)                    
 
-    while [1 == 1]:
+    while True:
 
     for host in webserver:        
         ip = s.gethostbyname(host)                         # Обращаемся в интернет и получаем очередной IP по имени хоста:
