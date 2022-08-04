@@ -15,7 +15,7 @@ n = 1         # счетчик итераций проверок
 webserver = {'drive.google.com': '2.2.2.2', 'mail.google.com': '1.1.1.1', 'google.com': '8.8.8.8'}
 print( "Наши сервера:", webserver)
 
-while [1 == 1]:
+while true:
 
     for host in webserver:
 
