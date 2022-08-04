@@ -31,4 +31,4 @@ else:
         if result.find('modified') == 1:
              prepare_result = result.replace('\tmodified:   ', '')
              print( os.getcwd()+'/'+prepare_result)
-     print('\033[0m')
+    print('\033[0m')
