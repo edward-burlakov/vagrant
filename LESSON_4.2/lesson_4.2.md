@@ -20,6 +20,7 @@ c = a + b
 ```
 
 ### Вопросы:
+
 | Вопрос                                           | Ответ                                          |
 |--------------------------------------------------|------------------------------------------------|
 | Какое значение будет присвоено переменной `c`?   | Строковое.  // >>> type(c) // <class 'str'>    |
@@ -27,6 +28,7 @@ c = a + b
 | Как получить для переменной `c` значение 3?      | // >>> c = a + int(b) // >>> print(c) // 3     |
 
 ## Обязательная задача 2
+
 Мы устроились на работу в компанию, где раньше уже был DevOps Engineer. Он написал скрипт, позволяющий узнать, 
 какие файлы модифицированы в репозитории, относительно локальных изменений. Этим скриптом недовольно начальство, 
 потому что в его выводе есть не все изменённые файлы, а также непонятен полный путь к директории, где они находятся. 
@@ -61,18 +63,18 @@ for result in result_os.split('\n'):
 
     curruser = str(os.getlogin())                           # Выводим на экран имя текущего пользователя.
     print("Текущий пользователь:", curruser )
-   
+
     workdir = os.getcwd()                                   # Выводим на экран рабочий каталог пользователя.
     print("Рабочий каталог:", workdir) 
-    
+
     homedir = pwd.getpwuid(os.getuid()).pw_dir             # Определяем домашний каталог пользователя.
 
     os.chdir( homedir+"/netology/sysadm-homeworks")        # Переходим в каталог с исходниками git.
     gitdir = os.getcwd()
     print("Смена текущего рабочего каталога на проверяемый: {0} ".format( gitdir ))
-    
+
     bash_command = ["git status"]                          # Получаем статус git репозитория.
-    
+
     print('\033[1;33;40m')
     result_os = os.popen(' && '.join(bash_command)).read()      # Читаем результат выполнения команды.
     for result in result_os.split('\n'):
@@ -87,7 +89,7 @@ for result in result_os.split('\n'):
     Текущий пользователь: vagrant
     Рабочий каталог: /home/vagrant/netology/sysadm-homeworks/LESSON_4.2
     Смена текущего рабочего каталога на проверяемый: /home/vagrant/netology/sysadm-homeworks
-    
+
     /home/vagrant/netology/sysadm-homeworks/LESSON_4.2/first.py
     /home/vagrant/netology/sysadm-homeworks/LESSON_4.2/second.py
     /home/vagrant/netology/sysadm-homeworks/LESSON_4.2/third.py
@@ -95,6 +97,7 @@ for result in result_os.split('\n'):
     vagrant@vagrant:~/$
 
 ## Обязательная задача 3
+
 Доработать скрипт выше так, чтобы он мог проверять не только локальный репозиторий в текущей директории, 
 а также умел воспринимать путь к репозиторию, который мы передаём как входной параметр. 
 Мы точно знаем, что начальство коварное и будет проверять работу этого скрипта в директориях, 
@@ -108,12 +111,12 @@ for result in result_os.split('\n'):
 
     import os
     import sys
-    
+
     if len(sys.argv) < 2:             # Проверяем наличие в аргументах проверяемого каталога репозитория.
         print("Укажите проверяемый каталог репозитория в виде >python3 second.py [repository_directory] !!!")
         quit()
     else:
-    
+
     curruser = str(os.getlogin())         #  Выводим имя текущего пользователя.
     print("Текущий пользователь:", curruser)
 
@@ -123,9 +126,9 @@ for result in result_os.split('\n'):
     os.chdir(sys.argv[1])                 # Переходим в каталог с исходниками git.  
     gitdir = os.getcwd()
     print("Смена текущего рабочего каталога на проверяемый: {0}     ".format(gitdir))
-   
+
     bash_command = ["git status"]          # Получаем статус git репозитория.
-   
+
     print('\033[1;33;40m')
     result_os = os.popen(' && '.join(bash_command)).read()     # Читаем результат выполнения команды.
     for result in result_os.split('\n'):
@@ -140,15 +143,16 @@ for result in result_os.split('\n'):
     Текущий пользователь: vagrant
     Проверяемый каталог репозитория: /home/vagrant/netology/sysadm-homeworks/
     Смена текущего рабочего каталога на проверяемый: /home/vagrant/netology/sysadm-homeworks
-    
+
     /home/vagrant/netology/sysadm-homeworks/LESSON_4.2/first.py
     /home/vagrant/netology/sysadm-homeworks/LESSON_4.2/second.py
     /home/vagrant/netology/sysadm-homeworks/LESSON_4.2/third.py
-    
+
     vagrant@vagrant:~/$
 
 
 ## Обязательная задача 4
+
 Наша команда разрабатывает несколько веб-сервисов, доступных по http. 
 Мы точно знаем, что на их стенде нет никакой балансировки, кластеризации, за DNS прячется конкретный IP сервера, где установлен сервис.
 
@@ -219,7 +223,7 @@ for result in result_os.split('\n'):
         7   31-07-2022 16:34 [ERROR] google.com IP mistmatch: 74.125.131.139 74.125.131.101
         8   31-07-2022 16:34 [ERROR] mail.google.com IP mistmatch: 173.194.73.17 173.194.73.19
         9   31-07-2022 16:35 [ERROR] google.com IP mistmatch: 74.125.131.101 74.125.131.100
-        10  31-07-2022 16:35 [ERROR] mail.google.com IP mistmatch: 173.194.73.19 173.194.73.17
+        10   31-07-2022 16:35 [ERROR] mail.google.com IP mistmatch: 173.194.73.19 173.194.73.17
         vagrant@vagrant:~/$
 
 ## Дополнительное задание (со звездочкой*) - необязательно к выполнению
@@ -239,8 +243,10 @@ for result in result_os.split('\n'):
 так и при слиянии в master. Важно получить конечный результат с созданным PR, в котором применяются наши изменения.
 
 ### Ваш скрипт:
+
 ```python
 
 
 ### Вывод скрипта при запуске при тестировании:
+
 ```
