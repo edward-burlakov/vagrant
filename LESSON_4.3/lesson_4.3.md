@@ -65,50 +65,37 @@ from datetime import datetime
 import json
 import yaml
 
-###  Определяем функцию инкремента.
-
-def inc(n):
+def inc(n):                     #  Определяем функцию инкремента.
     n = n + 1
     return n
 
-### Задаем интервал проверок в секундах.
+wait_sec = 4                    # Задаем интервал проверок в секундах.
+n = 1                           # Устанавливаем счетчик итераций проверок.
 
-wait_sec = 4
-
-### Устанавливаем счетчик итераций проверок.
-
-n = 1
-
-### Создаем объект словаря с серверами и их исходными IP адресами:
+# Создаем объект словаря с серверами и их исходными IP адресами:
 
 webservers = {'drive.google.com': '2.2.2.2', 'mail.google.com': '1.1.1.1', 'google.com': '8.8.8.8'}
 print("Наши сервера:", webservers)
 
-# Функция заполнения объекта словаря актуальными IP адресами
-
-def fill_dictionary(x):
+def fill_dictionary(x):               # Функция заполнения объекта словаря актуальными IP адресами
     for node in x:
         ip = socket.gethostbyname(node)
         x[node] = ip
     return x
 
-# Функция формирования словаря в формате json в файле  webservers.json
-
-def fill_json(y):
+def fill_json(y):                     # Функция формирования словаря в формате json в файле  webservers.json
     with open('webservers.json', 'w') as jtmp:
         jtmp.write(str(json.dumps(y)))        # Сериализация объекта Python в строку формата JASON
     return
 
-# Функция формирования словаря в формате yaml в файле  webservers.yaml
 
-def fill_yaml(z):
+
+def fill_yaml(z):                      # Функция формирования словаря в формате yaml в файле  webservers.yaml
     with open('webservers.yaml', 'w') as ytmp:
         ytmp.write(yaml.dump(z))              # Сериализация объекта Python в строку формата YAML
     return
 
-# Заполняем YAML и JSON файлы, чтобы в них был актуальный список адресов
-
-fill_json(fill_dictionary(webservers))
+fill_json(fill_dictionary(webservers))    # Заполняем YAML и JSON файлы, чтобы в них был актуальный список адресов
 fill_yaml(fill_dictionary(webservers))
 
 while True:
@@ -155,12 +142,12 @@ while True:
     21-08-2022 17:16 [ERROR] google.com IP mistmatch: 173.194.73.101 173.194.73.138
     root@vagrant:/home/vagrant#
 
-## json-файл(ы), который(е) записал ваш скрипт:
+### json-файл(ы), который(е) записал ваш скрипт:
 
     root@vagrant:/home/vagrant# cat webservers.json
     {"drive.google.com": "108.177.14.194", "mail.google.com": "64.233.161.17", "google.com": "173.194.73.138"}
 
-## yml-файл(ы), который(е) записал ваш скрипт:
+### yml-файл(ы), который(е) записал ваш скрипт:
 
     root@vagrant:/home/vagrant# cat webservers.yaml
     drive.google.com: 108.177.14.194
