@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# Скрипт проверяет изменение IP адресов переданный на вход
+# Скрипт проверяет изменение IP адресов переданных на вход
 import socket as s
 import time as t
 from datetime import datetime
