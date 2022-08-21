@@ -57,86 +57,70 @@
 
 Ответ:
 
-    #!/usr/bin/env python3
-    # Скрипт проверяет изменение IP адресов переданный на вход
-    import socket as s
-    import time as t
-    import os
-    import json
-    import yaml
-    
-### Определяем функцию инкремента.
+#!/usr/bin/env python3
+# Скрипт проверяет изменение IP адресов переданный на вход
+import socket as s
+import time as t
+from datetime import datetime
+import json
+import yaml
+
+
+###  Определяем функцию инкремента.
 
 def inc(n):
     n = n + 1
     return n
 
+### Задаем интервал проверок в секундах.
+
+wait_sec = 4
+
+### Устанавливаем счетчик итераций проверок.
+
+n = 1
+
 ### Создаем объект словаря с серверами и их исходными IP адресами:
 
-  webservers = {'drive.google.com': '2.2.2.2', 'mail.google.com': '1.1.1.1', 'google.com': '8.8.8.8'}
-  print("Наши сервера:", webservers)
-
-### Устанавливаем счетчик  
-n = 1
+webservers = {'drive.google.com': '2.2.2.2', 'mail.google.com': '1.1.1.1', 'google.com': '8.8.8.8'}
+print("Наши сервера:", webservers)
 
 # Функция заполнения объекта словаря актуальными IP адресами
 
 def fill_dictionary(x):
     for node in x:
-         ip = socket.gethostbyname(node)
-         x[node] = ip
+        ip = socket.gethostbyname(node)
+        x[node] = ip
     return x
 
-# Функция формирования словаря в формате json в файл  webservers.json
+# Функция формирования словаря в формате json в файле  webservers.json
 
 def fill_json(y):
     with open('webservers.json', 'w') as jtmp:
-         jtmp.write(str(json.dumps(y)))        # Сериализация  объекта Python в строку формата JASON
+        jtmp.write(str(json.dumps(y)))        # Сериализация объекта Python в строку формата JASON
     return
 
-# Функция формирования словаря в формате yaml в файл  webservers.yaml
+# Функция формирования словаря в формате yaml в файле  webservers.yaml
 
 def fill_yaml(z):
     with open('webservers.yaml', 'w') as ytmp:
-         ytmp.write(yaml.dump(z))             # Сериализация  объекта Python в строку формата YAML
+        ytmp.write(yaml.dump(z))              # Сериализация объекта Python в строку формата YAML
     return
 
-# Заполняем словарь и запишем YAML и JSON файлы, чтобы в них был актуальный список адресов
-  fill_json(fill_dictionary(webservers))
-  fill_yaml(fill_dictionary(webservers))
+# Заполняем YAML и JSON файлы, чтобы в них был актуальный список адресов
 
-Варинат 1
-
-# цикл проверки изменения адреса. цикл прерывается при изменениях и записывает последние актуальные адреса в JSON \ YAML
-while n != 0:
-    tmp = fill_tlist(webservers)
-    sleep(1)
-    os.system('cls')
-    for host in tmp:
-        ipaddress = socket.gethostbyname(host)
-        if ipaddress != tmp[host]:
-            print(' [ERROR] ' + str(host) + ' IP mistmatch: ' + tmp[host] + ' ---> ' + ipaddress)
-            tmp[host] = ipaddress
-            fill_json_yaml(tmp)
-            n = 0
-        else:
-            print(str(host) + ' ' + ipaddress + ' OK ')
-
-# Вариант 2
-
+fill_json(fill_dictionary(webservers))
+fill_yaml(fill_dictionary(webservers))
 
 while True:
 
-        tmp = fill_dictionary(webservers)   # Создаем временную копию словаря .
-        os.system('cls')                    # Очищаем консоль
+        tmp = fill_dictionary(webservers)   # Создаем временную копию словаря.
         for host in webservers:
             ip = s.gethostbyname(host)  # Обращаемся в интернет и получаем очередной IP по имени хоста.
-
             if ip != tmp[host]:  # Если значение IP не равно предыдущему - выводим строку ошибки.
-                current_time = datetime.now()
-                print(str(n) + '   ' + str(current_time.strftime("%d-%m-%Y %H:%M")) + ' [ERROR] ' + str(
-                    host) + ' IP mistmatch: ' + tmp[host] + ' ' + ip)
 
+                print( str( datetime.now().strftime("%d-%m-%Y %H:%M")) + ' [ERROR] ' + str(host)
+                       + ' IP mistmatch: ' + tmp[host] + ' ' + ip)
                 tmp[host] = ip  # Записываем новое значение IP для данного сервера в словарь-буфер для следующей проверки.
                 fill_json(tmp)  # Дублируем изменения в файл webservers.json
                 fill_yaml(tmp)  # Дублируем изменения в файл webservers.yaml
@@ -144,24 +128,30 @@ while True:
                 if n > 10:
                 exit(0)
             else:
-               print(str(host) + ' ' + ip + 'is OK ')
+                print( str( datetime.now().strftime("%d-%m-%Y %H:%M")) + str(host) + ' ' + ip + ' is OK ')
             t.sleep(wait_sec)  # Делаем паузу.
 
 
-Вывод скрипта при запуске при тестировании:
-
 ### Вывод скрипта при запуске при тестировании:
 
-        vagrant@vagrant:~/$  python3 third.py
-        Наши сервера: {'drive.google.com': '2.2.2.2', 'mail.google.com': '1.1.1.1', 'google.com': '8.8.8.8'}
-        1   31-07-2022 16:34 [ERROR] drive.google.com IP mistmatch: 2.2.2.2 142.251.1.194
-        2   31-07-2022 16:34 [ERROR] mail.google.com IP mistmatch: 1.1.1.1 173.194.73.17
-        3   31-07-2022 16:34 [ERROR] google.com IP mistmatch: 8.8.8.8 74.125.131.101
-        4   31-07-2022 16:34 [ERROR] mail.google.com IP mistmatch: 173.194.73.17 173.194.73.83
-        5   31-07-2022 16:34 [ERROR] mail.google.com IP mistmatch: 173.194.73.83 173.194.73.17
-        6   31-07-2022 16:34 [ERROR] google.com IP mistmatch: 74.125.131.101 74.125.131.139
-        7   31-07-2022 16:34 [ERROR] google.com IP mistmatch: 74.125.131.139 74.125.131.101
-        8   31-07-2022 16:34 [ERROR] mail.google.com IP mistmatch: 173.194.73.17 173.194.73.19
-        9   31-07-2022 16:35 [ERROR] google.com IP mistmatch: 74.125.131.101 74.125.131.100
-        10   31-07-2022 16:35 [ERROR] mail.google.com IP mistmatch: 173.194.73.19 173.194.73.17
-        vagrant@vagrant:~/$
+    root@vagrant:/home/vagrant# python3 first_4.3.py
+    Наши сервера: {'drive.google.com': '2.2.2.2', 'mail.google.com': '1.1.1.1', 'google.com': '8.8.8.8'}
+    21-08-2022 17:15 drive.google.com 108.177.14.194 is OK
+    21-08-2022 17:15 [ERROR] mail.google.com IP mistmatch: 64.233.161.18 64.233.161.17
+    21-08-2022 17:15 google.com 173.194.73.100 is OK
+    21-08-2022 17:15 drive.google.com 108.177.14.194 is OK
+    21-08-2022 17:15 [ERROR] mail.google.com IP mistmatch: 64.233.161.18 64.233.161.17
+    21-08-2022 17:15 [ERROR] google.com IP mistmatch: 64.233.163.101 173.194.73.139
+    21-08-2022 17:15 drive.google.com 108.177.14.194 is OK
+    21-08-2022 17:15 [ERROR] mail.google.com IP mistmatch: 64.233.161.18 64.233.161.17
+    21-08-2022 17:15 [ERROR] google.com IP mistmatch: 173.194.73.101 173.194.73.139
+    21-08-2022 17:15 drive.google.com 108.177.14.194 is OK
+    21-08-2022 17:15 [ERROR] mail.google.com IP mistmatch: 64.233.161.18 64.233.161.17
+    21-08-2022 17:15 [ERROR] google.com IP mistmatch: 173.194.73.139 173.194.73.138
+    21-08-2022 17:15 drive.google.com 108.177.14.194 is OK
+    21-08-2022 17:15 [ERROR] mail.google.com IP mistmatch: 64.233.161.19 64.233.161.83
+    21-08-2022 17:15 [ERROR] google.com IP mistmatch: 173.194.73.101 173.194.73.113
+    21-08-2022 17:15 drive.google.com 108.177.14.194 is OK
+    21-08-2022 17:16 mail.google.com 64.233.161.17 is OK
+    21-08-2022 17:16 [ERROR] google.com IP mistmatch: 173.194.73.101 173.194.73.138
+    root@vagrant:/home/vagrant#
