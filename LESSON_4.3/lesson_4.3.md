@@ -155,3 +155,17 @@ while True:
     21-08-2022 17:16 mail.google.com 64.233.161.17 is OK
     21-08-2022 17:16 [ERROR] google.com IP mistmatch: 173.194.73.101 173.194.73.138
     root@vagrant:/home/vagrant#
+
+## json-файл(ы), который(е) записал ваш скрипт:
+
+    root@vagrant:/home/vagrant# cat webservers.json
+    {"drive.google.com": "108.177.14.194", "mail.google.com": "64.233.161.17", "google.com": "173.194.73.138"}
+
+## yml-файл(ы), который(е) записал ваш скрипт:
+
+    root@vagrant:/home/vagrant# cat webservers.yaml
+    drive.google.com: 108.177.14.194
+    google.com: 173.194.73.138
+    mail.google.com: 64.233.161.17
+    root@vagrant:/home/vagrant#
+
