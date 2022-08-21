@@ -58,14 +58,15 @@
 Ответ:
 
 #!/usr/bin/env python3
-# Скрипт проверяет изменение IP адресов переданный на вход
+# Скрипт проверяет изменение IP адресов, записанных в словаре
+
 import socket as s
 import time as t
 from datetime import datetime
 import json
 import yaml
 
-###  Определяем функцию инкремента.
+####  Определяем функцию инкремента.
 
 def inc(n):                     
     n = n + 1
@@ -74,7 +75,7 @@ def inc(n):
 
 wait_sec = 4
 
-##
+### Устанавливаем счетчик итераций проверок.
 
 n = 1                           
 
