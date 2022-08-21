@@ -71,20 +71,20 @@ import yaml
 def inc(n):                     
     n = n + 1
     return n
-### Задаем интервал проверок в секундах.
+#### Задаем интервал проверок в секундах.
 
 wait_sec = 4
 
-### Устанавливаем счетчик итераций проверок.
+#### Устанавливаем счетчик итераций проверок.
 
 n = 1                           
 
-### Создаем объект словаря с серверами и их исходными IP адресами:
+#### Создаем объект словаря с серверами и их исходными IP адресами:
 
 webservers = {'drive.google.com': '2.2.2.2', 'mail.google.com': '1.1.1.1', 'google.com': '8.8.8.8'}
 print("Наши сервера:", webservers)
 
-### Функция заполнения объекта словаря актуальными IP адресами
+#### Функция заполнения объекта словаря актуальными IP адресами
 
 def fill_dictionary(x):               
     for node in x:
@@ -92,7 +92,7 @@ def fill_dictionary(x):
         x[node] = ip
     return x
 
-### Функция формирования словаря в формате json в файле  webservers.json
+#### Функция формирования словаря в формате json в файле  webservers.json
 
 def fill_json(y):                     
     with open('webservers.json', 'w') as jtmp:
@@ -100,49 +100,49 @@ def fill_json(y):
     return
 
 
-### Функция формирования словаря в формате yaml в файле  webservers.yaml
+#### Функция формирования словаря в формате yaml в файле  webservers.yaml
 
 def fill_yaml(z):                     
     with open('webservers.yaml', 'w') as ytmp:
         ytmp.write(yaml.dump(z))              
     return
 
-### Заполняем YAML и JSON файлы, чтобы в них был актуальный список адресов
+#### Заполняем YAML и JSON файлы, чтобы в них был актуальный список адресов
 
 fill_json(fill_dictionary(webservers))    
 fill_yaml(fill_dictionary(webservers))
 
 while True:
 
-###  Создаем временную копию словаря.
+####  Создаем временную копию словаря.
 
         tmp = fill_dictionary(webservers)   
         
         for host in webservers:
 
-### Обращаемся в интернет и получаем очередной IP по имени хоста.
+#### Обращаемся в интернет и получаем очередной IP по имени хоста.
 
             ip = s.gethostbyname(host) 
 
-### Если значение IP не равно предыдущему - выводим строку ошибки.
+#### Если значение IP не равно предыдущему - выводим строку ошибки.
 
             if ip != tmp[host]:  
                 print( str( datetime.now().strftime("%d-%m-%Y %H:%M")) + ' [ERROR] ' + str(host)
                        + ' IP mistmatch: ' + tmp[host] + ' ' + ip)
 
-### Записываем новое значение IP для данного сервера в словарь-буфер для следующей проверки.
+#### Записываем новое значение IP для данного сервера в словарь-буфер для следующей проверки.
 
                 tmp[host] = ip  
 
-### Дублируем изменения в файл webservers.json
+#### Дублируем изменения в файл webservers.json
 
                 fill_json(tmp)  
 
-### Дублируем изменения в файл webservers.yaml
+#### Дублируем изменения в файл webservers.yaml
 
                 fill_yaml(tmp)  
 
-### Увеличиваем значение n на 1 и ограничиваем кол-во итераций опроса.
+#### Увеличиваем значение n на 1 и ограничиваем кол-во итераций опроса.
 
                 n = inc(n)  
                 if n > 10:
