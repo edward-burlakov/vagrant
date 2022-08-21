@@ -75,51 +75,52 @@
 
 ####  #Определяем функцию инкремента.
 
-def inc(n):                     
-    n = n + 1
-    return n
+    def inc(n):                     
+        n = n + 1
+        return n
 #### #Задаем интервал проверок в секундах.
 
-wait_sec = 4
+    wait_sec = 4
 
 #### #Устанавливаем счетчик итераций проверок.
 
-n = 1                           
+    n = 1                           
 
 #### #Создаем объект словаря с серверами и их исходными IP адресами:
 
-webservers = {'drive.google.com': '2.2.2.2', 'mail.google.com': '1.1.1.1', 'google.com': '8.8.8.8'}
-print("Наши сервера:", webservers)
+    webservers = {'drive.google.com': '2.2.2.2', 'mail.google.com': '1.1.1.1', 'google.com': '8.8.8.8'}
+    
+    print("Наши сервера:", webservers)
 
 #### #Функция заполнения объекта словаря актуальными IP адресами
 
-def fill_dictionary(x):               
-    for node in x:
-        ip = socket.gethostbyname(node)
-        x[node] = ip
-    return x
+    def fill_dictionary(x):               
+        for node in x:
+            ip = socket.gethostbyname(node)
+            x[node] = ip
+        return x
 
 #### #Функция формирования словаря в формате json в файле  webservers.json
 
-def fill_json(y):                     
-    with open('webservers.json', 'w') as jtmp:
-        jtmp.write(str(json.dumps(y)))        
-    return
+    def fill_json(y):                     
+        with open('webservers.json', 'w') as jtmp:
+            jtmp.write(str(json.dumps(y)))        
+        return
 
 
 #### #Функция формирования словаря в формате yaml в файле  webservers.yaml
 
-def fill_yaml(z):                     
-    with open('webservers.yaml', 'w') as ytmp:
-        ytmp.write(yaml.dump(z))              
-    return
+    def fill_yaml(z):                     
+        with open('webservers.yaml', 'w') as ytmp:
+            ytmp.write(yaml.dump(z))              
+        return
 
 #### #Заполняем YAML и JSON файлы, чтобы в них был актуальный список адресов
 
-fill_json(fill_dictionary(webservers))    
-fill_yaml(fill_dictionary(webservers))
-
-while True:
+    fill_json(fill_dictionary(webservers))    
+    fill_yaml(fill_dictionary(webservers))
+    
+    while True:
 
 ####  #Создаем временную копию словаря.
 
