@@ -65,7 +65,6 @@ from datetime import datetime
 import json
 import yaml
 
-
 ###  Определяем функцию инкремента.
 
 def inc(n):
