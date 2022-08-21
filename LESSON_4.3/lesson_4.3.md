@@ -60,11 +60,15 @@
 
 #!/usr/bin/env python3
 
-import socket as s
-import time as t
-from datetime import datetime
-import json
-import yaml
+    import socket as s
+
+    import time as t
+
+    from datetime import datetime
+
+    import json
+
+    import yaml
 
 ####  #Определяем функцию инкремента.
 
