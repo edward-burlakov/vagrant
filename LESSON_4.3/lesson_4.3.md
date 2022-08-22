@@ -75,9 +75,9 @@
 
 ####  #Определяем функцию инкремента.
 
-    def inc(n):                     
-        n = n + 1
-        return n
+    def inc(n1):                     
+        n1 = n1 + 1
+        return n1
 #### #Задаем интервал проверок в секундах.
 
     wait_sec = 4
@@ -96,8 +96,8 @@
 
     def fill_dictionary(x):               
         for node in x:
-            ip = socket.gethostbyname(node)
-            x[node] = ip
+            ipaddress = socket.gethostbyname(node)
+            x[node] = ipaddress
         return x
 
 #### #Функция формирования словаря в формате json в файле  webservers.json
