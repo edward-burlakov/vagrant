@@ -48,17 +48,19 @@ Ansible
 
 ### Ответ:
 
-## VirtualBox
+#### VirtualBox на  Windows 10
+
 ![img.png](img.png)
 
 ---
 
-## Vagrant
+#### Vagrant  на Windows 10
+
 ![img_1.png](img_1.png)
 
 ---
 
-## Ansible на экземпляре Ubuntu 20 , запущенном в  VirtualBox c помощью Vagrant.
+#### Ansible на экземпляре Ubuntu 20.04 , запущенном в  VirtualBox c помощью Vagrant.
 
     root@vagrant:/home/vagrant# ansible --version
     ansible [core 2.12.8]
@@ -71,13 +73,6 @@ Ansible
       jinja version = 2.10.1
       libyaml = True
     root@vagrant:/home/vagrant#
-
-
-
-
-
-
-
 
 
 ## Задача 4 (*)
