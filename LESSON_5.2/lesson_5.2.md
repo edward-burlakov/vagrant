@@ -74,6 +74,7 @@ Ansible
       libyaml = True
     root@vagrant:/home/vagrant#
 
+---
 
 ## Задача 4 (*)
 
