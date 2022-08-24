@@ -60,7 +60,7 @@ Ansible
 
 ---
 
-#### Ansible на экземпляре Ubuntu 20.04 , запущенном в  VirtualBox c помощью Vagrant.
+#### Ansible на экземпляре Ubuntu 20.04, запущенном в  VirtualBox c помощью Vagrant.
 
     root@vagrant:/home/vagrant# ansible --version
     ansible [core 2.12.8]
