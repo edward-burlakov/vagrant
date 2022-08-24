@@ -47,7 +47,32 @@ Ansible
 Приложить вывод команд установленных версий каждой из программ, оформленный в markdown.
 
 ### Ответ:
-        ![img.png](img.png)
+
+## VirtualBox
+![img.png](img.png)
+
+---
+
+## Vagrant
+![img_1.png](img_1.png)
+
+---
+
+## Ansible на экземпляре Ubuntu 20 , запущенном в  VirtualBox c помощью Vagrant.
+
+    root@vagrant:/home/vagrant# ansible --version
+    ansible [core 2.12.8]
+      config file = /etc/ansible/ansible.cfg
+      configured module search path = ['/root/.ansible/plugins/modules', '/usr/share/ansible/plugins/modules']
+      ansible python module location = /usr/lib/python3/dist-packages/ansible
+      ansible collection location = /root/.ansible/collections:/usr/share/ansible/collections
+      executable location = /usr/bin/ansible
+      python version = 3.8.10 (default, Mar 15 2022, 12:22:08) [GCC 9.4.0]
+      jinja version = 2.10.1
+      libyaml = True
+    root@vagrant:/home/vagrant#
+
+
 
 
 
