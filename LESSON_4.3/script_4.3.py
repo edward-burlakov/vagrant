@@ -62,9 +62,10 @@ while True:
             tmp[host] = ip  # Записываем новое значение IP для данного сервера в словарь-буфер для следующей проверки.
             fill_json(tmp)  # Дублируем изменения в файл webservers.json
             fill_yaml(tmp)  # Дублируем изменения в файл webservers.yaml
-        else:
-            print(str(datetime.now().strftime("%d-%m-%Y %H:%M")) + ' ' + str(host) + ' ' + ip + ' is OK ')
             n = inc(n)  # Увеличиваем значение n на 1 и ограничиваем кол-во итераций опроса.
             if n > 10:
                 exit(0)
+        else:
+            print(str(datetime.now().strftime("%d-%m-%Y %H:%M")) + ' ' + str(host) + ' ' + ip + ' is OK ')
+
         t.sleep(wait_sec)  # Делаем паузу.
