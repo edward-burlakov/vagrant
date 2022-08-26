@@ -60,8 +60,39 @@ Ansible
 ![img_1.png](img_1.png)
 
 ---
+    $ vagrant ssh ...
 
-#### Установлен Ansible на экземпляре Ubuntu 20.04, запущенном в  VirtualBox c помощью Vagrant.
+    root@vagrant:/home/vagrant# cat /etc/*release
+    DISTRIB_ID=Ubuntu
+    DISTRIB_RELEASE=20.04
+    DISTRIB_CODENAME=focal
+    DISTRIB_DESCRIPTION="Ubuntu 20.04.4 LTS"
+    NAME="Ubuntu"
+    VERSION="20.04.4 LTS (Focal Fossa)"
+    ID=ubuntu
+    ID_LIKE=debian
+    PRETTY_NAME="Ubuntu 20.04.4 LTS"
+    VERSION_ID="20.04"
+    HOME_URL="https://www.ubuntu.com/"
+    SUPPORT_URL="https://help.ubuntu.com/"
+    BUG_REPORT_URL="https://bugs.launchpad.net/ubuntu/"
+    PRIVACY_POLICY_URL="https://www.ubuntu.com/legal/terms-and-policies/privacy-policy"
+    VERSION_CODENAME=focal
+    UBUNTU_CODENAME=focal
+    root@vagrant:/home/vagrant#
+
+
+    root@vagrant:/home/vagrant# ip a | grep inet
+        inet 127.0.0.1/8 scope host lo
+        inet6 ::1/128 scope host
+        inet 10.0.2.15/24 brd 10.0.2.255 scope global dynamic eth0
+        inet6 fe80::a00:27ff:fea2:6bfd/64 scope link
+
+
+
+#### Устанавливаем Ansible на экземпляре Ubuntu 20.04, запущенном в  VirtualBox c помощью Vagrant.
+
+    Результат :
 
     root@vagrant:/home/vagrant# ansible --version
     ansible [core 2.12.8]
