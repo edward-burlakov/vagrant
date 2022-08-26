@@ -216,6 +216,7 @@ docker ps
         inet 192.168.192.11/24 brd 192.168.192.255 scope global eth1clear
 
 ###   Смотрим активные соединения
+
         root@server1:/home/vagrant#  sudo lsof -nP -i
         COMMAND    PID            USER   FD   TYPE DEVICE SIZE/OFF NODE NAME
         systemd-n  607 systemd-network   20u  IPv4  20289      0t0  UDP 10.0.2.15:68
