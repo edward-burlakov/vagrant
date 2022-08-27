@@ -87,6 +87,9 @@ Ansible
         inet 10.0.2.15/24 brd 10.0.2.255 scope global dynamic eth0
         inet6 fe80::a00:27ff:fea2:6bfd/64 scope link
 
+    root@docker:/home/vagrant# hostname
+    docker
+    root@docker:/home/vagrant#
 
 
 #### Устанавливаем Ansible на экземпляре Ubuntu 20.04, запущенном в  VirtualBox c помощью Vagrant.
@@ -119,143 +122,159 @@ docker ps
 
 ===
 
- #### Развертываем виртуальную машину с помощью конфигурационного файла Vagrantfile/ 
+ #### Развертываем 2 виртуальных сервера Ubuntu с помощью конфигурационного файла Vagrantfile/ 
 
-        C:\Users\med1094\PycharmProjects\Vagrant>vagrant up
-        Bringing machine 'server1.netology' up with 'virtualbox' provider...
-        ==> server1.netology: Importing base box 'bento/ubuntu-20.04'...
-        ==> server1.netology: Matching MAC address for NAT networking...
-        ==> server1.netology: Checking if box 'bento/ubuntu-20.04' version '202206.03.0' is up to date...
-        ==> server1.netology: There was a problem while downloading the metadata for your box
-        ==> server1.netology: to check for updates. This is not an error, since it is usually due
-        ==> server1.netology: to temporary network problems. This is just a warning. The problem
-        ==> server1.netology: encountered was:
-        ==> server1.netology:
-        ==> server1.netology: Failed to connect to vagrantcloud.com port 443: Timed out
-        ==> server1.netology:
-        ==> server1.netology: If you want to check for box updates, verify your network connection
-        ==> server1.netology: is valid and try again.
-        ==> server1.netology: Setting the name of the VM: server1.netology
-        ==> server1.netology: Clearing any previously set network interfaces...
-        ==> server1.netology: Preparing network interfaces based on configuration...
-        server1.netology: Adapter 1: nat
-        server1.netology: Adapter 2: hostonly
-        ==> server1.netology: Forwarding ports...
-        server1.netology: 22 (guest) => 20011 (host) (adapter 1)
-        ==> server1.netology: Running 'pre-boot' VM customizations...
-        ==> server1.netology: Booting VM...
-        ==> server1.netology: Waiting for machine to boot. This may take a few minutes...
-        server1.netology: SSH address: 127.0.0.1:2222
-        server1.netology: SSH username: vagrant
-        server1.netology: SSH auth method: private key
-        server1.netology: Warning: Connection reset. Retrying...
-        server1.netology: Warning: Connection aborted. Retrying...
-        server1.netology: Warning: Connection aborted. Retrying...
-        server1.netology: Warning: Connection reset. Retrying...
-        server1.netology:
-        server1.netology: Vagrant insecure key detected. Vagrant will automatically replace
-        server1.netology: this with a newly generated keypair for better security.
-        server1.netology:
-        server1.netology: Inserting generated public key within guest...
-        server1.netology: Removing insecure key from the guest if it's present...
-        server1.netology: Key inserted! Disconnecting and reconnecting using new SSH key...
-        ==> server1.netology: Machine booted and ready!
-        ==> server1.netology: Checking for guest additions in VM...
-        ==> server1.netology: Setting hostname...
-        ==> server1.netology: Configuring and enabling network interfaces...
-        ==> server1.netology: Mounting shared folders...
-        server1.netology: /vagrant => C:/Users/med1094/PycharmProjects/Vagrant
-        C:\Users\med1094\PycharmProjects\Vagrant>
+ <https://github.com/edward-burlakov/vagrant/blob/main/Vagrantfile>
+
+  
+ #### Запускаем обе виртуальных сервера ansible и docker
+
+
+       C:\Users\bes\PycharmProjects\Netology_Lessons\vagrant>vagrant up
+       Bringing machine 'ansible.netology' up with 'virtualbox' provider...
+       Bringing machine 'docker.netology' up with 'virtualbox' provider...
+       ==> ansible.netology: Importing base box 'bento/ubuntu-20.04'...
+       ==> ansible.netology: Matching MAC address for NAT networking...
+       ==> ansible.netology: Checking if box 'bento/ubuntu-20.04' version '202206.03.0' is up to date...
+       ==> ansible.netology: Setting the name of the VM: ansible.netology
+       ==> ansible.netology: Clearing any previously set network interfaces...
+       ==> ansible.netology: Preparing network interfaces based on configuration...
+           ansible.netology: Adapter 1: nat
+           ansible.netology: Adapter 2: hostonly
+       ==> ansible.netology: Forwarding ports...
+           ansible.netology: 22 (guest) => 2222 (host) (adapter 1)
+       ==> ansible.netology: Running 'pre-boot' VM customizations...
+       ==> ansible.netology: Booting VM...
+       ==> ansible.netology: Waiting for machine to boot. This may take a few minutes...
+           ansible.netology: SSH address: 127.0.0.1:2222
+           ansible.netology: SSH username: vagrant
+           ansible.netology: SSH auth method: private key
+           ansible.netology: Warning: Connection reset. Retrying...
+           ansible.netology: Warning: Connection aborted. Retrying...
+           ansible.netology:
+           ansible.netology: Vagrant insecure key detected. Vagrant will automatically replace
+           ansible.netology: this with a newly generated keypair for better security.
+           ansible.netology:
+           ansible.netology: Inserting generated public key within guest...
+           ansible.netology: Removing insecure key from the guest if it's present...
+           ansible.netology: Key inserted! Disconnecting and reconnecting using new SSH key...
+       ==> ansible.netology: Machine booted and ready!
+       ==> ansible.netology: Checking for guest additions in VM...
+       ==> ansible.netology: Setting hostname...
+       ==> ansible.netology: Configuring and enabling network interfaces...
+       ==> ansible.netology: Mounting shared folders...
+           ansible.netology: /vagrant => C:/Users/bes/PycharmProjects/Netology_Lessons/vagrant
+       ==> docker.netology: Importing base box 'bento/ubuntu-20.04'...
+       ==> docker.netology: Matching MAC address for NAT networking...
+       ==> docker.netology: Checking if box 'bento/ubuntu-20.04' version '202206.03.0' is up to date...
+       ==> docker.netology: There was a problem while downloading the metadata for your box
+       ==> docker.netology: to check for updates. This is not an error, since it is usually due
+       ==> docker.netology: to temporary network problems. This is just a warning. The problem
+       ==> docker.netology: encountered was:
+       ==> docker.netology:
+       ==> docker.netology: The requested URL returned error: 404
+       ==> docker.netology:
+       ==> docker.netology: If you want to check for box updates, verify your network connection
+       ==> docker.netology: is valid and try again.
+       ==> docker.netology: Setting the name of the VM: docker.netology
+       ==> docker.netology: Fixed port collision for 22 => 2222. Now on port 2200.
+       ==> docker.netology: Clearing any previously set network interfaces...
+       ==> docker.netology: Preparing network interfaces based on configuration...
+           docker.netology: Adapter 1: nat
+           docker.netology: Adapter 2: hostonly
+       ==> docker.netology: Forwarding ports...
+           docker.netology: 22 (guest) => 2200 (host) (adapter 1)
+       ==> docker.netology: Running 'pre-boot' VM customizations...
+       ==> docker.netology: Booting VM...
+       ==> docker.netology: Waiting for machine to boot. This may take a few minutes...
+           docker.netology: SSH address: 127.0.0.1:2200
+           docker.netology: SSH username: vagrant
+           docker.netology: SSH auth method: private key
+           docker.netology: Warning: Connection reset. Retrying...
+           docker.netology: Warning: Connection aborted. Retrying...
+           docker.netology:
+           docker.netology: Vagrant insecure key detected. Vagrant will automatically replace
+           docker.netology: this with a newly generated keypair for better security.
+           docker.netology:
+           docker.netology: Inserting generated public key within guest...
+           docker.netology: Removing insecure key from the guest if it's present...
+           docker.netology: Key inserted! Disconnecting and reconnecting using new SSH key...
+       ==> docker.netology: Machine booted and ready!
+       ==> docker.netology: Checking for guest additions in VM...
+       ==> docker.netology: Setting hostname...
+       ==> docker.netology: Configuring and enabling network interfaces...
+       ==> docker.netology: Mounting shared folders...
+           docker.netology: /vagrant => C:/Users/bes/PycharmProjects/Netology_Lessons/vagrant
+       C:\Users\med1094\PycharmProjects\Vagrant>
 
 ===
 
-####   Входим в виртуалку / Проверяем версию виртуальной машины. 
-
-        root@server1:/home/vagrant# cat /etc/*release
-        DISTRIB_ID=Ubuntu
-        DISTRIB_RELEASE=20.04
-        DISTRIB_CODENAME=focal
-        DISTRIB_DESCRIPTION="Ubuntu 20.04.4 LTS"
-        NAME="Ubuntu"
+####   Входим в виртуалки. Проверяем версии ОС серверов: 
+     
+    Ansible : 
+              
+        root@ansible:/home/vagrant# cat /etc/*release | grep VERSION
         VERSION="20.04.4 LTS (Focal Fossa)"
-        ID=ubuntu
-        ID_LIKE=debian
-        PRETTY_NAME="Ubuntu 20.04.4 LTS"
         VERSION_ID="20.04"
-        HOME_URL="https://www.ubuntu.com/"
-        SUPPORT_URL="https://help.ubuntu.com/"
-        BUG_REPORT_URL="https://bugs.launchpad.net/ubuntu/"
-        PRIVACY_POLICY_URL="https://www.ubuntu.com/legal/terms-and-policies/privacy-policy"
         VERSION_CODENAME=focal
-        UBUNTU_CODENAME=focal
-        root@server1:/home/vagrant#
+        root@ansible:/home/vagrant#
 
-####  Проверяем статус интрерфейсов
- 
-        root@server1:/home/vagrant# ip a
-        1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN group default qlen 1000
-        link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
-        inet 127.0.0.1/8 scope host lo
-        valid_lft forever preferred_lft forever
-        inet6 ::1/128 scope host
-        valid_lft forever preferred_lft forever
-        2: eth0: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc fq_codel state UP group default qlen 1000
-        link/ether 08:00:27:a2:6b:fd brd ff:ff:ff:ff:ff:ff
-        inet 10.0.2.15/24 brd 10.0.2.255 scope global dynamic eth0
-        valid_lft 86157sec preferred_lft 86157sec
-        inet6 fe80::a00:27ff:fea2:6bfd/64 scope link
-        valid_lft forever preferred_lft forever
-        3: eth1: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc fq_codel state UP group default qlen 1000
-        link/ether 08:00:27:51:eb:58 brd ff:ff:ff:ff:ff:ff
-        inet 192.168.192.11/24 brd 192.168.192.255 scope global eth1
-        valid_lft forever preferred_lft forever
-        inet6 fe80::a00:27ff:fe51:eb58/64 scope link
-        valid_lft forever preferred_lft forever
+    Docker :
 
-        root@server1:/home/vagrant# ip a | grep inet | grep 192
-        inet 192.168.192.11/24 brd 192.168.192.255 scope global eth1clear
+        root@docker:/home/vagrant# cat /etc/*release | grep VERSION
+        VERSION="20.04.4 LTS (Focal Fossa)"
+        VERSION_ID="20.04"
+        VERSION_CODENAME=focal
+        root@docker:/home/vagrant#
 
-###   Смотрим активные соединения
-        root@server1:/home/vagrant#  sudo lsof -nP -i
-        COMMAND    PID            USER   FD   TYPE DEVICE SIZE/OFF NODE NAME
-        systemd-n  607 systemd-network   20u  IPv4  20289      0t0  UDP 10.0.2.15:68
-        systemd-r  609 systemd-resolve   12u  IPv4  20308      0t0  UDP 127.0.0.53:53
-        systemd-r  609 systemd-resolve   13u  IPv4  20309      0t0  TCP 127.0.0.53:53 (LISTEN)
-        sshd       819            root    3u  IPv4  24052      0t0  TCP *:22 (LISTEN)
-        sshd       819            root    4u  IPv6  24063      0t0  TCP *:22 (LISTEN)
-        sshd      1060            root    4u  IPv4  26463      0t0  TCP 10.0.2.15:22->10.0.2.2:65462 (ESTABLISHED)
-        sshd      1113         vagrant    4u  IPv4  26463      0t0  TCP 10.0.2.15:22->10.0.2.2:65462 (ESTABLISHED)
+####  Проверяем статус интерфейсов обоих серверов
+      
+    Ansible :
+
+        root@ansible:/home/vagrant# hostname -f
+        ansible.netology
+        root@ansible:/home/vagrant#
+
+        root@ansible:/home/vagrant# ip a | grep inet | grep 192
+          inet 192.168.192.11/24 brd 192.168.192.255 scope global eth1
+        root@ansible:/home/vagrant#
+
+    Docker :
+
+        root@docker:/home/vagrant# hostname -f
+        docker.netology
+        root@docker:/home/vagrant#
+
+        root@docker:/home/vagrant# ip a | grep inet | grep 192
+          inet 192.168.192.12/24 brd 192.168.192.255 scope global eth1
+        root@docker:/home/vagrant#
+
+#### Устанавливаем Ansible на виртуалке ansible.netology.
+
+        root@ansible:/home/vagrant# apt update
+        root@ansible:/home/vagrant# apt install ansible
+
+### Правим файл конфигурации
+
+        root@ansible:/etc/ansible# cat /etc/ansible/hosts
+
+        [servers]
+        docker  ansible_host=192.168.192.12
         
+        [all:vars]
+        ansible_python_interpreter=/usr/bin/python3
 
-        root@server1:/home/vagrant# hostname -f
+### Устанавливаем программу для заупска процесса ssh неинтерактивно
 
-        root@server1:/home/vagrant# free
-        total        used        free      shared  buff/cache   available
-        Mem:        2030968      149588      954020         988      927360     1728292
-        Swap:       1999868           0     1999868
+        root@ansible:/etc/ansible# apt install sshpass
 
-### Выключаем сервер
-        C:\Users\med1094\PycharmProjects\Vagrant>vagrant halt
-        ==> server1.netology: Attempting graceful shutdown of VM...
+### Проверяем подключенние к сервер  docker.netology  по паролю
 
-### Проверяем статус сервера
+        root@ansible:/etc/ansible# ansible all -m ping -u vagrant --ask-pass
+        SSH password:
+        docker | SUCCESS => {
+            "changed": false,
+            "ping": "pong"
+        }
+        root@ansible:/etc/ansible#
 
-        C:\Users\med1094\PycharmProjects\Vagrant>vagrant status
-        Current machine states:
-
-        server1.netology          poweroff (virtualbox)
-
-        The VM is powered off. To restart the VM, simply run `vagrant up`
-
-### Удаляем выбранный экземпляр сервера
-
-        C:\Users\med1094\PycharmProjects\Vagrant>vagrant destroy
-        server1.netology: Are you sure you want to destroy the 'server1.netology' VM? [y/N] y
-        ==> server1.netology: Destroying VM and associated drives...
-
-### Проверяем статус сервера
-
-        C:\Users\med1094\PycharmProjects\Vagrant>vagrant status
-        Current machine states:
-
-        server1.netology          not created (virtualbox)
