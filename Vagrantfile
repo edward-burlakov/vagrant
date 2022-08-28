@@ -9,15 +9,15 @@ INVENTORY_PATH = "../ansible/inventory"
 # Массив из хешей, в котором заданы настройки для каждой виртуальной машины
 servers=[
   {
-    :hostname => "ansible" + DOMAIN,
+    :hostname => "docker" + "1" + DOMAIN,
     :ip => NET + "11",
-	:ram => 2048,
+	:ram => 1024,
 	:core => 1  
   },
   {
-    :hostname => "docker" + DOMAIN,
+    :hostname => "docker" + "2" + DOMAIN,
     :ip => NET + "12",
-	:ram => 2048,
+	:ram => 1024,
 	:core => 1  
   }
 ]
@@ -47,13 +47,13 @@ Vagrant.configure(2) do |config|
                 # Перезаписать название VM в Vbox GUI
                 vb.name = machine[:hostname]
             end
-            # Запускаем ansible для выполнения плейбука установки docker на удаленном сервере
-            node.vm.provision "ansible" do |setup|
-                setup.inventory_path = INVENTORY_PATH
-                setup.playbook = "../ansible/provision.yml"
-                setup.become = true
-                setup.extra_vars = { ansible_user: 'vagrant' }
-            end
+        # Запускаем ansible только после установки этого пакета для выполнения плейбука установки docker на удаленном сервере
+        #   node.vm.provision "ansible" do |setup|
+        #       setup.inventory_path = INVENTORY_PATH
+        #       setup.playbook = "../ansible/provision.yml"
+        #       setup.become = true
+        #       setup.extra_vars = { ansible_user: 'vagrant' }
+        #   end
         end
     end
 end
