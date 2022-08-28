@@ -375,6 +375,8 @@ docker ps
 
 ####  Создаем файл плейбука provision.yml в каталоге /etc/ansible
 
+<https://github.com/edward-burlakov/vagrant/blob/main/LESSON_5.2/provision.yml>
+      
        ---  
 
          — name: Installing docker on server docker1.netology
