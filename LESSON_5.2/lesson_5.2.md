@@ -45,22 +45,66 @@ Vagrant
 Ansible
 Приложить вывод команд установленных версий каждой из программ, оформленный в markdown.
 
+---
+
 ### Ответ:
 
-#### VirtualBox на  Windows 10
+####  1. Устанавливаем  VirtualBox на  Windows 10
 
 ![img.png](img.png)
 
----
 
-#### Vagrant  на Windows 10
+####  2. Устанавливаем  Hashi-Corp Vagrant на  Windows 10
 
 ![img_1.png](img_1.png)
 
----
-    $ vagrant ssh ...
+#### Устанавливаем виртуальную машину c ОС Ubuntu 20.04 в гипервизоре Oracle VirtualBox с помощью 
+#### cледующего файла конфигурации Vagrantfile
 
-    root@vagrant:/home/vagrant# cat /etc/*release
+     ISO = "bento/ubuntu-20.04"
+     NET = "192.168.192."
+     DOMAIN = ".netology"
+     HOST_PREFIX = "ansible"
+     INVENTORY_PATH = "../ansible/inventory"
+     servers = [  
+       {    
+         :hostname => HOST_PREFIX + DOMAIN,    
+         :ip => NET + "11",    
+         :ssh_host => "20011",    
+         :ssh_vm => "22",    
+         :ram => 1024,    
+         :core => 1  
+       }
+     ]
+     
+     Vagrant.configure(2) do |config|  
+         config.vm.synced_folder ".", "/vagrant", disabled: false  
+         servers.each do |machine|    
+         config.vm.define machine[:hostname] do |node|      
+         node.vm.box = ISO      
+         node.vm.hostname = machine[:hostname]      
+         node.vm.network "private_network", ip: machine[:ip]      
+         node.vm.network :forwarded_port, guest: machine[:ssh_vm],host: machine[:ssh_host]      
+                 node.vm.provider "virtualbox" do |vb|
+                     vb.customize ["modifyvm", :id, "--memory", machine[:ram]]        
+                     vb.customize ["modifyvm", :id, "--cpus", machine[:core]]        
+                     vb.name = machine[:hostname]      
+                 end
+             end  
+         end
+     end
+
+---
+
+####  Проверяем конфигурацию сервера
+
+    $ vagrant ssh ansible.netology
+
+    root@ansible:~# hostname
+    ansible.netology
+    root@ansible:~#
+
+    root@ansible:~# cat /etc/*release
     DISTRIB_ID=Ubuntu
     DISTRIB_RELEASE=20.04
     DISTRIB_CODENAME=focal
@@ -79,20 +123,21 @@ Ansible
     UBUNTU_CODENAME=focal
     root@vagrant:/home/vagrant#
 
-
-    root@vagrant:/home/vagrant# ip a | grep inet
+    root@ansible:~# ip a | grep inet
         inet 127.0.0.1/8 scope host lo
         inet6 ::1/128 scope host
         inet 10.0.2.15/24 brd 10.0.2.255 scope global dynamic eth0
         inet6 fe80::a00:27ff:fea2:6bfd/64 scope link
 
-    root@docker:/home/vagrant# hostname
-    docker
-    root@docker:/home/vagrant#
 
 
-#### Устанавливаем Ansible на экземпляре Ubuntu 20.04, запущенном в  VirtualBox c помощью Vagrant.
+#### Устанавливаем Ansible на сервере ansible.netology  c ОС Ubuntu 20.04, запущенном в  VirtualBox.
 
+    root@ansible:~# sudo apt update
+    root@ansible:~# apt-get update
+    root@ansible:~# apt-get install ansible -y
+
+---
     Результат :
 
     root@vagrant:/home/vagrant# ansible --version
@@ -107,7 +152,11 @@ Ansible
       libyaml = True
     root@vagrant:/home/vagrant#
 
----
+
+
+--- 
+
+
 
 ## Задача 4 (*)
 
@@ -116,52 +165,61 @@ Ansible
 Зайти внутрь ВМ, убедиться, что Docker установлен с помощью команды
 docker ps
 
+---
 
 ### Ответ:
 
----
+#### Развертываем  виртуальный сервер c Ansible на нашей рабочей станции Windows10 с помощью "Windows Subsystem for Linux"
+#### Скачиваем и устанавливаем c Microsoft Store  образ Ubuntu 22.04.1 LTS и пакет Ansible.  
+#### В качестве пользователя указываем  vagrant  c паролем vagrant
 
- #### Развертываем 2 виртуальных сервера Ubuntu с помощью следующенго конфигурационного файла Vagrantfile : 
+#### Задаем имя сервера  в файле  /etc/.wsl.conf и перезагружаем сервер
+     ...
+     [network]
+     hostname = ansible.netology 
+     ...
+
+     root@EDWARD:/etc# shutdown -r
+
+#### Проверяем имя и версию ОС сервера: 
+     root@ansible:~# cat hostname
+     ansible.netology
+     
+     root@ansible:~# cat /etc/*release | grep VERSION
+     root@ansible.netology:/# cat /etc/*release | grep VERSION
+     VERSION_ID="22.04"
+     VERSION="22.04.1 LTS (Jammy Jellyfish)"
+     VERSION_CODENAME=jammy
+     root@ansible:~# 
+
+#### Устанавливаем Ansible на виртуалке ansible.netology.     
+     root@ansible:~# sudo apt update
+     root@ansible:~# apt-get update
+     root@ansible:~# apt-get install ansible -y
+
+#### Проверяем результат
+
+     root@ansible:~# ansible --version
+     ansible 2.10.8
+       config file = None
+       configured module search path = ['/root/.ansible/plugins/modules', '/usr/share/ansible/plugins/modules']
+       ansible python module location = /usr/lib/python3/dist-packages/ansible
+       executable location = /usr/bin/ansible
+       python version = 3.10.4 (main, Jun 29 2022, 12:14:53) [GCC 11.2.0]
+     root@ansible:~#
+
+####
+
+ #### с помощью следующего конфигурационного файла Vagrantfile : 
 
  <https://github.com/edward-burlakov/vagrant/blob/main/Vagrantfile>
 
   
- #### Запускаем обе виртуальных сервера ansible и docker
+ #### Запускаем обе виртуальный сервер docker.netology
 
-       C:\Users\bes\PycharmProjects\Netology_Lessons\vagrant>vagrant up
-       Bringing machine 'ansible.netology' up with 'virtualbox' provider...
+       root@ansible:/~# vagrant up
+
        Bringing machine 'docker.netology' up with 'virtualbox' provider...
-       ==> ansible.netology: Importing base box 'bento/ubuntu-20.04'...
-       ==> ansible.netology: Matching MAC address for NAT networking...
-       ==> ansible.netology: Checking if box 'bento/ubuntu-20.04' version '202206.03.0' is up to date...
-       ==> ansible.netology: Setting the name of the VM: ansible.netology
-       ==> ansible.netology: Clearing any previously set network interfaces...
-       ==> ansible.netology: Preparing network interfaces based on configuration...
-           ansible.netology: Adapter 1: nat
-           ansible.netology: Adapter 2: hostonly
-       ==> ansible.netology: Forwarding ports...
-           ansible.netology: 22 (guest) => 2222 (host) (adapter 1)
-       ==> ansible.netology: Running 'pre-boot' VM customizations...
-       ==> ansible.netology: Booting VM...
-       ==> ansible.netology: Waiting for machine to boot. This may take a few minutes...
-           ansible.netology: SSH address: 127.0.0.1:2222
-           ansible.netology: SSH username: vagrant
-           ansible.netology: SSH auth method: private key
-           ansible.netology: Warning: Connection reset. Retrying...
-           ansible.netology: Warning: Connection aborted. Retrying...
-           ansible.netology:
-           ansible.netology: Vagrant insecure key detected. Vagrant will automatically replace
-           ansible.netology: this with a newly generated keypair for better security.
-           ansible.netology:
-           ansible.netology: Inserting generated public key within guest...
-           ansible.netology: Removing insecure key from the guest if it's present...
-           ansible.netology: Key inserted! Disconnecting and reconnecting using new SSH key...
-       ==> ansible.netology: Machine booted and ready!
-       ==> ansible.netology: Checking for guest additions in VM...
-       ==> ansible.netology: Setting hostname...
-       ==> ansible.netology: Configuring and enabling network interfaces...
-       ==> ansible.netology: Mounting shared folders...
-           ansible.netology: /vagrant => C:/Users/bes/PycharmProjects/Netology_Lessons/vagrant
        ==> docker.netology: Importing base box 'bento/ubuntu-20.04'...
        ==> docker.netology: Matching MAC address for NAT networking...
        ==> docker.netology: Checking if box 'bento/ubuntu-20.04' version '202206.03.0' is up to date...
@@ -203,11 +261,12 @@ docker ps
        ==> docker.netology: Configuring and enabling network interfaces...
        ==> docker.netology: Mounting shared folders...
            docker.netology: /vagrant => C:/Users/bes/PycharmProjects/Netology_Lessons/vagrant
+
        C:\Users\med1094\PycharmProjects\Vagrant>
 
 ---
 
-####   Входим в виртуалки. Проверяем версии ОС серверов: 
+####   Входим в созданные виртуалки. Проверяем версии ОС серверов: 
      
     Ansible : 
               
@@ -247,12 +306,7 @@ docker ps
           inet 192.168.192.12/24 brd 192.168.192.255 scope global eth1
         root@docker:/home/vagrant#
 
-#### Устанавливаем Ansible на виртуалке ansible.netology.
 
-        root@ansible:/home/vagrant# apt update
-        root@ansible:/home/vagrant# apt install ansible
-
-#### Проверяем результат
 
         root@ansible:/etc/ansible# ansible --version
         ansible 2.9.6
@@ -286,7 +340,7 @@ docker ps
        ansible_port=22
        interpreter_python=/usr/bin/python3
 
-#### Проверяем корректность указанных хостов
+#### Проверяем корректность конфигурации хостов, перечисленных в файле inventory
 
        root@ansible:/etc/ansible# ansible-inventory --list -y
        all:
@@ -304,12 +358,11 @@ docker ps
            ungrouped: {}
        root@ansible:/etc/ansible#
 
-
 #### Устанавливаем программу для запуска процесса ssh неинтерактивно
 
         root@ansible:/etc/ansible# apt install sshpass
 
-#### Проверяем подключение с помощью иcполнения на удаленном сервере  docker.netology команды ping  
+#### Проверяем подключение к docker.netology с помощью иcполнения на удаленном сервере команды ping  
 
         root@ansible:/etc/ansible# ansible all -m ping 
         SSH password:
@@ -354,7 +407,7 @@ docker ps
                user: name=vagrant append=yes groups=docker
 
 
-####  Создаем логическую ссылку на файл inventory в HOME каталоге пользователя vagrant
+####  Создаем логическую ссылку на файл inventory в HOME-каталоге пользователя vagrant
 
        root@ansible:/home/vagrant# ln -s /etc/ansible/inventory inventory
        root@ansible:/home/vagrant# ls -la | grep inventory
@@ -372,8 +425,8 @@ docker ps
       end
 
 ####  Удаляем и создаем сервер docker.netology заново
-      vagrant -f destroy docker.netology
-      vagrant up docker.netology
+     vagrant destroy docker.netology  --force
+     vagrant up docker.netology
 
 
 

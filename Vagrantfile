@@ -5,7 +5,7 @@ NET="192.168.192."
 # Домен который будем использовать для всей площадки
 DOMAIN=".netology"
 # Файл конфигурации ansible на сервере с Ansible
-INVENTORY_PATH = "$HOME/inventory"
+INVENTORY_PATH = "../ansible/inventory"
 # Массив из хешей, в котором заданы настройки для каждой виртуальной машины
 servers=[
   {
@@ -46,10 +46,11 @@ Vagrant.configure(2) do |config|
 				vb.customize ["modifyvm", :id, "--cpus", machine[:core]]
                 # Перезаписать название VM в Vbox GUI
                 vb.name = machine[:hostname]
+            end
             # Запускаем ansible для выполнения плейбука установки docker на удаленном сервере
             node.vm.provision "ansible" do |setup|
                 setup.inventory_path = INVENTORY_PATH
-                setup.playbook = "$HOME/provision.yml"
+                setup.playbook = "../ansible/provision.yml"
                 setup.become = true
                 setup.extra_vars = { ansible_user: 'vagrant' }
             end
