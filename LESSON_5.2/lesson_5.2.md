@@ -7,7 +7,6 @@
 
 ### Ответ:
 
-        
         1) Методология CI/CD 
            - Ускоряет  выход минимально работоспособного программного продукта 
              в продакшен (сокращается time-to-market ). 
@@ -120,15 +119,14 @@ docker ps
 
 ### Ответ:
 
-===
+---
 
- #### Развертываем 2 виртуальных сервера Ubuntu с помощью конфигурационного файла Vagrantfile/ 
+ #### Развертываем 2 виртуальных сервера Ubuntu с помощью следующенго конфигурационного файла Vagrantfile : 
 
  <https://github.com/edward-burlakov/vagrant/blob/main/Vagrantfile>
 
   
  #### Запускаем обе виртуальных сервера ansible и docker
-
 
        C:\Users\bes\PycharmProjects\Netology_Lessons\vagrant>vagrant up
        Bringing machine 'ansible.netology' up with 'virtualbox' provider...
@@ -207,7 +205,7 @@ docker ps
            docker.netology: /vagrant => C:/Users/bes/PycharmProjects/Netology_Lessons/vagrant
        C:\Users\med1094\PycharmProjects\Vagrant>
 
-===
+---
 
 ####   Входим в виртуалки. Проверяем версии ОС серверов: 
      
@@ -227,7 +225,7 @@ docker ps
         VERSION_CODENAME=focal
         root@docker:/home/vagrant#
 
-####  Проверяем статус интерфейсов обоих серверов
+####  Проверяем имена серверов и наличие сетевых интерфейсов на обоих серверах.
       
     Ansible :
 
@@ -254,23 +252,66 @@ docker ps
         root@ansible:/home/vagrant# apt update
         root@ansible:/home/vagrant# apt install ansible
 
-### Правим файл конфигурации
+#### Проверяем результат
 
-        root@ansible:/etc/ansible# cat /etc/ansible/hosts
+        root@ansible:/etc/ansible# ansible --version
+        ansible 2.9.6
+          config file = /etc/ansible/ansible.cfg
+          configured module search path = ['/root/.ansible/plugins/modules', '/usr/share/ansible/plugins/modules']
+          ansible python module location = /usr/lib/python3/dist-packages/ansible
+          executable location = /usr/bin/ansible
+          python version = 3.8.10 (default, Mar 15 2022, 12:22:08) [GCC 9.4.0]
+        root@ansible:/etc/ansible#
 
-        [servers]
-        docker  ansible_host=192.168.192.12
+#### Создаем файл inventory - списка хостов
+
+        root@ansible:/etc/ansible# cat /etc/ansible/inventory
+
+        [nodes:children]
+        manager
+        
+        [manager]
+        docker.netology ansible_host=192.168.192.12 ansible_port=22 ansible_user=vagrant ansible_password=vagrant
         
         [all:vars]
         ansible_python_interpreter=/usr/bin/python3
 
-### Устанавливаем программу для заупска процесса ssh неинтерактивно
+#### Правим файл конфигурации ansible.cfg, указывая на созданный выше файл inventory
+
+       [defaults]
+       
+       inventory=./inventory
+       deprecation_warnings=
+       Falsecommand_warnings=False
+       ansible_port=22
+       interpreter_python=/usr/bin/python3
+
+#### Проверяем корректность указанных хостов
+
+       root@ansible:/etc/ansible# ansible-inventory --list -y
+       all:
+         children:
+           nodes:
+             children:
+               manager:
+                 hosts:
+                   docker.netology:
+                     ansible_host: 192.168.192.12
+                     ansible_password: vagrant
+                     ansible_port: 22
+                     ansible_python_interpreter: /usr/bin/python3
+                     ansible_user: vagrant
+           ungrouped: {}
+       root@ansible:/etc/ansible#
+
+
+#### Устанавливаем программу для запуска процесса ssh неинтерактивно
 
         root@ansible:/etc/ansible# apt install sshpass
 
-### Проверяем подключенние к сервер  docker.netology  по паролю
+#### Проверяем подключение с помощью иcполнения на удаленном сервере  docker.netology команды ping  
 
-        root@ansible:/etc/ansible# ansible all -m ping -u vagrant --ask-pass
+        root@ansible:/etc/ansible# ansible all -m ping 
         SSH password:
         docker | SUCCESS => {
             "changed": false,
@@ -278,3 +319,83 @@ docker ps
         }
         root@ansible:/etc/ansible#
 
+####  Создаем файл плейбука provision.yml в каталоге /etc/ansible
+
+       ---  
+         — hosts: nodes    
+           become: yes    
+           become_user: root    
+           remote_user: vagrant    
+         
+           tasks:      
+             — name: Create directory for ssh-keys        
+               file: state=directory  mode=0700   dest=/root/.ssh/
+       
+             — name: Adding rsa-key in /root/.ssh/authorized_keys        
+               copy: src=~/.ssh/id_rsa.pub dest=/root/.ssh/authorized_keys  owner=root mode=0600        
+               ignore_errors: yes
+       
+             — name: Checking DNS        
+               command: host -t A google.com
+
+             — name: Installing tools        
+               apt: >
+                 package={{ item }}          
+                 state=present
+                 update_cache=yes        
+               with_items:
+                 — git          
+                 — curl
+
+             — name: Installing docker        
+               shell: curl -fsSL get.docker.com -o get-docker.sh && chmod +x get-docker.sh && ./get-docker.sh      
+
+             — name: Add the current user to docker group        
+               user: name=vagrant append=yes groups=docker
+
+
+####  Создаем логическую ссылку на файл inventory в HOME каталоге пользователя vagrant
+
+       root@ansible:/home/vagrant# ln -s /etc/ansible/inventory inventory
+       root@ansible:/home/vagrant# ls -la | grep inventory
+       lrwxrwxrwx 1 root    root      22 Aug 28 03:43 inventory -> /etc/ansible/inventory
+
+
+####  Подключаем Ansible playbook к нашей Vagrant конфигурации - добавляем записи в файл Vagrantfile:
+
+      INVENTORY_PATH = "$HOME/inventory"
+
+      node.vm.provision "ansible" do |setup| 
+        setup.inventory_path = INVENTORY_PATH 
+        setup.playbook = "$HOME/provision.yml" 
+        setup.become = true setup.extra_vars = { ansible_user: 'vagrant' }
+      end
+
+####  Удаляем и создаем сервер docker.netology заново
+      vagrant -f destroy docker.netology
+      vagrant up docker.netology
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 1Help      2Save      3Mark      4Replac    5Copy      6Move      7Search    8Delete    9PullDn   10Quit

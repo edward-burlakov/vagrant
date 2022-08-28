@@ -4,8 +4,8 @@ ISO = "bento/ubuntu-20.04"
 NET="192.168.192."
 # Домен который будем использовать для всей площадки
 DOMAIN=".netology"
-# Файл конфигурации ansible
-INVENTORY_PATH = "../ansible/inventory"
+# Файл конфигурации ansible на сервере с Ansible
+INVENTORY_PATH = "$HOME/inventory"
 # Массив из хешей, в котором заданы настройки для каждой виртуальной машины
 servers=[
   {
@@ -46,6 +46,12 @@ Vagrant.configure(2) do |config|
 				vb.customize ["modifyvm", :id, "--cpus", machine[:core]]
                 # Перезаписать название VM в Vbox GUI
                 vb.name = machine[:hostname]
+            # Запускаем ansible для выполнения плейбука установки docker на удаленном сервере
+            node.vm.provision "ansible" do |setup|
+                setup.inventory_path = INVENTORY_PATH
+                setup.playbook = "$HOME/provision.yml"
+                setup.become = true
+                setup.extra_vars = { ansible_user: 'vagrant' }
             end
         end
     end
