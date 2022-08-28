@@ -403,11 +403,9 @@ docker ps
                  — git          
                  — curl
                  — docker.io   
-
-#### Удаляем вариант установки через curl  как неработоспособный      
-           # — name: Installing docker        
-           #   shell: curl -fsSL get.docker.com -o get-docker.sh && chmod +x get-docker.sh && ./get-docker.sh
-
+             # Удаляем вариант установки через curl  как неработоспособный      
+             # — name: Installing docker        
+             #   shell: curl -fsSL get.docker.com -o get-docker.sh && chmod +x get-docker.sh && ./get-docker.sh
              — name: Add the current user to docker group        
                user: name=vagrant append=yes groups=docker
 
