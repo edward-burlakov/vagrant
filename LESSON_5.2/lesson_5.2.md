@@ -301,8 +301,9 @@ docker ps
         ==> docker1.netology: Setting hostname...
         ==> docker1.netology: Configuring and enabling network interfaces...
 
-####  Входим на сервер и проверяем версию ОС сервера:      
-      root@EDWARD:/~# vagrant ssh docker1.netology
+####  переходим в рабочий каталог vagrant, входим на гостевой сервер  и проверяем версию ОС сервера: 
+      root@EDWARD:/~# cd /etc/vagrant
+      root@EDWARD:/etc/vagrant#  vagrant ssh docker1.netology
 
       vagrant@docker1:~$ sudo su
       root@docker1:/home/vagrant# cat /etc/*release | grep VERSION
@@ -321,21 +322,61 @@ docker ps
          inet 192.168.56.11/24 brd 192.168.192.255 scope global eth1
        root@docker1:/home/vagrant#
 
+####  Добавляем на удаленном сервере в  возможность авторизации по паролю
+      root@docker1:/home/vagrant#  tail -n 3 /etc/ssh/sshd_config
+        PasswordAuthentication yes
+        PermitRootLogin no
+        PubkeyAuthentication yes
 
+#### Выходим из гостевого сервера
 
-#### Проверяем подключение к docker1.netology с помощью иcполнения на удаленном сервере команды ping  
+      root@docker1:/home/vagrant# exit
+      exit
+      vagrant@docker1:~$ exit
+      logout
+      root@EDWARD:/etc/vagrant#
 
-        root@EDWARD:/etc/ansible# ansible docker1.netology -m ping 
-        SSH password:
-        docker | SUCCESS => {
-            "changed": false,
-            "ping": "pong"
-        }
-        root@EDWARD:/etc/ansible#
+#### Генерим локальные ssh-ключи
+
+    root@EDWARD:/etc/ansible# ssh-keygen
+    Generating public/private rsa key pair.
+    Enter file in which to save the key (/root/.ssh/id_rsa):
+    Enter passphrase (empty for no passphrase):
+    Enter same passphrase again:
+    Your identification has been saved in /root/.ssh/id_rsa
+    Your public key has been saved in /root/.ssh/id_rsa.pub
+
+#### Добавляем ssh-ключи на удаленный сервер
+
+    root@EDWARD:~#  ssh-copy-id -i ~/.ssh/id_rsa.pub -p 22 vagrant@192.168.56.11
+  
+    /usr/bin/ssh-copy-id: INFO: Source of key(s) to be installed: "/root/.ssh/id_rsa.pub"
+    /usr/bin/ssh-copy-id: INFO: attempting to log in with the new key(s), to filter out any that are already installed
+    /usr/bin/ssh-copy-id: INFO: 1 key(s) remain to be installed -- if you are prompted now it is to install the new keys
+    vagrant@192.168.56.11's password:
+
+    Number of key(s) added: 1
+
+    Now try logging into the machine, with:   "ssh -p '22' 'vagrant@192.168.56.11'"
+    and check to make sure that only the key(s) you wanted were added.
+
+#### Подключаемся в первый раз по ssh и получаем удаленные ключи локально. 
+     root@EDWARD:~#  ssh 192.168.56.11 -l vagrant
+      
+#### Проверяем подключение Ansible к docker1.netology с помощью запуска на удаленном сервере модуля ping  
+
+      root@EDWARD:/etc/ansible# ansible docker1.netology -m ping 
+      SSH password:
+      docker | SUCCESS => {
+          "changed": false,
+          "ping": "pong"
+      }
+      root@EDWARD:/etc/ansible#
 
 ####  Создаем файл плейбука provision.yml в каталоге /etc/ansible
 
        ---  
+
          — hosts: nodes    
            become: yes    
            become_user: root    
@@ -368,26 +409,27 @@ docker ps
                user: name=vagrant append=yes groups=docker
 
 
-####  Создаем логическую ссылку на файл inventory в HOME-каталоге пользователя vagrant
+####  Создаем логическую ссылку на файл inventory в HOME-каталоге пользователя root
 
-       root@EDWARD:/home/vagrant# ln -s /etc/ansible/inventory inventory
-       root@EDWARD:/home/vagrant# ls -la | grep inventory
+       root@EDWARD:~# ln -s /etc/ansible/inventory inventory
+       root@EDWARD:~# ls -la | grep inventory
        lrwxrwxrwx 1 root    root      22 Aug 28 03:43 inventory -> /etc/ansible/inventory
 
 
 ####  Подключаем Ansible playbook к нашей Vagrant конфигурации - добавляем записи в файл Vagrantfile:
 
-      INVENTORY_PATH = "$HOME/inventory"
+      INVENTORY_PATH = "../ansible/inventory"
 
       node.vm.provision "ansible" do |setup| 
         setup.inventory_path = INVENTORY_PATH 
-        setup.playbook = "$HOME/provision.yml" 
+        setup.playbook = "../ansible/provision.yml" 
         setup.become = true setup.extra_vars = { ansible_user: 'vagrant' }
       end
 
-####  Удаляем и создаем заново сервера docker1.netology и docker2.netology заново
-     root@EDWARD:/home/vagrant# vagrant destroy --force
-     root@EDWARD:/home/vagrant# vagrant up
+####  Изменяем конфигурацию сервер docker1.netology, устанавливая пакет docker
+
+      root@EDWARD:~# cd /etc/vagrant
+      root@EDWARD:/etc/vagrant# vagrant up docker1.netology --provision
 
 
 
