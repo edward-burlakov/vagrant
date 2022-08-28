@@ -450,7 +450,7 @@ docker ps
       TASK [Checking DNS] ************************************************************
       changed: [docker1.netology]
       
-      TASK [Installing tools] ********************************************************
+      TASK [Installing packages] ********************************************************
       ok: [docker1.netology] => (item=git)
       ok: [docker1.netology] => (item=curl)
       changed: [docker1.netology] => (item=docker.io)
@@ -459,7 +459,7 @@ docker ps
       changed: [docker1.netology]
       
       PLAY RECAP *********************************************************************
-      docker1.netology           : ok=6    changed=3    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+      docker1.netology : ok=6    changed=3    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
 
 ####  Проверяем установку пакета  docker.io
       
