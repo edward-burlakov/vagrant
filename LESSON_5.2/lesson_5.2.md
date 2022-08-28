@@ -463,11 +463,13 @@ docker ps
       PLAY RECAP *********************************************************************
       docker1.netology : ok=6    changed=3    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
 
-####  Проверяем установку пакета  docker.io
-      
-      root@EDWARD:/etc/vagrant#  docker ps
+####  Проверяем установку пакета  docker.io на гостевой машине:
+      root@EDWARD:/etc/vagrant/# vagrant ssh docker1.netology 
+
+      root@docker1:/home/vagrant# docker ps
       CONTAINER ID   IMAGE     COMMAND   CREATED   STATUS    PORTS     NAMES
-      root@EDWARD:/etc/vagrant#
+      root@docker1:/home/vagrant#
+
 
 
 
