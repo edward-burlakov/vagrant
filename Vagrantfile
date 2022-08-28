@@ -1,7 +1,7 @@
 # Образ для развертывания
 ISO = "focal/ubuntu-20.04"
 # Префикс для LAN сети
-NET="192.168.192."
+NET="192.168.56."
 # Домен который будем использовать для всей площадки
 DOMAIN=".netology"
 # Файл конфигурации ansible на сервере с Ansible
@@ -15,7 +15,7 @@ servers=[
 	:core => 1  
   }
 ]
- 
+
 # Входим в Главную конфигурацию vagrant версии 2
 
 Vagrant.configure(2) do |config|
@@ -42,12 +42,12 @@ Vagrant.configure(2) do |config|
                 vb.name = machine[:hostname]
             end
         # Запускаем ansible только после установки этого пакета для выполнения плейбука установки docker на удаленном сервере
-        #   node.vm.provision "ansible" do |setup|
-        #       setup.inventory_path = INVENTORY_PATH
-        #       setup.playbook = "../ansible/provision.yml"
-        #       setup.become = true
-        #       setup.extra_vars = { ansible_user: 'vagrant' }
-        #   end
+            node.vm.provision "ansible" do |setup|
+               setup.inventory_path = INVENTORY_PATH
+               setup.playbook = "../ansible/provision.yml"
+               setup.become = true
+               setup.extra_vars = { ansible_user: 'vagrant' }
+            end
         end
     end
 end
