@@ -1,5 +1,5 @@
 # Образ для развертывания
-ISO = "bento/ubuntu-20.04"
+ISO = "focal/ubuntu-20.04"
 # Префикс для LAN сети
 NET="192.168.192."
 # Домен который будем использовать для всей площадки
@@ -9,14 +9,8 @@ INVENTORY_PATH = "../ansible/inventory"
 # Массив из хешей, в котором заданы настройки для каждой виртуальной машины
 servers=[
   {
-    :hostname => "docker" + "1" + DOMAIN,
+    :hostname => "docker" + DOMAIN,
     :ip => NET + "11",
-	:ram => 1024,
-	:core => 1  
-  },
-  {
-    :hostname => "docker" + "2" + DOMAIN,
-    :ip => NET + "12",
 	:ram => 1024,
 	:core => 1  
   }
