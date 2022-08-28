@@ -17,7 +17,7 @@
     - name: Checking DNS
       command: host -t A google.com
 
-    - name: Installing tools
+    - name: Installing packages
       ansible.builtin.apt:
         pkg: "{{ item }}"
         state: present
@@ -25,9 +25,9 @@
       with_items:
         - git
         - curl
-
-    - name: Installing docker via curl
-      shell: curl -fsSL get.docker.com -o get-docker.sh && chmod +x get-docker.sh && ./get-docker.sh
+        - docker.io
+    #- name: Installing docker via curl
+    #  shell: curl -fsSL get.docker.com -o get-docker.sh && chmod +x get-docker.sh && ./get-docker.sh
 
     - name: Add the current user to docker group
       user: name=vagrant append=yes groups=docker

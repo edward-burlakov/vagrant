@@ -394,17 +394,19 @@ docker ps
              — name: Checking DNS        
                command: host -t A google.com
 
-             — name: Installing tools        
-               apt: >
-                 package={{ item }}          
-                 state=present
-                 update_cache=yes        
+             — name: Installing packages        
+               ansible.builtin.apt:
+                 pkg: "{{ item }}"          
+                 state: present
+                 update_cache: yes        
                with_items:
                  — git          
                  — curl
+                 — docker.io   
 
-             — name: Installing docker        
-               shell: curl -fsSL get.docker.com -o get-docker.sh && chmod +x get-docker.sh && ./get-docker.sh      
+#### Удаляем вариант установки через curl  как неработоспособный      
+           # — name: Installing docker        
+           #   shell: curl -fsSL get.docker.com -o get-docker.sh && chmod +x get-docker.sh && ./get-docker.sh
 
              — name: Add the current user to docker group        
                user: name=vagrant append=yes groups=docker
@@ -427,12 +429,45 @@ docker ps
         setup.become = true setup.extra_vars = { ansible_user: 'vagrant' }
       end
 
-####  Изменяем конфигурацию сервер docker1.netology, устанавливая пакет docker
+####  Изменяем конфигурацию сервера docker1.netology, устанавливая пакет docker.io
 
       root@EDWARD:~# cd /etc/vagrant
       root@EDWARD:/etc/vagrant# vagrant up docker1.netology --provision
 
+      Bringing machine 'docker1.netology' up with 'virtualbox' provider...
+      ==> docker1.netology: Running provisioner: ansible...
+          docker1.netology: Running ansible-playbook...
+      
+      PLAY [nodes] *******************************************************************
+      
+      TASK [Gathering Facts] *********************************************************
+      ok: [docker1.netology]
+      
+      TASK [Create directory for ssh-keys] *******************************************
+      ok: [docker1.netology]
+      
+      TASK [Adding rsa-key in /root/.ssh/authorized_keys] ****************************
+      ok: [docker1.netology]
+      
+      TASK [Checking DNS] ************************************************************
+      changed: [docker1.netology]
+      
+      TASK [Installing tools] ********************************************************
+      ok: [docker1.netology] => (item=git)
+      ok: [docker1.netology] => (item=curl)
+      changed: [docker1.netology] => (item=docker.io)
+      
+      TASK [Add the current user to docker group] ************************************
+      changed: [docker1.netology]
+      
+      PLAY RECAP *********************************************************************
+      docker1.netology           : ok=6    changed=3    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
 
+####  Проверяем установку пакета  docker.io
+      
+      root@EDWARD:/etc/vagrant#  docker ps
+      CONTAINER ID   IMAGE     COMMAND   CREATED   STATUS    PORTS     NAMES
+      root@EDWARD:/etc/vagrant#
 
 
 
