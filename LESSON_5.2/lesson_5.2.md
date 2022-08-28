@@ -471,28 +471,3 @@ docker ps
       root@docker1:/home/vagrant# docker ps
       CONTAINER ID   IMAGE     COMMAND   CREATED   STATUS    PORTS     NAMES
       root@docker1:/home/vagrant#
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
- 1Help      2Save      3Mark      4Replac    5Copy      6Move      7Search    8Delete    9PullDn   10Quit
