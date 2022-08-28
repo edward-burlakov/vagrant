@@ -24,7 +24,7 @@ Vagrant.configure(2) do |config|
     servers.each do |machine|
         # Применяем конфигурации для каждой машины. Имя машины(как ее будет видно в Vbox GUI) находится в переменной "machine[:hostname]"
         config.vm.define machine[:hostname] do |node|
-            # Поднять машину из образа "ubuntu 20.04"
+            # Поднять машину из образа "focal/ubuntu 20.04"
             node.vm.box = ISO
             # Hostname который будет присвоен VM (самой ОС)
             node.vm.hostname = machine[:hostname]
