@@ -377,7 +377,8 @@ docker ps
 
        ---  
 
-         — hosts: nodes    
+         — name: Installing docker on server docker1.netology
+           hosts: nodes    
            become: yes    
            become_user: root    
            remote_user: vagrant    

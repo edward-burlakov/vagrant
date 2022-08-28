@@ -41,7 +41,7 @@ Vagrant.configure(2) do |config|
                 # Перезаписать название VM в Vbox GUI
                 vb.name = machine[:hostname]
             end
-        # Запускаем ansible только после установки этого пакета для выполнения плейбука установки docker на удаленном сервере
+        # Запускаем данный блок ansible только после установки этого пакета для выполнения плейбука установки docker на удаленном сервере
             node.vm.provision "ansible" do |setup|
                setup.inventory_path = INVENTORY_PATH
                setup.playbook = "../ansible/provision.yml"
