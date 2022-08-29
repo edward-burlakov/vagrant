@@ -228,6 +228,7 @@ docker ps
 #### Устанавливаем программу для запуска процесса ssh неинтерактивно
 
         root@EDWARD:/etc/ansible# apt install sshpass
+
 #### Устанавливаем VirtualBox
     
      root@EDWARD:~# sudo apt update && sudo apt install virtualbox
@@ -242,7 +243,7 @@ docker ps
      Vagrant 2.2.19
      root@EDWARD:~#      
 
-####  Скачиваем файл образа  вручную
+####  Скачиваем файл образа вручную
 
      root@EDWARD:/etc/vagrant#  curl -L -o /etc/vagrant/boxes/focal-ubuntu-20.04.box  https://app.vagrantup.com/ubuntu/boxes/focal64/versions/20220825.0.0/providers/virtualbox.box
 
@@ -301,7 +302,7 @@ docker ps
         ==> docker1.netology: Setting hostname...
         ==> docker1.netology: Configuring and enabling network interfaces...
 
-####  переходим в рабочий каталог vagrant, входим на гостевой сервер  и проверяем версию ОС сервера: 
+####  Переходим в рабочий каталог vagrant, входим на гостевой сервер и проверяем версию ОС сервера: 
       root@EDWARD:/~# cd /etc/vagrant
       root@EDWARD:/etc/vagrant#  vagrant ssh docker1.netology
 
@@ -322,7 +323,8 @@ docker ps
          inet 192.168.56.11/24 brd 192.168.192.255 scope global eth1
        root@docker1:/home/vagrant#
 
-####  Добавляем на удаленном сервере в  возможность авторизации по паролю
+####  Добавляем на удаленном сервере возможность авторизации по паролю
+
       root@docker1:/home/vagrant#  tail -n 3 /etc/ssh/sshd_config
         PasswordAuthentication yes
         PermitRootLogin no
@@ -404,9 +406,10 @@ docker ps
                with_items:
                  — git          
                  — curl
+             # Добавляем установку пакета docker 
                  — docker.io
 
-             # Удаляем вариант установки через curl  как неработоспособный      
+             # Удаляем вариант установки docker через curl  как неработоспособный      
              # — name: Installing docker        
              #   shell: curl -fsSL get.docker.com -o get-docker.sh && chmod +x get-docker.sh && ./get-docker.sh
 
@@ -465,7 +468,7 @@ docker ps
       PLAY RECAP *********************************************************************
       docker1.netology : ok=6    changed=3    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
 
-####  Проверяем установку пакета  docker.io на гостевой машине:
+####  Проверяем установку пакета docker.io на гостевой машине:
       root@EDWARD:/etc/vagrant/# vagrant ssh docker1.netology 
 
       root@docker1:/home/vagrant# docker ps
