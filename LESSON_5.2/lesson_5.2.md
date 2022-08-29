@@ -7,7 +7,6 @@
 
 ### Ответ:
 
-        
         1) Методология CI/CD 
            - Ускоряет  выход минимально работоспособного программного продукта 
              в продакшен (сокращается time-to-market ). 
@@ -46,22 +45,66 @@ Vagrant
 Ansible
 Приложить вывод команд установленных версий каждой из программ, оформленный в markdown.
 
+---
+
 ### Ответ:
 
-#### VirtualBox на  Windows 10
+####  1. Устанавливаем  VirtualBox на  Windows 10
 
 ![img.png](img.png)
 
----
 
-#### Vagrant  на Windows 10
+####  2. Устанавливаем  Hashi-Corp Vagrant на  Windows 10
 
 ![img_1.png](img_1.png)
 
----
-    $ vagrant ssh ...
+#### Устанавливаем виртуальную машину c ОС Ubuntu 20.04 в гипервизоре Oracle VirtualBox 
+#### с помощью cледующего файла конфигурации Vagrantfile
 
-    root@vagrant:/home/vagrant# cat /etc/*release
+     ISO = "bento/ubuntu-20.04"
+     NET = "192.168.192."
+     DOMAIN = ".netology"
+     HOST_PREFIX = "ansible"
+     INVENTORY_PATH = "../ansible/inventory"
+     servers = [  
+       {    
+         :hostname => HOST_PREFIX + DOMAIN,    
+         :ip => NET + "11",    
+         :ssh_host => "20011",    
+         :ssh_vm => "22",    
+         :ram => 1024,    
+         :core => 1  
+       }
+     ]
+     
+     Vagrant.configure(2) do |config|  
+         config.vm.synced_folder ".", "/vagrant", disabled: false  
+         servers.each do |machine|    
+         config.vm.define machine[:hostname] do |node|      
+         node.vm.box = ISO      
+         node.vm.hostname = machine[:hostname]      
+         node.vm.network "private_network", ip: machine[:ip]      
+         node.vm.network :forwarded_port, guest: machine[:ssh_vm],host: machine[:ssh_host]      
+                 node.vm.provider "virtualbox" do |vb|
+                     vb.customize ["modifyvm", :id, "--memory", machine[:ram]]        
+                     vb.customize ["modifyvm", :id, "--cpus", machine[:core]]        
+                     vb.name = machine[:hostname]      
+                 end
+             end  
+         end
+     end
+
+---
+
+####  Проверяем конфигурацию сервера
+
+    $ vagrant ssh ansible.netology
+
+    root@ansible:~# hostname
+    ansible.netology
+    root@ansible:~#
+
+    root@ansible:~# cat /etc/*release
     DISTRIB_ID=Ubuntu
     DISTRIB_RELEASE=20.04
     DISTRIB_CODENAME=focal
@@ -80,20 +123,23 @@ Ansible
     UBUNTU_CODENAME=focal
     root@vagrant:/home/vagrant#
 
-
-    root@vagrant:/home/vagrant# ip a | grep inet
+    root@ansible:~# ip a | grep inet
         inet 127.0.0.1/8 scope host lo
         inet6 ::1/128 scope host
         inet 10.0.2.15/24 brd 10.0.2.255 scope global dynamic eth0
         inet6 fe80::a00:27ff:fea2:6bfd/64 scope link
 
+---
 
+#### Устанавливаем Ansible на сервере ansible.netology  c ОС Ubuntu 20.04, запущенном в  VirtualBox.
 
-#### Устанавливаем Ansible на экземпляре Ubuntu 20.04, запущенном в  VirtualBox c помощью Vagrant.
+    root@ansible:~# sudo apt update
+    root@ansible:~# apt-get update
+    root@ansible:~# apt-get install ansible -y
 
     Результат :
 
-    root@vagrant:/home/vagrant# ansible --version
+    root@ansible:~#  ansible --version
     ansible [core 2.12.8]
       config file = /etc/ansible/ansible.cfg
       configured module search path = ['/root/.ansible/plugins/modules', '/usr/share/ansible/plugins/modules']
@@ -103,9 +149,9 @@ Ansible
       python version = 3.8.10 (default, Mar 15 2022, 12:22:08) [GCC 9.4.0]
       jinja version = 2.10.1
       libyaml = True
-    root@vagrant:/home/vagrant#
+    root@ansible:~# 
 
----
+--- 
 
 ## Задача 4 (*)
 
@@ -114,149 +160,314 @@ Ansible
 Зайти внутрь ВМ, убедиться, что Docker установлен с помощью команды
 docker ps
 
+---
 
 ### Ответ:
 
-===
-
- #### Развертываем виртуальную машину с помощью конфигурационного файла Vagrantfile/ 
-
-        C:\Users\med1094\PycharmProjects\Vagrant>vagrant up
-        Bringing machine 'server1.netology' up with 'virtualbox' provider...
-        ==> server1.netology: Importing base box 'bento/ubuntu-20.04'...
-        ==> server1.netology: Matching MAC address for NAT networking...
-        ==> server1.netology: Checking if box 'bento/ubuntu-20.04' version '202206.03.0' is up to date...
-        ==> server1.netology: There was a problem while downloading the metadata for your box
-        ==> server1.netology: to check for updates. This is not an error, since it is usually due
-        ==> server1.netology: to temporary network problems. This is just a warning. The problem
-        ==> server1.netology: encountered was:
-        ==> server1.netology:
-        ==> server1.netology: Failed to connect to vagrantcloud.com port 443: Timed out
-        ==> server1.netology:
-        ==> server1.netology: If you want to check for box updates, verify your network connection
-        ==> server1.netology: is valid and try again.
-        ==> server1.netology: Setting the name of the VM: server1.netology
-        ==> server1.netology: Clearing any previously set network interfaces...
-        ==> server1.netology: Preparing network interfaces based on configuration...
-        server1.netology: Adapter 1: nat
-        server1.netology: Adapter 2: hostonly
-        ==> server1.netology: Forwarding ports...
-        server1.netology: 22 (guest) => 20011 (host) (adapter 1)
-        ==> server1.netology: Running 'pre-boot' VM customizations...
-        ==> server1.netology: Booting VM...
-        ==> server1.netology: Waiting for machine to boot. This may take a few minutes...
-        server1.netology: SSH address: 127.0.0.1:2222
-        server1.netology: SSH username: vagrant
-        server1.netology: SSH auth method: private key
-        server1.netology: Warning: Connection reset. Retrying...
-        server1.netology: Warning: Connection aborted. Retrying...
-        server1.netology: Warning: Connection aborted. Retrying...
-        server1.netology: Warning: Connection reset. Retrying...
-        server1.netology:
-        server1.netology: Vagrant insecure key detected. Vagrant will automatically replace
-        server1.netology: this with a newly generated keypair for better security.
-        server1.netology:
-        server1.netology: Inserting generated public key within guest...
-        server1.netology: Removing insecure key from the guest if it's present...
-        server1.netology: Key inserted! Disconnecting and reconnecting using new SSH key...
-        ==> server1.netology: Machine booted and ready!
-        ==> server1.netology: Checking for guest additions in VM...
-        ==> server1.netology: Setting hostname...
-        ==> server1.netology: Configuring and enabling network interfaces...
-        ==> server1.netology: Mounting shared folders...
-        server1.netology: /vagrant => C:/Users/med1094/PycharmProjects/Vagrant
-        C:\Users\med1094\PycharmProjects\Vagrant>
-
-===
-
-####   Входим в виртуалку / Проверяем версию виртуальной машины. 
-
-        root@server1:/home/vagrant# cat /etc/*release
-        DISTRIB_ID=Ubuntu
-        DISTRIB_RELEASE=20.04
-        DISTRIB_CODENAME=focal
-        DISTRIB_DESCRIPTION="Ubuntu 20.04.4 LTS"
-        NAME="Ubuntu"
-        VERSION="20.04.4 LTS (Focal Fossa)"
-        ID=ubuntu
-        ID_LIKE=debian
-        PRETTY_NAME="Ubuntu 20.04.4 LTS"
-        VERSION_ID="20.04"
-        HOME_URL="https://www.ubuntu.com/"
-        SUPPORT_URL="https://help.ubuntu.com/"
-        BUG_REPORT_URL="https://bugs.launchpad.net/ubuntu/"
-        PRIVACY_POLICY_URL="https://www.ubuntu.com/legal/terms-and-policies/privacy-policy"
-        VERSION_CODENAME=focal
-        UBUNTU_CODENAME=focal
-        root@server1:/home/vagrant#
-
-####  Проверяем статус интрерфейсов
+#### Развертываем  пакеты Ansible и Vagrant на нашей рабочей станции EDWARD
+#### В качестве пользователя указываем  vagrant  c паролем vagrant
  
-        root@server1:/home/vagrant# ip a
-        1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN group default qlen 1000
-        link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
-        inet 127.0.0.1/8 scope host lo
-        valid_lft forever preferred_lft forever
-        inet6 ::1/128 scope host
-        valid_lft forever preferred_lft forever
-        2: eth0: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc fq_codel state UP group default qlen 1000
-        link/ether 08:00:27:a2:6b:fd brd ff:ff:ff:ff:ff:ff
-        inet 10.0.2.15/24 brd 10.0.2.255 scope global dynamic eth0
-        valid_lft 86157sec preferred_lft 86157sec
-        inet6 fe80::a00:27ff:fea2:6bfd/64 scope link
-        valid_lft forever preferred_lft forever
-        3: eth1: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc fq_codel state UP group default qlen 1000
-        link/ether 08:00:27:51:eb:58 brd ff:ff:ff:ff:ff:ff
-        inet 192.168.192.11/24 brd 192.168.192.255 scope global eth1
-        valid_lft forever preferred_lft forever
-        inet6 fe80::a00:27ff:fe51:eb58/64 scope link
-        valid_lft forever preferred_lft forever
+#### Устанавливаем Ansible      
+     root@EDWARD:~# sudo apt update
+     root@EDWARD:~# apt-get update
+     root@EDWARD:~# apt-get install ansible -y
 
-        root@server1:/home/vagrant# ip a | grep inet | grep 192
-        inet 192.168.192.11/24 brd 192.168.192.255 scope global eth1clear
+#### Проверяем результат
 
-###   Смотрим активные соединения
+     root@EDWARD:~# ansible --version
+     ansible 2.10.8
+       config file = None
+       configured module search path = ['/root/.ansible/plugins/modules', '/usr/share/ansible/plugins/modules']
+       ansible python module location = /usr/lib/python3/dist-packages/ansible
+       executable location = /usr/bin/ansible
+       python version = 3.10.4 (main, Jun 29 2022, 12:14:53) [GCC 11.2.0]
+     root@EDWARD:~#
 
-        root@server1:/home/vagrant#  sudo lsof -nP -i
-        COMMAND    PID            USER   FD   TYPE DEVICE SIZE/OFF NODE NAME
-        systemd-n  607 systemd-network   20u  IPv4  20289      0t0  UDP 10.0.2.15:68
-        systemd-r  609 systemd-resolve   12u  IPv4  20308      0t0  UDP 127.0.0.53:53
-        systemd-r  609 systemd-resolve   13u  IPv4  20309      0t0  TCP 127.0.0.53:53 (LISTEN)
-        sshd       819            root    3u  IPv4  24052      0t0  TCP *:22 (LISTEN)
-        sshd       819            root    4u  IPv6  24063      0t0  TCP *:22 (LISTEN)
-        sshd      1060            root    4u  IPv4  26463      0t0  TCP 10.0.2.15:22->10.0.2.2:65462 (ESTABLISHED)
-        sshd      1113         vagrant    4u  IPv4  26463      0t0  TCP 10.0.2.15:22->10.0.2.2:65462 (ESTABLISHED)
+#### Создаем файл inventory - списка хостов
+
+        root@EDWARD:/etc/ansible# cat /etc/ansible/inventory
+
+        [nodes:children]
+        manager
         
+        [manager]
+        docker1.netology ansible_host=192.168.56.11 ansible_port=22 ansible_user=vagrant ansible_password=vagrant
 
-        root@server1:/home/vagrant# hostname -f
+        [all:vars]
+        ansible_python_interpreter=/usr/bin/python3
 
-        root@server1:/home/vagrant# free
-        total        used        free      shared  buff/cache   available
-        Mem:        2030968      149588      954020         988      927360     1728292
-        Swap:       1999868           0     1999868
+#### Правим файл конфигурации ansible.cfg, указывая на созданный выше файл inventory
+       
+       root@EDWARD:/etc/ansible# cat /etc/ansible/ansible.cfg
+        [defaults]
+        
+        inventory=./inventory
+        deprecation_warnings=False
+        command_warnings=False
+        ansible_port=22
+        interpreter_python=/usr/bin/python3
 
-### Выключаем сервер
-        C:\Users\med1094\PycharmProjects\Vagrant>vagrant halt
-        ==> server1.netology: Attempting graceful shutdown of VM...
+#### Проверяем корректность конфигурации хостов, перечисленных в файле inventory
 
-### Проверяем статус сервера
+       root@EDWARD:/etc/ansible# ansible-inventory --list -y
+       all:
+         children:
+           nodes:
+             children:
+               manager:
+                 hosts:
+                   docker1.netology:
+                     ansible_host: 192.168.56.11
+                     ansible_password: vagrant
+                     ansible_port: 22
+                     ansible_python_interpreter: /usr/bin/python3
+                     ansible_user: vagrant
+           ungrouped: {}
+       root@EDWARD:/etc/ansible#
 
-        C:\Users\med1094\PycharmProjects\Vagrant>vagrant status
-        Current machine states:
+#### Устанавливаем программу для запуска процесса ssh неинтерактивно
 
-        server1.netology          poweroff (virtualbox)
+        root@EDWARD:/etc/ansible# apt install sshpass
+#### Устанавливаем VirtualBox
+    
+     root@EDWARD:~# sudo apt update && sudo apt install virtualbox
 
-        The VM is powered off. To restart the VM, simply run `vagrant up`
+#### Устанавливаем Vagrant
+    
+     root@EDWARD:~# sudo apt update && sudo apt install vagrant
 
-### Удаляем выбранный экземпляр сервера
+#### Проверяем результат
 
-        C:\Users\med1094\PycharmProjects\Vagrant>vagrant destroy
-        server1.netology: Are you sure you want to destroy the 'server1.netology' VM? [y/N] y
-        ==> server1.netology: Destroying VM and associated drives...
+     root@EDWARD:~# vagrant --version
+     Vagrant 2.2.19
+     root@EDWARD:~#      
 
-### Проверяем статус сервера
+####  Скачиваем файл образа  вручную
 
-        C:\Users\med1094\PycharmProjects\Vagrant>vagrant status
-        Current machine states:
+     root@EDWARD:/etc/vagrant#  curl -L -o /etc/vagrant/boxes/focal-ubuntu-20.04.box  https://app.vagrantup.com/ubuntu/boxes/focal64/versions/20220825.0.0/providers/virtualbox.box
 
-        server1.netology          not created (virtualbox)
+####  Добавляем образ в репозиторий
+
+     root@EDWARD:/etc/vagrant#  vagrant box add focal/ubuntu-20.04 /etc/vagrant/boxes/focal-ubuntu-20.04.box
+
+#### Переходим в папку /etc/vagrant и выполняем команду инициализации
+
+     root@EDWARD:/etc/vagrant#  vagrant init focal/ubuntu-20.04
+
+     A `Vagrantfile` has been placed in this directory. You are now
+     ready to `vagrant up` your first virtual environment! Please read
+     the comments in the Vagrantfile as well as documentation on
+     `vagrantup.com` for more information on using Vagrant.
+     root@EDWARD:/etc/vagrant
+
+#### Помещаем в папку /etc/vagrant следующий конфигурационный файл Vagrantfile  : 
+
+ <https://github.com/edward-burlakov/vagrant/blob/main/Vagrantfile>
+
+  
+ #### Запускаем виртуальный сервер docker1.netology
+
+---
+      root@EDWARD:/~# vagrant up
+        Bringing machine 'docker1.netology' up with 'virtualbox' provider...
+        Bringing machine 'docker2.netology' up with 'virtualbox' provider...
+        ==> docker1.netology: Importing base box 'bento/ubuntu-20.04'...
+        ==> docker1.netology: Matching MAC address for NAT networking...
+        ==> docker1.netology: Checking if box 'bento/ubuntu-20.04' version '202206.03.0' is up to date...
+        ==> docker1.netology: Setting the name of the VM: docker1.netology
+        ==> docker1.netology: Clearing any previously set network interfaces...
+        ==> docker1.netology: Preparing network interfaces based on configuration...
+            docker1.netology: Adapter 1: nat
+            docker1.netology: Adapter 2: hostonly
+        ==> docker1.netology: Forwarding ports...
+            docker1.netology: 22 (guest) => 2222 (host) (adapter 1)
+        ==> docker1.netology: Running 'pre-boot' VM customizations...
+        ==> docker1.netology: Booting VM...
+        ==> docker1.netology: Waiting for machine to boot. This may take a few minutes...
+            docker1.netology: SSH address: 127.0.0.1:2222
+            docker1.netology: SSH username: vagrant
+            docker1.netology: SSH auth method: private key
+            docker1.netology: Warning: Connection reset. Retrying...
+            docker1.netology: Warning: Connection aborted. Retrying...
+            docker1.netology:
+            docker1.netology: Vagrant insecure key detected. Vagrant will automatically replace
+            docker1.netology: this with a newly generated keypair for better security.
+            docker1.netology:
+            docker1.netology: Inserting generated public key within guest...
+            docker1.netology: Removing insecure key from the guest if it's present...
+            docker1.netology: Key inserted! Disconnecting and reconnecting using new SSH key...
+        ==> docker1.netology: Machine booted and ready!
+        ==> docker1.netology: Checking for guest additions in VM...
+        ==> docker1.netology: Setting hostname...
+        ==> docker1.netology: Configuring and enabling network interfaces...
+
+####  переходим в рабочий каталог vagrant, входим на гостевой сервер  и проверяем версию ОС сервера: 
+      root@EDWARD:/~# cd /etc/vagrant
+      root@EDWARD:/etc/vagrant#  vagrant ssh docker1.netology
+
+      vagrant@docker1:~$ sudo su
+      root@docker1:/home/vagrant# cat /etc/*release | grep VERSION
+      VERSION="20.04.5 LTS (Focal Fossa)"
+      VERSION_ID="20.04"
+      VERSION_CODENAME=focal
+      root@docker1:/home/vagrant#
+
+####  Проверяем имя сервера и наличие сетевых интерфейсов.
+      
+       root@docker1:/home/vagrant# hostname -f
+       docker1.netology
+       root@docker1:/home/vagrant#
+
+       root@docker1:/home/vagrant# ip a | grep inet | grep 192
+         inet 192.168.56.11/24 brd 192.168.192.255 scope global eth1
+       root@docker1:/home/vagrant#
+
+####  Добавляем на удаленном сервере в  возможность авторизации по паролю
+      root@docker1:/home/vagrant#  tail -n 3 /etc/ssh/sshd_config
+        PasswordAuthentication yes
+        PermitRootLogin no
+        PubkeyAuthentication yes
+
+#### Выходим из гостевого сервера
+
+      root@docker1:/home/vagrant# exit
+      exit
+      vagrant@docker1:~$ exit
+      logout
+      root@EDWARD:/etc/vagrant#
+
+#### Генерим локальные ssh-ключи
+
+    root@EDWARD:/etc/ansible# ssh-keygen
+    Generating public/private rsa key pair.
+    Enter file in which to save the key (/root/.ssh/id_rsa):
+    Enter passphrase (empty for no passphrase):
+    Enter same passphrase again:
+    Your identification has been saved in /root/.ssh/id_rsa
+    Your public key has been saved in /root/.ssh/id_rsa.pub
+
+#### Добавляем ssh-ключи на удаленный сервер
+
+    root@EDWARD:~#  ssh-copy-id -i ~/.ssh/id_rsa.pub -p 22 vagrant@192.168.56.11
+  
+    /usr/bin/ssh-copy-id: INFO: Source of key(s) to be installed: "/root/.ssh/id_rsa.pub"
+    /usr/bin/ssh-copy-id: INFO: attempting to log in with the new key(s), to filter out any that are already installed
+    /usr/bin/ssh-copy-id: INFO: 1 key(s) remain to be installed -- if you are prompted now it is to install the new keys
+    vagrant@192.168.56.11's password:
+
+    Number of key(s) added: 1
+
+    Now try logging into the machine, with:   "ssh -p '22' 'vagrant@192.168.56.11'"
+    and check to make sure that only the key(s) you wanted were added.
+
+#### Подключаемся в первый раз по ssh и получаем удаленные ключи локально. 
+     root@EDWARD:~#  ssh 192.168.56.11 -l vagrant
+      
+#### Проверяем подключение Ansible к docker1.netology с помощью запуска на удаленном сервере модуля ping  
+
+      root@EDWARD:/etc/ansible# ansible docker1.netology -m ping 
+      SSH password:
+      docker | SUCCESS => {
+          "changed": false,
+          "ping": "pong"
+      }
+      root@EDWARD:/etc/ansible#
+
+####  Создаем файл плейбука provision.yml в каталоге /etc/ansible
+
+<https://github.com/edward-burlakov/vagrant/blob/main/LESSON_5.2/provision.yml>
+      
+       ---  
+
+         — name: Installing docker on server docker1.netology
+           hosts: nodes    
+           become: yes    
+           become_user: root    
+           remote_user: vagrant    
+         
+           tasks:      
+             — name: Create directory for ssh-keys        
+               file: state=directory  mode=0700   dest=/root/.ssh/
+       
+             — name: Adding rsa-key in /root/.ssh/authorized_keys        
+               copy: src=~/.ssh/id_rsa.pub dest=/root/.ssh/authorized_keys  owner=root mode=0600        
+               ignore_errors: yes
+       
+             — name: Checking DNS        
+               command: host -t A google.com
+
+             — name: Installing packages        
+               ansible.builtin.apt:
+                 pkg: "{{ item }}"          
+                 state: present
+                 update_cache: yes        
+               with_items:
+                 — git          
+                 — curl
+                 — docker.io
+
+             # Удаляем вариант установки через curl  как неработоспособный      
+             # — name: Installing docker        
+             #   shell: curl -fsSL get.docker.com -o get-docker.sh && chmod +x get-docker.sh && ./get-docker.sh
+
+             — name: Add the current user to docker group        
+               user: name=vagrant append=yes groups=docker
+
+
+####  Создаем логическую ссылку на файл inventory в HOME-каталоге пользователя root
+
+       root@EDWARD:~# ln -s /etc/ansible/inventory inventory
+       root@EDWARD:~# ls -la | grep inventory
+       lrwxrwxrwx 1 root    root      22 Aug 28 03:43 inventory -> /etc/ansible/inventory
+
+
+####  Подключаем Ansible playbook к нашей Vagrant конфигурации - добавляем записи в файл Vagrantfile:
+
+      INVENTORY_PATH = "../ansible/inventory"
+
+      node.vm.provision "ansible" do |setup| 
+        setup.inventory_path = INVENTORY_PATH 
+        setup.playbook = "../ansible/provision.yml" 
+        setup.become = true setup.extra_vars = { ansible_user: 'vagrant' }
+      end
+
+####  Изменяем конфигурацию сервера docker1.netology, устанавливая пакет docker.io
+
+      root@EDWARD:~# cd /etc/vagrant
+      root@EDWARD:/etc/vagrant# vagrant up docker1.netology --provision
+
+      Bringing machine 'docker1.netology' up with 'virtualbox' provider...
+      ==> docker1.netology: Running provisioner: ansible...
+          docker1.netology: Running ansible-playbook...
+      
+      PLAY [nodes] *******************************************************************
+      
+      TASK [Gathering Facts] *********************************************************
+      ok: [docker1.netology]
+      
+      TASK [Create directory for ssh-keys] *******************************************
+      ok: [docker1.netology]
+      
+      TASK [Adding rsa-key in /root/.ssh/authorized_keys] ****************************
+      ok: [docker1.netology]
+      
+      TASK [Checking DNS] ************************************************************
+      changed: [docker1.netology]
+      
+      TASK [Installing packages] ********************************************************
+      ok: [docker1.netology] => (item=git)
+      ok: [docker1.netology] => (item=curl)
+      changed: [docker1.netology] => (item=docker.io)
+      
+      TASK [Add the current user to docker group] ************************************
+      changed: [docker1.netology]
+      
+      PLAY RECAP *********************************************************************
+      docker1.netology : ok=6    changed=3    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+
+####  Проверяем установку пакета  docker.io на гостевой машине:
+      root@EDWARD:/etc/vagrant/# vagrant ssh docker1.netology 
+
+      root@docker1:/home/vagrant# docker ps
+      CONTAINER ID   IMAGE     COMMAND   CREATED   STATUS    PORTS     NAMES
+      root@docker1:/home/vagrant#
