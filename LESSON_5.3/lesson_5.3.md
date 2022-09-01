@@ -215,37 +215,58 @@ ___
 
 ## Ответ:
 
-#### Скачиваем образы ОС
-     root@docker:~#  docker pull bitnami/centos:centos7  
-     root@docker:~#  docker pull bitnami/debian:stable
-
-     root@docker:~# docker images
-     REPOSITORY             TAG       IMAGE ID       CREATED         SIZE
-     edwardburlakov/nginx   v2        35447fd6d341   2 hours ago     181MB
-     ubuntu/nginx           edge      1589cd6fe298   8 days ago      143MB
-     debian                 stable    f70ab914d71a   9 days ago      124MB
-     centos                 centos7   eeb6ee3f44bd   11 months ago   204MB
-     root@docker:~
-
 #### Создаем каталог  root/data на сервере с докером 
-        root@docker:~# mkdir data
+    root@docker2:~# mkdir data
 
-#### Запускаем образы
+#### Запускаем образы а машине docker2
 
-    root@docker:~# docker run -d --name centos-server1  -v /root/data/:/data/  centos:centos7  
+    root@docker2:~# docker run -it --rm -d --name centos1  -v /root/data/:/data/  centos:centos7  
     62b7447127c732d48230855402a13806848505946cebab9db6312cb9ced496b0
     
-    root@docker:~# docker run -d --name debian-server1 -v /root/data/:/data/  debian:stable
+    root@docker2:~# docker run -it --rm -d --name debian1   -v /root/data/:/data/  debian:stable 
     5791c56824b4243576df1ab00c5ec005774cac77440e985d2a11b31c3ad26bb4
 
-    root@docker:~# docker ps -a
-    CONTAINER ID   IMAGE                     COMMAND                  CREATED             STATUS                     PORTS  NAMES
-    7b2d92fd30d3   centos:centos7            "/bin/bash"              9 minutes ago       Exited (0) 9 minutes ago          centos-server1
-    48a4dbec9aa7   debian:stable             "bash"                   9 minutes ago       Exited (0) 9 minutes ago          debian-server1
-    root@docker:~#
+    root@docker2:~# docker ps -a
+    CONTAINER ID   IMAGE            COMMAND       CREATED              STATUS              PORTS     NAMES
+    c2d78b2b776d   centos:centos7   "/bin/bash"   4 seconds ago        Up 2 seconds                  centos1
+    9d02ce103606   debian:stable    "bash"        About a minute ago   Up About a minute             debian1
+    root@docker2:~#
 
-    Образы Centos  и  Debian вылетают при запуске на моем сервере Ubuntu 20.04LTS .   
+#### Входим внутрь контейнера centos1
 
+     root@docker2:~#  docker exec -it  c2d78b2b776d  /bin/bash
+   
+#### Создаем файл, заполняем его и проверяем содержимое
+     [root@c2d78b2b776d /]# cd / && touch /data/newfile.txt
+
+     [root@c2d78b2b776d data]#  echo 'Thats all right, baby!' > /data/newfile.txt
+     
+     [root@c2d78b2b776d /]# cat  /data/newfile.txt
+     Thats all right, baby!
+     root@docker2:~#
+
+#### Создаем файл на хостовой машине docker2
+     root@docker2:~# cd /root/data/ && touch newfile2.txt
+     root@docker2:~#  echo 'I am your baby tonight!' > ./root/data/newfile2.txt
+     root@docker2:~# cat ./root/data/newfile2.txt
+     I am your baby tonight!
+     root@docker2:~#
+
+
+#### Проверяем содержимое  каталога  ./data на контейнере с debian1
+
+    root@docker2:~#  docker exec -it  debian1  /bin/bash
+    root@9d02ce103606:~# cd /data  &&  ls -la
+    drwxr-xr-x 2 root root 4096 Sep  1 20:28 .
+    drwxr-xr-x 1 root root 4096 Sep  1 20:04 ..
+    -rw-r--r-- 1 root root   23 Sep  1 20:12 newfile.txt
+    -rw-r--r-- 1 root root   24 Sep  1 20:24 newfile2.txt
+
+#### Проверяем содержимое  файлов в каталоге  ./data на контейнере с debian1    
+    root@9d02ce103606:/data# cat /data/newfile.txt && cat /data/newfile2.txt
+    Thats all right, baby!
+    I am your baby tonight!
+    root@9d02ce103606:/data#
 
 
 
