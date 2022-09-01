@@ -61,8 +61,7 @@
 
       root@3c523dca73d3 :~#  ln -s  /etc/nginx/sites-available/000-default.conf 000-default.conf
 
-####  Внутри запущенного контейнера создаем каталог ./home/site  
-####  и создаем файл  /home/site/index.html 
+####  Внутри запущенного контейнера создаем каталог ./home/site  и создаем файл  /home/site/index.html 
 
       root@3c523dca73d3 :~#   nano index.html
 
@@ -89,16 +88,16 @@
 ####   Выходим из контейнера 3c523dca73d3   
 ####   Главное - не останавливать его, чтобы не потерять внесенные изменения для нового образа !!!
  
-        root@3c523dca73d3 :~# exit
+    root@3c523dca73d3 :~# exit
 
-        root@docker:~/home/bes# docker ps -a
-        CONTAINER ID   IMAGE                     COMMAND                  CREATED          STATUS                      PORTS     NAMES
-        3c523dca73d3   edwardburlakov/nginx:v1   "/docker-entrypoint.…"   6 minutes ago    Up 6 minutes                80/tcp    zealous_goodall
+    root@docker:~/home/bes# docker ps -a
+    CONTAINER ID   IMAGE                     COMMAND                  CREATED          STATUS        PORTS   NAMES
+    3c523dca73d3   edwardburlakov/nginx:v1   "/docker-entrypoint.…"   6 minutes ago    Up 6 minutes  80/tcp  zealous_goodall
 
 #### Cоздаем форк - новый образ "edwardburlakov/nginx:v2" со сделанными выше изменениями   
        
-        root@docker:~# docker commit -m "Edited /root/mysite/index.html" -a "Edward Burlakov"   3c523dca73d3   edwardburlakov/nginx:v2
-        sha256:b1f561e54e5ac13d489f28dfcc8239dcf4974dba40c32cf421c02b6b490400b9
+    root@docker:~# docker commit -m "Edited /root/mysite/index.html" -a "Edward Burlakov"   3c523dca73d3   edwardburlakov/nginx:v2
+    sha256:b1f561e54e5ac13d489f28dfcc8239dcf4974dba40c32cf421c02b6b490400b9
 
 ####  Проверяем наличие созданного образа  "edwardburlakov/nginx:v2"
 
@@ -118,29 +117,29 @@
 ####  Авторизуемся в командной строке на https://hub.docker.com/ указав свой логин edwardburlakov.  
 ####  Запускаем процесс выгрузки  контейнера на hub.             
 
-            root@docker:~# docker login && docker push edwardburlakov/nginx:v2
-            Authenticating with existing credentials...
-            WARNING! Your password will be stored unencrypted in /root/.docker/config.json.
-            Configure a credential helper to remove this warning. See
-            https://docs.docker.com/engine/reference/commandline/login/#credentials-store
+       root@docker:~# docker login && docker push edwardburlakov/nginx:v2
+       Authenticating with existing credentials...
+       WARNING! Your password will be stored unencrypted in /root/.docker/config.json.
+       Configure a credential helper to remove this warning. See
+       https://docs.docker.com/engine/reference/commandline/login/#credentials-store
             
-            Login Succeeded
-            The push refers to repository [docker.io/edwardburlakov/nginx]
-            67e88ef17645: Pushed
-            e5bad10f7d54: Pushed
-            d85c0bc2a850: Pushed
-            ca141e230ffb: Mounted from ubuntu/nginx
-            8d252ae2bf87: Mounted from ubuntu/nginx
-            58a9a631c209: Mounted from ubuntu/nginx
-            629d9dbab5ed: Mounted from ubuntu/nginx
-            v1: digest: sha256:03441d01c34f736d18004ee16ee87bbbe33cb492b4274339879c25702e73494c size: 1782
-            root@docker:~#
+       Login Succeeded
+       The push refers to repository [docker.io/edwardburlakov/nginx]
+       67e88ef17645: Pushed
+       e5bad10f7d54: Pushed
+       d85c0bc2a850: Pushed
+       ca141e230ffb: Mounted from ubuntu/nginx
+       8d252ae2bf87: Mounted from ubuntu/nginx
+       58a9a631c209: Mounted from ubuntu/nginx
+       629d9dbab5ed: Mounted from ubuntu/nginx
+       v1: digest: sha256:03441d01c34f736d18004ee16ee87bbbe33cb492b4274339879c25702e73494c size: 1782
+       root@docker:~#
 
 ####  Ссылки на форк-образ
 
-            https://hub.docker.com/layers/edwardburlakov/nginx/v2/images/sha256-7192894b1491d6c6b4ed955a9680dc85b1c63dfc734ca65b7921ac17f81b39c9?context=repo     
+      https://hub.docker.com/layers/edwardburlakov/nginx/v2/images/sha256-7192894b1491d6c6b4ed955a9680dc85b1c63dfc734ca65b7921ac17f81b39c9?context=repo     
     
-            docker pull edwardburlakov/nginx:v2
+      docker pull edwardburlakov/nginx:v2
 
 
 
@@ -153,24 +152,6 @@
 ___
 
 ### Ответ:
-
- 
-
-
-База данных postgresql используемая, как кэш;
-  - в идеале для БД использовать Виртуалку, если доступ к кешу нужен для разных систем, пользователей, 
-    использование БД на докере не рекомендуется.
-    а так же должен быть сохранен между сессиями , при остановке  приклада.
-    вариант с Контейнером(докер) можно рассмотреть только если данные нужны только в рамках сессии 
-    самого приложения работающего на этом же контейнере.
-    
- 
-
-Mongodb, как основное хранилище данных для java-приложения;
-
-
-Jenkins-сервер.
-- так же класический кейс для контейнерной реализации Докер, данных сам не хранит.
 
 Сценарий:
 -----------
