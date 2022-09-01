@@ -103,7 +103,7 @@
 
         root@docker:~# docker images
         REPOSITORY             TAG       IMAGE ID       CREATED          SIZE
-        edwardburlakov/nginx   v2        3c523dca73d3   6 minutes ago    181MB
+        edwardburlakov/nginx   v2        9cd6fe2a73d3   6 minutes ago    181MB
         ubuntu/nginx           edge      1589cd6fe298   8 days ago       143MB
         root@docker:~#
 
