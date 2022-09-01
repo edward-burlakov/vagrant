@@ -2,11 +2,11 @@
 
 ## Задача 1
 
-##  Сценарий выполнения задачи:
-##  Cоздайте свой репозиторий на https://hub.docker.com;
-##  Выберете любой образ, который содержит веб-сервер Nginx;
-##  Создайте свой fork образа;
-##  Реализуйте функциональность: запуск веб-сервера в фоне с индекс-страницей, содержащей HTML-код ниже:
+####  Сценарий выполнения задачи:
+####  Cоздайте свой репозиторий на https://hub.docker.com;
+####  Выберете любой образ, который содержит веб-сервер Nginx;
+####  Создайте свой fork образа;
+####  Реализуйте функциональность: запуск веб-сервера в фоне с индекс-страницей, содержащей HTML-код ниже:
             <html>
             <head>
             Hey, Netology
@@ -15,30 +15,29 @@
             <h1>I’m DevOps Engineer!</h1>
             </body>
             </html>
-##  Опубликуйте созданный форк в своем репозитории и предоставьте ответ в виде ссылки на https://hub.docker.com/username_repo.
+####  Опубликуйте созданный форк в своем репозитории и предоставьте ответ в виде ссылки на https://hub.docker.com/username_repo.
 
 
 ## Ответ:
 
-### Входим на  сайт  https://hub.docker.com и ищем стабильную версию NGINX / В нашем случае это будет ubuntu/nginx:edge .
+#### Входим на  сайт  https://hub.docker.com и ищем стабильную версию NGINX / В нашем случае это будет ubuntu/nginx:edge .
 
-### Скачиваем образ локально 
+#### Скачиваем образ локально 
 
       root@docker:~/mysite# docker pull  ubuntu/nginx:edge
 
-
-### Для обновления образа  нужно создать из него контейнер, в который мы будем вносить изменения.
-###  Создаем  контейнер и вносим в него изменения  
+####  Для обновления образа  нужно создать из него контейнер, в который мы будем вносить изменения.
+####  Создаем  контейнер и вносим в него изменения  
 
       root@docker:~/mysite#  docker run  -it  --name my_site ubuntu/nginx:edge  /bin/bash
 
-### Или входим внутрь запущенного контейнера с помощью команды exec 
+####  Или входим внутрь запущенного контейнера с помощью команды exec 
       root@docker:~/mysite#   docker exec -it 3c523dca73d3  /bin/bash 
 
-### Устанавливаем  внутри контейнера  редактор nano
+#### Устанавливаем  внутри контейнера  редактор nano
       root@3c523dca73d3 :~#     apt update && apt install nano
 
-###  Внутри запущенного контейнера редактируем файл конфигурации /etc/nginx/sites-available/000-default.conf
+####  Внутри запущенного контейнера редактируем файл конфигурации /etc/nginx/sites-available/000-default.conf
       root@3c523dca73d3 :/etc/nginx/sites-available# cat 000-default.conf
             server {
                     listen 80;
@@ -78,30 +77,30 @@
            </body>
         </html>      
 
-###   Проверям конфигурацию NGINX 
+####  Проверям конфигурацию NGINX 
    
-      root@3c523dca73d3 :~#   nginx -t
+        root@3c523dca73d3 :~#   nginx -t
 
-###   Далее перечитаем конфигурацию nginx:
+####  Далее перечитаем конфигурацию nginx:
 
-      root@3c523dca73d3 :~#  nginx -s reload
+        root@3c523dca73d3 :~#  nginx -s reload
 
 
-###   Выходим из контейнера 3c523dca73d3   
-###   Главное - не останавливать его, чтобы не потерять внесенные изменения для нового образа !!!
+####   Выходим из контейнера 3c523dca73d3   
+####   Главное - не останавливать его, чтобы не потерять внесенные изменения для нового образа !!!
  
         root@3c523dca73d3 :~# exit
 
-    root@docker:~/home/bes# docker ps -a
-    CONTAINER ID   IMAGE                     COMMAND                  CREATED          STATUS                      PORTS     NAMES
-    3c523dca73d3   edwardburlakov/nginx:v1   "/docker-entrypoint.…"   6 minutes ago    Up 6 minutes                80/tcp    zealous_goodall
+        root@docker:~/home/bes# docker ps -a
+        CONTAINER ID   IMAGE                     COMMAND                  CREATED          STATUS                      PORTS     NAMES
+        3c523dca73d3   edwardburlakov/nginx:v1   "/docker-entrypoint.…"   6 minutes ago    Up 6 minutes                80/tcp    zealous_goodall
 
-### Cоздаем форк - новый образ "edwardburlakov/nginx:v2" со сделанными выше изменениями   
+#### Cоздаем форк - новый образ "edwardburlakov/nginx:v2" со сделанными выше изменениями   
        
         root@docker:~# docker commit -m "Edited /root/mysite/index.html" -a "Edward Burlakov"   3c523dca73d3   edwardburlakov/nginx:v2
         sha256:b1f561e54e5ac13d489f28dfcc8239dcf4974dba40c32cf421c02b6b490400b9
 
-###  Проверяем наличие созданного образа  "edwardburlakov/nginx:v2"
+####  Проверяем наличие созданного образа  "edwardburlakov/nginx:v2"
 
         root@docker:~# docker images
         REPOSITORY             TAG       IMAGE ID       CREATED          SIZE
@@ -109,15 +108,15 @@
         ubuntu/nginx           edge      1589cd6fe298   8 days ago       143MB
         root@docker:~#
 
-###  Используем новый образ "edwardburlakov/nginx:v2"   для запуска нового контейнера в фоновом режиме /
-###  Останавливаем все запущенные ранее контейнеры, чтобы не было конфликта портов.  
+####  Используем новый образ "edwardburlakov/nginx:v2"   для запуска нового контейнера в фоновом режиме /
+####  Останавливаем все запущенные ранее контейнеры, чтобы не было конфликта портов.  
 
        root@docker:~#  docker run -d  --name nginx-server  -p 8080:80  edwardburlakov/nginx:v2 
 
-###  Открытие веб-страницы показало, что она сохранена внутри контейнера.
+####  Открытие веб-страницы показало, что она сохранена внутри контейнера.
 
-###  Авторизуемся в командной строке на https://hub.docker.com/ указав свой логин edwardburlakov.  
-###  Запускаем процесс выгрузки  контейнера на hub.             
+####  Авторизуемся в командной строке на https://hub.docker.com/ указав свой логин edwardburlakov.  
+####  Запускаем процесс выгрузки  контейнера на hub.             
 
             root@docker:~# docker login && docker push edwardburlakov/nginx:v2
             Authenticating with existing credentials...
@@ -137,11 +136,12 @@
             v1: digest: sha256:03441d01c34f736d18004ee16ee87bbbe33cb492b4274339879c25702e73494c size: 1782
             root@docker:~#
 
-###  Ссылки на форк-образ
+####  Ссылки на форк-образ
 
             https://hub.docker.com/layers/edwardburlakov/nginx/v2/images/sha256-7192894b1491d6c6b4ed955a9680dc85b1c63dfc734ca65b7921ac17f81b39c9?context=repo     
     
             docker pull edwardburlakov/nginx:v2
+
 
 
 ## Задача 2
