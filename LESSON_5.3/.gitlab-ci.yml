@@ -1,0 +1,45 @@
+stages:
+  - test
+  - build
+  - deploy
+
+django tests:
+  stage: test
+  image: python:3-alpine
+  script:
+    - pip install -r requirements.txt
+    - python3 manage.py test
+  tags:
+    - ruvds-test
+
+docker build:
+  stage: build
+  image: docker:stable
+  variables:
+  # Tell docker CLI how to talk to Docker daemon; see
+  # https://docs.gitlab.com/ee/ci/docker/using_docker_build.html#use-docker-in-docker-executor
+    DOCKER_HOST: tcp://docker:2375/
+    DOCKER_TLS_CERTDIR: ""
+  services:
+    - docker:dind
+  before_script:
+    - sed -i "s/ff9400/${CI_COMMIT_SHORT_SHA:0:6}/g" ./blog/static/css/blog.css
+    - sed -i "s/%%%BUILDTAG%%%/${CI_COMMIT_SHA}/g" ./blog/templates/blog/base.html  
+  script:
+    - docker login -u gitlab-ci-token -p ${CI_JOB_TOKEN} ${CI_REGISTRY}
+    - docker build -t ${CI_REGISTRY}/${CI_PROJECT_PATH}/${CI_PROJECT_NAME}:${CI_COMMIT_REF_SLUG} .
+    - docker push ${CI_REGISTRY}/${CI_PROJECT_PATH}/${CI_PROJECT_NAME}:${CI_COMMIT_REF_SLUG}
+    - docker tag ${CI_REGISTRY}/${CI_PROJECT_PATH}/${CI_PROJECT_NAME}:${CI_COMMIT_REF_SLUG}  ${CI_REGISTRY}/${CI_PROJECT_PATH}/${CI_PROJECT_NAME}:latest
+    - docker push ${CI_REGISTRY}/${CI_PROJECT_PATH}/${CI_PROJECT_NAME}:latest
+  tags: 
+    - ruvds-docker
+
+deploy to dev:
+  stage: deploy
+  script:
+    - docker login -u gitlab-ci-token -p ${CI_JOB_TOKEN} ${CI_REGISTRY}
+    - docker pull ${CI_REGISTRY}/${CI_PROJECT_PATH}/${CI_PROJECT_NAME}:master
+    - docker rm -f django || true
+    - docker run -d --rm -p 80:8000  -v django-base:/code/db  --name django ${CI_REGISTRY}/${CI_PROJECT_PATH}/${CI_PROJECT_NAME}:master
+  tags:
+    - ruvds-shell
