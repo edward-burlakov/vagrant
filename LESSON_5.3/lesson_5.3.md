@@ -189,8 +189,9 @@ ___
    
 ---
 #### MongoDB, как основное хранилище данных для java-приложения;
-      Хотя у MongoDB даже есть официальный образ на Docker Hub ,я считаю что контейнеризация не подходит,
-      т.к. выключение контейнера приведет к потере всех изменённых данных, если не подкючить внешнее хранилище
+      Хотя у MongoDB даже есть официальный образ на Docker Hub и миллион скачиваний, я считаю что контейнеризация не подходит,
+      т.к. выключение контейнера приведет к потере всех изменённых данных, если не подключить внешнее хранилище-каталог в хост-системе  
+       или не обеспечить корректные  права доступа. 
       Поэтому можно использовать либо физический, либо виртуальный хост.
       Первый вариант менее предпочтителен из-за неэффективного использования ресурсов.
       Хотя это зависит от области применения и нагрузки на БД.
@@ -215,16 +216,16 @@ ___
 ## Ответ:
 
 #### Скачиваем образы ОС
-         root@docker:~#  docker pull bitnami/centos:centos7  
-         root@docker:~#  docker pull bitnami/debian:stable
+     root@docker:~#  docker pull bitnami/centos:centos7  
+     root@docker:~#  docker pull bitnami/debian:stable
 
-        root@docker:~# docker images
-        REPOSITORY             TAG       IMAGE ID       CREATED         SIZE
-        edwardburlakov/nginx   v2        35447fd6d341   2 hours ago     181MB
-        ubuntu/nginx           edge      1589cd6fe298   8 days ago      143MB
-        debian                 stable    f70ab914d71a   9 days ago      124MB
-        centos                 centos7   eeb6ee3f44bd   11 months ago   204MB
-        root@docker:~
+     root@docker:~# docker images
+     REPOSITORY             TAG       IMAGE ID       CREATED         SIZE
+     edwardburlakov/nginx   v2        35447fd6d341   2 hours ago     181MB
+     ubuntu/nginx           edge      1589cd6fe298   8 days ago      143MB
+     debian                 stable    f70ab914d71a   9 days ago      124MB
+     centos                 centos7   eeb6ee3f44bd   11 months ago   204MB
+     root@docker:~
 
 #### Создаем каталог  root/data на сервере с докером 
         root@docker:~# mkdir data
@@ -242,6 +243,8 @@ ___
     7b2d92fd30d3   centos:centos7            "/bin/bash"              9 minutes ago       Exited (0) 9 minutes ago          centos-server1
     48a4dbec9aa7   debian:stable             "bash"                   9 minutes ago       Exited (0) 9 minutes ago          debian-server1
     root@docker:~#
+
+    Образы Centos  и  Debian вылетают при запуске на моем сервере Ubuntu 20.04LTS .   
 
 
 
