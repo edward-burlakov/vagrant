@@ -216,8 +216,8 @@ ___
 ---
 ###  Ответ:
 
-#### Создаем каталог  root/data на сервере с докером 
-    root@docker2:~# mkdir data
+#### Создаем каталог  /root/data на сервере с докером 
+    root@docker2:~# cd /root && mkdir data
 
 #### Запускаем образы а машине docker2
 
