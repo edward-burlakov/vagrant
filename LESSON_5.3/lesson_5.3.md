@@ -222,30 +222,6 @@ Jenkins-сервер.
       2) Выключение контейнера приведет к потере всех изменённых данных.
 
 
-###  Создаем  /root/mydockerbuild/Dockerfile
-
-        root@docker:~/mydockerbuild# cat /root/mydockerbuild/Dockerfile
-        FROM ubuntu/nginx:edge
-        
-        #RUN apk add nginx && \
-        #    mkdir -p /run/nginx && \
-        #    mkdir /src && \
-        #    touch /run/nginx/nginx.pid
-        
-        EXPOSE 80 443
-        
-        CD /
-
-        COPY ./mysite/default.conf /etc/nginx/conf.d/default.conf
-        
-        COPY ./mysite/index.html /var/www/html/index.html
-        
-        CMD ["nginx","-g","daemon off;"]
-        
-        root@docker:~/mydockerbuild#
-
-
-
 
 ## Задача 3
 
