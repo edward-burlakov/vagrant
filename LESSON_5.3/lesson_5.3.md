@@ -137,9 +137,9 @@
 
 ####  Ссылки на форк-образ
 
-      https://hub.docker.com/layers/edwardburlakov/nginx/v2/images/sha256-7192894b1491d6c6b4ed955a9680dc85b1c63dfc734ca65b7921ac17f81b39c9?context=repo     
+   <https://hub.docker.com/layers/edwardburlakov/nginx/v2/images/sha256-7192894b1491d6c6b4ed955a9680dc85b1c63dfc734ca65b7921ac17f81b39c9?context=repo>     
     
-      docker pull edwardburlakov/nginx:v2
+   docker pull edwardburlakov/nginx:v2
 
 
 
@@ -212,6 +212,8 @@ ___
      Для организации приватный (закрытый) Docker Registry  контейнеризация  не подойдет. Причины:  
       1) низкий уровень  изоляции контейнеров от хоста не обеспечит полной безопасности хранения docker-образов .
       2) Выключение контейнера приведет к потере всех изменённых данных.
+
+
 
 ## Задача 3
 
