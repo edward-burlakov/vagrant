@@ -227,7 +227,7 @@ ___
 #### Создаем каталог  /root/data на сервере с докером 
     root@docker2:~# cd /root && mkdir data
 
-#### Запускаем образы а машине docker2
+#### Запускаем контейнеры и подкачиваем с репозитория образы на машине docker2
 
     root@docker2:~# docker run -it --rm -d --name centos1  -v /root/data/:/data/  centos:centos7  
     62b7447127c732d48230855402a13806848505946cebab9db6312cb9ced496b0
@@ -246,6 +246,7 @@ ___
      root@docker2:~#  docker exec -it  c2d78b2b776d  /bin/bash
    
 #### Создаем файл, заполняем его и проверяем содержимое
+
      [root@c2d78b2b776d /]# cd / && touch /data/newfile.txt
 
      [root@c2d78b2b776d data]#  echo 'Thats all right, baby!' > /data/newfile.txt
@@ -255,6 +256,7 @@ ___
      root@docker2:~#
 
 #### Создаем файл на хостовой машине docker2
+
      root@docker2:~# cd /root/data/ && touch newfile2.txt
      root@docker2:~#  echo 'I am your baby tonight!' > ./root/data/newfile2.txt
      root@docker2:~# cat ./root/data/newfile2.txt
@@ -271,7 +273,8 @@ ___
     -rw-r--r-- 1 root root   23 Sep  1 20:12 newfile.txt
     -rw-r--r-- 1 root root   24 Sep  1 20:24 newfile2.txt
 
-#### Проверяем содержимое  файлов в каталоге  ./data на контейнере с debian1    
+#### Проверяем содержимое  файлов в каталоге  ./data на контейнере с debian1  
+
     root@9d02ce103606:/data# cat /data/newfile.txt && cat /data/newfile2.txt
     Thats all right, baby!
     I am your baby tonight!
