@@ -87,7 +87,7 @@
    7) Проверяем версию packer
 
            root@docker:/home/bes#  packer --version
-           1.8.3
+           1.7.7
            root@docker:/home/bes#
 
    8) Устанавливаем из файлов выше folder_id  и network_id в созданный файл centos-7-base.json .
@@ -148,7 +148,7 @@
 
    Результат: 
 
-  <https://github.com/edward-burlakov/vagrant/blob/main/LESSON_5.4/my-yc-instance.jpg>
+  <https://github.com/edward-burlakov/vagrant/blob/main/LESSON_5.4/my-yc-instance.png>
 
   ![my-yc-instance.png](my-yc-instance.png)
 
