@@ -146,13 +146,15 @@
             root@docker:/home/bes#  yc compute instance create --name my-yc-instance --network-interface subnet-name=my-subnet-a,  
             \  nat-ip-version=ipv4 --zone ru-central1-a  --ssh-key ~/.ssh/id_rsa.pub
 
-   2) Удаляем ее
-
-           root@docker:/home/bes#  yc compute instance delete my-yc-instance
+   Результат: 
 
   <https://github.com/edward-burlakov/vagrant/blob/main/LESSON_5.4/my-yc-instance.jpg>
 
-![my-yc-instance.png](my-yc-instance.png)
+  ![my-yc-instance.png](my-yc-instance.png)
+
+  2) Удаляем ее
+
+            root@docker:/home/bes#  yc compute instance delete my-yc-instance
 
 ---
 ### Задача 3
