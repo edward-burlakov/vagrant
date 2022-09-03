@@ -24,7 +24,7 @@
        Now we have zsh completion. Type "echo 'source /root/yandex-cloud/completion.zsh.inc' >> 
        ~/.zshrc" to install itTo complete installation, start a new shell (exec -l $SHELL) or type 'source "/root/.bashrc"' in the current one
 
-      2) Пеезщапускаем сессию для перезапуска bash и обновления его переменных окружения
+      2) Переезапускаем сессию для перезапуска bash и обновления его переменных окружения
       3) Получаем по ссылке  OAuth токен 
        <https://oauth.yandex.ru/verification_code#access_token=y0_AgAEA7qjbCX2AATuwQAAAADNx-_dP9L62XaATFq3ZDEjDT3hOpl-fwo&token_type=bearer&expires_in=31536000>
        OAuth токен:  y0_AgAEA7qjbCX2AATuwQAAAADNx-_dP9L62XaATFq3ZDEjDT3hOpl-fwo
@@ -61,7 +61,7 @@
             +----+------+--------+-------------+--------+
             +----+------+--------+-------------+--------+
 
-     6)  Инициализруем сети
+     6)  Инициализируем сети
 
             root@docker:/home/bes# yc vpc network create --name net --labels my-label=netology --description "my first network via yc"
             id: enpgj3k47ptuspj30p2b
@@ -87,7 +87,7 @@
    7) Проверяем версию packer
 
            root@docker:/home/bes#  packer --version
-           1.3.4
+           1.8.3
            root@docker:/home/bes#
 
    8) Устанавливаем из файлов выше folder_id  и network_id в созданный файл centos-7-base.json .
@@ -103,7 +103,7 @@
                   "image_name": "centos-7-base",
                   "source_image_family": "centos-7",
                   "ssh_username": "centos",
-                  "subnet_id": "enpgj3k47ptuspj30p2b",
+                  "subnet_id": "e9b1j9kfc6tkabakden7",   
                   "token": "",
                   "type": "yandex",
                   "use_ipv4_nat": true,
@@ -123,16 +123,34 @@
         
 
    9) Проводим валидацию файла
-        
-          root@docker:/home/bes# packer validate centos-7-base.json
-     
+          
+           root@docker:/home/bes# packer validate centos-7-base.json
+           The configuration is valid.
+           root@docker:/home/bes#
+   
+
+
+  
 ---
 ### Задача 2
 Создать вашу первую виртуальную машину в Яндекс.Облаке.
 Для получения зачета, вам необходимо предоставить:
 Скриншот страницы свойств созданной ВМ, как на примере ниже:
 
-### Ответ:
+---
+### Ответ ::
+
+   1) Для тестовых целей создаем  виртуальную машину, предварительно сгенерив ключи с помощью ssh-keygen 
+   
+            root@docker:/home/bes#  ssh-keygen 
+            root@docker:/home/bes#  yc compute instance create --name my-yc-instance --network-interface subnet-name=my-subnet-a,  
+            \  nat-ip-version=ipv4 --zone ru-central1-a  --ssh-key ~/.ssh/id_rsa.pub
+
+   2) Удаляем ее
+
+           root@docker:/home/bes#  yc compute instance delete my-yc-instance
+
+
 
 
 ---
