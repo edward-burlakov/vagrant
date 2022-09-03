@@ -152,7 +152,7 @@
 
   <https://github.com/edward-burlakov/vagrant/blob/main/LESSON_5.4/my-yc-instance.jpg>
 
-
+![my-yc-instance.png](my-yc-instance.png)
 
 ---
 ### Задача 3
