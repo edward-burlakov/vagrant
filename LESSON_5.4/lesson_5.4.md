@@ -150,6 +150,7 @@
 
            root@docker:/home/bes#  yc compute instance delete my-yc-instance
 
+  <https://github.com/edward-burlakov/vagrant/blob/main/LESSON_5.4/my-yc-instance.jpg>
 
 
 
