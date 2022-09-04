@@ -154,11 +154,10 @@ ___
            | fd8ugrlfp5paoq5ogdsr | centos-7-base | centos | f2euv1kekdgvc0jrpaet | READY  |
            +----------------------+---------------+--------+----------------------+--------+
 
-    Так выглядит временный образ, созданный packer
-
+    Так выглядит временный образ, созданный packer :
+----
    ![img.png](img.png)
-
- 
+---- 
 
 ## Задача 2
 ---
@@ -255,49 +254,34 @@ ___
 
 11) Создаем виртуальную сеть, подсеть и машину с помощью terraform. 
 
-       root@docker:~/terraform# terraform apply
+        root@docker:~/terraform# terraform apply
 
-       Результат :
-       Outputs:
+        Результат :
+        Outputs:
 
-       external_ip_address_node01_yandex_cloud = "84.201.158.119"
-       internal_ip_address_node01_yandex_cloud = "192.168.101.19"
+        external_ip_address_node01_yandex_cloud = "84.201.158.119"
+        internal_ip_address_node01_yandex_cloud = "192.168.101.19"
 
 12) В свойствах созданной виртуалки разрешаем доступ к SSH-консоли 
-
+----
   ![img_1.png](img_1.png)
+----
 
+13) Правим файл inventory для ansible
 
-9) Правим файл provision.yaml для ansible
-       
-        docker1.netology ansible_host=84.201.158.119  ansible_port=22
+        [nodes:children]
+        manager
 
-
-
+        [manager]
+        node01.netology.cloud ansible_host=84.201.158.119 ansible_port=22
 
 11) Запускаем  ansible=playbook provision.yaml
 
-
 ##  Результат :
 
+----
 ![img_2.png](img_2.png)
-
----
-
-
-
-
-   1) Для тестовых целей создаем  виртуальную машину, предварительно сгенерив ключи с помощью ssh-keygen 
-   
-            root@docker:/home/bes#  ssh-keygen 
-            root@docker:/home/bes#  yc compute instance create --name my-yc-instance --network-interface subnet-name=my-subnet-a,  
-            \  nat-ip-version=ipv4 --zone ru-central1-a  --ssh-key ~/.ssh/id_rsa.pub
-
-   2) Удаляем ее
-
-            root@docker:/home/bes#  yc compute instance delete my-yc-instance
-
-
+----
 
 
 
@@ -311,8 +295,22 @@ ___
 
 
 
----
 #### Задача 4 (*)
+---
     Создать вторую ВМ и подключить её к мониторингу развёрнутому на первом сервере.
     Для получения зачета, вам необходимо предоставить:
     Скриншот из Grafana, на котором будут отображаться метрики добавленного вами сервера.
+
+---
+#### Примечание: Виртуальную машину в YC также можно создать командами консоли
+
+   1) Для тестовых целей создаем  виртуальную машину, предварительно сгенерив ключи с помощью ssh-keygen 
+   
+            root@docker:/home/bes#  ssh-keygen 
+            root@docker:/home/bes#  yc compute instance create --name my-yc-instance --network-interface subnet-name=my-subnet-a,  
+            \  nat-ip-version=ipv4 --zone ru-central1-a  --ssh-key ~/.ssh/id_rsa.pub
+
+   2) Удаляем ее
+
+            root@docker:/home/bes#  yc compute instance delete my-yc-instance
+
