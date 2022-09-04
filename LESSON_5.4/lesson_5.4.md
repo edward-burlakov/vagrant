@@ -8,6 +8,7 @@
 
 ---
 ### Ответ:
+___
 
       1) Проверяем версию packer
            root@docker:/home/bes#  packer --version
@@ -29,6 +30,7 @@
        ~/.zshrc" to install itTo complete installation, start a new shell (exec -l $SHELL) or type 'source "/root/.bashrc"' in the current one
 
       3) Переезапускаем сессию для перезапуска bash и обновления его переменных окружения
+
       4) Получаем по ссылке  OAuth токен 
        <https://oauth.yandex.ru/verification_code#access_token=y0_AgAEA7qjbCX2AATuwQAAAADNx-_dP9L62XaATFq3ZDEjDT3hOpl-fwo&token_type=bearer&expires_in=31536000>
        OAuth токен:  y0_AgAEA7qjbCX2AATuwQAAAADNx-_dP9L62XaATFq3ZDEjDT3hOpl-fwo
@@ -52,7 +54,7 @@
             Please enter your numeric choice: 1
             Your profile default Compute zone has been set to 'ru-central1-a'.
 
-     6) Инициализируем профиль
+      6) Инициализируем профиль
             root@docker:/home/bes# yc config list
             token: y0_AgAEA7qjbCX2AATuwQAAAADNx-_dP9L62XaATFq3ZDEjDT3hOpl-fwo
             cloud-id: b1g3dtd6rmc18p0kufbd
@@ -65,7 +67,7 @@
             +----+------+--------+-------------+--------+
             +----+------+--------+-------------+--------+
 
-     7)  Инициализируем сети
+      7)  Инициализируем сети
 
             root@docker:/home/bes# yc vpc network create --name net --labels my-label=netology --description "my first network via yc"
             id: enpgj3k47ptuspj30p2b
@@ -75,8 +77,8 @@
             description: my first network via yc
             labels:
               my-label: netology
-
-    8)  Инициализруем  подсеть 10.1.2.0/24 
+ 
+      8)  Инициализруем  подсеть 10.1.2.0/24 
 
             root@docker:/home/bes# yc vpc subnet create --name my-subnet-a --zone ru-central1-a  --range 10.1.2.0/24 --network-name net --description "my first subnet via yc"                id: e9b1j9kfc6tkabakden7
             folder_id: b1gks5lsfvt1r1gh37ib
@@ -91,7 +93,7 @@
             Получаем подсеть e9b1j9kfc6tkabakden7. Добавляем ее в созданный файл  centos-7-base.json
 
 
-    9) Устанавливаем из файлов выше folder_id  и network_id в созданный файл centos-7-base.json .
+      9) Устанавливаем из файлов выше folder_id  и network_id в созданный файл centos-7-base.json .
 
         root@docker:/home/bes# cat  centos-7-base.json
             {
@@ -121,38 +123,37 @@
                 }
               ]
             }
-        
 
-   10) Проводим валидацию файла
+      10) Проводим валидацию файла
           
            root@docker:/home/bes# packer validate centos-7-base.json
            The configuration is valid.
            root@docker:/home/bes#
    
-   11) Запускаем создание образа виртуальной машины, совместимого с YC   с помощью packer /
+      11) Запускаем создание образа виртуальной машины, совместимого с YC   с помощью packer /
            
-              root@docker:/home/bes# packer build  centos-7-base.json
+           root@docker:/home/bes# packer build  centos-7-base.json
            
-              yandex: output will be in this color.
+           yandex: output will be in this color.
 
-              ==> yandex: Creating temporary ssh key for instance...
-              ==> yandex: Using as source image: fd88d14a6790do254kj7 (name: "centos-7-v20220620", family: "centos-7")
-              ==> yandex: Use provided subnet id e9b1j9kfc6tkabakden7
-              ... 
-              ==> Builds finished. The artifacts of successful builds are:
-              --> yandex: A disk image was created: centos-7-base (id: fd8ugrlfp5paoq5ogdsr) with family name centos
+           ==> yandex: Creating temporary ssh key for instance...
+           ==> yandex: Using as source image: fd88d14a6790do254kj7 (name: "centos-7-v20220620", family: "centos-7")
+           ==> yandex: Use provided subnet id e9b1j9kfc6tkabakden7
+           ... 
+           ==> Builds finished. The artifacts of successful builds are:
+           --> yandex: A disk image was created: centos-7-base (id: fd8ugrlfp5paoq5ogdsr) with family name centos
 
-              root@docker:/home/bes# yc compute image list
-              +----------------------+---------------+--------+----------------------+--------+
-              |          ID          |     NAME      | FAMILY |     PRODUCT IDS      | STATUS |
-              +----------------------+---------------+--------+----------------------+--------+
-              | fd8ugrlfp5paoq5ogdsr | centos-7-base | centos | f2euv1kekdgvc0jrpaet | READY  |
-              +----------------------+---------------+--------+----------------------+--------+
+           root@docker:/home/bes# yc compute image list
+           +----------------------+---------------+--------+----------------------+--------+
+           |          ID          |     NAME      | FAMILY |     PRODUCT IDS      | STATUS |
+           +----------------------+---------------+--------+----------------------+--------+
+           | fd8ugrlfp5paoq5ogdsr | centos-7-base | centos | f2euv1kekdgvc0jrpaet | READY  |
+           +----------------------+---------------+--------+----------------------+--------+
 
-      ![img.png](img.png)
+![img.png](img.png)
 
    
-   12) Сначала установим Terraform на terraform --versionUbuntu
+      12) Сначала установим Terraform на terraform --versionUbuntu
       
             root@docker:~#  sudo apt-get update && sudo apt-get install -y gnupg software-properties-common curl  
             root@docker:~#  curl -fsSL https://apt.releases.hashicorp.com/gpg | sudo apt-key add -
@@ -164,23 +165,23 @@
             on linux_amd64
             root@docker:/etc#
 
-   13) Копируем на Ubuntu папку с файлами конфигурации terraform
+      13) Копируем на Ubuntu папку с файлами конфигурации terraform
           C:\Windows\System32\OpenSSH> scp -r C:\Users\bes\PycharmProjects\Netology_Lessons\vagrant\LESSON_5.4\src\ansible  bes@192.168.1.16:/home/bes
 
-   14) Добавляем в файл variables.cf  параметры из конфиг-листа ниже 
+      14) Добавляем в файл variables.cf  параметры из конфиг-листа ниже 
           root@docker:~/terraform# yc config list
           token: y0_AgAEA7qjbCX2AATuwQAAAADNx-_dP9L62XaATFq3ZDEjDT3hOpl-fwo
           cloud-id: b1g3dtd6rmc18p0kufbd
           folder-id: b1gks5lsfvt1r1gh37ib
           compute-default-zone: ru-central1-a
 
-   15) Инициализируем бэкэнд terraform, связав его с YC c помощью файла provider.tf 
-       Создается файл terraform.lock.icl  
+     15) Инициализируем бэкэнд terraform, связав его с YC c помощью файла provider.tf 
+          Создается файл terraform.lock.icl  
 
-   16) Запускаем проверку плана Terraform
-       Выполняем  последовательно  terraform init , terraform validate , terraform plan
-       Когда применяем Terraform план -  соглашаемся - "yes"
-       root@docker:~/terraform# terraform plan
+     16) Запускаем проверку плана Terraform
+         Выполняем  последовательно  terraform init , terraform validate , terraform plan
+         Когда применяем Terraform план -  соглашаемся - "yes"
+         root@docker:~/terraform# terraform plan
 
        Успешный результат: Plan: 3 to add, 0 to change, 0 to destroy.
 
@@ -188,9 +189,9 @@
        + external_ip_address_node01_yandex_cloud = (known after apply)
        + internal_ip_address_node01_yandex_cloud = (known after apply)
 
-   17) Удаляем сеть и подсеть, совпадающую с  планируемой в фалах конфигурации.
+     17) Удаляем сеть и подсеть, совпадающую с  планируемой в фалах конфигурации.
 
-   18) Создаем виртуальную сеть, подсеть и машину с помощью terraform. 
+     18) Создаем виртуальную сеть, подсеть и машину с помощью terraform. 
        root@docker:~/terraform# terraform apply
 
        Результат :
@@ -199,18 +200,20 @@
        external_ip_address_node01_yandex_cloud = "84.201.158.119"
        internal_ip_address_node01_yandex_cloud = "192.168.101.19"
 
-   19) В свойствах созданной виртуалки разрешаем доступ к SSH-консоли 
+     19) В свойствах созданной виртуалки разрешаем доступ к SSH-консоли 
 
   ![img_1.png](img_1.png)
 
-   20) Правим файл provision.yaml для ansible
+     20) Правим файл provision.yaml для ansible
        
        docker1.netology ansible_host=84.201.158.119  ansible_port=22
 
-   21) Запускаем  ansible=plaubook provision.yaml
+     21) Запускаем  ansible=plaubook provision.yaml
 
+###  Результат :
   ![img_2.png](img_2.png)
 
+---
 
 
 ---
