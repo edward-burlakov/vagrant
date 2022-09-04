@@ -72,7 +72,7 @@ ___
             +----+------+--------+-------------+--------+
             +----+------+--------+-------------+--------+
 
-7) Инициализируем сети
+7) Инициализируем сеть
 
             root@docker:/home/bes# yc vpc network create --name net --labels my-label=netology --description "my first network via yc"
             id: enpgj3k47ptuspj30p2b
@@ -98,7 +98,7 @@ ___
             Получаем подсеть e9b1j9kfc6tkabakden7. Добавляем ее в созданный файл  centos-7-base.json
 
 
-9) Устанавливаем из файлов выше folder_id  и network_id в созданный файл centos-7-base.json .
+9) Устанавливаем из листингов выше  значения folder_id  и network_id в созданный файл centos-7-base.json .
 
         root@docker:/home/bes# cat  centos-7-base.json
             {
@@ -129,13 +129,13 @@ ___
               ]
             }
 
-10) Проводим валидацию файла
+10) Проводим валидацию файла конфигурации packer "centos-7-base.json".
           
            root@docker:/home/bes# packer validate centos-7-base.json
            The configuration is valid.
            root@docker:/home/bes#
    
-11) Запускаем создание образа виртуальной машины, совместимого с YC   с помощью packer /
+11) Запускаем создание образа виртуальной машины, совместимого с YC   с помощью packer .
            
            root@docker:/home/bes# packer build  centos-7-base.json
            
@@ -277,7 +277,10 @@ ___
         [manager]
         node01.netology.cloud ansible_host=84.201.158.119 ansible_port=22
 
-11) Запускаем  ansible=playbook provision.yaml
+14) Запускаем  root@docker:~/ansible# ansible=playbook provision.yaml
+---
+![img_3.png](img_3.png)
+---
 
 ##  Результат :
 
