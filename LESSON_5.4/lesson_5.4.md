@@ -151,10 +151,57 @@
 
       ![img.png](img.png)
 
-   12) Создаем виртуальную машину с помощью terraform
+   
+   12) Сначала установим Terraform на terraform --versionUbuntu
+      
+            root@docker:~#  sudo apt-get update && sudo apt-get install -y gnupg software-properties-common curl  
+            root@docker:~#  curl -fsSL https://apt.releases.hashicorp.com/gpg | sudo apt-key add -
+            root@docker:~#  sudo apt-add-repository "deb [arch=amd64] https://apt.releases.hashicorp.com $(lsb_release -cs) main"
+            root@docker:~#  sudo apt-get update && sudo apt-get install terraform
 
-            root@docker:/home/bes#  sudo apt-get update && sudo apt-get install -y gnupg software-properties-common curl  
-            root@docker:/home/bes#  
+            root@docker:/etc# terraform --version
+            Terraform v1.2.8
+            on linux_amd64
+            root@docker:/etc#
+
+   13) Копируем на Ubuntu папку с файлами конфигурации terraform
+          C:\Windows\System32\OpenSSH> scp -r C:\Users\bes\PycharmProjects\Netology_Lessons\vagrant\LESSON_5.4\src\ansible  bes@192.168.1.16:/home/bes
+
+   14) Добавляем в файл variables.cf  параметры из конфиг-листа ниже 
+          root@docker:~/terraform# yc config list
+          token: y0_AgAEA7qjbCX2AATuwQAAAADNx-_dP9L62XaATFq3ZDEjDT3hOpl-fwo
+          cloud-id: b1g3dtd6rmc18p0kufbd
+          folder-id: b1gks5lsfvt1r1gh37ib
+          compute-default-zone: ru-central1-a
+
+   15) Инициализируем бэкэнд terraform, связав его с YC c помощью файла provider.tf 
+       Создается файл terraform.lock.icl  
+
+   16) Запускаем проверку плана Terraform
+       Выполняем  последовательно  terraform init , terraform validate , terraform plan
+       Когда применяем Terraform план -  соглашаемся - "yes"
+       root@docker:~/terraform# terraform plan
+
+       Успешный результат: Plan: 3 to add, 0 to change, 0 to destroy.
+
+       Changes to Outputs:
+       + external_ip_address_node01_yandex_cloud = (known after apply)
+       + internal_ip_address_node01_yandex_cloud = (known after apply)
+
+   17) Удаляем сеть и подсеть, совпадающую с  планируемой в фалах конфигурации.
+
+   18) Создаем виртуальную сеть, подсеть и машину с помощью terraform. 
+       root@docker:~/terraform# terraform apply
+
+       Результат :
+       Outputs:
+       external_ip_address_node01_yandex_cloud = "51.250.4.24"
+       internal_ip_address_node01_yandex_cloud = "192.168.101.14"
+
+
+
+
+
 ---
 ### Задача 2
 Создать вашу первую виртуальную машину в Яндекс.Облаке.

@@ -1,5 +1,8 @@
 ## Руководство по настройке  WIREGUARD VPN-клиента на рабочей станции  Ubuntu.
-## Бесплатная версия ограничена 300 Мб в сутки .
+## Бесплатная версия ограничена трафиком 300 Мб в сутки.
+## Внимание!  Поднятие VPN-клиента  разрывает ssh сессию с Ubuntu-рабочей станцией, поднятую через NAT.
+## Выполняйте все манипуляции только  c  ssh-клиента внутри той же локальной сети, что и рабочая станция Ubuntu !!!
+### Основано  на оригинале  https://tokmakov.msk.ru/blog/item/535 . Muchas gracias автору.
 
 ---
 ### 1) Устанавливаем на машине с Ubuntu  пакет wireguard .
@@ -9,12 +12,14 @@
 
 ---
 ### 2) Заходим на сайт https://securitykiss.com/download.html#clients .
+
     Из раздела "Choose tunnel location  and get client configuration"
     скачиваем настройки доступа к бесплатным VPN-серверам в виде файла .
     Например, для доступа к  VPN  серверу  Germany / Falkenstein   -  DE_Falkenstein.conf
 
 ---
 ### 3) Создаем файл настройки клиента Wireguard  /etc/wireguard/wg0.conf .
+
     Вставляем переменные, полученные из файла DE_Falkenstein.conf
 
     root@docker:~$ nano /etc/wireguard/wg0.conf
@@ -43,6 +48,7 @@
      root@docker:~$ sudo apt install resolvconf
 ---
 ### 5)  Правим файл  /etc/systemd/resolved.conf
+
     root@docker:~$ sudo nano /etc/systemd/resolved.conf
 
     [Resolve]
@@ -59,7 +65,8 @@
 
 ---
 ### 6) Открываем и Правим файл /etc/nsswitch.conf
-   Правим строку "hosts: files dns":
+
+    Правим строку "hosts: files dns":
 
     root@docker:~# nano /etc/nsswitch.conf
     passwd:         files systemd
@@ -70,6 +77,7 @@
     hosts:          files resolve dns
 ---
 ### 7) Перезапускаем службу  systemd-resolved
+ 
     root@docker:~$ sudo systemctl stop   systemd-resolved &&  sudo systemctl start   systemd-resolved
 
 ---
@@ -83,7 +91,8 @@
     root@docker:~$ sudo systemctl enable wg-quick@wg0.service
 ---
 ###  10)  Проверяем, что все работает
-    Выполняем ping удаленного сервера:
+ 
+    Выполняем ping удаленного сервера (в файле конфигурации клиента поле AllowedIPs = 10.8.0.1):
 
     root@docker:~$ ping -c3 10.8.0.1
         PING 10.8.0.1 (10.8.0.1) 56(84) bytes of data.
@@ -95,13 +104,19 @@
         3 packets transmitted, 3 received, 0% packet loss, time 2003ms
         rtt min/avg/max/mdev = 13.510/15.073/17.960/2.043 ms
 ---
-###  11)  Проверяем свой внешний IP  c помощью сервиса ifconfig.me .Он должен смениться
+###  11)  Проверяем свой внешний IP  c помощью сервиса ifconfig.me. Он должен смениться.
+ 
         root@docker:~# curl ifconfig.me/ip
         49.12.98.129
         root@docker:~#
 ---
 ###  12)  Для остановки VPN-соединения используем
+ 
         root@docker:~# sudo systemctl stop wg-quick@wg0.service
+---
+###  13) Для исключения  сервиса VPN-соединения  из автозагрузки используем
+        
+        root@docker:~$ sudo systemctl disable wg-quick@wg0.service
 
 
 

@@ -133,9 +133,8 @@ Ansible
 
 #### Устанавливаем Ansible на сервере ansible.netology  c ОС Ubuntu 20.04, запущенном в  VirtualBox.
 
-    root@ansible:~# sudo apt update
-    root@ansible:~# apt-get update
-    root@ansible:~# apt-get install ansible -y
+    root@ansible:~# apt update
+    root@ansible:~# apt install ansible -y
 
     Результат :
 
