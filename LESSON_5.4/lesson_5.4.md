@@ -241,7 +241,7 @@ ___
          done (1s)
          root@docker:~/ansible#
 
-10) Создаем ** key.json **  ( $ yc iam key create --service-account-id <id> --output key.json )
+10) Создаем файл key.json для доступа в YC  ( $ yc iam key create --service-account-id <id> --output key.json )
 
         root@docker:~/terraform#  yc iam key create --service-account-id ajek2ne5khrks2n72on7 --output key.json
         root@docker:~/terraform# service_account_id: ajek2ne5khrks2n72on7
@@ -302,7 +302,7 @@ ___
     Скриншот из Grafana, на котором будут отображаться метрики добавленного вами сервера.
 
 ---
-### * Примечание: Виртуальную машину в YC также можно создать командами консоли *
+### * Примечание: Виртуальную машину в YC также можно создать командами консоли
 
    1) Для тестовых целей создаем  виртуальную машину, предварительно сгенерив ключи с помощью ssh-keygen 
    
