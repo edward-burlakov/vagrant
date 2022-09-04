@@ -37,8 +37,7 @@ ___
 4) Получаем по ссылке  OAuth токен 
 
    <https://oauth.yandex.ru/verification_code#access_token=y0_AgAEA7qjbCX2AATuwQAAAADNx-_dP9L62XaATFq3ZDEjDT3hOpl-fwo&token_type=bearer&expires_in=31536000>
-   OAuth токен:  y0_AgAEA7qjbCX2AATuwQAAAADNx-_dP9L62XaATFq3ZDEjDT3hOpl-fwo
-     
+        
 5) Запускаем yc init . Вставляем полученный OAuth токен. Выбираем вариант 2 - использовать существующий профиль в default compute zone
 
             Please enter OAuth token: y0_AgAEA7qjbCX2AATuwQAAAADNx-_dP9L62XaATFq3ZDEjDT3hOpl-fwo
