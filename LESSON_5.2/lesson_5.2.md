@@ -54,7 +54,7 @@ Ansible
 ![img.png](img.png)
 
 
-####  2. Устанавливаем  Hashi-Corp Vagrant на  Windows 10
+####  2. Устанавливаем  HashiCorp Vagrant на  Windows 10
 
 ![img_1.png](img_1.png)
 
@@ -167,9 +167,8 @@ docker ps
 #### В качестве пользователя указываем  vagrant  c паролем vagrant
  
 #### Устанавливаем Ansible      
-     root@EDWARD:~# sudo apt update
-     root@EDWARD:~# apt-get update
-     root@EDWARD:~# apt-get install ansible -y
+     root@EDWARD:~# apt update
+     root@EDWARD:~# apt install ansible -y
 
 #### Проверяем результат
 

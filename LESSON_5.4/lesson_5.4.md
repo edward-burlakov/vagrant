@@ -195,8 +195,19 @@
 
        Результат :
        Outputs:
-       external_ip_address_node01_yandex_cloud = "51.250.4.24"
-       internal_ip_address_node01_yandex_cloud = "192.168.101.14"
+
+       external_ip_address_node01_yandex_cloud = "51.250.65.22"
+       internal_ip_address_node01_yandex_cloud = "192.168.101.19"
+
+   19) В свойствах созданной вируталки разрешаем доступ к консоли 
+
+     ![img_1.png](img_1.png)
+
+   20) Правим файл provision.yaml для ansible
+       
+       docker1.netology ansible_host=51.250.65.22  ansible_port=22
+
+ 
 
 
 
