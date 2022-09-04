@@ -209,7 +209,51 @@ ___
 
 6) Удаляем в YC сеть и подсеть, совпадающую с  планируемой в файлах конфигурации terraform !!!
 
-7) Создаем виртуальную сеть, подсеть и машину с помощью terraform. 
+7) Для создания  key.json ( для файла provider.tf) получаем  список service accounts:
+      root@docker:~/terraform# yc iam service-account --folder-id <folder-id> list
+
+      root@docker:~/ansible# yc iam service-account --folder-id b1gks5lsfvt1r1gh37ib list
+      +----+------+
+      | ID | NAME |
+      +----+------+
+      +----+------+
+
+8) Cоздаем новый сервисный эккаунт по руководству https://cloud.yandex.ru/docs/iam/operations/sa/create 
+       и присваиваем ему роль editor   $ yc iam service-account create --name my-robot
+
+         root@docker:~/ansible# yc iam service-account create --name my-robot
+         id: ajek2ne5khrks2n72on7
+         folder_id: b1gks5lsfvt1r1gh37ib
+         created_at: "2022-09-04T10:02:15.480498083Z"
+         name: my-robot
+      
+         root@docker:~/ansible# yc iam service-account --folder-id b1gks5lsfvt1r1gh37ib list
+         +----------------------+----------+
+         |          ID          |   NAME   |
+         +----------------------+----------+
+         | ajek2ne5khrks2n72on7 | my-robot |
+         +----------------------+----------+
+
+         root@docker:~/ansible#
+9) Назначаем роль editor сервисному эккаунту для выбранной Folder ID
+
+         root@docker:~/ansible# yc resource-manager folder add-access-binding b1gks5lsfvt1r1gh37ib --role editor \
+         --subject serviceAccount:ajek2ne5khrks2n72on7
+         done (1s)
+         root@docker:~/ansible#
+
+10) Создаем key.json  ( $ yc iam key create --service-account-id <id> --output key.json )
+
+        root@docker:~/terraform#  yc iam key create --service-account-id ajek2ne5khrks2n72on7 --output key.json
+        root@docker:~/terraform# service_account_id: ajek2ne5khrks2n72on7
+        service_account_id:: command not found
+        root@docker:~/terraform# created_at: "2022-09-04T10:11:32.125628521Z"
+        created_at:: command not found
+        root@docker:~/terraform# key_algorithm: RSA_2048
+        key_algorithm:: command not found
+        root@docker:~/terraform#
+
+11) Создаем виртуальную сеть, подсеть и машину с помощью terraform. 
 
        root@docker:~/terraform# terraform apply
 
@@ -219,7 +263,7 @@ ___
        external_ip_address_node01_yandex_cloud = "84.201.158.119"
        internal_ip_address_node01_yandex_cloud = "192.168.101.19"
 
-8) В свойствах созданной виртуалки разрешаем доступ к SSH-консоли 
+12) В свойствах созданной виртуалки разрешаем доступ к SSH-консоли 
 
   ![img_1.png](img_1.png)
 
@@ -228,12 +272,13 @@ ___
        
         docker1.netology ansible_host=84.201.158.119  ansible_port=22
 
-10) Запускаем  ansible=plaubook provision.yaml
+
+
+
+11) Запускаем  ansible=playbook provision.yaml
+
 
 ##  Результат :
-
-
-![img_3.png](img_3.png) 
 
 ![img_2.png](img_2.png)
 
