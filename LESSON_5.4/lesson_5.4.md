@@ -37,7 +37,7 @@ ___
    <https://oauth.yandex.ru/verification_code#access_token=y0_AgAEA7qjbCX2AATuwQAAAADNx-_dP9L62XaATFq3ZDEjDT3hOpl-fwo&token_type=bearer&expires_in=31536000>
    OAuth токен:  y0_AgAEA7qjbCX2AATuwQAAAADNx-_dP9L62XaATFq3ZDEjDT3hOpl-fwo
      
-5) Запускаем yc init . Вставляем полученный OAuth токен. Выбираем вариант 2 - создать новый профиль b default compute zone
+5) Запускаем yc init . Вставляем полученный OAuth токен. Выбираем вариант 2 - создать новый профиль в default compute zone
 
             Please enter OAuth token: y0_AgAEA7qjbCX2AATuwQAAAADNx-_dP9L62XaATFq3ZDEjDT3hOpl-fwo
             You have one cloud available: 'cloud-edwardbngsru' (id = b1g3dtd6rmc18p0kufbd). It is going to be used by default.
@@ -157,8 +157,16 @@ ___
 
    ![img.png](img.png)
 
-   
-12) Сначала установим Terraform на Ubuntu
+ 
+---
+### Задача 2
+Создать вашу первую виртуальную машину в Яндекс.Облаке. Для получения зачета, вам необходимо предоставить:config 
+Скриншот страницы свойств созданной ВМ, как на примере ниже:
+
+---
+### Ответ ::
+  
+1) Сначала установим Terraform на Ubuntu
       
             root@docker:~#  sudo apt-get update && sudo apt-get install -y gnupg software-properties-common curl  
             root@docker:~#  curl -fsSL https://apt.releases.hashicorp.com/gpg | sudo apt-key add -
@@ -170,55 +178,56 @@ ___
             on linux_amd64
             root@docker:/etc#
 
-13) Копируем на Ubuntu папку с файлами конфигурации terraform
+2) Копируем на Ubuntu папку с файлами конфигурации terraform
 
           C:\Windows\System32\OpenSSH> scp -r C:\Users\bes\PycharmProjects\Netology_Lessons\vagrant\LESSON_5.4\src\ansible  bes@192.168.1.16:/home/bes
 
-14) Добавляем в файл variables.cf  параметры из конфиг-листа ниже
+3) Добавляем в файл variables.cf  параметры из конфиг-листа ниже
 
-          root@docker:~/terraform# yc config list
-          token: y0_AgAEA7qjbCX2AATuwQAAAADNx-_dP9L62XaATFq3ZDEjDT3hOpl-fwo
-          cloud-id: b1g3dtd6rmc18p0kufbd
-          folder-id: b1gks5lsfvt1r1gh37ib
-          compute-default-zone: ru-central1-a
+         root@docker:~/terraform# yc config list
+         token: y0_AgAEA7qjbCX2AATuwQAAAADNx-_dP9L62XaATFq3ZDEjDT3hOpl-fwo
+         cloud-id: b1g3dtd6rmc18p0kufbd
+         folder-id: b1gks5lsfvt1r1gh37ib
+         compute-default-zone: ru-central1-a
 
-15) Инициализируем бэкэнд terraform, связав его с YC c помощью файла provider.tf  - Создаем файл terraform.lock.icl  
+4) Инициализируем бэкэнд terraform, связав его с YC c помощью файла provider.tf  - Создаем файл terraform.lock.icl  
       
-          root@docker:~/terraform# terraform init     
+         root@docker:~/terraform# terraform init     
   
-16) Запускаем проверку плана Terraform
+5) Запускаем проверку плана Terraform
 
-         Выполняем  последовательно  terraform init , terraform validate , terraform plan
-         Когда применяем Terraform план -  соглашаемся - "yes"
-         root@docker:~/terraform# terraform plan
+        Выполняем  последовательно  terraform init , terraform validate , terraform plan
+        Когда применяем Terraform план -  соглашаемся - "yes"
+        root@docker:~/terraform# terraform plan
  
-        Успешный результат: Plan: 3 to add, 0 to change, 0 to destroy.
+       Успешный результат: Plan: 3 to add, 0 to change, 0 to destroy.
 
-        Changes to Outputs:
-        + external_ip_address_node01_yandex_cloud = (known after apply)
-        + internal_ip_address_node01_yandex_cloud = (known after apply)
+       Changes to Outputs:
+       + external_ip_address_node01_yandex_cloud = (known after apply)
+       + internal_ip_address_node01_yandex_cloud = (known after apply)
 
-18) Удаляем в YC сеть и подсеть, совпадающую с  планируемой в файлах конфигурации terraform !!!
+6) Удаляем в YC сеть и подсеть, совпадающую с  планируемой в файлах конфигурации terraform !!!
 
-19) Создаем виртуальную сеть, подсеть и машину с помощью terraform. 
+7) Создаем виртуальную сеть, подсеть и машину с помощью terraform. 
 
-        root@docker:~/terraform# terraform apply
+       root@docker:~/terraform# terraform apply
 
-        Результат :
-        Outputs:
+       Результат :
+       Outputs:
 
-        external_ip_address_node01_yandex_cloud = "84.201.158.119"
-        internal_ip_address_node01_yandex_cloud = "192.168.101.19"
+       external_ip_address_node01_yandex_cloud = "84.201.158.119"
+       internal_ip_address_node01_yandex_cloud = "192.168.101.19"
 
-20) В свойствах созданной виртуалки разрешаем доступ к SSH-консоли 
+8) В свойствах созданной виртуалки разрешаем доступ к SSH-консоли 
 
   ![img_1.png](img_1.png)
 
-20) Правим файл provision.yaml для ansible
+
+9) Правим файл provision.yaml для ansible
        
         docker1.netology ansible_host=84.201.158.119  ansible_port=22
 
-21) Запускаем  ansible=plaubook provision.yaml
+10) Запускаем  ansible=plaubook provision.yaml
 
 ##  Результат :
 
@@ -227,14 +236,7 @@ ___
 ---
 
 
----
-### Задача 2
-Создать вашу первую виртуальную машину в Яндекс.Облаке.
-Для получения зачета, вам необходимо предоставить:config 
-Скриншот страницы свойств созданной ВМ, как на примере ниже:
 
----
-### Ответ ::
 
    1) Для тестовых целей создаем  виртуальную машину, предварительно сгенерив ключи с помощью ssh-keygen 
    
