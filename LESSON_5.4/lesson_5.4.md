@@ -220,8 +220,9 @@ ___
 
 21) Запускаем  ansible=plaubook provision.yaml
 
-###  Результат :
-  ![img_2.png](img_2.png)
+##  Результат :
+
+  ![img_3.png](img_3.png) 
 
 ---
 
