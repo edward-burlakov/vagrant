@@ -241,7 +241,8 @@ ___
          done (1s)
          root@docker:~/ansible#
 
-10) Создаем файл key.json для доступа в YC  ( $ yc iam key create --service-account-id <id> --output key.json )
+10) Создаем файл key.json для доступа terraform под сервисным эккаунтом my-robot в YC  
+    ( $ yc iam key create --service-account-id <id> --output key.json )
 
         root@docker:~/terraform#  yc iam key create --service-account-id ajek2ne5khrks2n72on7 --output key.json
         root@docker:~/terraform# service_account_id: ajek2ne5khrks2n72on7
