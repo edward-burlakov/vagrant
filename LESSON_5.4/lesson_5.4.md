@@ -202,13 +202,13 @@ ___
 
 19) Создаем виртуальную сеть, подсеть и машину с помощью terraform. 
 
-       root@docker:~/terraform# terraform apply
+        root@docker:~/terraform# terraform apply
 
-       Результат :
-       Outputs:
+        Результат :
+        Outputs:
 
-       external_ip_address_node01_yandex_cloud = "84.201.158.119"
-       internal_ip_address_node01_yandex_cloud = "192.168.101.19"
+        external_ip_address_node01_yandex_cloud = "84.201.158.119"
+        internal_ip_address_node01_yandex_cloud = "192.168.101.19"
 
 20) В свойствах созданной виртуалки разрешаем доступ к SSH-консоли 
 
@@ -216,7 +216,7 @@ ___
 
 20) Правим файл provision.yaml для ansible
        
-       docker1.netology ansible_host=84.201.158.119  ansible_port=22
+        docker1.netology ansible_host=84.201.158.119  ansible_port=22
 
 21) Запускаем  ansible=plaubook provision.yaml
 
