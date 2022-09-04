@@ -97,7 +97,7 @@ ___
             Получаем подсеть e9b1j9kfc6tkabakden7. Добавляем ее в созданный файл  centos-7-base.json
 
 
-9) Устанавливаем из листингов выше  значения folder_id  и network_id в созданный файл centos-7-base.json .
+9) Вставляем  из листингов выше  значения folder_id ,  network_id и токен  в созданный файл centos-7-base.json .
 
         root@docker:/home/bes# cat  centos-7-base.json
             {
