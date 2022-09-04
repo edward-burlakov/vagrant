@@ -168,19 +168,19 @@ ___
   
 1) Сначала установим Terraform на Ubuntu
       
-            root@docker:~#  sudo apt-get update && sudo apt-get install -y gnupg software-properties-common curl  
-            root@docker:~#  curl -fsSL https://apt.releases.hashicorp.com/gpg | sudo apt-key add -
-            root@docker:~#  sudo apt-add-repository "deb [arch=amd64] https://apt.releases.hashicorp.com $(lsb_release -cs) main"
-            root@docker:~#  sudo apt-get update && sudo apt-get install terraform
+         root@docker:~#  sudo apt-get update && sudo apt-get install -y gnupg software-properties-common curl  
+         root@docker:~#  curl -fsSL https://apt.releases.hashicorp.com/gpg | sudo apt-key add -
+         root@docker:~#  sudo apt-add-repository "deb [arch=amd64] https://apt.releases.hashicorp.com $(lsb_release -cs) main"
+         root@docker:~#  sudo apt-get update && sudo apt-get install terraform
 
-            root@docker:/etc# terraform version
-            Terraform v1.2.8
-            on linux_amd64
-            root@docker:/etc#
+         root@docker:/etc# terraform version
+         Terraform v1.2.8
+         on linux_amd64
+         root@docker:/etc#
 
 2) Копируем на Ubuntu папку с файлами конфигурации terraform
 
-          C:\Windows\System32\OpenSSH> scp -r C:\Users\bes\PycharmProjects\Netology_Lessons\vagrant\LESSON_5.4\src\ansible  bes@192.168.1.16:/home/bes
+         C:\Windows\System32\OpenSSH> scp -r C:\Users\bes\PycharmProjects\Netology_Lessons\vagrant\LESSON_5.4\src\ansible  bes@192.168.1.16:/home/bes
 
 3) Добавляем в файл variables.cf  параметры из конфиг-листа ниже
 
@@ -209,13 +209,13 @@ ___
 6) Удаляем в YC сеть и подсеть, совпадающую с  планируемой в файлах конфигурации terraform !!!
 
 7) Для создания  key.json ( для файла provider.tf) получаем  список service accounts:
-      root@docker:~/terraform# yc iam service-account --folder-id <folder-id> list
+   root@docker:~/terraform# yc iam service-account --folder-id <folder-id> list
 
-      root@docker:~/ansible# yc iam service-account --folder-id b1gks5lsfvt1r1gh37ib list
-      +----+------+
-      | ID | NAME |
-      +----+------+
-      +----+------+
+        root@docker:~/ansible# yc iam service-account --folder-id b1gks5lsfvt1r1gh37ib list
+        +----+------+
+        | ID | NAME |
+        +----+------+
+        +----+------+
 
 8) Cоздаем новый сервисный эккаунт по руководству https://cloud.yandex.ru/docs/iam/operations/sa/create 
        и присваиваем ему роль editor   $ yc iam service-account create --name my-robot
@@ -241,7 +241,7 @@ ___
          done (1s)
          root@docker:~/ansible#
 
-10) Создаем key.json  ( $ yc iam key create --service-account-id <id> --output key.json )
+10) Создаем ** key.json **  ( $ yc iam key create --service-account-id <id> --output key.json )
 
         root@docker:~/terraform#  yc iam key create --service-account-id ajek2ne5khrks2n72on7 --output key.json
         root@docker:~/terraform# service_account_id: ajek2ne5khrks2n72on7
