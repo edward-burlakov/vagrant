@@ -190,7 +190,7 @@ ___
          folder-id: b1gks5lsfvt1r1gh37ib
          compute-default-zone: ru-central1-a
 
-4) Инициализируем бэкэнд terraform, связав его с YC c помощью файла provider.tf  - Создаем файл terraform.lock.icl  
+4) Инициализируем бэкэнд terraform, связав его с YC c помощью файла provider.tf  - Создаем файл terraform.lock.hcl  
       
          root@docker:~/terraform# terraform init     
   
