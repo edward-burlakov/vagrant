@@ -277,7 +277,7 @@ ___
         [manager]
         node01.netology.cloud ansible_host=84.201.158.119 ansible_port=22
 
-14) Запускаем  root@docker:~/ansible# ansible=playbook provision.yaml
+14) Запускаем  root@docker:~/ansible# ansible-playbook provision.yml
 ---
 ![img_3.png](img_3.png)
 ---
