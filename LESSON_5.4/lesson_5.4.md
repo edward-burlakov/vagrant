@@ -105,7 +105,7 @@
                   "source_image_family": "centos-7",
                   "ssh_username": "centos",
                   "subnet_id": "e9b1j9kfc6tkabakden7",   
-                  "token": "",
+                  "token": "y0_AgAEA7qjbCX2AATuwQAAAADNx-_dP9L62XaATFq3ZDEjDT3hOpl-fwo",
                   "type": "yandex",
                   "use_ipv4_nat": true,
                   "zone": "ru-central1-a"
@@ -129,7 +129,7 @@
            The configuration is valid.
            root@docker:/home/bes#
    
-   11) Запускаем создание образа
+   11) Запускаем создание образа виртуальной машины, совместимого с YC   с помощью packer /
            
               root@docker:/home/bes# packer build  centos-7-base.json
            
@@ -142,8 +142,19 @@
               ==> Builds finished. The artifacts of successful builds are:
               --> yandex: A disk image was created: centos-7-base (id: fd8ugrlfp5paoq5ogdsr) with family name centos
 
+              root@docker:/home/bes# yc compute image list
+              +----------------------+---------------+--------+----------------------+--------+
+              |          ID          |     NAME      | FAMILY |     PRODUCT IDS      | STATUS |
+              +----------------------+---------------+--------+----------------------+--------+
+              | fd8ugrlfp5paoq5ogdsr | centos-7-base | centos | f2euv1kekdgvc0jrpaet | READY  |
+              +----------------------+---------------+--------+----------------------+--------+
 
-  
+      ![img.png](img.png)
+
+   12) Создаем виртуальную машину с помощью terraform
+
+            root@docker:/home/bes#  sudo apt-get update && sudo apt-get install -y gnupg software-properties-common curl  
+            root@docker:/home/bes#  
 ---
 ### Задача 2
 Создать вашу первую виртуальную машину в Яндекс.Облаке.
