@@ -134,7 +134,7 @@ ___
            The configuration is valid.
            root@docker:/home/bes#
    
-11) Запускаем создание образа виртуальной машины, совместимого с YC   с помощью packer.
+11) Запускаем создание образа виртуальной машины, совместимого с YC с помощью packer.
            
            root@docker:/home/bes# packer build  centos-7-base.json
            
