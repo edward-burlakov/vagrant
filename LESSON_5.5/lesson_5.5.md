@@ -63,7 +63,46 @@ docker node ls
 
 ### Ответ:
 ----
+----
+1) Выполняем все как описано в Задачах 1 и 2 в предыдущем уроке LESSON_5.5
+   На последнем шаге создаём виртуальную сеть, подсеть и машину с помощью terraform. 
 
+        root@docker:~/terraform# terraform apply
+        ...
+        Outputs:
+    
+        external_ip_address_node01 = "130.193.38.157"
+        external_ip_address_node02 = "130.193.36.64"
+        external_ip_address_node03 = "84.252.128.43"
+        external_ip_address_node04 = "62.84.126.122"
+        external_ip_address_node05 = "84.252.131.110"
+        external_ip_address_node06 = "130.193.37.173"
+        internal_ip_address_node01 = "192.168.101.11"
+        internal_ip_address_node02 = "192.168.101.12"
+        internal_ip_address_node03 = "192.168.101.13"
+        internal_ip_address_node04 = "192.168.101.14"
+        internal_ip_address_node05 = "192.168.101.15"
+        internal_ip_address_node06 = "192.168.101.16"
+
+Результат :
+
+![img.png](img.png)
+
+2) Подключаемся к первой ноде развернутого кластера
+  
+        root@docker:~/terraform#  ssh -A   centos@130.193.38.157
+        
+        root@docker:~/LESSON_5.5/terraform# ssh -A centos@130.193.38.157
+        
+       [centos@node01 ~]$
+
+3) Входим в сессию root   смотрим статус нод кластера
+     
+      [centos@node01 ~]$ sudo -s
+      [root@node01 centos]#  docker node ls
+
+Результат :
+![img_1.png](img_1.png)
 
 ---
 ###  Задача 3
@@ -72,9 +111,20 @@ docker node ls
 Для получения зачета, вам необходимо предоставить скриншот из терминала (консоли), с выводом команды:
 docker service ls
 
-
 ### Ответ:
-----
+
+Предварительно оцениваем статус сервисов. 
+
+![img_2.png](img_2.png)
+
+Отказоустойчивая работа кластера не обеспечивается из-за  отсутствия репликации ключевых сервисов, нацеленных 
+на работу в режиме replicated.
+Правим файлы конфигурации.
+
+
+
+
+
 
 
 Задача 4 (*)

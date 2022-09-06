@@ -74,7 +74,8 @@ ___
 7) Инициализируем сеть
 
             root@docker:/home/bes# yc vpc network create --name net --labels my-label=netology --description "my first network via yc"
-            id: enpgj3k47ptuspj30p2b
+
+8)          id: enpgj3k47ptuspj30p2b
             folder_id: b1gks5lsfvt1r1gh37ib
             created_at: "2022-09-02T13:33:45Z"
             name: net
@@ -82,9 +83,11 @@ ___
             labels:
               my-label: netology
  
-8) Инициализируем  подсеть 10.1.2.0/24 
+9) Инициализируем  подсеть 10.1.2.0/24 
 
-            root@docker:/home/bes# yc vpc subnet create --name my-subnet-a --zone ru-central1-a  --range 10.1.2.0/24 --network-name net --description "my first subnet via yc"                id: e9b1j9kfc6tkabakden7
+            root@docker:/home/bes# yc vpc subnet create --name my-subnet-a --zone ru-central1-a  --range 10.1.2.0/24 --network-name net --description "my first subnet via yc"                
+
+            id: e9b1j9kfc6tkabakden7
             folder_id: b1gks5lsfvt1r1gh37ib
             created_at: "2022-09-02T13:35:30Z"
             name: my-subnet-a
@@ -94,10 +97,9 @@ ___
             v4_cidr_blocks:
             - 10.1.2.0/24
 
-            Получаем подсеть e9b1j9kfc6tkabakden7. Добавляем ее в созданный файл  centos-7-base.json
+            Получаем ID подсети e9b1j9kfc6tkabakden7.
 
-
-9) Вставляем  из листингов выше  значения folder_id ,  network_id и токен  в созданный файл centos-7-base.json .
+9) Вставляем  из листингов выше  значения folder_id ,  id -> subnet_id и токен  в созданный файл centos-7-base.json .
 
         root@docker:/home/bes# cat  centos-7-base.json
             {
@@ -196,7 +198,7 @@ ___
   
 5) Запускаем проверку плана Terraform
 
-        Выполняем  последовательно  terraform init , terraform validate , terraform plan
+        Выполняем  последовательно   terraform validate , terraform plan
         Когда применяем Terraform план -  соглашаемся - "yes"
         root@docker:~/terraform# terraform plan
  

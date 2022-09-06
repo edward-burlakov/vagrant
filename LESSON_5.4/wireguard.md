@@ -25,22 +25,25 @@
     root@docker:~$ nano /etc/wireguard/wg0.conf
 
         [Interface]
-        # ip-адрес первого клиента в виртуальной сети
-        Address = 10.8.0.2/24
-        # приватный ключ первого клиента
-        PrivateKey = ePEDoCDFjP7F9tY3cloqC9QGjf5T0cgi/YAhTB36wUo=
+        # ip-адрес клиента в виртуальной сети
+        Address=10.240.99.61/12
+        # приватный ключ  клиента
+        PrivateKey=kE+JBOzIltMipWPUx6JxmL0RTp9qDPL3ZtnEKelCHV8=
+        DNS=8.8.8.8
 
         [Peer]
         # публичный ключ сервера
-        PublicKey = dp9cddCMlwoF4oOBO+6aoXZfwQhqJr6W5vv6LYu5GHk=
+        PublicKey=6HG6oOc5fOsmVq9CAfX0Y/nZCXMY048YZB+x5lzORGM=
         # ip-адрес и порт сервера
-        Endpoint = 123.123.123.123:54321
+        Endpoint=49.12.98.129:7468
         # принимать пакеты с такими ip-адресами источника от сервера,
         # отправлять пакеты с такими ip-адресами назначения серверу
-        AllowedIPs = 10.8.0.1/32
+        AllowedIPs = 0.0.0.0/0::/0
         # поддерживать соединение в активном состоянии,
         # каждые 25 секунд отправлять пакет на сервер
         PersistentKeepalive = 25
+
+https://securitykiss.com/download.html#clients
 
 ---
 ### 4)  Устанавливаем пакет для автоматической настройки DNS-сервера для туннеля
