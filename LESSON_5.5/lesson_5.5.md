@@ -122,10 +122,10 @@ docker service ls
 ![img_3.png](img_3.png)
 
 Если количество реплик на каждый сервис не впечатляет - то надо 
-  1) Отредактировать файл docker-compose.yml .
-  2) Пересоздать SWARM-кластер.
+1) Отредактировать файл docker-compose.yml .
+2) Пересоздать SWARM-кластер.
 
- Входим на одну из manager- нод и получаем новый результат.
+Входим на одну из manager- нод и получаем новый результат.
 
       [centos@node01 ~]$ sudo -s
       [root@node01 centos]#  docker service ls
