@@ -101,8 +101,17 @@ docker node ls
       [centos@node01 ~]$ sudo -s
       [root@node01 centos]#  docker node ls
 
-Результат :
+5) Результат :
 ![img_1.png](img_1.png)
+
+Если количество реплик на каждый сервис не впечатляет - то надо отредактировать файл docker-compose.yaml
+Пересоздаем SWARM-кластер и получаем  новый результат.
+
+      [centos@node01 ~]$ sudo -s
+      [root@node01 centos]#  docker node ls
+
+![img_4.png](img_4.png)
+
 
 ---
 ###  Задача 3

@@ -76,7 +76,7 @@ services:
       - grafana:/var/lib/grafana
     deploy:
       mode: replicated
-      replicas: 1
+      replicas: 2
       placement:
         constraints:
           - node.role == manager
@@ -163,7 +163,7 @@ services:
         target: /etc/prometheus/swarm_task.rules.yml
     deploy:
       mode: replicated
-      replicas: 1
+      replicas: 2
       placement:
         constraints:
           - node.role == manager
