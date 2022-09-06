@@ -209,8 +209,7 @@ ___
 6) Удаляем в YC сеть и подсеть, совпадающую с  планируемой в файлах конфигурации terraform !!!
 
 7) Для создания  key.json ( для файла provider.tf) получаем  список service accounts:
-   root@docker:~/terraform# yc iam service-account --folder-id <folder-id> list
-
+   
         root@docker:~/ansible# yc iam service-account --folder-id b1gks5lsfvt1r1gh37ib list
         +----+------+
         | ID | NAME |
