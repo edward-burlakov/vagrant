@@ -37,87 +37,91 @@
 ----
 ### Ответ:
 
-         1) Входим в запущенный контейнер 
+   1) Входим в запущенный контейнер
+
              root@docker:/home/bes/data#  docker exec -it   dd8781c1393e  /bin/bash
 
-         2) Запускаем PostgreSQL интерактивно 
+   2) Запускаем PostgreSQL интерактивно 
+   
              root@docker:/home/bes/data# psql -U postgres
 
-         3) Создаем  БД test_db :
+   3) Создаем  БД test_db :
             
              postgres=# create database  test_db ;
              CREATE DATABASE
              postgres=#
 
-         4) Устанавливаем подключение к БД
-             root@docker:/home/bes/data#  psql test_db postgres;   ( или psql -Upostgres  -dtest_db )
+   4) Устанавливаем подключение к БД
 
-         5) Создаем таблицы в БД test_db  
-            CREATE TABLE orders ( 
-                order_id      SERIAL PRIMARY KEY,  
-                product_name  varchar(40) NOT NULL CHECK (product_name <> ''),  
-                price         integer NOT NULL,
-                );
+            root@docker:/home/bes/data#  psql test_db postgres;   ( или psql -Upostgres  -dtest_db )
+
+   5) Создаем таблицы в БД test_db
+
+             CREATE TABLE orders ( 
+               order_id      SERIAL PRIMARY KEY,  
+               product_name  varchar(40) NOT NULL CHECK (product_name <> ''),  
+               price         integer NOT NULL,
+               );
         
-            CREATE TABLE clients (
-                id            SERIAL PRIMARY KEY,   
-                surname       varchar(30),   
-                country       varchar(20),    
-                order_id      INT, 
-                FOREIGN KEY (order_id) REFERENCES orders(order_id)                 
-                );
+             CREATE TABLE clients (
+             id            SERIAL PRIMARY KEY,   
+             surname       varchar(30),   
+             country       varchar(20),    
+             order_id      INT, 
+             FOREIGN KEY (order_id) REFERENCES orders(order_id)                 
+             );
            
-            CREATE INDEX country_idx ON clients(country);
+             CREATE INDEX country_idx ON clients(country);
 
-         6) Смотрим итоги
-             test_db=# \dt
-             public | clients | table | postgres
-             public | orders  | table | postgres
+   6) Смотрим итоги
+              test_db=# \dt
+              public | clients | table | postgres
+              public | orders  | table | postgres
 
-            test_db=# \d clients
-                                                Table "public.clients"
-              Column  |         Type          | Collation | Nullable |               Default
-            ----------+-----------------------+-----------+----------+-------------------------------------
-             id       | integer               |           | not null | nextval('clients_id_seq'::regclass)
-             surname  | character varying(30) |           |          |
-             country  | character varying(20) |           |          |
-             order_id | integer               |           |          |
-            Indexes:
-                "clients_pkey" PRIMARY KEY, btree (id)
-                "country_idx" btree (country)
-            Foreign-key constraints:
-                "clients_order_id_fkey" FOREIGN KEY (order_id) REFERENCES orders(order_id)
+             test_db=# \d clients
+                                                 Table "public.clients"
+               Column  |         Type          | Collation | Nullable |               Default
+             ----------+-----------------------+-----------+----------+-------------------------------------
+              id       | integer               |           | not null | nextval('clients_id_seq'::regclass)
+              surname  | character varying(30) |           |          |
+              country  | character varying(20) |           |          |
+              order_id | integer               |           |          |
+             Indexes:
+                 "clients_pkey" PRIMARY KEY, btree (id)
+                 "country_idx" btree (country)
+             Foreign-key constraints:
+                 "clients_order_id_fkey" FOREIGN KEY (order_id) REFERENCES orders(order_id)
 
 
-            tst_db-# \d orders
-                                                     Table "public.orders"
-                Column    |         Type          | Collation | Nullable |                 Default
-            --------------+-----------------------+-----------+----------+------------------------------------------
-             order_id     | integer               |           | not null | nextval('orders_order_id_seq'::regclass)
-             product_name | character varying(40) |           | not null |
-             price        | integer               |           | not null |
-            Indexes:
-                "orders_pkey" PRIMARY KEY, btree (order_id)
-            Check constraints:
-                "orders_product_name_check" CHECK (product_name::text <> ''::text)
-            Referenced by:
-                TABLE "clients" CONSTRAINT "clients_order_id_fkey" FOREIGN KEY (order_id) REFERENCES orders(order_id)
+             tst_db-# \d orders
+                                                      Table "public.orders"
+                 Column    |         Type          | Collation | Nullable |                 Default
+             --------------+-----------------------+-----------+----------+------------------------------------------
+              order_id     | integer               |           | not null | nextval('orders_order_id_seq'::regclass)
+              product_name | character varying(40) |           | not null |
+              price        | integer               |           | not null |
+             Indexes:
+                 "orders_pkey" PRIMARY KEY, btree (order_id)
+             Check constraints:
+                 "orders_product_name_check" CHECK (product_name::text <> ''::text)
+             Referenced by:
+                 TABLE "clients" CONSTRAINT "clients_order_id_fkey" FOREIGN KEY (order_id) REFERENCES orders(order_id)
 
          
-         7) Создаем пользователя  test-admin-user 
+   8) Создаем пользователя  test-admin-user 
              root@docker:/home/bes/data# sudo su - postgres -c "createuser test_admin_user with login password 'qwerty';"
 
              postgres=# create user  test_admin_user with login password 'qwerty';
              CREATE ROLE
              postgres=#
 
-         8) Даем полные права для пользователя test-admin-user на БД test_db 
+   9) Даем полные права для пользователя test-admin-user на БД test_db 
 
              postgres=# grant all privileges on database test_db to test_admin_user;
              GRANT
              postgres=#
 
-         9) Проверяем наличие прав суперпользователя у пользователя test_admin_user
+   10) Проверяем наличие прав суперпользователя у пользователя test_admin_user
 
              postgres=# \l
                                         List of databases
@@ -132,7 +136,7 @@
                            |          |          |            |            | /postgres       +
                            |          |          |            |            | test_admin_user=CTc/postgres
 
-         10)  Создаем пользователя  test_simple_user и выделяем права на таблицы clients и orders в БД test_db 
+   11)  Создаем пользователя  test_simple_user и выделяем права на таблицы clients и orders в БД test_db 
 
              test_db=# create user  test_simple_user with login password 'qwerty';
              CREATE ROLE
@@ -141,7 +145,8 @@
              test_db=# GRANT SELECT, INSERT, UPDATE, DELETE ON TABLE orders  TO test_simple_user;
              GRANT
 
-         11) Проверяем наличие прав доступа для всех пользователей
+   12) Проверяем наличие прав доступа для всех пользователей
+
                test_db=# \l
                                     List of databases
                Name    |  Owner   | Encoding |  Collate   |   Ctype    |      Access privileges
@@ -158,7 +163,8 @@
             (4 rows)
 
 
-         12) Выводим листинг всех пользователй и ролей 
+   13) Выводим листинг всех пользователей и ролей 
+
              test_db-# \du
                                                    List of roles
                 Role name     |                         Attributes                         | Member of
@@ -169,7 +175,7 @@
 
 
 
-         13) Выводим список всех пользователей БД test_db c правами доступа  к таблицам с помощью  SQL- запроса
+   14) Выводим список всех пользователей БД test_db c правами доступа  к таблицам с помощью  SQL- запроса
 
             test_db=# SELECT * from information_schema.table_privileges where grantee in ('test_admin_user','test_simple_user');
 
