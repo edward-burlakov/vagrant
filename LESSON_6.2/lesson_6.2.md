@@ -260,7 +260,7 @@ docker run -d -it    --name postgres12   -e POSTGRES_PASSWORD=mysecretpassword  
 ----
 ### Ответ:
 
-      Используя foreign keys свяываем записи из таблиц
+      Используя foreign keys связываем записи из таблиц:
       
             UPDATE clients  SET order_id = 3 WHERE id = 6;
             UPDATE clients  SET order_id = 4 WHERE id = 7;
@@ -317,7 +317,7 @@ docker run -d -it    --name postgres12   -e POSTGRES_PASSWORD=mysecretpassword  
          Filter: (order_id IS NOT NULL)
       (2 rows)
       
-     EXPLAN отображает  - последовательность узлов -шагов при выполении плана запроса , 
+     EXPLAIN отображает  - последовательность узлов -шагов при выполении плана запроса , 
      - Приблизительная стоимость запуска узла 
      - Приблизительная общая стоимость 
      - Ожидаемое число  обработанных строк на каждом узле плана. 
