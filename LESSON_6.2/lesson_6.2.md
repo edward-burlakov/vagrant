@@ -266,7 +266,7 @@ docker run -d -it    --name postgres12   -e POSTGRES_PASSWORD=mysecretpassword  
             UPDATE clients  SET order_id = 4 WHERE id = 7;
             UPDATE clients  SET order_id = 5 WHERE id = 8;
 
-      Получим список клиентов,имеющих  записи в таблице заказов данных:
+      Получим список клиентов, имеющих записи в таблице заказов:
 
             test_db=# SELECT * from clients  c  where exists (select order_id from orders as o where c.order_id = o.order_id) ;
              id |       surname        | country | order_id
