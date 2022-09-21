@@ -372,12 +372,12 @@ root@docker:/home/bes/#  docker run -d -it    --name postgres12   -e POSTGRES_PA
 
          docker exec -t postgres12  pg_dumpall -U postgres -f /backup/dump_test1.sql
 
-      2) Создаем абсолютно новый контейнер на базе образа postgres:12  , находясь в рабочем каталоге и подключая каталог с бэкапами
+      2) Создаем абсолютно новый контейнер на базе образа postgres:12, находясь в рабочем каталоге и подключая каталог с бэкапами
 
          root@docker:/home/bes/backup# cd /home/bes
-         root@docker:/home/bes/#  docker run -d -it    --name postgres12.v1   -e POSTGRES_PASSWORD=mysecretpassword   -p 5434:5432  -v $(pwd)/backup:/backup   postgres12:v1
+         root@docker:/home/bes/#  docker run -d -it  --name postgres12.v1  -e POSTGRES_PASSWORD=mysecretpassword  -p 5434:5432  -v $(pwd)/backup:/backup   postgres12:v1
       
-      3) Восстанавливаем образ, созданный с помощью g_dumpall
+      3) Восстанавливаем образ, созданный с помощью pg_dumpall
       
             root@docker:/home/bes# docker exec -u postgres -t postgres12.v1  psql -f /backup/dump_test1.sql postgres
             SET
