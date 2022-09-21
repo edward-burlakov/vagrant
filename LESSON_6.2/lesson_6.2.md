@@ -260,18 +260,18 @@ docker run -d -it    --name postgres12   -e POSTGRES_PASSWORD=mysecretpassword  
 ----
 ### Ответ:
 
-UPDATE clients  SET order_id = 3 WHERE id = 6;
-UPDATE clients  SET order_id = 4 WHERE id = 7;
-UPDATE clients  SET order_id = 5 WHERE id = 8;
+      UPDATE clients  SET order_id = 3 WHERE id = 6;
+      UPDATE clients  SET order_id = 4 WHERE id = 7;
+      UPDATE clients  SET order_id = 5 WHERE id = 8;
 
-Получим список клиентов,имеющих  записи в таблице заказов данных:
-test_db=# SELECT * from clients  c  where exists (select order_id from orders as o where c.order_id = o.order_id) ;
- id |       surname        | country | order_id
-----+----------------------+---------+----------
-  6 | Иванов Иван Иванович | USA     |        3
-  7 | Петров Петр Петрович | Canada  |        4
-  8 | Иоганн Себастьян Бах | Japan   |        5
-(3 rows)
+      Получим список клиентов,имеющих  записи в таблице заказов данных:
+      test_db=# SELECT * from clients  c  where exists (select order_id from orders as o where c.order_id = o.order_id) ;
+       id |       surname        | country | order_id
+      ----+----------------------+---------+----------
+        6 | Иванов Иван Иванович | USA     |        3
+        7 | Петров Петр Петрович | Canada  |        4
+        8 | Иоганн Себастьян Бах | Japan   |        5
+      (3 rows)
 
 
 ### Задача  5
