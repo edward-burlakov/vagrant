@@ -38,22 +38,19 @@ root@docker:/home/bes/#  docker run -d -it    --name postgres12   -e POSTGRES_PA
          1) Входим в запущенный контейнер 
              root@docker:/home/bes/data#  docker exec -it   dd8781c1393e  /bin/bash
 
-         2) Ставим пакет sudo   
-             root@docker:/home/bes/data# apt update | apt install sudo
+         2) Запускаем PostgreSQL интерактивно 
+             root@docker:/home/bes/data# psql -U postgres
 
-         3) Запускаем PostgreSQL интерактивно 
-             root@docker:/home/bes/data# sudo -i -u postgres   psql
-
-         4) Создаем  БД test_db :
+         3) Создаем  БД test_db :
             
              postgres=# create database  test_db ;
              CREATE DATABASE
              postgres=#
 
-         5) Устанавливаем подключение к БД
+         4) Устанавливаем подключение к БД
              root@docker:/home/bes/data#  psql test_db postgres;   ( или psql -Upostgres  -dtest_db )
 
-         6) Создаем таблицы в БД test_db  
+         5) Создаем таблицы в БД test_db  
             CREATE TABLE orders ( 
                 order_id      SERIAL PRIMARY KEY,  
                 product_name  varchar(40) NOT NULL CHECK (product_name <> ''),  
@@ -70,7 +67,7 @@ root@docker:/home/bes/#  docker run -d -it    --name postgres12   -e POSTGRES_PA
            
             CREATE INDEX country_idx ON clients(country);
 
-         7) Смотрим итоги
+         6) Смотрим итоги
              test_db=# \dt
              public | clients | table | postgres
              public | orders  | table | postgres
@@ -105,20 +102,20 @@ root@docker:/home/bes/#  docker run -d -it    --name postgres12   -e POSTGRES_PA
                 TABLE "clients" CONSTRAINT "clients_order_id_fkey" FOREIGN KEY (order_id) REFERENCES orders(order_id)
 
          
-         8) Создаем пользователя  test-admin-user 
+         7) Создаем пользователя  test-admin-user 
              root@docker:/home/bes/data# sudo su - postgres -c "createuser test_admin_user with login password 'qwerty';"
 
              postgres=# create user  test_admin_user with login password 'qwerty';
              CREATE ROLE
              postgres=#
 
-         9) Даем полные права для пользователя test-admin-user на БД test_db 
+         8) Даем полные права для пользователя test-admin-user на БД test_db 
 
              postgres=# grant all privileges on database test_db to test_admin_user;
              GRANT
              postgres=#
 
-         10) Проверяем наличие прав суперпользователя у пользователя test_admin_user
+         9) Проверяем наличие прав суперпользователя у пользователя test_admin_user
 
              postgres=# \l
                                         List of databases
@@ -133,7 +130,7 @@ root@docker:/home/bes/#  docker run -d -it    --name postgres12   -e POSTGRES_PA
                            |          |          |            |            | /postgres       +
                            |          |          |            |            | test_admin_user=CTc/postgres
 
-         11)  Создаем пользователя  test_simple_user и выделяем права на таблицы clients и orders в БД test_db 
+         10)  Создаем пользователя  test_simple_user и выделяем права на таблицы clients и orders в БД test_db 
 
              test_db=# create user  test_simple_user with login password 'qwerty';
              CREATE ROLE
@@ -142,7 +139,7 @@ root@docker:/home/bes/#  docker run -d -it    --name postgres12   -e POSTGRES_PA
              test_db=# GRANT SELECT, INSERT, UPDATE, DELETE ON TABLE orders  TO test_simple_user;
              GRANT
 
-         12) Проверяем наличие прав доступа для всех пользователей
+         11) Проверяем наличие прав доступа для всех пользователей
                test_db=# \l
                                     List of databases
                Name    |  Owner   | Encoding |  Collate   |   Ctype    |      Access privileges
@@ -159,7 +156,7 @@ root@docker:/home/bes/#  docker run -d -it    --name postgres12   -e POSTGRES_PA
             (4 rows)
 
 
-         13) Выводим листинг всех пользователй и ролей 
+         12) Выводим листинг всех пользователй и ролей 
              test_db-# \du
                                                    List of roles
                 Role name     |                         Attributes                         | Member of
@@ -170,7 +167,7 @@ root@docker:/home/bes/#  docker run -d -it    --name postgres12   -e POSTGRES_PA
 
 
 
-         14) Выводим список всех пользователей БД test_db c правами доступа  к таблицам с помощью  SQL- запроса
+         13) Выводим список всех пользователей БД test_db c правами доступа  к таблицам с помощью  SQL- запроса
 
             test_db=# SELECT * from information_schema.table_privileges where grantee in ('test_admin_user','test_simple_user');
 
