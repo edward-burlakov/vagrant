@@ -68,23 +68,42 @@ root@docker:/home/bes/#  docker run -d -it    --name postgres12   -e POSTGRES_PA
                 FOREIGN KEY (order_id) REFERENCES orders(order_id)                 
                 );
            
-            CREATE UNIQUE INDEX country_idx ON clients(country);
+            CREATE INDEX country_idx ON clients(country);
 
          7) Смотрим итоги
              test_db=# \dt
              public | clients | table | postgres
              public | orders  | table | postgres
 
-             test_db=# \d clients
+            test_db=# \d clients
+                                                Table "public.clients"
+              Column  |         Type          | Collation | Nullable |               Default
+            ----------+-----------------------+-----------+----------+-------------------------------------
              id       | integer               |           | not null | nextval('clients_id_seq'::regclass)
              surname  | character varying(30) |           |          |
              country  | character varying(20) |           |          |
              order_id | integer               |           |          |
+            Indexes:
+                "clients_pkey" PRIMARY KEY, btree (id)
+                "country_idx" btree (country)
+            Foreign-key constraints:
+                "clients_order_id_fkey" FOREIGN KEY (order_id) REFERENCES orders(order_id)
 
-             test_db=# \d orders
+
+            tst_db-# \d orders
+                                                     Table "public.orders"
+                Column    |         Type          | Collation | Nullable |                 Default
+            --------------+-----------------------+-----------+----------+------------------------------------------
              order_id     | integer               |           | not null | nextval('orders_order_id_seq'::regclass)
              product_name | character varying(40) |           | not null |
              price        | integer               |           | not null |
+            Indexes:
+                "orders_pkey" PRIMARY KEY, btree (order_id)
+            Check constraints:
+                "orders_product_name_check" CHECK (product_name::text <> ''::text)
+            Referenced by:
+                TABLE "clients" CONSTRAINT "clients_order_id_fkey" FOREIGN KEY (order_id) REFERENCES orders(order_id)
+
          
          8) Создаем пользователя  test-admin-user 
              root@docker:/home/bes/data# sudo su - postgres -c "createuser test_admin_user with login password 'qwerty';"
