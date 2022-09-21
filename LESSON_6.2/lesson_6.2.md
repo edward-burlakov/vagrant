@@ -45,12 +45,12 @@ docker run -d -it    --name postgres12   -e POSTGRES_PASSWORD=mysecretpassword  
 
          4) Создаем  БД test_db :
             
-             postgres=# create database  test_db ;"
+             postgres=# create database  test_db ;
              CREATE DATABASE
              postgres=#
 
          5) Устанавливаем подключение к БД
-             root@docker:/home/bes/data#  psql test_db postgres; ( или psql -Upostgres  -dtest_db )
+             root@docker:/home/bes/data#  psql test_db postgres;   ( или psql -Upostgres  -dtest_db )
 
          6) Создаем таблицы в БД test_db  
             CREATE TABLE orders ( 
@@ -212,7 +212,7 @@ docker run -d -it    --name postgres12   -e POSTGRES_PASSWORD=mysecretpassword  
                         5 | Гитара       |  4000
                 (5 rows)
 
-   2) Вставляем значения в таблицу clients ( учитывая наличие индексов)  и проверяем результат
+   2) Вставляем значения в таблицу clients (учитывая наличие индексов)  и проверяем результат
 
           test_db=# INSERT INTO clients (surname, country) VALUES ( 'Иванов Иван Иванович', 'USA') , ( 'Петров Петр Петрович', 'Canada') , \ 
           ( 'Иоганн Себастьян Бах', 'Japan') , ( 'Ронни Джеймс Дио', 'Russia') , ( 'Ritchie Blackmore', 'Russia') ON CONFLICT DO NOTHING;
@@ -266,7 +266,7 @@ docker run -d -it    --name postgres12   -e POSTGRES_PASSWORD=mysecretpassword  
             UPDATE clients  SET order_id = 4 WHERE id = 7;
             UPDATE clients  SET order_id = 5 WHERE id = 8;
 
-      Получим список клиентов, имеющих записи в таблице заказов:
+      Получаем список клиентов, имеющих записи в таблице заказов:
 
             test_db=# SELECT * from clients  c  where exists (select order_id from orders as o where c.order_id = o.order_id) ;
              id |       surname        | country | order_id
