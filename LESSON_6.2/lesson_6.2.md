@@ -111,7 +111,7 @@ SQL-запрос для выдачи списка пользователей с 
                            |          |          |            |            | /postgres       +
                            |          |          |            |            | test_admin_user=CTc/postgres
 
-         11)  Создаем пользователя  test_simple_user и выделяем права на таблицы  в БД test_db 
+         11)  Создаем пользователя  test_simple_user и выделяем права на таблицы clients и orders в БД test_db 
 
              test_db=# create user  test_simple_user with login password 'qwerty';
              CREATE ROLE
@@ -158,11 +158,12 @@ SQL-запрос для выдачи списка пользователей с 
              postgres | test_simple_user | test_db       | public       | clients    | SELECT         | NO           | YES
              postgres | test_simple_user | test_db       | public       | clients    | UPDATE         | NO           | NO
              postgres | test_simple_user | test_db       | public       | clients    | DELETE         | NO           | NO
-            (4 rows)
-            
-            test_db=#
-
-         
+             postgres | test_simple_user | test_db       | public       | orders     | INSERT         | NO           | NO
+             postgres | test_simple_user | test_db       | public       | orders     | SELECT         | NO           | YES
+             postgres | test_simple_user | test_db       | public       | orders     | UPDATE         | NO           | NO
+             postgres | test_simple_user | test_db       | public       | orders     | DELETE         | NO           | NO
+            (8 rows)
+     
             
 ---
 ### Задача 3
@@ -261,7 +262,6 @@ SQL-запрос для выдачи списка пользователей с 
 
 ----
 ### Ответ:
-
 
 
 
