@@ -7,9 +7,11 @@
 
 ----
 ### Ответ:
-root@docker:/home/bes/backup# cd /home/bes
-root@docker:/home/bes/#  docker run -d -it    --name postgres12   -e POSTGRES_PASSWORD=mysecretpassword   -p 5432:5432  \ 
--v $(pwd)/data:/var/lib/postgresql/data   -v $(pwd)/backup:/backup   postgres:12 
+
+      root@docker:/home/bes/backup# cd /home/bes
+
+      root@docker:/home/bes/#  docker run -d -it    --name postgres12   -e POSTGRES_PASSWORD=mysecretpassword   -p 5432:5432  \ 
+      -v $(pwd)/data:/var/lib/postgresql/data   -v $(pwd)/backup:/backup   postgres:12 
 
 ### Задача 2
 В БД из задачи 1:
