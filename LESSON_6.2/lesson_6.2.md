@@ -260,7 +260,7 @@ docker run -d -it    --name postgres12   -e POSTGRES_PASSWORD=mysecretpassword  
 ----
 ### Ответ:
 
-      Используя foreign keys свяжите записи из таблиц
+      Используя foreign keys свяываем записи из таблиц
       
             UPDATE clients  SET order_id = 3 WHERE id = 6;
             UPDATE clients  SET order_id = 4 WHERE id = 7;
@@ -276,19 +276,55 @@ docker run -d -it    --name postgres12   -e POSTGRES_PASSWORD=mysecretpassword  
               8 | Иоганн Себастьян Бах | Japan   |        5
             (3 rows)
 
+
+      Еще вариант 2 :
+            test_db=# select * from clients where order_id is not null ;
+             id |       surname        | country | order_id
+            ----+----------------------+---------+----------
+              6 | Иванов Иван Иванович | USA     |        3
+              7 | Петров Петр Петрович | Canada  |        4
+              8 | Иоганн Себастьян Бах | Japan   |        5
+            (3 rows)
 ---
 ### Задача  5
 Получите полную информацию по выполнению запроса выдачи всех пользователей из задачи 4 (используя директиву EXPLAIN).
-
 Приведите получившийся результат и объясните что значат полученные значения.
 
-
+ 
 ----
 ### Ответ:
 
+    Вариант 1
+
+      test_db=# EXPLAIN SELECT * from clients  c  where exists (select order_id from orders as o where c.order_id = o.order_id) ;
+                                    QUERY PLAN
+      -----------------------------------------------------------------------
+       Hash Join  (cost=23.50..39.44 rows=470 width=144)
+         Hash Cond: (c.order_id = o.order_id)
+         ->  Seq Scan on clients c  (cost=0.00..14.70 rows=470 width=144)
+         ->  Hash  (cost=16.00..16.00 rows=600 width=4)
+               ->  Seq Scan on orders o  (cost=0.00..16.00 rows=600 width=4)
+      (5 rows)
 
 
-Задача 6
+
+    Вариант 2
+
+      test_db=# EXPLAIN select * from clients where order_id is not null ;
+                               QUERY PLAN
+      ------------------------------------------------------------
+       Seq Scan on clients  (cost=0.00..14.70 rows=468 width=144)
+         Filter: (order_id IS NOT NULL)
+      (2 rows)
+      
+     EXPLAN отображает послежовательность шагов при выполении запроса,испольщование кэша 
+     и количестов обработанных записей на каждом шаге. 
+     Второй вариант будет работать быстрее, 
+
+
+---
+### Задача 6
+
 Создайте бэкап БД test_db и поместите его в volume, предназначенный для бэкапов (см. Задачу 1).
 Остановите контейнер с PostgreSQL (но не удаляйте volumes).
 Поднимите новый пустой контейнер с PostgreSQL.
