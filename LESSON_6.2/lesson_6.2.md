@@ -74,6 +74,7 @@
              CREATE INDEX country_idx ON clients(country);
 
    6) Смотрим итоги
+
               test_db=# \dt
               public | clients | table | postgres
               public | orders  | table | postgres
@@ -108,20 +109,20 @@
                  TABLE "clients" CONSTRAINT "clients_order_id_fkey" FOREIGN KEY (order_id) REFERENCES orders(order_id)
 
          
-   8) Создаем пользователя  test-admin-user 
+   7) Создаем пользователя  test-admin-user 
              root@docker:/home/bes/data# sudo su - postgres -c "createuser test_admin_user with login password 'qwerty';"
 
              postgres=# create user  test_admin_user with login password 'qwerty';
              CREATE ROLE
              postgres=#
 
-   9) Даем полные права для пользователя test-admin-user на БД test_db 
+   8) Даем полные права для пользователя test-admin-user на БД test_db 
 
              postgres=# grant all privileges on database test_db to test_admin_user;
              GRANT
              postgres=#
 
-   10) Проверяем наличие прав суперпользователя у пользователя test_admin_user
+   9) Проверяем наличие прав суперпользователя у пользователя test_admin_user
 
              postgres=# \l
                                         List of databases
@@ -136,7 +137,7 @@
                            |          |          |            |            | /postgres       +
                            |          |          |            |            | test_admin_user=CTc/postgres
 
-   11)  Создаем пользователя  test_simple_user и выделяем права на таблицы clients и orders в БД test_db 
+   10)  Создаем пользователя  test_simple_user и выделяем права на таблицы clients и orders в БД test_db 
 
              test_db=# create user  test_simple_user with login password 'qwerty';
              CREATE ROLE
@@ -145,7 +146,7 @@
              test_db=# GRANT SELECT, INSERT, UPDATE, DELETE ON TABLE orders  TO test_simple_user;
              GRANT
 
-   12) Проверяем наличие прав доступа для всех пользователей
+   11) Проверяем наличие прав доступа для всех пользователей
 
                test_db=# \l
                                     List of databases
@@ -163,7 +164,7 @@
             (4 rows)
 
 
-   13) Выводим листинг всех пользователей и ролей 
+   12) Выводим листинг всех пользователей и ролей 
 
              test_db-# \du
                                                    List of roles
@@ -175,7 +176,7 @@
 
 
 
-   14) Выводим список всех пользователей БД test_db c правами доступа  к таблицам с помощью  SQL- запроса
+   13) Выводим список всех пользователей БД test_db c правами доступа  к таблицам с помощью  SQL- запроса
 
             test_db=# SELECT * from information_schema.table_privileges where grantee in ('test_admin_user','test_simple_user');
 
