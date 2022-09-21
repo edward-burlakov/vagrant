@@ -198,7 +198,8 @@ docker run -d -it    --name postgres12   -e POSTGRES_PASSWORD=mysecretpassword  
 ### Ответ:
 
        1) Вставляем значения в таблицу orders  и проверяем результат 
-       test_db=# INSERT INTO orders (product_name, price) VALUES ( 'Шоколад', 10), ( 'Принтер', 3000) ,( 'Книга', 500),( 'Монитор', 7000), ( 'Гитара', 4000);
+       test_db=# INSERT INTO orders (product_name, price) VALUES ( 'Шоколад', 10), ( 'Принтер', 3000) ,  \ 
+       ( 'Книга', 500),( 'Монитор', 7000), ( 'Гитара', 4000);
        INSERT 0 5
        test_db=# select * from orders;
                  order_id | product_name | price
@@ -211,7 +212,8 @@ docker run -d -it    --name postgres12   -e POSTGRES_PASSWORD=mysecretpassword  
                 (5 rows)
 
        2) Вставляем значения в таблицу clients ( учитывая наличие индексов)  и проверяем результат  
-       test_db=# INSERT INTO clients (surname, country) VALUES ( 'Иванов Иван Иванович', 'USA') , ( 'Петров Петр Петрович', 'Canada') , ( 'Иоганн Себастьян Бах', 'Japan') , ( 'Ронни Джеймс Дио', 'Russia') , ( 'Ritchie Blackmore', 'Russia') ON CONFLICT DO NOTHING;
+       test_db=# INSERT INTO clients (surname, country) VALUES ( 'Иванов Иван Иванович', 'USA') , ( 'Петров Петр Петрович', 'Canada') , \ 
+       ( 'Иоганн Себастьян Бах', 'Japan') , ( 'Ронни Джеймс Дио', 'Russia') , ( 'Ritchie Blackmore', 'Russia') ON CONFLICT DO NOTHING;
        INSERT 0 4
        test_db=# select * from clients;
              id |       surname        | country | order_id
