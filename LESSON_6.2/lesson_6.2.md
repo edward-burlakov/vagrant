@@ -7,8 +7,9 @@
 
 ----
 ### Ответ:
-
-docker run -d -it    --name postgres12   -e POSTGRES_PASSWORD=mysecretpassword   -p 5432:5432  -v $(pwd)/data:/var/lib/postgresql/data   -v $(pwd)/backup:/backup   postgres:12 
+root@docker:/home/bes/backup# cd /home/bes
+root@docker:/home/bes/#  docker run -d -it    --name postgres12   -e POSTGRES_PASSWORD=mysecretpassword   -p 5432:5432  \ 
+-v $(pwd)/data:/var/lib/postgresql/data   -v $(pwd)/backup:/backup   postgres:12 
 
 ### Задача 2
 В БД из задачи 1:
@@ -289,7 +290,6 @@ docker run -d -it    --name postgres12   -e POSTGRES_PASSWORD=mysecretpassword  
 ### Задача  5
 Получите полную информацию по выполнению запроса выдачи всех пользователей из задачи 4 (используя директиву EXPLAIN).
 Приведите получившийся результат и объясните что значат полученные значения.
-
  
 ----
 ### Ответ:
@@ -337,3 +337,133 @@ docker run -d -it    --name postgres12   -e POSTGRES_PASSWORD=mysecretpassword  
 
 ----
 ### Ответ:
+
+      1) Выполняем бэкап БД из старого контейнера, включая информацию о ролях и табличных пространствах: 
+     
+         Либо внутри докер-контейнера 
+
+         root@dd8781c1393e:/backup# pg_dumpall -U postgres  -f /backup/dump_test1.sql
+         root@dd8781c1393e:/backup# ls -la
+         total 16
+         drwxr-xr-x 2 root root 4096 Sep 21 08:38 .
+         drwxr-xr-x 1 root root 4096 Sep 20 16:01 ..
+         -rw-r--r-- 1 root root 4419 Sep 21 08:38 dump_test1.sql
+
+         Либо на докер-хосте 
+
+         docker exec -t postgres12  pg_dumpall -U postgres -f /backup/dump_test1.sql
+
+      2) Создаем абсолютно новый контейнер на базе образа postgres:12  , находясь в рабочем каталоге и подключая каталог с бэкапами
+
+         root@docker:/home/bes/backup# cd /home/bes
+         root@docker:/home/bes/#  docker run -d -it    --name postgres12.v1   -e POSTGRES_PASSWORD=mysecretpassword   -p 5434:5432  -v $(pwd)/backup:/backup   postgres12:v1
+      
+      3) Восстанавливаем образ, созданный с помощью g_dumpall
+      
+            root@docker:/home/bes# docker exec -u postgres -t postgres12.v1  psql -f /backup/dump_test1.sql postgres
+            SET
+            SET
+            SET
+            ALTER ROLE
+            CREATE ROLE
+            ALTER ROLE
+            CREATE ROLE
+            ALTER ROLE
+            You are now connected to database "template1" as user "postgres".
+            SET
+            SET
+            SET
+            SET
+            SET
+             set_config
+            ------------
+            
+            (1 row)
+            
+            SET
+            SET
+            SET
+            SET
+            You are now connected to database "postgres" as user "postgres".
+            SET
+            SET
+            SET
+            SET
+            SET
+             set_config
+            ------------
+            
+            (1 row)
+            
+            SET
+            SET
+            SET
+            SET
+            SET
+            SET
+            SET
+            SET
+            SET
+             set_config
+            ------------
+            
+            (1 row)
+            
+            SET
+            SET
+            SET
+            SET
+            CREATE DATABASE
+            ALTER DATABASE
+            You are now connected to database "test_db" as user "postgres".
+            SET
+            SET
+            SET
+            SET
+            SET
+             set_config
+            ------------
+            
+            (1 row)
+            
+            SET
+            SET
+            SET
+            SET
+            SET
+            SET
+            CREATE TABLE
+            ALTER TABLE
+            CREATE SEQUENCE
+            ALTER TABLE
+            ALTER SEQUENCE
+            CREATE TABLE
+            ALTER TABLE
+            CREATE SEQUENCE
+            ALTER TABLE
+            ALTER SEQUENCE
+            ALTER TABLE
+            ALTER TABLE
+            COPY 4
+            COPY 5
+             setval
+            --------
+                 10
+            (1 row)
+            
+             setval
+            --------
+                  5
+            (1 row)
+            
+            ALTER TABLE
+            ALTER TABLE
+            CREATE INDEX
+            ALTER TABLE
+            GRANT
+            GRANT
+            GRANT
+            GRANT
+            
+            #
+
