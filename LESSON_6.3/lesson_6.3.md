@@ -154,6 +154,152 @@
 на MyISAM
 на InnoDB
 
+----
+### Ответ:
+
+1) Устанавливаем профилирование 
+
+        mysql> SET profiling = 1;
+        Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+        mysql> SHOW PROFILES;
+        +----------+------------+---------------------------------------------------------------------------------------------------------------------+
+        | Query_ID | Duration   | Query                                                                                                               |
+        +----------+------------+---------------------------------------------------------------------------------------------------------------------+
+        |        1 | 0.00073425 | select DATABASE(), USER() limit 1                                                                                   |
+        |        2 | 0.00023375 | select @@character_set_client, @@character_set_connection, @@character_set_server, @@character_set_database limit 1 |
+        |        3 | 0.00012775 | mysql> SET profiling = 1                                                                                            |
+        |        4 | 0.00011550 | Query OK, 0 rows affected, 1 warning (0.00 sec)
+    
+        SHOW PROFILES                                                      |
+        +----------+------------+---------------------------------------------------------------------------------------------------------------------+
+        4 rows in set, 1 warning (0.00 sec)
+    
+2) Выводим список доступных движков
+
+         mysql> SHOW ENGINES\G ;
+         *************************** 1. row ***************************
+                Engine: FEDERATED
+               Support: NO
+              Comment: Federated MySQL storage engine
+         Transactions: NULL
+                  XA: NULL
+           Savepoints: NULL
+         *************************** 2. row ***************************
+               Engine: MEMORY
+              Support: YES
+              Comment: Hash based, stored in memory, useful for temporary tables
+         Transactions: NO
+                   XA: NO
+           Savepoints: NO
+         *************************** 3. row ***************************
+              Engine: InnoDB
+             Support: DEFAULT
+             Comment: Supports transactions, row-level locking, and foreign keys
+         Transactions: YES
+                   XA: YES
+           Savepoints: YES
+         *************************** 4. row ***************************
+               Engine: PERFORMANCE_SCHEMA
+              Support: YES
+              Comment: Performance Schema
+         Transactions: NO
+                   XA: NO
+           Savepoints: NO
+         *************************** 5. row ***************************
+              Engine: MyISAM
+             Support: YES
+             Comment: MyISAM storage engine
+         Transactions: NO
+                   XA: NO
+           Savepoints: NO
+         *************************** 6. row ***************************
+               Engine: MRG_MYISAM
+              Support: YES
+              Comment: Collection of identical MyISAM tables
+         Transactions: NO
+                   XA: NO
+           Savepoints: NO
+         *************************** 7. row ***************************
+               Engine: BLACKHOLE
+              Support: YES
+              Comment: /dev/null storage engine (anything you write to it disappears)
+         Transactions: NO
+                   XA: NO
+           Savepoints: NO
+         *************************** 8. row ***************************
+               Engine: CSV
+              Support: YES
+              Comment: CSV storage engine
+         Transactions: NO
+                   XA: NO
+           Savepoints: NO
+         *************************** 9. row ***************************
+               Engine: ARCHIVE
+              Support: YES
+              Comment: Archive storage engine
+         Transactions: NO
+                   XA: NO
+           Savepoints: NO
+         9 rows in set (0.00 sec)
+
+    Видим, что текущий набор  использует  INNO_DB как дефолтовый движок хранения.
+ 
+3) Выполняем запрос на выборку и смотри м оценку времени выполнения 
+ 
+         mysql> select * from orders where price>=300 and id=2  ;
+         +----+----------------+-------+
+         | id | title          | price |
+         +----+----------------+-------+
+         |  2 | My little pony |   500 |
+         +----+----------------+-------+
+         1 row in set (0.00 sec)
+    
+4) Меняем дефолтовый движок хранения и Конвертируем таблицу orders в базе данных  test_db 
+
+        mysql> SET default_storage_engine=MyISAM;
+        Query OK, 0 rows affected (0.00 sec)
+   
+        mysql> ALTER TABLE orders ENGINE = MyISAM;
+        Query OK, 5 rows affected (0.02 sec)
+        Records: 5  Duplicates: 0  Warnings: 0
+ 
+5) Выполняем запрос на выборку и смотри м оценку времени выполнения 
+
+        mysql> select * from orders where price>=300 and id=2  ;
+        +----+----------------+-------+
+        | id | title          | price |
+        +----+----------------+-------+
+        |  2 | My little pony |   500 |
+        +----+----------------+-------+
+        1 row in set (0.00 sec)
+    
+       mysql> SHOW PROFILES;
+       +----------+------------+---------------------------------------------------------------------------------                                                                                    ------------------------------------+
+       | Query_ID | Duration   | Query                                                                                                                                                                                                   |
+       +----------+------------+---------------------------------------------------------------------------------                                                                                    ------------------------------------+
+       |        1 | 0.00049600 | select * from orders                                                                                                                                                                                    |
+       |        2 | 0.00050625 | SHOW ENGINES                                                                                                                                                                                            |
+       |        3 | 0.00051400 | SHOW ENGINES                                                                                                                                                                                            |
+       |        4 | 0.00007675 | | grep 'DEFAULT'                                                                                                                                                                                        |
+       |        5 | 0.00035850 | SET default_storage_engine=MyISAM                                                                                                                                                                       |
+       |        6 | 0.00010700 | mysql> SET default_storage_engine=MyISAM                                                                                                                                                                |
+       |        7 | 0.00074150 | select DATABASE(), USER() limit 1                                                                                                                                                                       |
+       |        8 | 0.00054000 | select @@character_set_client, @@character_set_connection, @@character_set_serve                                                                                    r, @@character_set_database limit 1 |
+       |        9 | 0.00083125 | select * from orders                                                                                                                                                                                    |
+       |       10 | 0.00053875 | select * from orders where price>=300                                                                                                                                                                   |
+       |       11 | 0.00049225 | select * from orders where price>=300 and price<120                                                                                                                                                     |
+       |       12 | 0.00045600 | select * from orders where price>=300 and id=2                                                                                                                                                          |
+       |       13 | 0.02303750 | ALTER TABLE orders ENGINE = MyISAM                                                                                                                                                                      |
+       |       14 | 0.00047600 | select * from orders where price>=300 and id=2                                                                                                                                                          |
+       +----------+------------+---------------------------------------------------------------------------------                                                                                    ------------------------------------+
+       14 rows in set, 1 warning (0.00 sec)
+    
+    Движок InnoDB показал результат 
+      12 | 0.00045600 | select * from orders where price>=300 and id=2   
+    Движок MyISAM показал результат 
+      14 | 0.00047600 | select * from orders where price>=300 and id=2  
+    Это говорит о том, что движок InnoDB  быстрее для данного типа данных .
 
 ---
 ### Задача 4
