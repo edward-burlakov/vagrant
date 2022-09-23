@@ -247,41 +247,34 @@
  
 3) Выполняем запрос на выборку и смотри м оценку времени выполнения 
  
-         mysql> select * from orders where price>=300 and id=2  ;
-         +----+----------------+-------+
-         | id | title          | price |
-         +----+----------------+-------+
-         |  2 | My little pony |   500 |
-         +----+----------------+-------+
-         1 row in set (0.00 sec)
+       mysql> select * from orders where price>=300 and id=2  ;
+       +----+----------------+-------+
+       | id | title          | price |
+       +----+----------------+-------+
+       |  2 | My little pony |   500 |
+       +----+----------------+-------+
+       1 row in set (0.00 sec)
     
 4) Меняем дефолтовый движок хранения и Конвертируем таблицу orders в базе данных  test_db 
 
-        mysql> SET default_storage_engine=MyISAM;
-        Query OK, 0 rows affected (0.00 sec)
-   
-        mysql> ALTER TABLE orders ENGINE = MyISAM;
-        Query OK, 5 rows affected (0.02 sec)
-        Records: 5  Duplicates: 0  Warnings: 0
+       mysql> SET default_storage_engine=MyISAM;
+       Query OK, 0 rows affected (0.00 sec)
+  
+       mysql> ALTER TABLE orders ENGINE = MyISAM;
+       Query OK, 5 rows affected (0.02 sec)
+       Records: 5  Duplicates: 0  Warnings: 0
  
 5) Выполняем запросы на выборку и update и смотрим оценку времени выполнения 
 
-        mysql> select * from orders where price>=300 and id=2  ;
-        +----+----------------+-------+
-        | id | title          | price |
-        +----+----------------+-------+
-        |  2 | My little pony |   500 |
-        +----+----------------+-------+
-        1 row in set (0.00 sec)
+       mysql> select * from orders where price>=300 and id=2  ;
+       +----+----------------+-------+
+       | id | title          | price |
+       +----+----------------+-------+
+       |  2 | My little pony |   500 |
+       +----+----------------+-------+
+       1 row in set (0.00 sec)
 
-        mysql> UPDATE orders  SET price = 3000 WHERE id=2 ;
-
-
-                                                                                                                                                                                                                                                          |
-+----------+------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-15 rows in set, 1 warning (0.00 sec)
-
-
+       mysql> UPDATE orders  SET price = 3000 WHERE id=2 ;
 
     
        mysql> SHOW PROFILES;
@@ -309,13 +302,13 @@
        +----------+------------+---------------------------------------------------------------------------------                                                                                    ------------------------------------+
        14 rows in set, 1 warning (0.00 sec)
     
-    Движок MyISAM показал результат 
-    Для UPDATE   21 | 0.00161925 | UPDATE orders SET price = 3000 WHERE id=2  
+       Движок MyISAM показал результат 
+       Для UPDATE   21 | 0.00161925 | UPDATE orders SET price = 3000 WHERE id=2  
   
-    Движок InnoDB показал результат 
-    для UPDATE   23 | 0.00232050 | UPDATE orders SET price = 4000 WHERE id=2  
+       Движок InnoDB показал результат 
+       для UPDATE   23 | 0.00232050 | UPDATE orders SET price = 4000 WHERE id=2  
 
-    Это говорит о том, что старый движок MyISAM быстрее для данного типа данных .
+       Это говорит о том, что старый движок MyISAM быстрее для данного типа операции  и объема данных.
 
 
 
