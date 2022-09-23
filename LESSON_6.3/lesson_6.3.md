@@ -27,7 +27,7 @@
     test_dump.sql                                         100%  232KB   1.4MB/s   00:00
 
 
-  #### 3) Входим в сессию интерфейса  mysql  с паролем  my-secret-pw  и создаем новую базу test_db.
+  #### 3) Входим в управляющую консоль mysql  с паролем  my-secret-pw  и создаем новую базу test_db.
 
     root@docker:/home/bes# docker exec -it 88d7769b4761   /bin/bash
     bash-4.4# mysql -u root -p 
@@ -58,7 +58,7 @@
     mysqldump: [Warning] Using a password on the command line interface can be insecure.
     root@docker:/home/bes#
 
-  #### 5) Подключаемся к БД test_db через интерфейс  mysql  с паролем  my-secret-pw .
+  #### 5) Подключаемся к БД test_db через управляющую консоль  mysql  с паролем  my-secret-pw .
 
     root@docker:/home/bes# docker exec -it 88d7769b4761   /bin/bash
     bash-4.4# mysql -u root -p test_db
