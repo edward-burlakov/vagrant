@@ -17,24 +17,51 @@
 
   #### 1) Развертываем контейнер с СУБД MySQL версии 8
      
-    root@docker:/home/bes/#  docker run -d -it  --name mysql1  -e MYSQL_ROOT_PASSWORD=my-secret-pw  -p 3306:3306  -v $(pwd)/mysql:/var/lib/mysql   mysql:8.0 
+    root@docker:/home/bes/#  docker run -d -it  --name mysql8  -e MYSQL_ROOT_PASSWORD=my-secret-pw  -p 3306:3306  -v $(pwd)/mysql:/var/lib/mysql   mysql:8.0 
 
-  #### 2) Сохраняем бэкап БД
 
-    root@docker:/home/bes/#  docker exec mysql1  sh -c 'exec mysqldump --all-databases -uroot -p"$MYSQL_ROOT_PASSWORD"' > $(pwd)/backup/all-databases.sql
-    mysqldump: [Warning] Using a password on the command line interface can be insecure.
-    root@docker:/home/bes#
+  #### 2) Копируем БД из дампа на  докер-хост
 
-  #### 3) Восстанавливаем БД
+    C:\scp test_dump.sql bes@192.168.1.16:/home/bes/mysql
+    bes@192.168.1.16's password:
+    test_dump.sql                                         100%  232KB   1.4MB/s   00:00
 
-    root@docker:/home/bes/#  docker exec -i mysql1  sh -c 'exec mysql -uroot -p"$MYSQL_ROOT_PASSWORD"' < $(pwd)/backup/all-databases.sql
+
+  #### 3) Входим в сессию интерфейса  mysql  с паролем  my-secret-pw  и создаем новую базу test_db.
+
+    root@docker:/home/bes# docker exec -it 88d7769b4761   /bin/bash
+    bash-4.4# mysql -u root -p 
+    mysql> show databases;
+        +--------------------+
+        | Database           |
+        +--------------------+
+        | information_schema |
+        | mysql              |
+        | performance_schema |
+        | sys                |
+        +--------------------+
+        4 rows in set (0.01 sec)
+        
+    mysql> CREATE DATABASE test_db;
+    Query OK, 1 row affected (0.01 sec)
+    mysql> 
+      
+  #### 3) Восстанавливаем БД test_db в контейнер  с mysql8.0, запуская процесс из домашнего каталога
+
+    root@docker:/home/bes/#  docker exec -i mysql8  sh -c 'exec mysql test_db -uroot -p"$MYSQL_ROOT_PASSWORD"' < $(pwd)/mysql/test_dump.sql
     mysql: [Warning] Using a password on the command line interface can be insecure.
     root@docker:/home/bes#
 
-  #### 4) Входим в сессию интерфейса  mysql  с паролем  my-secret-pw .
+  #### 4) Сохраняем бэкап БД
+
+    root@docker:/home/bes/#  docker exec mysql8  sh -c 'exec mysqldump --all-databases -uroot -p"$MYSQL_ROOT_PASSWORD"' > /var/lib/mysql/all-databases.sql
+    mysqldump: [Warning] Using a password on the command line interface can be insecure.
+    root@docker:/home/bes#
+
+  #### 5) Подключаемся к БД test_db через интерфейс  mysql  с паролем  my-secret-pw .
 
     root@docker:/home/bes# docker exec -it 88d7769b4761   /bin/bash
-    bash-4.4# mysql -u root -p my-secret-pw
+    bash-4.4# mysql -u root -p test_db
          
     Welcome to the MySQL monitor.  Commands end with ; or \g.
     Your MySQL connection id is 20
@@ -54,9 +81,9 @@
     mysql> \s
     --------------
     mysql  Ver 8.0.30 for Linux on x86_64 (MySQL Community Server - GPL)
-        
-    Connection id:          27
-    Current database:
+    
+    Connection id:          18
+    Current database:       test_db
     Current user:           root@localhost
     SSL:                    Not in use
     Current pager:          stdout
@@ -71,15 +98,32 @@
     Conn.  characterset:    latin1
     UNIX socket:            /var/run/mysqld/mysqld.sock
     Binary data as:         Hexadecimal
-    Uptime:                 2 hours 5 min 50 sec
-     
-    Threads: 2  Questions: 941  Slow queries: 0  Opens: 240  Flush tables: 3  Open tables: 78  Queries per second avg: 0.124
-    --------------
+    Uptime:                 20 min 51 sec
     
-    mysql>
+    Threads: 2  Questions: 115  Slow queries: 0  Opens: 200  Flush tables: 3  Open tables: 117  Queries per second avg: 0.091
+    --------------
 
-  #### 6) ddffdf 
-      
+  
+  #### 6) Смотрим названия всех таблиц в конкретной базе данных test_db :
+
+    mysql>  show tables;
+    +-------------------+
+    | Tables_in_test_db |
+    +-------------------+
+    | orders            |
+    +-------------------+
+    1 row in set (0.00 sec)
+
+  #### 7) Выполняем выборку данных из  базы данных test_db :
+
+    mysql> select * from orders where price>300 ;
+    +----+----------------+-------+
+    | id | title          | price |
+    +----+----------------+-------+
+    |  2 | My little pony |   500 |
+    +----+----------------+-------+
+    1 row in set (0.00 sec)
+ 
 
 
 ---
