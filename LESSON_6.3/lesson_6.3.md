@@ -46,7 +46,7 @@
     Query OK, 1 row affected (0.01 sec)
     mysql> 
       
-  #### 3) Восстанавливаем БД test_db в контейнер  с mysql8.0, запуская процесс из домашнего каталога
+  #### 3) Восстанавливаем БД test_db в контейнер  с mysql8.0, запуская процесс из домашнего каталога на докер-хосте
 
     root@docker:/home/bes/#  docker exec -i mysql8  sh -c 'exec mysql test_db -uroot -p"$MYSQL_ROOT_PASSWORD"' < $(pwd)/mysql/test_dump.sql
     mysql: [Warning] Using a password on the command line interface can be insecure.
@@ -102,7 +102,6 @@
     
     Threads: 2  Questions: 115  Slow queries: 0  Opens: 200  Flush tables: 3  Open tables: 117  Queries per second avg: 0.091
     --------------
-
   
   #### 6) Смотрим названия всех таблиц в конкретной базе данных test_db :
 
