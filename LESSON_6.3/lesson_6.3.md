@@ -15,6 +15,73 @@
 ----
 ### Ответ:
 
+  1) Развертываем контейнер с СУБД MySQL версии 8
+     
+          root@docker:/home/bes/#  docker run -d -it  --name mysql1  -e MYSQL_ROOT_PASSWORD=my-secret-pw  -p 3306:3306  -v $(pwd)/mysql:/var/lib/mysql   mysql:8.0 
+
+  2) Сохраняем бэкап БД
+
+          root@docker:/home/bes/#  docker exec mysql1  sh -c 'exec mysqldump --all-databases -uroot -p"$MYSQL_ROOT_PASSWORD"' > $(pwd)/backup/all-databases.sql
+          mysqldump: [Warning] Using a password on the command line interface can be insecure.
+          root@docker:/home/bes#
+
+  3) Восстанавливаем БД
+
+          root@docker:/home/bes/#  docker exec -i mysql1  sh -c 'exec mysql -uroot -p"$MYSQL_ROOT_PASSWORD"' < $(pwd)/backup/all-databases.sql
+          mysql: [Warning] Using a password on the command line interface can be insecure.
+          root@docker:/home/bes#
+
+  #### Входим в сессию интерфейса  mysql  с паролем  my-secret-pw .
+
+        root@docker:/home/bes# docker exec -it 88d7769b4761   /bin/bash
+        bash-4.4# mysql -u root -p my-secret-pw
+         
+        Welcome to the MySQL monitor.  Commands end with ; or \g.
+        Your MySQL connection id is 20
+        Server version: 8.0.30 MySQL Community Server - GPL
+        Copyright (c) 2000, 2022, Oracle and/or its affiliates.
+     
+        Oracle is a registered trademark of Oracle Corporation and/or its
+        affiliates. Other names may be trademarks of their respective
+        owners.
+     
+        Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+       
+        mysql>
+
+  #### Смотрим статус БД   
+
+        mysql> \s
+    
+        --------------
+        mysql  Ver 8.0.30 for Linux on x86_64 (MySQL Community Server - GPL)
+        
+        Connection id:          27
+        Current database:
+        Current user:           root@localhost
+        SSL:                    Not in use
+        Current pager:          stdout
+        Using outfile:          ''
+        Using delimiter:        ;
+        Server version:         8.0.30 MySQL Community Server - GPL
+        Protocol version:       10
+        Connection:             Localhost via UNIX socket
+        Server characterset:    utf8mb4
+        Db     characterset:    utf8mb4
+        Client characterset:    latin1
+        Conn.  characterset:    latin1
+        UNIX socket:            /var/run/mysqld/mysqld.sock
+        Binary data as:         Hexadecimal
+        Uptime:                 2 hours 5 min 50 sec
+        
+        Threads: 2  Questions: 941  Slow queries: 0  Opens: 240  Flush tables: 3  Open tables: 78  Queries per second avg: 0.124
+        --------------
+    
+         
+        mysql>
+
+  5) ddffdf 
+      
 
 
 ---
