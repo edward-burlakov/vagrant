@@ -247,7 +247,7 @@
  
 3)  Выполняем запросы на update
  
-        mysql> UPDATE orders  SET price = 3000 WHERE id=2 ;
+        mysql> UPDATE orders  SET price = 4000 WHERE id=2 ;
         Query OK, 1 row affected (0.00 sec)
         Rows matched: 1  Changed: 1  Warnings: 0
 
