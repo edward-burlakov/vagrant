@@ -15,23 +15,23 @@
 ----
 ### Ответ:
 
-  1) Развертываем контейнер с СУБД MySQL версии 8
+ #### 1) Развертываем контейнер с СУБД MySQL версии 8
      
           root@docker:/home/bes/#  docker run -d -it  --name mysql1  -e MYSQL_ROOT_PASSWORD=my-secret-pw  -p 3306:3306  -v $(pwd)/mysql:/var/lib/mysql   mysql:8.0 
 
-  2) Сохраняем бэкап БД
+  #### 2) Сохраняем бэкап БД
 
           root@docker:/home/bes/#  docker exec mysql1  sh -c 'exec mysqldump --all-databases -uroot -p"$MYSQL_ROOT_PASSWORD"' > $(pwd)/backup/all-databases.sql
           mysqldump: [Warning] Using a password on the command line interface can be insecure.
           root@docker:/home/bes#
 
-  3) Восстанавливаем БД
+  #### 3) Восстанавливаем БД
 
           root@docker:/home/bes/#  docker exec -i mysql1  sh -c 'exec mysql -uroot -p"$MYSQL_ROOT_PASSWORD"' < $(pwd)/backup/all-databases.sql
           mysql: [Warning] Using a password on the command line interface can be insecure.
           root@docker:/home/bes#
 
-  #### Входим в сессию интерфейса  mysql  с паролем  my-secret-pw .
+  #### 4) Входим в сессию интерфейса  mysql  с паролем  my-secret-pw .
 
         root@docker:/home/bes# docker exec -it 88d7769b4761   /bin/bash
         bash-4.4# mysql -u root -p my-secret-pw
@@ -49,7 +49,7 @@
        
         mysql>
 
-  #### Смотрим статус БД   
+  #### 5) Смотрим статус БД   
 
         mysql> \s
     
@@ -80,7 +80,7 @@
          
         mysql>
 
-  5) ddffdf 
+  #### 6) ddffdf 
       
 
 
