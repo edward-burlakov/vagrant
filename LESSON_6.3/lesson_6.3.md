@@ -143,19 +143,19 @@
 ---
 ### Ответ:
 
-1) Создаем пользователя  test c паролем test-pass
+1) Создаем пользователя  test c паролем test-pass.
 
           mysql> CREATE USER 'test'@'localhost' IDENTIFIED BY 'test-pass';
           Query OK, 0 rows affected (0.22 sec)
           mysql>
 
-2) Изменяем имя  и фамилию пользователя на указанные 
+2) Задам на указанные аттрибуты пользователю в формате JSON. 
 
           mysql> ALTER USER 'test'@'localhost' ATTRIBUTE '{"fname":"James", "lname":"Pretty"}';
           Query OK, 0 rows affected (0.16 sec)
           mysql> 
 
-3) Меняем параметры пользователя в интерактивном режиме 
+3) Меняем параметры пользователя в интерактивном режиме . 
 
           mysql> ALTER USER 'test'@'localhost' 
               -> IDENTIFIED BY 'test-pass' 
