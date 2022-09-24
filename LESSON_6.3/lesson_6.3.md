@@ -397,7 +397,8 @@ bash-4.4# cat my.cnf
 # 0 - скорость
 # 1 - сохранность
 # 2 - универсальный параметр
-# Default value 1 - Не сбрасывать буфер  UPDATE-транзакций на диск. Скорость важнее сохранности данных.
+# Default value - 1.  
+# Значение  0 - Не сбрасывать буфер  UPDATE-транзакций на диск. Скорость важнее сохранности данных.
 innodb_flush_log_at_trx_commit=0      
 
 # Compression of table enabled / The Compression applies to new-creating tables only .
@@ -405,14 +406,17 @@ innodb_flush_log_at_trx_commit=0
 # Default value ON 
 # Параметр задает создание таблицы по умолчанию в табличных пространствах типа «файл на таблицу».
 innodb_file_per_table = ON          
+
 # Устаревший параметр, задающий формат таблиц InnoDB. Deprecated - Убран в MySQL 8.0 ,начиная с 5.7.
 innodb_file_format = Barracuda
+
 # Устаревший параметр. Включает более длинные ключи для индексов префиксов столбцов. Deprecated - Убран в MySQL 8.0.
 innodb_large_prefix = On
 
 # Устанавливаем размер буфера кэширования в ОЗУ для InnoDB
 # Default  value  134217728 (128Mb)
 innodb_buffer_pool_size = 3G   
+
 # Устанавливаем размер  буфера кэширования в ОЗУ для блоков индексов MyISAM таблиц (если этот движок используется)
 key_buffer_size = 3G
 
