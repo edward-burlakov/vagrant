@@ -305,7 +305,7 @@
        Query OK, 5 rows affected (0.02 sec)
        Records: 5  Duplicates: 0  Warnings: 0
 
-8) Анализируем результат 
+8) Анализируем результат / Duration - длительность операции в секундах.
 
        mysql> SHOW PROFILES;
        +----------+------------+------------------------------------+
@@ -335,32 +335,97 @@
 ----
 ### Ответ:
 
-bash-4.4# cat my.cnf
-# For advice on how to change settings please see
-# http://dev.mysql.com/doc/refman/8.0/en/server-configuration-defaults.html
+2) Смотрим текущие значения переменных
 
+       mysql> show variables like "innodb_flush_log_at_trx_commit%";
+
+       +--------------------------------+-------+
+       | Variable_name                  | Value |
+       +--------------------------------+-------+
+       | innodb_flush_log_at_trx_commit | 1     |
+       +--------------------------------+-------+
+       1 row in set (0.00 sec)
+
+       mysql> show global variables like 'innodb_file_per_table';
+
+       +-----------------------+-------+
+       | Variable_name         | Value |
+       +-----------------------+-------+
+       | innodb_file_per_table | ON    |
+       +-----------------------+-------+
+       1 row in set (0.00 sec)
+   
+    
+       mysql> show global variables like 'innodb_buffer_pool_size';
+       +-------------------------+-----------+
+       | Variable_name           | Value     |
+       +-------------------------+-----------+
+       | innodb_buffer_pool_size | 134217728 |
+       +-------------------------+-----------+
+       1 row in set (0.00 sec)
+
+      
+       mysql> show global variables like 'innodb_log_buffer_size';
+       +------------------------+----------+
+       | Variable_name          | Value    |
+       +------------------------+----------+
+       | innodb_log_buffer_size | 16777216 |
+       +------------------------+----------+
+       1 row in set (0.00 sec)
+
+       mysql> show global variables like 'innodb_log_file_size';
+
+       +----------------------+----------+
+       | Variable_name        | Value    |
+       +----------------------+----------+
+       | innodb_log_file_size | 50331648 |
+       +----------------------+----------+
+       1 row in set (0.00 sec)
+
+       mysql> show global variables like 'max_binlog_size';
+       +-----------------+------------+
+       | Variable_name   | Value      |
+       +-----------------+------------+
+       | max_binlog_size | 1073741824 |
+       +-----------------+------------+
+       1 row in set (0.00 sec)
+
+bash-4.4# cat my.cnf
 [mysqld]
 #
-# Remove leading # and set to the amount of RAM for the most important data
-# cache in MySQL. Start at 70% of total RAM for dedicated server, else 10%.
-innodb_buffer_pool_size = 3G       # Default  value  134217728 (128Mb)
-innodb_log_file_size = 100M        # Default  value  50331648   (48Mb)
-innodb_flush_log_at_trx_commit=0   # Default value 1 . Не сбрасывать буфер  UPDATE-транзакций на диск . Скорость важнее сохранности данных.
+# Установка максимальной скорости IO
+# 0 - скорость
+# 1 - сохранность
+# 2 - универсальный параметр
+# Default value 1 . Не сбрасывать буфер  UPDATE-транзакций на диск . Скорость важнее сохранности данных.
+innodb_flush_log_at_trx_commit=0      
 
 # Compression of table enabled / The Compression applies to new-creating tables only .
 # При создании новых таблиц c помощью оператора CREATE  необходимо использовать опцию ROW_FORMAT=COMPRESSED
-innodb_file_per_table = ON     # Default value ON 
+# Default value ON 
+# Параметр задает создание таблицы по умолчанию в табличных пространствах типа «файл на таблицу».
+innodb_file_per_table = ON          
+# Устаревший параметр, задающий формат таблиц InnoDB. Deprecated - Убран в MySQL 8.0 ,начиная с 5.7.
+innodb_file_format = Barracuda
+# Устаревший параметр. Включает более длинные ключи для индексов префиксов столбцов. Deprecated - Убран в MySQL 8.0.
+innodb_large_prefix = On
 
-# Remove leading # to turn on a very important data integrity option: logging
-# changes to the binary log between backups.
-# log_bin
-#
-# Remove leading # to set options mainly useful for reporting servers.
-# The server defaults are faster for transactions and fast SELECTs.
-# Adjust sizes as needed, experiment to find the optimal values.
-# join_buffer_size = 128M
-# sort_buffer_size = 2M
-# read_rnd_buffer_size = 2M
+# Устанавливаем размер буфера кэширования в ОЗУ для InnoDB
+# Default  value  134217728 (128Mb)
+innodb_buffer_pool_size = 3G   
+# Устанавливаем размер  буфера кэширования в ОЗУ для блоков индексов MyISAM таблиц (если этот движок используется)
+key_buffer_size = 3G
+
+# Устанавливаем размер буфера незакоммиченного лога в ОЗУ. Экономит дисковые операции IO.  
+innodb_log_buffer_size	= 1M
+
+# Устанавливаем размеры файлов журнала транзакций, которые необходимы для отмены транзакций и восстановления базы в случае сбоя.
+# Default  value  50331648   (48Mb)
+innodb_log_file_size = 100M        
+
+# Устанавливаем максимальный размер бинарного файла логов операций. При превышении размера создается очередной лог.
+max_binlog_size = 100M
+
 
 # Remove leading # to revert to previous value for default_authentication_plugin                               ,
 # this will increase compatibility with older clients. For background, see:
@@ -380,20 +445,6 @@ socket=/var/run/mysqld/mysqld.sock
 !includedir /etc/mysql/conf.d/
 
 
-2) Смотрим текущие значения переменных
 
-      mysql> show variables like "join_buffer_size%";
-      +------------------+--------+
-      | Variable_name    | Value  |
-      +------------------+--------+
-      | join_buffer_size | 262144 |
-      +------------------+--------+
-      1 row in set (0.00 sec)
-      
-      mysql> show global variables like 'join_buffer_size';
-      +------------------+--------+
-      | Variable_name    | Value  |
-      +------------------+--------+
-      | join_buffer_size | 262144 |
-      +------------------+--------+
-      1 row in set (0.01 sec)
+
+
