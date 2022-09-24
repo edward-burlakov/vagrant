@@ -143,6 +143,44 @@
 ---
 ### Ответ:
 
+1) Создаем пользователя  test c паролем test-pass
+
+          mysql> CREATE USER 'test'@'localhost' IDENTIFIED BY 'test-pass';
+          Query OK, 0 rows affected (0.22 sec)
+          mysql>
+
+2) Изменяем имя  и фамилию пользователя на указанные 
+
+          mysql> ALTER USER 'test'@'localhost' ATTRIBUTE '{"fname":"James", "lname":"Pretty"}';
+          Query OK, 0 rows affected (0.16 sec)
+          mysql> 
+
+3) Меняем параметры пользователя в интерактивном режиме 
+
+          mysql> ALTER USER 'test'@'localhost' 
+              -> IDENTIFIED BY 'test-pass' 
+              -> WITH
+              -> MAX_QUERIES_PER_HOUR 100
+              -> PASSWORD EXPIRE INTERVAL 180 DAY
+              -> FAILED_LOGIN_ATTEMPTS 3 PASSWORD_LOCK_TIME 2;
+          Query OK, 0 rows affected (0.12 sec)
+          mysql>
+
+4) Выдаем права пользователю test на выполнение операции SELECT на таблицу orders в БД test_db
+
+          mysql> GRANT Select ON test_db.orders TO 'test'@'localhost';
+          Query OK, 0 rows affected, 1 warning (0.14 sec)      
+          mysql> 
+
+5) Получаем информацию из системной таблицы INFORMATION_SCHEMA.USER_ATTRIBUTES
+
+          mysql> SELECT * FROM INFORMATION_SCHEMA.USER_ATTRIBUTES WHERE USER='test';
+          +------+-----------+---------------------------------------+
+          | USER | HOST      | ATTRIBUTE                             |
+          +------+-----------+---------------------------------------+
+          | test | localhost | {"fname": "James", "lname": "Pretty"} |
+          +------+-----------+---------------------------------------+
+          1 row in set (0.03 sec)
 
 
 ---
@@ -304,6 +342,7 @@
 - Размер буфера с незакомиченными транзакциями 1 Мб
 - Буфер кеширования 30% от ОЗУ
 - Размер файла логов операций 100 Мб
+- 
  Приведите в ответе измененный файл my.cnf.
 
 ----
@@ -317,9 +356,14 @@ bash-4.4# cat my.cnf
 #
 # Remove leading # and set to the amount of RAM for the most important data
 # cache in MySQL. Start at 70% of total RAM for dedicated server, else 10%.
-innodb_buffer_pool_size = 3G
-innodb_log_file_size = 100M
-#
+innodb_buffer_pool_size = 3G       # Default  value  134217728 (128Mb)
+innodb_log_file_size = 100M        # Default  value  50331648   (48Mb)
+innodb_flush_log_at_trx_commit=0   # Default value 1 . Не сбрасывать буфер  UPDATE-транзакций на диск . Скорость важнее сохранности данных.
+
+# Compression of table enabled / The Compression applies to new-creating tables only .
+# При создании новых таблиц c помощью оператора CREATE  необходимо использовать опцию ROW_FORMAT=COMPRESSED
+innodb_file_per_table = ON     # Default value ON 
+
 # Remove leading # to turn on a very important data integrity option: logging
 # changes to the binary log between backups.
 # log_bin
@@ -347,46 +391,10 @@ pid-file=/var/run/mysqld/mysqld.pid
 socket=/var/run/mysqld/mysqld.sock
 
 !includedir /etc/mysql/conf.d/
-bash-4.4# cat my.cnf
-# For advice on how to change settings please see
-# http://dev.mysql.com/doc/refman/8.0/en/server-configuration-defaults.html
-
-[mysqld]
-#
-# Remove leading # and set to the amount of RAM for the most important data
-# cache in MySQL. Start at 70% of total RAM for dedicated server, else 10%.
-innodb_buffer_pool_size = 7G
-#
-# Remove leading # to turn on a very important data integrity option: logging
-# changes to the binary log between backups.
-# log_bin
-#
-# Remove leading # to set options mainly useful for reporting servers.
-# The server defaults are faster for transactions and fast SELECTs.
-# Adjust sizes as needed, experiment to find the optimal values.
-# join_buffer_size = 128M
-# sort_buffer_size = 2M
-# read_rnd_buffer_size = 2M
-
-# Remove leading # to revert to previous value for default_authentication_plugin,
-# this will increase compatibility with older clients. For background, see:
-# https://dev.mysql.com/doc/refman/8.0/en/server-system-variables.html#sysvar_default_authentication_plugin
-# default-authentication-plugin=mysql_native_password
-skip-host-cache
-skip-name-resolve
-datadir=/var/lib/mysql
-socket=/var/run/mysqld/mysqld.sock
-secure-file-priv=/var/lib/mysql-files
-user=mysql
-
-pid-file=/var/run/mysqld/mysqld.pid
-[client]
-socket=/var/run/mysqld/mysqld.sock
-
-!includedir /etc/mysql/conf.d/
 
 
-      Смотрим текущие значения переменных
+2) Смотрим текущие значения переменных
+
       mysql> show variables like "join_buffer_size%";
       +------------------+--------+
       | Variable_name    | Value  |

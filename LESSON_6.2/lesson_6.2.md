@@ -110,6 +110,7 @@
 
          
    7) Создаем пользователя  test-admin-user 
+
              root@docker:/home/bes/data# sudo su - postgres -c "createuser test_admin_user with login password 'qwerty';"
 
              postgres=# create user  test_admin_user with login password 'qwerty';
@@ -137,7 +138,7 @@
                            |          |          |            |            | /postgres       +
                            |          |          |            |            | test_admin_user=CTc/postgres
 
-   10)  Создаем пользователя  test_simple_user и выделяем права на таблицы clients и orders в БД test_db 
+   10) Создаем пользователя  test_simple_user и выделяем права на таблицы clients и orders в БД test_db 
 
              test_db=# create user  test_simple_user with login password 'qwerty';
              CREATE ROLE
