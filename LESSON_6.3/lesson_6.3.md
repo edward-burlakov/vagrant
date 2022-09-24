@@ -414,10 +414,10 @@
       innodb_file_per_table = ON          
       
       # Устаревший параметр, задающий формат таблиц InnoDB. Deprecated - Убран в MySQL 8.0 ,начиная с 5.7.
-      innodb_file_format = Barracuda
+      # innodb_file_format = Barracuda
       
       # Устаревший параметр. Включает более длинные ключи для индексов префиксов столбцов. Deprecated - Убран в MySQL 8.0, начиная с 5.7.
-      innodb_large_prefix = On
+      # innodb_large_prefix = On
       
       # Устанавливаем размер буфера кэширования в ОЗУ для InnoDB .Ключевой параметр.Обычно 70-80% от размера ОЗУ.
       # Default  value  134217728 (128Mb)
