@@ -397,7 +397,7 @@ bash-4.4# cat my.cnf
 # 0 - скорость
 # 1 - сохранность
 # 2 - универсальный параметр
-# Default value 1 . Не сбрасывать буфер  UPDATE-транзакций на диск . Скорость важнее сохранности данных.
+# Default value 1 - Не сбрасывать буфер  UPDATE-транзакций на диск. Скорость важнее сохранности данных.
 innodb_flush_log_at_trx_commit=0      
 
 # Compression of table enabled / The Compression applies to new-creating tables only .
