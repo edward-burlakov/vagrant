@@ -200,19 +200,6 @@
         mysql> SET profiling = 1;
         Query OK, 0 rows affected, 1 warning (0.00 sec)
 
-        mysql> SHOW PROFILES;
-        +----------+------------+---------------------------------------------------------------------------------------------------------------------+
-        | Query_ID | Duration   | Query                                                                                                               |
-        +----------+------------+---------------------------------------------------------------------------------------------------------------------+
-        |        1 | 0.00073425 | select DATABASE(), USER() limit 1                                                                                   |
-        |        2 | 0.00023375 | select @@character_set_client, @@character_set_connection, @@character_set_server, @@character_set_database limit 1 |
-        |        3 | 0.00012775 | mysql> SET profiling = 1                                                                                            |
-        |        4 | 0.00011550 | Query OK, 0 rows affected, 1 warning (0.00 sec)
-    
-        SHOW PROFILES                                                      |
-        +----------+------------+---------------------------------------------------------------------------------------------------------------------+
-        4 rows in set, 1 warning (0.00 sec)
-    
 2) Выводим список доступных движков
 
          mysql> SHOW ENGINES\G ;
@@ -281,57 +268,57 @@
            Savepoints: NO
          9 rows in set (0.00 sec)
 
-    Видим, что текущий набор  использует  INNO_DB как дефолтовый движок хранения.
- 
-3)  Выполняем запросы на update
- 
-       mysql> UPDATE orders  SET price = 4000 WHERE id=2 ;
-       Query OK, 1 row affected (0.00 sec)
-       Rows matched: 1  Changed: 1  Warnings: 0
 
-    
-4) Меняем дефолтовый движок хранения на MyISAM и Конвертируем таблицу orders в базе данных  test_db 
+3) Проверяем, что текущая конфигурация MySQL использует  INNO_DB в роли  дефолтового движка хранения.
+
+       mysql> SELECT TABLE_NAME,ENGINE,ROW_FORMAT,TABLE_ROWS FROM information_schema.TABLES    \
+       WHERE table_name = 'orders' and  TABLE_SCHEMA = 'test_db';
+
+       +------------+--------+------------+------------+
+       | TABLE_NAME | ENGINE | ROW_FORMAT | TABLE_ROWS |
+       +------------+--------+------------+------------+
+       | orders     | MyISAM | Dynamic    |          5 |
+       +------------+--------+------------+------------+
+       1 row in set (0.00 sec)
+
+  
+4) Меняем дефолтовый движок хранения на MyISAM 
 
        mysql> SET default_storage_engine=MyISAM;
        Query OK, 0 rows affected (0.00 sec)
-  
+
+5) Конвертируем таблицу orders в базе данных  test_db       
+ 
        mysql> ALTER TABLE orders ENGINE = MyISAM;
        Query OK, 5 rows affected (0.02 sec)
        Records: 5  Duplicates: 0  Warnings: 0
- 
-5) Выполняем повторный запрос на update и смотрим оценку времени выполнения 
 
-       mysql> UPDATE orders  SET price = 3000 WHERE id=2 ;
-       Query OK, 1 row affected (0.00 sec)
-       Rows matched: 1  Changed: 1  Warnings: 0
+6) Меняем дефолтовый движок хранения на InnoDB  
 
-    
+       mysql> ALTER TABLE orders ENGINE = InnoDB;
+       Query OK, 5 rows affected (0.03 sec)
+       Records: 5  Duplicates: 0  Warnings: 0
+
+7) Конвертируем таблицу orders в базе данных  test_db
+
+       mysql> ALTER TABLE orders ENGINE = InnoDB;
+       Query OK, 5 rows affected (0.02 sec)
+       Records: 5  Duplicates: 0  Warnings: 0
+
+8) Анализируем результат 
+
        mysql> SHOW PROFILES;
-       +----------+------------+------------------------------------------------------------------------------------+
-       | Query_ID | Duration   | Query                                                                              |
-       +----------+------------+------------------------------------------------------------------------------------+
-       |        1 | 0.00049600 | select * from orders                                                               |
-       |        2 | 0.00050625 | SHOW ENGINES                                                                       |
-       |        3 | 0.00051400 | SHOW ENGINES                                                                       |
-       |        4 | 0.00007675 | | grep 'DEFAULT'                                                                   | 
-       |        5 | 0.00232050 | UPDATE orders SET price = 4000 WHERE id=2                                          |
-       |        6 | 0.00035850 | SET default_storage_engine=MyISAM                                                  |
-       |        7 | 0.00010700 | mysql> SET default_storage_engine=MyISAM                                           |     
-       |        8 | 0.02303750 | ALTER TABLE orders ENGINE = MyISAM                                                 |
-       |        9 | 0.00161925 | UPDATE orders SET price = 3000 WHERE id=2                                          |                                                                                                                                                                                                                                                  
-       |                                                                                                            |
-       |                                                                                                            |
-       +----------+------------+------------------------------------------------------------------------------------+
-       9 rows in set, 1 warning (0.00 sec)
- 
-       Движок InnoDB показал результат для операции UPDATE   
-           5 | 0.00232050 | UPDATE orders SET price = 4000 WHERE id=2 
+       +----------+------------+------------------------------------+
+       | Query_ID | Duration   | Query                              |
+       +----------+------------+------------------------------------+
+       |        1 | 0.00018875 | SET default_storage_engine=MyISAM  |  
+       |        2 | 0.02552300 | ALTER TABLE orders ENGINE = MyISAM |
+       |        3 | 0.00031400 | SET default_storage_engine=innoDB  |
+       |        4 | 0.02856525 | ALTER TABLE orders ENGINE = InnoDB |
+       +----------+------------+------------------------------------+
+       4 rows in set, 1 warning (0.00 sec)
 
-       Движок MyISAM показал результат для операции UPDATE   
-           9 | 0.00161925 | UPDATE orders SET price = 3000 WHERE id=2 
   
-       Это говорит о том, быстродействие двух движков InnoDB и MyISAM примерно одинаковое. 
- 
 ---
 ### Задача 4
 Изучите файл my.cnf в директории /etc/mysql.
