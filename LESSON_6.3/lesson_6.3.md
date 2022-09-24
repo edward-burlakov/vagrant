@@ -155,7 +155,7 @@
           Query OK, 0 rows affected (0.16 sec)
           mysql> 
 
-3) Меняем параметры пользователя в интерактивном режиме . 
+3) Меняем параметры пользователя в интерактивном режиме. 
 
           mysql> ALTER USER 'test'@'localhost' 
               -> IDENTIFIED BY 'test-pass' 
@@ -195,12 +195,7 @@
 ----
 ### Ответ:
 
-1) Устанавливаем профилирование 
-
-        mysql> SET profiling = 1;
-        Query OK, 0 rows affected, 1 warning (0.00 sec)
-
-2) Выводим список доступных движков
+1) Выводим список доступных движков
 
          mysql> SHOW ENGINES\G ;
          *************************** 1. row ***************************
@@ -269,7 +264,7 @@
          9 rows in set (0.00 sec)
 
 
-3) Проверяем, что текущая конфигурация MySQL использует  INNO_DB в роли  дефолтового движка хранения.
+2) Проверяем, что текущая конфигурация MySQL использует  INNO_DB в роли  дефолтового движка хранения.
 
        mysql> SELECT TABLE_NAME,ENGINE,ROW_FORMAT,TABLE_ROWS FROM information_schema.TABLES    \
        WHERE table_name = 'orders' and  TABLE_SCHEMA = 'test_db';
@@ -281,6 +276,11 @@
        +------------+--------+------------+------------+
        1 row in set (0.00 sec)
 
+
+3) Устанавливаем профилирование 
+
+        mysql> SET profiling = 1;
+        Query OK, 0 rows affected, 1 warning (0.00 sec)
   
 4) Меняем дефолтовый движок хранения на MyISAM 
 
@@ -391,8 +391,9 @@
        1 row in set (0.00 sec)
 
 
-2)Файл конфигурации MySQL bash-4.4# cat my.cnf
-
+2)Файл конфигурации MySQL 
+  
+      bash-4.4# cat my.cnf
       [mysqld]
       # Скорость важнее сохранности данных.
       # Установка максимальной скорости операций вывод-вывода.
