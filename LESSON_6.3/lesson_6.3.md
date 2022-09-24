@@ -149,7 +149,7 @@
           Query OK, 0 rows affected (0.22 sec)
           mysql>
 
-2) Задам на указанные аттрибуты пользователю в формате JSON. 
+2) Задаём указанные аттрибуты пользователю в формате JSON. 
 
           mysql> ALTER USER 'test'@'localhost' ATTRIBUTE '{"fname":"James", "lname":"Pretty"}';
           Query OK, 0 rows affected (0.16 sec)
