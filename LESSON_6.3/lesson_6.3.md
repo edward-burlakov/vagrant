@@ -433,10 +433,11 @@
       max_binlog_size = 100M
 
 
-      # Remove leading # to revert to previous value for default_authentication_plugin                               ,
+      # Remove leading # to revert to previous value for default_authentication_plugin,
       # this will increase compatibility with older clients. For background, see:
-      # https://dev.mysql.com/doc/refman/8.0/en/server-system-variables.html#sysvar_de                               fault_authentication_plugin
+      # https://dev.mysql.com/doc/refman/8.0/en/server-system-variables.html#sysvar_default_authentication_plugin
       # default-authentication-plugin=mysql_native_password
+
       skip-host-cache
       skip-name-resolve
       datadir=/var/lib/mysql
