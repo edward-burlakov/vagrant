@@ -12,7 +12,7 @@
     - Приведите в ответе количество записей с price > 300.
     - В следующих заданиях мы будем продолжать работу с данным контейнером.
 
-----
+---
 ### Ответ:
 
   #### 1) Развертываем контейнер с СУБД MySQL версии 8
@@ -140,7 +140,7 @@
 
 Используя таблицу INFORMATION_SCHEMA.USER_ATTRIBUTES получите данные по пользователю test и приведите в ответе к задаче.
 
-----
+---
 ### Ответ:
 
 
@@ -247,9 +247,9 @@
  
 3)  Выполняем запросы на update
  
-        mysql> UPDATE orders  SET price = 4000 WHERE id=2 ;
-        Query OK, 1 row affected (0.00 sec)
-        Rows matched: 1  Changed: 1  Warnings: 0
+       mysql> UPDATE orders  SET price = 4000 WHERE id=2 ;
+       Query OK, 1 row affected (0.00 sec)
+       Rows matched: 1  Changed: 1  Warnings: 0
 
     
 4) Меняем дефолтовый движок хранения на MyISAM и Конвертируем таблицу orders в базе данных  test_db 
@@ -301,11 +301,104 @@
 Измените его согласно ТЗ (движок InnoDB):
 - Скорость IO важнее сохранности данных
 - Нужна компрессия таблиц для экономии места на диске
-- Размер буффера с незакомиченными транзакциями 1 Мб
-- Буффер кеширования 30% от ОЗУ
+- Размер буфера с незакомиченными транзакциями 1 Мб
+- Буфер кеширования 30% от ОЗУ
 - Размер файла логов операций 100 Мб
  Приведите в ответе измененный файл my.cnf.
 
 ----
 ### Ответ:
 
+bash-4.4# cat my.cnf
+# For advice on how to change settings please see
+# http://dev.mysql.com/doc/refman/8.0/en/server-configuration-defaults.html
+
+[mysqld]
+#
+# Remove leading # and set to the amount of RAM for the most important data
+# cache in MySQL. Start at 70% of total RAM for dedicated server, else 10%.
+innodb_buffer_pool_size = 3G
+innodb_log_file_size = 100M
+#
+# Remove leading # to turn on a very important data integrity option: logging
+# changes to the binary log between backups.
+# log_bin
+#
+# Remove leading # to set options mainly useful for reporting servers.
+# The server defaults are faster for transactions and fast SELECTs.
+# Adjust sizes as needed, experiment to find the optimal values.
+# join_buffer_size = 128M
+# sort_buffer_size = 2M
+# read_rnd_buffer_size = 2M
+
+# Remove leading # to revert to previous value for default_authentication_plugin                               ,
+# this will increase compatibility with older clients. For background, see:
+# https://dev.mysql.com/doc/refman/8.0/en/server-system-variables.html#sysvar_de                               fault_authentication_plugin
+# default-authentication-plugin=mysql_native_password
+skip-host-cache
+skip-name-resolve
+datadir=/var/lib/mysql
+socket=/var/run/mysqld/mysqld.sock
+secure-file-priv=/var/lib/mysql-files
+user=mysql
+
+pid-file=/var/run/mysqld/mysqld.pid
+[client]
+socket=/var/run/mysqld/mysqld.sock
+
+!includedir /etc/mysql/conf.d/
+bash-4.4# cat my.cnf
+# For advice on how to change settings please see
+# http://dev.mysql.com/doc/refman/8.0/en/server-configuration-defaults.html
+
+[mysqld]
+#
+# Remove leading # and set to the amount of RAM for the most important data
+# cache in MySQL. Start at 70% of total RAM for dedicated server, else 10%.
+innodb_buffer_pool_size = 7G
+#
+# Remove leading # to turn on a very important data integrity option: logging
+# changes to the binary log between backups.
+# log_bin
+#
+# Remove leading # to set options mainly useful for reporting servers.
+# The server defaults are faster for transactions and fast SELECTs.
+# Adjust sizes as needed, experiment to find the optimal values.
+# join_buffer_size = 128M
+# sort_buffer_size = 2M
+# read_rnd_buffer_size = 2M
+
+# Remove leading # to revert to previous value for default_authentication_plugin,
+# this will increase compatibility with older clients. For background, see:
+# https://dev.mysql.com/doc/refman/8.0/en/server-system-variables.html#sysvar_default_authentication_plugin
+# default-authentication-plugin=mysql_native_password
+skip-host-cache
+skip-name-resolve
+datadir=/var/lib/mysql
+socket=/var/run/mysqld/mysqld.sock
+secure-file-priv=/var/lib/mysql-files
+user=mysql
+
+pid-file=/var/run/mysqld/mysqld.pid
+[client]
+socket=/var/run/mysqld/mysqld.sock
+
+!includedir /etc/mysql/conf.d/
+
+
+      Смотрим текущие значения переменных
+      mysql> show variables like "join_buffer_size%";
+      +------------------+--------+
+      | Variable_name    | Value  |
+      +------------------+--------+
+      | join_buffer_size | 262144 |
+      +------------------+--------+
+      1 row in set (0.00 sec)
+      
+      mysql> show global variables like 'join_buffer_size';
+      +------------------+--------+
+      | Variable_name    | Value  |
+      +------------------+--------+
+      | join_buffer_size | 262144 |
+      +------------------+--------+
+      1 row in set (0.01 sec)
