@@ -1,6 +1,5 @@
 ## Домашнее задание к занятию "6.4. PostgreSQL"
 
-
 ---
 ### Задача 1
 
@@ -19,38 +18,68 @@
 
 1) Поднимаем инстанс PostreSQL         
 
-            root@docker:/home/bes/#  docker run -d -it    --name postgres13   -e POSTGRES_PASSWORD=mysecretpassword   -p 5434:5434  \ 
+            root@docker:/home/bes/#  docker run -d -it    --name postgres13   -e POSTGRES_PASSWORD=mysecretpassword   -p 5432:5432  \ 
             -v $(pwd)/data:/var/lib/postgresql/data   postgres:13 
 
 2) Входим в запущенный контейнер
 
-             root@docker:/home/bes/data#  docker exec -it   dd8781c1393e  /bin/bash
+             root@docker:/home/bes/data#  docker exec -it   cd864a17ac58  /bin/bash
 
-3) Запускаем PostgreSQL интерактивно 
-   
-             root@docker:/home/bes/data# psql -U postgres
+3) Устанавливаем подключение к БД с помощью psql 
 
-4) Устанавливаем подключение к БД с помощью psql 
+            root@cd864a17ac58:/#  psql postgres postgres;   ( или psql -Upostgres  -dpostgres )
 
-            root@docker:/home/bes/data#  psql postgres_db postgres;   ( или psql -Upostgres  -dtest_db )
-
-5) Выводим список команд  
+4) Выводим список команд  
                         
-            postgres_db=# \?
+            postgres=# \?
+            ...
+          
+5) Выводим список БД
 
-6) Смотрим список таблиц
+             postgres=# \l
+                                   List of databases
+                 Name      |  Owner   | Encoding |  Collate   |   Ctype    |   Access privileges
+             ---------------+----------+----------+------------+------------+-----------------------
+             postgres      | postgres | UTF8     | en_US.utf8 | en_US.utf8 |
+             template0     | postgres | UTF8     | en_US.utf8 | en_US.utf8 | =c/postgres          +
+                           |          |          |            |            | postgres=CTc/postgres
+             template1     | postgres | UTF8     | en_US.utf8 | en_US.utf8 | =c/postgres          +
+                           |          |          |            |            | postgres=CTc/postgres
+             test_database | postgres | UTF8     | en_US.utf8 | en_US.utf8 |
+             (4 rows)
 
-            postgres_db=# \dt
-            public | clients | table | postgres
-            public | orders  | table | postgres
 
-7) Смотрим содержимое таблиц
+6) Подключаемся к БД                    \c  {db_name}   или \connect {db_name}
 
-            postgres_db=# \d clients
+            postgres=#  \с  test_database
 
-8) Выходим 
+7) Выводим список таблиц 
 
-            postgres_db=# quit
+            test_database=# \dt ;
+                    List of relations
+            Schema |  Name  | Type  |  Owner
+            --------+--------+-------+----------
+            public | orders | table | postgres
+           (1 row)
+   
+8) Выводим описание содержимого таблиц   \d  {table_name}
+       
+            test_database-# \d orders
+                                    Table "public.orders"
+             Column |         Type          | Collation | Nullable |              Default
+            --------+-----------------------+-----------+----------+------------------------------------
+             id     | integer               |           | not null | nextval('orders_id_seq'::regclass)
+             title  | character varying(80) |           | not null |
+             price  | integer               |           |          | 0
+            Indexes:
+            "orders_pkey" PRIMARY KEY, btree (id)
+
+
+            
+
+9) Выходим  из psql   -  \q или  quit 
+
+            postgres=# quit
 
 
 ---
@@ -67,7 +96,23 @@
 ---
 ### Ответ:
 
+1) Создаем  БД test_database :
+            
+             postgres=# create database test_database ;
+             CREATE DATABASE
+             postgres=#
 
+2) Подключаемся к БД
+
+             postgres=# \c test_database ;
+             You are now connected to database "test_database" as user "postgres".
+             test_database=#
+
+
+3) Скачиваем и восстанавливаем бэкап
+
+             root@cd864a17ac58:/#  psql -Upostgres test_database  < test_dump.sql
+             root@cd864a17ac58:/#  psql test_database  postgres; 
 ---
 ### Задача 3
 - Архитектор и администратор БД выяснили, что ваша таблица orders разрослась до невиданных размеров и поиск по ней 
