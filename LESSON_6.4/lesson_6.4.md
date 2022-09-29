@@ -17,10 +17,10 @@
 ---
 ### Ответ:
 
-1) root@docker:/home/bes/backup# cd /home/bes
+1) Поднимаем инстанс PostreSQL         
 
-      root@docker:/home/bes/#  docker run -d -it    --name postgres12   -e POSTGRES_PASSWORD=mysecretpassword   -p 5432:5432  \ 
-      -v $(pwd)/data:/var/lib/postgresql/data   -v $(pwd)/backup:/backup   postgres:12 
+            root@docker:/home/bes/#  docker run -d -it    --name postgres12   -e POSTGRES_PASSWORD=mysecretpassword   -p 5432:5432  \ 
+            -v $(pwd)/data:/var/lib/postgresql/data   postgres:13 
 
 2) Входим в запущенный контейнер
 
@@ -30,41 +30,27 @@
    
              root@docker:/home/bes/data# psql -U postgres
 
-4) Создаем  БД test_db :
-            
-             postgres=# create database  test_db ;
-             CREATE DATABASE
-             postgres=#
+4) Устанавливаем подключение к БД с помощью psql 
 
-5) Устанавливаем подключение к БД с помощью sql 
+            root@docker:/home/bes/data#  psql postgres_db postgres;   ( или psql -Upostgres  -dtest_db )
 
-            root@docker:/home/bes/data#  psql test_db postgres;   ( или psql -Upostgres  -dtest_db )
+5) Выводим список команд  
+                        
+            postgres_db=# \?
 
-6) Создаем таблицы в БД test_db
+6) Смотрим список таблиц
 
-             CREATE TABLE orders ( 
-               order_id      SERIAL PRIMARY KEY,  
-               product_name  varchar(40) NOT NULL CHECK (product_name <> ''),  
-               price         integer NOT NULL,
-               );
-        
-             CREATE TABLE clients (
-             id            SERIAL PRIMARY KEY,   
-             surname       varchar(30),   
-             country       varchar(20),    
-             order_id      INT, 
-             FOREIGN KEY (order_id) REFERENCES orders(order_id)                 
-             );
-           
-             CREATE INDEX country_idx ON clients(country);
+            postgres_db=# \dt
+            public | clients | table | postgres
+            public | orders  | table | postgres
 
-7) Смотрим итоги
+7) Смотрим содержимое таблиц
 
-              test_db=# \dt
-              public | clients | table | postgres
-              public | orders  | table | postgres
+            postgres_db=# \d clients
+
 8) Выходим 
-              test_db=# quit
+
+            postgres_db=# quit
 
 
 ---
