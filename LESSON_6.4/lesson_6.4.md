@@ -19,7 +19,7 @@
 
 1) Поднимаем инстанс PostreSQL         
 
-            root@docker:/home/bes/#  docker run -d -it    --name postgres13   -e POSTGRES_PASSWORD=mysecretpassword   -p 5432:5432  \ 
+            root@docker:/home/bes/#  docker run -d -it    --name postgres13   -e POSTGRES_PASSWORD=mysecretpassword   -p 5434:5434  \ 
             -v $(pwd)/data:/var/lib/postgresql/data   postgres:13 
 
 2) Входим в запущенный контейнер
