@@ -117,6 +117,7 @@
 4) Входим в интерфейс  управляющей консоли psql  внутри контейнера и проводим анализ таблицы в БД
 
             root@cd864a17ac58:/#  psql test_database  postgres; 
+
             test_database=# ANALYZE  VERBOSE  orders ;
             INFO:  analyzing "public.orders"
             INFO:  "orders": scanned 1 of 1 pages, containing 8 live rows and 8 dead rows; 8 rows in sample, 8 estimated total rows
@@ -145,7 +146,7 @@
          ) INHERITS (orders) ;
 
 2) Для исключения дальнейшего "ручного" разбиения добавляем 2 правила на основную таблицу, 
-  которые все данные  при операции INSERT  записывают в дочерние таблицы orders_1  и orders_2  
+  которые записывают все результаты выполнения операнда INSERT над таблицей orders  в дочерние таблицы orders_1  и orders_2  
 
 
          CREATE OR REPLACE RULE orders_insert_to_1 AS
@@ -165,7 +166,8 @@
            VALUES (new.id, new.title, new.price));
 
   3) Изначально при проектировании необходимо было создавать исходный код,
-     включающий запросы СREATE или REPLACE  c условием WHERE.  
+     включающий запросы c  оператором INSERT  c условием WHERE для наполнения двух таблиц 
+     и формирования вертикального шардирования. 
 
 ---
 ### Задача 4
