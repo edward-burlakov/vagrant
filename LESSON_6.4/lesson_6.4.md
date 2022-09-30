@@ -198,7 +198,7 @@
             
           root@cd864a17ac58:/#   pg_dump -U postgres -d  test_database  > test_database_dump.sql
 
-2) Открываем файл в test_database_dump.sql на редатирование и для задания уникальности столбцу title добавляем аттрибут UNIQUE  в виде CONSTRAINTS 
+2) Открываем файл в test_database_dump.sql на редактирование и для задания уникальности столбцу title добавляем аттрибут UNIQUE
 
           ...
           CREATE TABLE public.order (
