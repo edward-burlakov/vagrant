@@ -112,7 +112,17 @@
 3) Скачиваем и восстанавливаем бэкап
 
              root@cd864a17ac58:/#  psql -Upostgres test_database  < test_dump.sql
-             root@cd864a17ac58:/#  psql test_database  postgres; 
+    
+
+4) Входим в интерфейс  управляющей консоли psql  внутри контейнера и проводим анализ таблицы в БД
+
+            root@cd864a17ac58:/#  psql test_database  postgres; 
+            test_database=# ANALYZE  VERBOSE  orders ;
+            INFO:  analyzing "public.orders"
+            INFO:  "orders": scanned 1 of 1 pages, containing 8 live rows and 8 dead rows; 8 rows in sample, 8 estimated total rows
+            ANALYZE
+            test_database=#
+
 ---
 ### Задача 3
 - Архитектор и администратор БД выяснили, что ваша таблица orders разрослась до невиданных размеров и поиск по ней 
@@ -121,10 +131,41 @@
 - Предложите SQL-транзакцию для проведения данной операции.
 - Можно ли было изначально исключить "ручное" разбиение при проектировании таблицы orders?
 
-
 ---
 ### Ответ:
 
+1) Шардируем основную таблицу на две дочерние c помощью SQL запросов :
+
+         CREATE table orders_1 (
+            CHECK  ( price > 499)
+         ) INHERITS (orders) ;
+
+         CREATE table orders_2 (
+            CHECK  ( price <= 499)
+         ) INHERITS (orders) ;
+
+2) Для исключения дальнейшего "ручного" разбиения добавляем 2 правила на основную таблицу, 
+  которые все данные  при операции INSERT  записывают в дочерние таблицы orders_1  и orders_2  
+
+
+         CREATE OR REPLACE RULE orders_insert_to_1 AS
+             ON INSERT TO public.orders
+             WHERE (new.price > 499)
+             DO INSTEAD
+         (INSERT INTO orders_1 (id, title, price)
+           VALUES (new.id, new.title, new.price));
+         
+         
+         
+         CREATE OR REPLACE RULE orders_insert_to_2 AS
+             ON INSERT TO public.orders
+             WHERE (new.price <= 499)
+             DO INSTEAD
+         (INSERT INTO orders_2 (id, title, price)
+           VALUES (new.id, new.title, new.price));
+
+  3) Изначально при проектировании необходимо было создавать исходный код,
+     включающий запросы СREATE или REPLACE  c условием WHERE.  
 
 ---
 ### Задача 4
