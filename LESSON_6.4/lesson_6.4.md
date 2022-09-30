@@ -198,21 +198,20 @@
             
           root@cd864a17ac58:/#   pg_dump -U postgres -d  test_database  > test_database_dump.sql
 
-2) Для задания уникальности столбцу title вносим изменения в виде CONSTRAINTS в test_database_dump.sql
+2) Открываем файл в test_database_dump.sql на редатирование и для задания уникальности столбцу title добавляем аттрибут UNIQUE  в виде CONSTRAINTS 
 
           ...
           CREATE TABLE public.order (
-            id integer NOT NULL UNIQUE ,
-            title character varying(80) NOT NULL,
+            id integer NOT NULL ,
+            title character varying(80) NOT NULL  UNIQUE ,
             price integer DEFAULT 0
           );
           ...
 
-3) Если мы не ходим создавать БД  с нуля можно создать orders5 - копию существующей таблицы с наложением ограничения.
+3) Если мы не ходим создавать БД  с нуля можно создать  копию существующей таблицы (н-р, orders5 )  с наложением ограничения.
 
           CREATE TABLE IF NOT EXISTS public.orders5
-           (   CONSTRAINT orders5_id_key UNIQUE (id)  )
+           (   CONSTRAINT orders5_title_key UNIQUE (id)  )
           INHERITS (public.orders)
           TABLESPACE pg_default;
           ALTER TABLE IF EXISTS public.orders4  OWNER to postgres;
-
