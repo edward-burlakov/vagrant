@@ -97,31 +97,48 @@
 
 1) Создаем  БД test_database :
             
-             postgres=# create database test_database ;
-             CREATE DATABASE
-             postgres=#
+         postgres=# create database test_database ;
+         CREATE DATABASE
+         postgres=#
 
 2) Подключаемся к БД
 
-             postgres=# \c test_database ;
-             You are now connected to database "test_database" as user "postgres".
-             test_database=#
-
+        postgres=# \c test_database ;
+        You are now connected to database "test_database" as user "postgres".
+        test_database=#
 
 3) Скачиваем и восстанавливаем бэкап
 
-             root@cd864a17ac58:/#  psql -Upostgres test_database  < test_dump.sql
-    
+        root@cd864a17ac58:/#  psql -Upostgres test_database  < test_dump.sql
 
 4) Входим в интерфейс  управляющей консоли psql  внутри контейнера и проводим анализ таблицы в БД
 
-            root@cd864a17ac58:/#  psql test_database  postgres; 
+        root@cd864a17ac58:/#  psql test_database  postgres; 
 
-            test_database=# ANALYZE  VERBOSE  orders ;
-            INFO:  analyzing "public.orders"
-            INFO:  "orders": scanned 1 of 1 pages, containing 8 live rows and 8 dead rows; 8 rows in sample, 8 estimated total rows
-            ANALYZE
-            test_database=#
+        test_database=# ANALYZE  VERBOSE  orders ;
+        INFO:  analyzing "public.orders"
+        INFO:  "orders": scanned 1 of 1 pages, containing 8 live rows and 8 dead rows; 8 rows in sample, 8 estimated total rows
+        ANALYZE
+        test_database=#
+
+5) Смотрим текущую активность работы с БД  и закрываем  ненужные соединения 
+   
+        test_database=#  SELECT datname,usename,client_addr,client_port FROM pg_stat_activity ;
+        test_database=#  SELECT pg_terminate_backend(7408);
+
+
+6) C помощью таблицы pg_stats ищем столбец таблицы orders с наибольшим средним значением размера элементов в байтах. 
+ 
+       test_database=# SELECT attname, avg_width FROM pg_stats  WHERE tablename = 'orders' ORDER BY avg_width DESC;
+       attname | avg_width
+       ---------+-----------
+       title   |        16
+       id      |         4
+       price   |         4
+       (3 rows)
+      
+       test_database=#
+
 
 ---
 ### Задача 3
@@ -134,7 +151,7 @@
 ---
 ### Ответ:
 
-1) Шардируем основную таблицу на две дочерние c помощью SQL запросов :
+1) Шардируем основную таблицу на две дочерние c помощью SQL запросов:
 
          CREATE table orders_1 (
             CHECK  ( price > 499)
