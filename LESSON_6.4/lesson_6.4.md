@@ -74,8 +74,7 @@
             Indexes:
             "orders_pkey" PRIMARY KEY, btree (id)
 
-
-            
+       
 
 9) Выходим  из psql   -  \q или  quit 
 
@@ -193,10 +192,11 @@
           );
           ...
 
-3)  Если мы не ходим создавать БД  с нуля можно создать orders5 - копию существующей таблицы с наложением ограничения.
+3) Если мы не ходим создавать БД  с нуля можно создать orders5 - копию существующей таблицы с наложением ограничения.
 
           CREATE TABLE IF NOT EXISTS public.orders5
            (   CONSTRAINT orders5_id_key UNIQUE (id)  )
           INHERITS (public.orders)
           TABLESPACE pg_default;
           ALTER TABLE IF EXISTS public.orders4  OWNER to postgres;
+
