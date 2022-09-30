@@ -208,10 +208,10 @@
           );
           ...
 
-3) Если мы не ходим создавать БД  с нуля можно создать  копию существующей таблицы (н-р, orders5 )  с наложением ограничения.
+3) Если мы не ходим создавать БД  с нуля можно создать  копию существующей таблицы (н-р, orders2 )  с наложением ограничения.
 
-          CREATE TABLE IF NOT EXISTS public.orders5
-           (   CONSTRAINT orders5_title_key UNIQUE (id)  )
+          CREATE TABLE IF NOT EXISTS public.orders2
+           (   CONSTRAINT orders2_title_key UNIQUE (id)  )
           INHERITS (public.orders)
           TABLESPACE pg_default;
-          ALTER TABLE IF EXISTS public.orders4  OWNER to postgres;
+          ALTER TABLE IF EXISTS public.orders2  OWNER to postgres;
