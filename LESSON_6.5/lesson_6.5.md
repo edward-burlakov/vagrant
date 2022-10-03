@@ -145,23 +145,24 @@ Elasticsearch в логах обычно описывает проблему и 
 5) Запускаем задачу сборки образа  
 
 
-6)  Запускаем однонодовый кластер Elasticsearch
+6) Запускаем однонодовый кластер Elasticsearch
+
        root@docker:/home/bes#  docker network create elknetwork
        root@docker:/home/bes#  docker run -d --name netology_test  --net elknetwork -p 9200:9200 -p 9300:9300 -e "discovery.type=single-node" elasticsearch:7.0.0
 
 7) Развертываем Kibana
        
-          root@docker:/home/bes#   docker pull kibana:7.0.0
-          root@docker:/home/bes#   docker run --name kibana --net elknetwork -p 5601:5601 kibana:7.0.0
+       root@docker:/home/bes#   docker pull kibana:7.0.0
+       root@docker:/home/bes#   docker run --name kibana --net elknetwork -p 5601:5601 kibana:7.0.0
 
 8) Входим внутрь контейнера
    
-          root@docker:/home/bes#  docker exec -it 7fab8c1cab18 /bin/bash
+       root@docker:/home/bes#  docker exec -it 7fab8c1cab18 /bin/bash
 
 9) Проверяем работу сервиcа. Выполним к нему простой запрос о его статусе с помощью API-интерфейса:.
 
-        [elasticsearch@7fab8c1cab18 config]$ curl 127.0.0.1:9200
-        {
+       [elasticsearch@7fab8c1cab18 config]$ curl 127.0.0.1:9200
+       {
           "name" : "7fab8c1cab18",
           "cluster_name" : "netology_test",
           "cluster_uuid" : "GUuB3C5YTnaLA1EZjBiaLg",
@@ -177,9 +178,7 @@ Elasticsearch в логах обычно описывает проблему и 
             "minimum_index_compatibility_version" : "6.0.0-beta1"
           },
           "tagline" : "You Know, for Search"
-        }
-        [elasticsearch@7fab8c1cab18 config]$
-
+       }
 
 ---
 ### Задача 2
@@ -191,11 +190,11 @@ Elasticsearch в логах обычно описывает проблему и 
 
 1) Ознакомьтесь с документацией и добавьте в elasticsearch 3 индекса, в соответствии со таблицей:
 
-| Имя	    | Количество реплик | Количество шард  |
-|-----------|-------------------|------------------|-
+| Имя	     | Количество реплик | Количество шард  |
+|-----------|-------------------|------------------|
 | ind-1     | 0                 | 1                |
-| ind-2  	| 1                 | 2                |
-| ind-3	    | 2                 | 4                |
+| ind-2  	 | 1                 | 2                |
+| ind-3	 | 2                 | 4                |
 
 2) Получите список индексов и их статусов, используя API и приведите в ответе на задание.
 3) Получите состояние кластера elasticsearch, используя API.
