@@ -299,11 +299,11 @@ Elasticsearch в логах обычно описывает проблему и 
 
 4) Удаляем индексы:
 
-       [elasticsearch@7fab8c1cab18 config]$  $ curl -X DELETE 'http://localhost:9200/ind-1?pretty' 
+       [elasticsearch@7fab8c1cab18 config]$  curl -X DELETE 'http://localhost:9200/ind-1?pretty' 
        {     "acknowledged" : true   }
-       [elasticsearch@7fab8c1cab18 config]$  $ curl -X DELETE 'http://localhost:9200/ind-2?pretty' 
+       [elasticsearch@7fab8c1cab18 config]$  curl -X DELETE 'http://localhost:9200/ind-2?pretty' 
        {     "acknowledged" : true   }
-       [elasticsearch@7fab8c1cab18 config]$  $ curl -X DELETE 'http://localhost:9200/ind-3?pretty' 
+       [elasticsearch@7fab8c1cab18 config]$  curl -X DELETE 'http://localhost:9200/ind-3?pretty' 
        {     "acknowledged" : true   }
 
 5) Проверяем наличие индексов
