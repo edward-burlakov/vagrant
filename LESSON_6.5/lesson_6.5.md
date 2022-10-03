@@ -308,7 +308,7 @@ Elasticsearch в логах обычно описывает проблему и 
 
 5) Проверяем наличие индексов
 
-       [elasticsearch@7fab8c1cab18 config]$  $ curl -X GET 'http://localhost:9200/_cat/indices?v'
+       [elasticsearch@7fab8c1cab18 config]$  curl -X GET 'http://localhost:9200/_cat/indices?v'
        health status index uuid pri rep docs.count docs.deleted store.size pri.store.size
      
 
