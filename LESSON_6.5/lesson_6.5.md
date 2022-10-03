@@ -20,6 +20,16 @@
     -ссылку на образ в репозитории dockerhub
     -ответ elasticsearch на запрос пути / в json виде
 
+---
+### Ответ:
+
+       1)  Запускаем однонодовый кластер Elasticsearch
+       root@docker:/home/bes# docker network create elknetwork
+       root@docker:/home/bes#  docker run -d --name elasticsearch --net elknetwork -p 9200:9200 -p 9300:9300 -e "discovery.type=single-node" elasticsearch:7.0.0
+
+
+
+
 ----
 #### Подсказки:
 
