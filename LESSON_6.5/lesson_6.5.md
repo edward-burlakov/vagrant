@@ -49,6 +49,7 @@ Elasticsearch в логах обычно описывает проблему и 
    
         RUN mkdir /usr/share/elasticsearch/snapshots &&\
         chown elasticsearch:elasticsearch /usr/share/elasticsearch/snapshots
+
         RUN mkdir /var/lib/logs \
         && chown elasticsearch:elasticsearch /var/lib/logs \
         && mkdir /var/lib/data \
