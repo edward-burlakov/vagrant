@@ -35,13 +35,13 @@
 
        3) Входим внутрь контейнера
    
-          root@docker:/home/bes#  docker exec -it 6a9cf89c706e  /bin/bash
+          root@docker:/home/bes#  docker exec -it beff9542333d /bin/bash
 
        4) Проверяем работу сервиcа . Выполним к нему простой запрос о его статусе.
 
-         [root@6a9cf89c706e elasticsearch]# curl 127.0.0.1:9200
+         [root@beff9542333delasticsearch]# curl 127.0.0.1:9200
             {
-              "name" : "6a9cf89c706e",
+              "name" : "beff9542333d",
               "cluster_name" : "docker-cluster",
               "cluster_uuid" : "gvtb-gTUSk-i7CqBrkKwtA",
               "version" : {
@@ -103,84 +103,89 @@ Elasticsearch в логах обычно описывает проблему и 
 ---
 ### Ответ:
 
-1) Создаем индексы с помощью API-интерфейса
+            1) Создаем индексы с помощью API-интерфейса:
 
-     [root@6a9cf89c706e elasticsearch]#   curl -X PUT localhost:9200/ind-1 -H 'Content-Type: application/json' -d'{ "settings": { "number_of_shards": 1,  "number_of_replicas": 0 }}'
-           {"acknowledged":true,"shards_acknowledged":true,"index":"ind-1"}
-    [root@beff9542333d elasticsearch]# curl -X PUT localhost:9200/ind-2 -H 'Content-Type: application/json' -d'{ "settings": { "number_of_shards": 2,  "number_of_replicas": 1 }}'
-          {"acknowledged":true,"shards_acknowledged":true,"index":"ind-2"}
-    [root@beff9542333d elasticsearch]# curl -X PUT localhost:9200/ind-3 -H 'Content-Type: application/json' -d'{ "settings": { "number_of_shards": 4,  "number_of_replicas": 2 }}'
-         {"acknowledged":true,"shards_acknowledged":true,"index":"ind-3"}
+            [root@beff9542333delasticsearch]#   curl -X PUT localhost:9200/ind-1 -H 'Content-Type: application/json' -d'{ "settings": { "number_of_shards": 1,  "number_of_replicas": 0 }}'
+                   {"acknowledged":true,"shards_acknowledged":true,"index":"ind-1"}
+            [root@beff9542333d elasticsearch]# curl -X PUT localhost:9200/ind-2 -H 'Content-Type: application/json' -d'{ "settings": { "number_of_shards": 2,  "number_of_replicas": 1 }}'
+                   {"acknowledged":true,"shards_acknowledged":true,"index":"ind-2"}
+            [root@beff9542333d elasticsearch]# curl -X PUT localhost:9200/ind-3 -H 'Content-Type: application/json' -d'{ "settings": { "number_of_shards": 4,  "number_of_replicas": 2 }}'
+                   {"acknowledged":true,"shards_acknowledged":true,"index":"ind-3"}
 
-2) Получаем список индексов
+             2) Получаем список индексов:
 
-    [root@beff9542333d elasticsearch]# curl -X GET 'http://localhost:9200/_cat/indices?v'
-    health status index uuid                   pri rep docs.count docs.deleted store.size pri.store.size
-    yellow open   ind-2 ZY2oN0jtTUqpDoOQ07_guA   2   1          0            0       460b           460b
-    green  open   ind-1 YkmstG24TxKM0QaMwtRS0w   1   0          0            0       283b           283b
-    yellow open   ind-3 t6imTK8ATOWzlncJbd2-2g   4   2          0            0       920b           920b
+             [root@beff9542333d elasticsearch]# curl -X GET 'http://localhost:9200/_cat/indices?v'
+             health status index uuid                   pri rep docs.count docs.deleted store.size pri.store.size
+             yellow open   ind-2 ZY2oN0jtTUqpDoOQ07_guA   2   1          0            0       460b           460b
+             green  open   ind-1 YkmstG24TxKM0QaMwtRS0w   1   0          0            0       283b           283b
+             yellow open   ind-3 t6imTK8ATOWzlncJbd2-2g   4   2          0            0       920b           920b
 
-4) Получаем статус индексов:
+            3) Получаем статус индексов:
 
-    [root@6a9cf89c706e elasticsearch]# curl -X GET 'http://localhost:9200/_cluster/health/ind-1?pretty'
-    {
-      "cluster_name" : "docker-cluster",
-      "status" : "red",
-      "timed_out" : true,
-      "number_of_nodes" : 1,
-      "number_of_data_nodes" : 1,
-      "active_primary_shards" : 0,
-      "active_shards" : 0,
-      "relocating_shards" : 0,
-      "initializing_shards" : 0,
-      "unassigned_shards" : 0,
-      "delayed_unassigned_shards" : 0,
-      "number_of_pending_tasks" : 0,
-      "number_of_in_flight_fetch" : 0,
-      "task_max_waiting_in_queue_millis" : 0,
-      "active_shards_percent_as_number" : 100.0
-    }
-    [root@6a9cf89c706e elasticsearch]#
+- Статус первого индекса 
 
-[root@beff9542333d elasticsearch]# curl -X GET 'http://localhost:9200/_cluster/health/ind-2?pretty'
-{
-  "cluster_name" : "docker-cluster",
-  "status" : "red",
-  "timed_out" : true,
-  "number_of_nodes" : 1,
-  "number_of_data_nodes" : 1,
-  "active_primary_shards" : 0,
-  "active_shards" : 0,
-  "relocating_shards" : 0,
-  "initializing_shards" : 0,
-  "unassigned_shards" : 0,
-  "delayed_unassigned_shards" : 0,
-  "number_of_pending_tasks" : 0,
-  "number_of_in_flight_fetch" : 0,
-  "task_max_waiting_in_queue_millis" : 0,
-  "active_shards_percent_as_number" : 100.0
-}
-[root@beff9542333d elasticsearch]#
+             [root@beff9542333delasticsearch]# curl -X GET 'http://localhost:9200/_cluster/health/ind-1?pretty'
+   
+             {
+             "cluster_name" : "docker-cluster",
+             "status" : "red",
+             "timed_out" : true,
+             "number_of_nodes" : 1,
+             "number_of_data_nodes" : 1,
+             "active_primary_shards" : 0,
+             "active_shards" : 0,
+             "relocating_shards" : 0,
+             "initializing_shards" : 0,
+             "unassigned_shards" : 0,
+             "delayed_unassigned_shards" : 0,
+             "number_of_pending_tasks" : 0,
+             "number_of_in_flight_fetch" : 0,
+             "task_max_waiting_in_queue_millis" : 0,
+             "active_shards_percent_as_number" : 100.0
+             }
 
+- Статус второго  индекса
 
-[root@beff9542333d elasticsearch]# curl -X GET 'http://localhost:9200/_cluster/health/ind-3?pretty'
-{
-  "cluster_name" : "docker-cluster",
-  "status" : "red",
-  "timed_out" : true,
-  "number_of_nodes" : 1,
-  "number_of_data_nodes" : 1,
-  "active_primary_shards" : 0,
-  "active_shards" : 0,
-  "relocating_shards" : 0,
-  "initializing_shards" : 0,
-  "unassigned_shards" : 0,
-  "delayed_unassigned_shards" : 0,
-  "number_of_pending_tasks" : 0,
-  "number_of_in_flight_fetch" : 0,
-  "task_max_waiting_in_queue_millis" : 0,
-  "active_shards_percent_as_number" : 100.0
-}
+            [root@beff9542333d elasticsearch]# curl -X GET 'http://localhost:9200/_cluster/health/ind-2?pretty'
+
+            {
+            "cluster_name" : "docker-cluster",
+            "status" : "red",
+            "timed_out" : true,
+            "number_of_nodes" : 1,
+            "number_of_data_nodes" : 1,
+            "active_primary_shards" : 0,
+            "active_shards" : 0,
+            "relocating_shards" : 0,
+            "initializing_shards" : 0,
+            "unassigned_shards" : 0,
+            "delayed_unassigned_shards" : 0,
+            "number_of_pending_tasks" : 0,
+            "number_of_in_flight_fetch" : 0,
+            "task_max_waiting_in_queue_millis" : 0,
+            "active_shards_percent_as_number" : 100.0
+            }
+
+- Статус третьего индекса 
+  
+        [root@beff9542333d elasticsearch]# curl -X GET 'http://localhost:9200/_cluster/health/ind-3?pretty'
+        {
+          "cluster_name" : "docker-cluster",
+          "status" : "red",
+          "timed_out" : true,
+          "number_of_nodes" : 1,
+          "number_of_data_nodes" : 1,
+          "active_primary_shards" : 0,
+          "active_shards" : 0,
+          "relocating_shards" : 0,
+          "initializing_shards" : 0,
+          "unassigned_shards" : 0,
+          "delayed_unassigned_shards" : 0,
+          "number_of_pending_tasks" : 0,
+          "number_of_in_flight_fetch" : 0,
+          "task_max_waiting_in_queue_millis" : 0,
+          "active_shards_percent_as_number" : 100.0
+        }
 
 
 
