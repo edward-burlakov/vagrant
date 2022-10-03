@@ -201,7 +201,7 @@ Elasticsearch в логах обычно описывает проблему и 
    Как вы думаете, почему часть индексов и кластер находится в состоянии yellow?
 4) Удалите все индексы.
 
-Важно
+Важно!!!
 При проектировании кластера elasticsearch нужно корректно рассчитывать количество реплик и шард, 
 иначе возможна потеря данных индексов, вплоть до полной, при деградации системы.
 
@@ -231,7 +231,7 @@ Elasticsearch в логах обычно описывает проблему и 
 
 3) Получаем статус индексов с помощью API-интерфейса::
 
-       - Статус первого индекса 
+   - Статус первого индекса 
 
          [elasticsearch@7fab8c1cab18 config]$  curl -X GET 'http://localhost:9200/_cluster/health/ind-1?pretty'
    
@@ -254,7 +254,7 @@ Elasticsearch в логах обычно описывает проблему и 
 
          }
 
-       - Статус второго  индекса
+   - Статус второго  индекса
 
          [elasticsearch@7fab8c1cab18 config]$  curl -X GET 'http://localhost:9200/_cluster/health/ind-2?pretty'
 
@@ -276,7 +276,7 @@ Elasticsearch в логах обычно описывает проблему и 
          "active_shards_percent_as_number" : 41.17647058823529
          }
 
-       - Статус третьего индекса 
+   - Статус третьего индекса 
   
          [elasticsearch@7fab8c1cab18 config]$  curl -X GET 'http://localhost:9200/_cluster/health/ind-3?pretty'
          {
