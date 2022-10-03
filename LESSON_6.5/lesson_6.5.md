@@ -297,7 +297,22 @@ Elasticsearch в логах обычно описывает проблему и 
          "active_shards_percent_as_number" : 41.17647058823529
          }
 
-       2 и 3 индексы  и кластер находятся  в состоянии yellow поскольку количество активных шардов на них приближается к 50% .
+4) Удаляем индексы:
+
+       [elasticsearch@7fab8c1cab18 config]$  $ curl -X DELETE 'http://localhost:9200/ind-1?pretty' 
+       {     "acknowledged" : true   }
+       [elasticsearch@7fab8c1cab18 config]$  $ curl -X DELETE 'http://localhost:9200/ind-2?pretty' 
+       {     "acknowledged" : true   }
+       [elasticsearch@7fab8c1cab18 config]$  $ curl -X DELETE 'http://localhost:9200/ind-3?pretty' 
+       {     "acknowledged" : true   }
+
+5) Проверяем наличие индексов
+
+       [elasticsearch@7fab8c1cab18 config]$  $ curl -X GET 'http://localhost:9200/_cat/indices?v'
+       health status index uuid pri rep docs.count docs.deleted store.size pri.store.size
+     
+
+ 2 и 3 индексы  и кластер находились  в состоянии yellow поскольку количество активных шардов на них приближается к 50% .
 
 
 ---
