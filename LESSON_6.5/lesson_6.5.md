@@ -8,17 +8,18 @@
 - Запуске elasticsearch в docker
 
 Используя докер образ elasticsearch:7 как базовый:
-1) составьте Dockerfile-манифест для elasticsearch
-2) соберите docker-образ и сделайте push в ваш docker.io репозиторий
+1) Составьте Dockerfile-манифест для elasticsearch
+2) Соберите docker-образ и сделайте push в ваш docker.io репозиторий
 3) запустите контейнер из получившегося образа и выполните запрос пути / c хост-машины
 
 Требования к elasticsearch.yml:
-    данные path должны сохраняться в /var/lib
-    имя ноды должно быть netology_test
-    В ответе приведите:
-    -текст Dockerfile манифеста
-    -ссылку на образ в репозитории dockerhub
-    -ответ elasticsearch на запрос пути / в json виде
+  - Данные path должны сохраняться в /var/lib
+  - Имя ноды должно быть netology_test
+
+В ответе приведите:
+  - текст Dockerfile манифеста
+  - ссылку на образ в репозитории dockerhub
+  - ответ elasticsearch на запрос пути / в json виде
 
 ---
 ### Ответ:
