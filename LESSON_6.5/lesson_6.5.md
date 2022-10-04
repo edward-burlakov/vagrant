@@ -142,43 +142,63 @@ Elasticsearch в логах обычно описывает проблему и 
           #
 
 
-5) Запускаем задачу сборки образа  
+5) В workflow  создаем новый job-сценарий сборки образа 
+      [https://github.com/edward-burlakov/elasticsearch/blob/main/.github/workflows/docker-image.yml]
+ 
+          name: Docker Image CI
+    
+        on:
+        push:
+            branches: [ "main" ]
+        pull_request:
+            branches: [ "main" ]
+        jobs:
+    
+            build:
+    
+            runs-on: self-hosted
+    
+            steps:
+            - uses: actions/checkout@v3
+            - name: Build the Docker image
+             run: docker build . --file Dockerfile --tag netology_test:$(date +%s)
 
+6) Запускаем задачу сборки образа
 
-6) Запускаем однонодовый кластер Elasticsearch
+7) Запускаем однонодовый кластер Elasticsearch
 
        root@docker:/home/bes#  docker network create elknetwork
        root@docker:/home/bes#  docker run -d --name netology_test  --net elknetwork -p 9200:9200 -p 9300:9300 -e "discovery.type=single-node" elasticsearch:7.0.0
 
-7) Развертываем Kibana
+8) Развертываем Kibana
        
        root@docker:/home/bes#   docker pull kibana:7.0.0
        root@docker:/home/bes#   docker run --name kibana --net elknetwork -p 5601:5601 kibana:7.0.0
 
-8) Входим внутрь контейнера
+9) Входим внутрь контейнера
    
-       root@docker:/home/bes#  docker exec -it 7fab8c1cab18 /bin/bash
+        root@docker:/home/bes#  docker exec -it 7fab8c1cab18 /bin/bash
 
-9) Проверяем работу сервиcа. Выполним к нему простой запрос о его статусе с помощью API-интерфейса:.
+10) Проверяем работу сервиcа. Выполним к нему простой запрос о его статусе с помощью API-интерфейса:.
 
-       [elasticsearch@7fab8c1cab18 config]$ curl 127.0.0.1:9200
-       {
-          "name" : "7fab8c1cab18",
-          "cluster_name" : "netology_test",
-          "cluster_uuid" : "GUuB3C5YTnaLA1EZjBiaLg",
-          "version" : {
-            "number" : "7.0.0",
-            "build_flavor" : "default",
-            "build_type" : "docker",
-            "build_hash" : "b7e28a7",
-            "build_date" : "2019-04-05T22:55:32.697037Z",
-            "build_snapshot" : false,
-            "lucene_version" : "8.0.0",
-            "minimum_wire_compatibility_version" : "6.7.0",
-            "minimum_index_compatibility_version" : "6.0.0-beta1"
-          },
-          "tagline" : "You Know, for Search"
-       }
+        [elasticsearch@7fab8c1cab18 config]$ curl 127.0.0.1:9200
+        {
+           "name" : "7fab8c1cab18",
+           "cluster_name" : "netology_test",
+           "cluster_uuid" : "GUuB3C5YTnaLA1EZjBiaLg",
+           "version" : {
+             "number" : "7.0.0",
+             "build_flavor" : "default",
+             "build_type" : "docker",
+             "build_hash" : "b7e28a7",
+             "build_date" : "2019-04-05T22:55:32.697037Z",
+             "build_snapshot" : false,
+             "lucene_version" : "8.0.0",
+             "minimum_wire_compatibility_version" : "6.7.0",
+             "minimum_index_compatibility_version" : "6.0.0-beta1"
+           },
+           "tagline" : "You Know, for Search"
+        }
 
 ---
 ### Задача 2
@@ -229,7 +249,14 @@ Elasticsearch в логах обычно описывает проблему и 
        green  open   ind-1 LHhtXTnWSNa7D-p9n-OUWw   1   0          0            0       230b           230b
 
 
-3) Получаем статус индексов с помощью API-интерфейса::
+3) Получаем статус кластера  и  индексов с помощью API-интерфейса::
+
+   - Статус однонодового кластера 
+
+         [elasticsearch@7fab8c1cab18 ~]$ curl http://localhost:9200/_cat/health?v
+         epoch      timestamp cluster       status  node.total node.data shards pri relo init unassign pending_tasks max_task_wait_time active_shards_percent
+         1664855608 03:53:28  netology_test green            1         1      0   0    0    0        0             0                  -                100.0%
+             
 
    - Статус первого индекса 
 
@@ -297,7 +324,7 @@ Elasticsearch в логах обычно описывает проблему и 
          "active_shards_percent_as_number" : 41.17647058823529
          }
 
-4) Удаляем индексы:
+5) Удаляем индексы:
 
        [elasticsearch@7fab8c1cab18 config]$  curl -X DELETE 'http://localhost:9200/ind-1?pretty' 
        {     "acknowledged" : true   }
@@ -306,13 +333,15 @@ Elasticsearch в логах обычно описывает проблему и 
        [elasticsearch@7fab8c1cab18 config]$  curl -X DELETE 'http://localhost:9200/ind-3?pretty' 
        {     "acknowledged" : true   }
 
-5) Проверяем наличие индексов
+6) Проверяем наличие индексов
 
        [elasticsearch@7fab8c1cab18 config]$  curl -X GET 'http://localhost:9200/_cat/indices?v'
        health status index uuid pri rep docs.count docs.deleted store.size pri.store.size
      
 
- 2 и 3 индексы  и кластер находились  в состоянии yellow поскольку количество активных шардов на них приближается к 50% .
+ 2 и 3 индексы  и кластер находятся  в состоянии yellow , поскольку  при создании этих индексов 
+ количество запланированных реплик  для обоих индексов больше 1, 
+ но в рамках однонодового кластера реплики  не могут быть распределены на соседние ноды.
 
 
 ---
