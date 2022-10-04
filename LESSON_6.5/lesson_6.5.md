@@ -46,15 +46,9 @@ Elasticsearch в логах обычно описывает проблему и 
         ENV PATH=/usr/lib:$PATH
    
         ADD elasticsearch.yml /usr/share/elasticsearch/config
-   
-        RUN mkdir /usr/share/elasticsearch/snapshots &&\
-        chown elasticsearch:elasticsearch /usr/share/elasticsearch/snapshots
 
-        RUN mkdir /var/lib/logs \
-        && chown elasticsearch:elasticsearch /var/lib/logs \
-        && mkdir /var/lib/data \
-        && chown elasticsearch:elasticsearch /var/lib/data
-       
+        EXPOSE 9200
+
         USER elasticsearch
 
 4) В репозитории создаем следующий elasticsearch.yml  файл:
@@ -168,7 +162,7 @@ Elasticsearch в логах обычно описывает проблему и 
 7) Запускаем однонодовый кластер Elasticsearch
 
        root@docker:/home/bes#  docker network create elknetwork
-       root@docker:/home/bes#  docker run -d --name netology_test  --net elknetwork -p 9200:9200 -p 9300:9300 -e "discovery.type=single-node" elasticsearch:7.0.0
+       root@docker:/home/bes#  docker run -d --name netology_test  --net elknetwork -p 9200:9200 -p 9300:9300 -e "discovery.type=single-node" netology_test:0.0.1
 
 8) Развертываем Kibana
        
@@ -179,7 +173,7 @@ Elasticsearch в логах обычно описывает проблему и 
    
         root@docker:/home/bes#  docker exec -it 7fab8c1cab18 /bin/bash
 
-10) Проверяем работу сервиcа. Выполним к нему простой запрос о его статусе с помощью API-интерфейса:.
+10) Проверяем работу сервиса. Выполним к нему простой запрос о его статусе с помощью API-интерфейса:.
 
         [elasticsearch@7fab8c1cab18 config]$ curl 127.0.0.1:9200
         {
@@ -230,16 +224,16 @@ Elasticsearch в логах обычно описывает проблему и 
 
 1) Создаем индексы с помощью API-интерфейса:
 
-        [elasticsearch@7fab8c1cab18 config]$   curl -X PUT localhost:9200/ind-1 -H 'Content-Type: application/json' -d'{ "settings": { "number_of_shards": 1,  "number_of_replicas": 0 }}'
-        {"acknowledged":true,"shards_acknowledged":true,"index":"ind-1"}
+       [elasticsearch@7fab8c1cab18 config]$   curl -X PUT localhost:9200/ind-1 -H 'Content-Type: application/json' -d'{ "settings": { "number_of_shards": 1,  "number_of_replicas": 0 }}'
+       {"acknowledged":true,"shards_acknowledged":true,"index":"ind-1"}
 
-        [elasticsearch@7fab8c1cab18 config]$  curl -X PUT localhost:9200/ind-2 -H 'Content-Type: application/json' -d'{ "settings": { "number_of_shards": 2,  "number_of_replicas": 1 }}'
-        {"acknowledged":true,"shards_acknowledged":true,"index":"ind-2"}
+       [elasticsearch@7fab8c1cab18 config]$  curl -X PUT localhost:9200/ind-2 -H 'Content-Type: application/json' -d'{ "settings": { "number_of_shards": 2,  "number_of_replicas": 1 }}'
+       {"acknowledged":true,"shards_acknowledged":true,"index":"ind-2"}
 
-        [elasticsearch@7fab8c1cab18 config]$  curl -X PUT localhost:9200/ind-3  -H 'Content-Type: application/json' -d'{ "settings": { "number_of_shards": 4,  "number_of_replicas": 2 }}'
-        {"acknowledged":true,"shards_acknowledged":true,"index":"ind-3"}
+       [elasticsearch@7fab8c1cab18 config]$  curl -X PUT localhost:9200/ind-3  -H 'Content-Type: application/json' -d'{ "settings": { "number_of_shards": 4,  "number_of_replicas": 2 }}'
+       {"acknowledged":true,"shards_acknowledged":true,"index":"ind-3"}
 
-2) Получаем список индексов с помощью API-интерфейса::
+3) Получаем список индексов с помощью API-интерфейса:
 
        [elasticsearch@7fab8c1cab18 config]$   curl -X GET 'http://localhost:9200/_cat/indices?v'
 
@@ -249,13 +243,14 @@ Elasticsearch в логах обычно описывает проблему и 
        green  open   ind-1 LHhtXTnWSNa7D-p9n-OUWw   1   0          0            0       230b           230b
 
 
-3) Получаем статус кластера,нод  и  индексов с помощью API-интерфейса::
+3) Получаем статус кластера,нод  и  индексов с помощью API-интерфейса:
 
    - Статус однонодового кластера 
 
          [elasticsearch@7fab8c1cab18 ~]$ curl http://localhost:9200/_cat/health?v
-         epoch      timestamp cluster       status  node.total node.data shards pri relo init unassign pending_tasks max_task_wait_time active_shards_percent
-         1664855608 03:53:28  netology_test green            1         1      0   0    0    0        0             0                  -                100.0%
+         epoch      timestamp cluster       status node.total node.data shards pri relo init unassign pending_tasks max_task_wait_time active_shards_percent
+         1664861748 05:35:48  netology_test yellow          1         1      7   7    0    0       10             0                  -                 41.2%
+
              
    - Статус нод кластера
    
@@ -329,22 +324,30 @@ Elasticsearch в логах обычно описывает проблему и 
          "active_shards_percent_as_number" : 41.17647058823529
          }
 
-5) Удаляем индексы:
+5) Удаляем индексы с помощью API-интерфейса:
 
        [elasticsearch@7fab8c1cab18 config]$  curl -X DELETE 'http://localhost:9200/ind-1?pretty' 
-       {     "acknowledged" : true   }
-       [elasticsearch@7fab8c1cab18 config]$  curl -X DELETE 'http://localhost:9200/ind-2?pretty' 
-       {     "acknowledged" : true   }
-       [elasticsearch@7fab8c1cab18 config]$  curl -X DELETE 'http://localhost:9200/ind-3?pretty' 
-       {     "acknowledged" : true   }
+       {    
+             "acknowledged" : true   
+       }
 
-6) Проверяем наличие индексов
+       [elasticsearch@7fab8c1cab18 config]$  curl -X DELETE 'http://localhost:9200/ind-2?pretty' 
+       {     
+             "acknowledged" : true   
+       }
+
+       [elasticsearch@7fab8c1cab18 config]$  curl -X DELETE 'http://localhost:9200/ind-3?pretty' 
+       {     
+             "acknowledged" : true   
+       }
+
+7) Проверяем наличие индексов с помощью API-интерфейса:
 
        [elasticsearch@7fab8c1cab18 config]$  curl -X GET 'http://localhost:9200/_cat/indices?v'
        health status index uuid pri rep docs.count docs.deleted store.size pri.store.size
      
 
- 2 и 3 индексы  и кластер находятся  в состоянии yellow , поскольку  при создании этих индексов 
+ 2 и 3 индексы  и кластер находятся  в состоянии yellow, поскольку  при создании этих индексов 
  количество запланированных реплик  для обоих индексов больше 1, 
  но в рамках однонодового кластера реплики  не могут быть распределены на соседние ноды.
 
@@ -373,4 +376,19 @@ Elasticsearch в логах обычно описывает проблему и 
 ---
 ### Ответ:
 
+1) Добавляем в файл elasticsearch.yml следующие строки  для создания снэпшотов внутри кластера
 
+         ...
+         RUN mkdir /usr/share/elasticsearch/snapshots &&\
+               chown elasticsearch:elasticsearch /usr/share/elasticsearch/snapshots
+         RUN mkdir /var/lib/logs \
+               && chown elasticsearch:elasticsearch /var/lib/logs \
+               && mkdir /var/lib/data \
+               && chown elasticsearch:elasticsearch /var/lib/data
+         ...
+
+2) Используя API регистрируем данную директорию как snapshot repository c именем netology_backup.
+
+        
+
+         
