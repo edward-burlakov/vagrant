@@ -42,7 +42,7 @@ InterfaceError: (InterfaceError) 2013: Lost connection to MySQL server during qu
 
 ---
 ### Ответ:
-
+https://stackoverflow.com/questions/10563619/error-code-2013-lost-connection-to-mysql-server-during-query
 
 ---
 ### Задача 4
