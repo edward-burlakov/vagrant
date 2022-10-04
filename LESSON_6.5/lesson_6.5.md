@@ -249,7 +249,7 @@ Elasticsearch в логах обычно описывает проблему и 
        green  open   ind-1 LHhtXTnWSNa7D-p9n-OUWw   1   0          0            0       230b           230b
 
 
-3) Получаем статус кластера  и  индексов с помощью API-интерфейса::
+3) Получаем статус кластера,нод  и  индексов с помощью API-интерфейса::
 
    - Статус однонодового кластера 
 
@@ -257,7 +257,12 @@ Elasticsearch в логах обычно описывает проблему и 
          epoch      timestamp cluster       status  node.total node.data shards pri relo init unassign pending_tasks max_task_wait_time active_shards_percent
          1664855608 03:53:28  netology_test green            1         1      0   0    0    0        0             0                  -                100.0%
              
-
+   - Статус нод кластера
+   
+         [elasticsearch@7fab8c1cab18 ~]$  curl  http://localhost:9200/_cat/nodes?v
+         ip         heap.percent ram.percent cpu load_1m load_5m load_15m node.role master name
+         172.18.0.2           19          96   0    0.00    0.00     0.00 mdi       *      7fab8c1cab18
+     
    - Статус первого индекса 
 
          [elasticsearch@7fab8c1cab18 config]$  curl -X GET 'http://localhost:9200/_cluster/health/ind-1?pretty'
