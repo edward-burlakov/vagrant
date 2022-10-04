@@ -372,7 +372,6 @@ Elasticsearch в логах обычно описывает проблему и 
  #### Подсказки:
 Возможно вам понадобится доработать elasticsearch.yml в части директивы path.repo и перезапустить elasticsearch
 
-
 ---
 ### Ответ:
 
@@ -393,16 +392,16 @@ Elasticsearch в логах обычно описывает проблему и 
 
 3) Используя API регистрируем данную директорию как snapshot repository c именем netology_backup.
    
-         [elasticsearch@c36b65568b56 config]$ curl "localhost:9200/_snapshot/netology_backup?pretty" -X PUT  -H 'Content-Type: application/json' -d' {  "type": "fs",  "settings": {  "location": "/usr/share/elasticsearch/snapshots"   }  }'
+         curl "localhost:9200/_snapshot/netology_backup?pretty" -X PUT  -H 'Content-Type: application/json' -d' {  "type": "fs",  "settings": {  "location": "/usr/share/elasticsearch/snapshots"   }  }'
          {
               "acknowledged" : true
          }
 
 
-4) Чтобы подтвердить успешное создание репозитория моментальных снимков, используйте запрос GET с конечной точкой _snapshot как:
+4) Чтобы подтвердить успешное создание репозитория снэпшотов, используем запрос GET с конечной точкой _snapshot :
 
        
-        [elasticsearch@c36b65568b56 config]$ curl -X GET "http://localhost:9200/_snapshot/netology_backup?pretty"
+        curl -X GET "http://localhost:9200/_snapshot/netology_backup?pretty"
         {
           "netology_backup" : {
             "type" : "fs",
@@ -412,26 +411,43 @@ Elasticsearch в логах обычно описывает проблему и 
           }
         }
 
+5) Создаем индекс test с 0 реплик и 1 шардом .
 
-5) Создаем индекс test с 0 реплик и 1 шардом и выводим список индексов.
+        curl -X PUT localhost:9200/test -H 'Content-Type: application/json' -d'{ "settings": { "number_of_shards": 1,  "number_of_replicas": 0 }}'
+        {
+            "acknowledged":true,
+            "shards_acknowledged":true,
+            "index":"test"
+        }
 
-        [elasticsearch@c36b65568b56 config]$   curl -X PUT localhost:9200/test -H 'Content-Type: application/json' -d'{ "settings": { "number_of_shards": 1,  "number_of_replicas": 0 }}'
-        {"acknowledged":true,"shards_acknowledged":true,"index":"test"}
+6) Выводим список индексов
 
-
-        [elasticsearch@c36b65568b56 config]$ curl -X GET 'http://localhost:9200/_cat/indices?v'
+        curl -X GET 'http://localhost:9200/_cat/indices?v'
         health status index uuid                   pri rep docs.count docs.deleted store.size pri.store.size
         green  open   test  w9HVsgDQR7aqgO-x68s2gA   1   0          0            0       230b           230b
 
-6) Создаем снэпшот 
+7) Проверяем содержимое папки с снэпшотами
+ 
+        ls -la /usr/share/elasticsearch/snapshots
+
+        total 32
+        drwxr-xr-x 1 elasticsearch elasticsearch 4096 Oct  4 09:41 .
+        drwxrwxr-x 1 elasticsearch root          4096 Oct  4 09:28 ..
+        -rw-rw-r-- 1 elasticsearch elasticsearch   29 Oct  4 09:31 incompatible-snapshots
+        -rw-rw-r-- 1 elasticsearch elasticsearch  169 Oct  4 09:34 index-2
+        -rw-rw-r-- 1 elasticsearch elasticsearch   29 Oct  4 09:41 index-3
+        -rw-rw-r-- 1 elasticsearch elasticsearch    8 Oct  4 09:41 index.latest
+        drwxrwxr-x 2 elasticsearch elasticsearch 4096 Oct  4 09:41 indices
 
 
-        [elasticsearch@c36b65568b56 config]$ curl -X PUT  "http://localhost:9200/_snapshot/netology_backup/snapshot_1?wait_for_completion=true&pretty"
+8) Создаем снэпшот 
+
+        curl -X PUT  "http://localhost:9200/_snapshot/netology_backup/snapshot_1?wait_for_completion=true&pretty"
 
         {
           "snapshot" : {
             "snapshot" : "snapshot_1",
-            "uuid" : "IX84Aoc_SO207wRO2RQPxg",
+            "uuid" : "UCAuXTLoTV2bQHA0wf4VGg",
             "version_id" : 7000099,
             "version" : "7.0.0",
             "indices" : [
@@ -439,11 +455,11 @@ Elasticsearch в логах обычно описывает проблему и 
             ],
             "include_global_state" : true,
             "state" : "SUCCESS",
-            "start_time" : "2022-10-04T09:34:25.252Z",
-            "start_time_in_millis" : 1664876065252,
-            "end_time" : "2022-10-04T09:34:25.293Z",
-            "end_time_in_millis" : 1664876065293,
-            "duration_in_millis" : 41,
+            "start_time" : "2022-10-04T09:46:25.031Z",
+            "start_time_in_millis" : 1664876785031,
+            "end_time" : "2022-10-04T09:46:25.090Z",
+            "end_time_in_millis" : 1664876785090,
+            "duration_in_millis" : 59,
             "failures" : [ ],
             "shards" : {
               "total" : 1,
@@ -451,9 +467,63 @@ Elasticsearch в логах обычно описывает проблему и 
               "successful" : 1
             }
           }
+       }
+
+9) Повторно проверяем содержимое папки с снэпшотами
+ 
+       ls -la /usr/share/elasticsearch/snapshots
+
+       total 60
+       drwxr-xr-x 1 elasticsearch elasticsearch  4096 Oct  4 09:46 .
+       drwxrwxr-x 1 elasticsearch root           4096 Oct  4 09:28 ..
+       -rw-rw-r-- 1 elasticsearch elasticsearch    29 Oct  4 09:31 incompatible-snapshots
+       -rw-rw-r-- 1 elasticsearch elasticsearch    29 Oct  4 09:41 index-3
+       -rw-rw-r-- 1 elasticsearch elasticsearch   169 Oct  4 09:46 index-4
+       -rw-rw-r-- 1 elasticsearch elasticsearch     8 Oct  4 09:46 index.latest
+       drwxrwxr-x 3 elasticsearch elasticsearch  4096 Oct  4 09:46 indices
+       -rw-rw-r-- 1 elasticsearch elasticsearch 21192 Oct  4 09:46 meta-UCAuXTLoTV2bQHA0wf4VGg.dat
+       -rw-rw-r-- 1 elasticsearch elasticsearch   241 Oct  4 09:46 snap-UCAuXTLoTV2bQHA0wf4VGg.dat
+  
+
+10) Удаляем индекс test        
+
+        curl -X DELETE "localhost:9200/test?pretty"
+        {
+            "acknowledged" : true
         }
-        
 
-7) Удаляем снэпшот 
+11) Создаем индекс test-2    
 
-        [elasticsearch@c36b65568b56 config]$  curl -X DELETE "localhost:9200/_snapshot/my_repository/snapshot_1?pretty"
+        curl -X PUT localhost:9200/test-2 -H 'Content-Type: application/json' -d'{ "settings": { "number_of_shards": 1,  "number_of_replicas": 0 }}'
+        {   
+             "acknowledged":true,
+             "shards_acknowledged":true,
+             "index":"test-2"
+        }
+
+12) Выводим список индексов
+
+        curl -X GET 'http://localhost:9200/_cat/indices?v'
+        health status index  uuid                   pri rep docs.count docs.deleted store.size pri.store.size
+        green  open   test-2 y0p9ufxRQ_iahcEsVNcVcg   1   0          0            0       230b           230b
+
+
+13) Восставливаем снэпшот
+
+        curl -X POST "localhost:9200/_snapshot/netology_backup/snapshot_1/_restore?pretty"
+        {
+              "accepted" : true
+        }
+
+14) Выводим список индексов после восстановления снэпшота
+
+        curl -X GET 'http://localhost:9200/_cat/indices?v'
+        health status index  uuid                   pri rep docs.count docs.deleted store.size pri.store.size
+        green  open   test-2 y0p9ufxRQ_iahcEsVNcVcg   1   0          0            0       283b           283b
+        green  open   test   91GvX-BOR9-LFks-U6THkw   1   0          0            0       283b           283b
+
+15) Удаляем снэпшот 
+
+        curl -X DELETE "localhost:9200/_snapshot/netology_backup/snapshot_1?pretty"
+
+
