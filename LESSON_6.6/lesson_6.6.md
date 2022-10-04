@@ -55,3 +55,5 @@ postmaster invoked oom-killer
 
 ---
 ### Ответ:
+
+https://access.redhat.com/solutions/2612861
