@@ -360,7 +360,7 @@ Elasticsearch в логах обычно описывает проблему и 
 
 - Создайте директорию {путь до корневой директории с elasticsearch в образе}/snapshots.
 - Используя API зарегистрируйте данную директорию как snapshot repository c именем netology_backup.
-- Приведите в ответе запрос API и результат вызова API для создания репозитория.
+  Приведите в ответе запрос API и результат вызова API для создания репозитория.
 - Создайте индекс test с 0 реплик и 1 шардом и приведите в ответе список индексов.
 - Создайте snapshot состояния кластера elasticsearch.
 - Приведите в ответе список файлов в директории со snapshotами.
@@ -376,7 +376,7 @@ Elasticsearch в логах обычно описывает проблему и 
 ---
 ### Ответ:
 
-1) Добавляем в файл elasticsearch.yml следующие строки  для создания снэпшотов внутри кластера
+1) Добавляем в файл Dockerfile   следующие строки  для создания снэпшотов внутри кластера
 
          ...
          RUN mkdir /usr/share/elasticsearch/snapshots &&\
@@ -387,8 +387,73 @@ Elasticsearch в логах обычно описывает проблему и 
                && chown elasticsearch:elasticsearch /var/lib/data
          ...
 
-2) Используя API регистрируем данную директорию как snapshot repository c именем netology_backup.
+2) Добавляем в файл  elasticsearch.yml следующую строку  и пересобираем docker-образ
 
+          path.repo: ["/usr/share/elasticsearch/snapshots"]
+
+3) Используя API регистрируем данную директорию как snapshot repository c именем netology_backup.
+   
+         [elasticsearch@c36b65568b56 config]$ curl "localhost:9200/_snapshot/netology_backup?pretty" -X PUT  -H 'Content-Type: application/json' -d' {  "type": "fs",  "settings": {  "location": "/usr/share/elasticsearch/snapshots"   }  }'
+         {
+              "acknowledged" : true
+         }
+
+
+4) Чтобы подтвердить успешное создание репозитория моментальных снимков, используйте запрос GET с конечной точкой _snapshot как:
+
+       
+        [elasticsearch@c36b65568b56 config]$ curl -X GET "http://localhost:9200/_snapshot/netology_backup?pretty"
+        {
+          "netology_backup" : {
+            "type" : "fs",
+            "settings" : {
+              "location" : "/usr/share/elasticsearch/snapshots"
+            }
+          }
+        }
+
+
+5) Создаем индекс test с 0 реплик и 1 шардом и выводим список индексов.
+
+        [elasticsearch@c36b65568b56 config]$   curl -X PUT localhost:9200/test -H 'Content-Type: application/json' -d'{ "settings": { "number_of_shards": 1,  "number_of_replicas": 0 }}'
+        {"acknowledged":true,"shards_acknowledged":true,"index":"test"}
+
+
+        [elasticsearch@c36b65568b56 config]$ curl -X GET 'http://localhost:9200/_cat/indices?v'
+        health status index uuid                   pri rep docs.count docs.deleted store.size pri.store.size
+        green  open   test  w9HVsgDQR7aqgO-x68s2gA   1   0          0            0       230b           230b
+
+6) Создаем снэпшот 
+
+
+        [elasticsearch@c36b65568b56 config]$ curl -X PUT  "http://localhost:9200/_snapshot/netology_backup/snapshot_1?wait_for_completion=true&pretty"
+
+        {
+          "snapshot" : {
+            "snapshot" : "snapshot_1",
+            "uuid" : "IX84Aoc_SO207wRO2RQPxg",
+            "version_id" : 7000099,
+            "version" : "7.0.0",
+            "indices" : [
+              "test"
+            ],
+            "include_global_state" : true,
+            "state" : "SUCCESS",
+            "start_time" : "2022-10-04T09:34:25.252Z",
+            "start_time_in_millis" : 1664876065252,
+            "end_time" : "2022-10-04T09:34:25.293Z",
+            "end_time_in_millis" : 1664876065293,
+            "duration_in_millis" : 41,
+            "failures" : [ ],
+            "shards" : {
+              "total" : 1,
+              "failed" : 0,
+              "successful" : 1
+            }
+          }
+        }
         
 
-         
+7) Удаляем снэпшот 
+
+        [elasticsearch@c36b65568b56 config]$  curl -X DELETE "localhost:9200/_snapshot/my_repository/snapshot_1?pretty"
