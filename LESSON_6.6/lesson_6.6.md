@@ -54,7 +54,7 @@
                    { 
                        $match : {
                           "active" : true,
-                          "secs_running"  : { "$gte" : 180 },
+                          "secs_running"  : { "$gte" : 180 },    //  где db1 - имя БД ; 180 - время в секундах) 
                           "ns" : /^db1\./
                       } 
                    }
