@@ -37,12 +37,15 @@
 
         use admin
         db.aggregate ( [
+           // Stage 1:
            {  
                $currentOp : {  
-                      allUsers: true, 
-                      localOps: true 
+                      "allUsers" : true, 
+                      "localOps" : true 
                } 
            },
+
+           // Stage 2:
            { 
                $match : {
                      "active" : true,
