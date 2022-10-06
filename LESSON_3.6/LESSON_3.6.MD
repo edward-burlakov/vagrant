@@ -53,7 +53,8 @@
 
 
 ---
-### 2) Повторите задание 1 в браузере, используя консоль разработчика F12. Откройте вкладку Network
+### 2) Повторите задание 1 в браузере, используя консоль разработчика F12. 
+   - Откройте вкладку Network
    - Отправьте запрос http://stackoverflow.com
    - Найдите первый ответ HTTP сервера, откройте вкладку Headers
    - Укажите в ответе полученный HTTP код.
@@ -93,7 +94,7 @@
 
      Скрин консоли  Google Chrome:
     
-       https://github.com/edward-burlakov/vagrant/blob/main/LESSON_3.6/Browser%20console.jpg
+[https://github.com/edward-burlakov/vagrant/blob/main/LESSON_3.6/Browser%20console.jpg]
 
 ---
 ### 3) Какой IP адрес у вас в интернете?
