@@ -89,13 +89,13 @@
 
      Скрин консоли  Google Chrome:
     
-       https://github.com/edward-burlakov/vagrant/blob/main/Browser%20console.jpg
+       https://github.com/edward-burlakov/vagrant/blob/main/LESSON_3.6/Browser%20console.jpg
 
 3) Какой IP адрес у вас в интернете?
 
 Ответ:
 
-       https://github.com/edward-burlakov/vagrant/blob/main/My_ip.jpg
+       https://github.com/edward-burlakov/vagrant/blob/main/LESSON_3.6/My_ip.jpg
 
 
 4) Какому провайдеру принадлежит ваш IP адрес? Какой автономной системе AS? Воспользуйтесь утилитой whois
