@@ -256,6 +256,9 @@
    Иногда вы можете увидеть "ER_NET_PACKET_TOO_LARGE" ошибку, и это подтверждает, 
    что вам нужно увеличить параметр "max_allowed_packet".
 
+Также одним из путей решения данной проблемы может стать перестроение индексов БД MySQL
+для оптимизации  и ускорения запросов на основании плана запроса с помощью инструмента-профайлера EXPLAIN ANALYZE.
+
 
 [https://stackoverflow.com/questions/10563619/error-code-2013-lost-connection-to-mysql-server-during-query]
 
