@@ -235,7 +235,7 @@
 5. Используя diagrams.net, создайте L3 диаграмму вашей домашней сети или любой другой сети, с которой вы работали.
 
 Ответ: 
-      ![Диаграмма L3 домашней сети](https://github.com/edward-burlakov/vagrant/blob/main/homenet.png "Home network")
+      ![Диаграмма L3 домашней сети](https://github.com/edward-burlakov/vagrant/blob/main/LESSON_3.8/homenet.png "Home network")
 
 
 
