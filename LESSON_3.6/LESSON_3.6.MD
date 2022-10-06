@@ -100,7 +100,7 @@
 ---
 ### Ответ:
 
-![Netdata Screenshot](https://github.com/edward-burlakov/vagrant/blob/main/LESSON_3.6/My_ip.jpg)
+[https://github.com/edward-burlakov/vagrant/blob/main/LESSON_3.6/My_ip.jpg]
 
 
 ---
