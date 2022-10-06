@@ -12,7 +12,7 @@
 ---
 ### Ответ:
  Документация
-[https://www.mongodb.com/docs/manual/administration/]
+ (https://www.mongodb.com/docs/manual/administration/)
 
  1) Для решения  проблемы  необходимо включить профайлер на текущей ноде
 
@@ -96,8 +96,7 @@
 ---
 ### Задача 2
 Перед выполнением задания познакомьтесь с документацией по Redis latency troobleshooting.
-[https://redis.io/docs/reference/optimization/latency/]
-
+(https://redis.io/docs/reference/optimization/latency/)
 Вы запустили инстанс Redis для использования совместно с сервисом, который использует механизм TTL. 
 Причем отношение количества записанных key-value значений к количеству истёкших значений есть величина постоянная 
 и увеличивается пропорционально количеству реплик сервиса.
@@ -222,7 +221,7 @@
 ---
 ### Задача 3
 - Перед выполнением задания познакомьтесь с документацией по "Common Mysql errors" 
-[https://dev.mysql.com/doc/refman/8.0/en/common-errors.html].
+(https://dev.mysql.com/doc/refman/8.0/en/common-errors.html).
 - Вы подняли базу данных MySQL для использования в гис-системе. 
 При росте количества записей, в таблицах базы, пользователи начали жаловаться на ошибки вида:
 
@@ -234,8 +233,6 @@
 ---
 ### Ответ:
 Налицо 5-й вариант проблем - нарушение обмена с сервером MySQL.
-
-
 [https://stackoverflow.com/questions/10563619/error-code-2013-lost-connection-to-mysql-server-during-query]
 
 
