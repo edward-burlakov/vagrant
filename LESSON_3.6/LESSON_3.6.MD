@@ -92,9 +92,7 @@
 
      Дольше всего обрабатывается  "Waiting for server response" -  176,05 мс
 
-     Скрин консоли  Google Chrome:
-    
-[https://github.com/edward-burlakov/vagrant/blob/main/LESSON_3.6/Browser%20console.jpg]
+![Скрин консоли  Google Chrome:](https://github.com/edward-burlakov/vagrant/blob/main/LESSON_3.6/Browser%20console.jpg )
 
 ---
 ### 3) Какой IP адрес у вас в интернете?
@@ -102,7 +100,7 @@
 ---
 ### Ответ:
 
-[https://github.com/edward-burlakov/vagrant/blob/main/LESSON_3.6/My_ip.jpg]
+![Netdata Screenshot](https://github.com/edward-burlakov/vagrant/blob/main/LESSON_3.6/My_ip.jpg)
 
 
 ---
@@ -167,9 +165,7 @@
 
       root@vagrant:~#  mtr -zn 8.8.8.8
 
-      Вывод экрана :
-
-[https://github.com/edward-burlakov/vagrant/blob/main/LESSON_3.6/My%20traceroute.jpg]
+![Вывод экрана :](https://github.com/edward-burlakov/vagrant/blob/main/LESSON_3.6/My%20traceroute.jpg)
 
       Самая  большаЯ задержка на автономной системе AS15169 компании Google LLC и адресе  209.85.246.111
 
