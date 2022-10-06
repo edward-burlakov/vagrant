@@ -165,39 +165,6 @@ dmesg --ctime --color=always | grep -v 'UFW BLOCK'), чтобы узнать, ч
         -17 
 
 
-Одна вещь, которая делает синтаксический анализ более неудобным, чем это необходимо, заключается в том, что мы делаем
-не иметь ни одной и легко анализируемой строки о контексте oom. Этот
-патч реорганизует отчет oom в
-1) кто вызывал oom и каков был запрос на выделение
-	[ 131.751307] вызвана паника oom-killer: gfp_mask=0x6280ca(GFP_HIGHUSER_MOVABLE|__GFP_ZERO), order=0, oom_score_adj=0
-
-2) Трассировка стека OOM
-	[ 131.752399] ЦП: 16 PID: 8581 Связь: паника Не испорчено 4.18.0-rc5+ #48
-	[131.753154] Название оборудования: Inspur SA5212M4/YZMB-00370-107, BIOS 4.1.10 14.11.2016
-	[ 131.753806] Отслеживание вызовов:
-	[131.754473] дамп_стека+0x5a/0x73
-	[131.755129] dump_header+0x53/0x2dc
-	[131.755775] oom_kill_process+0x228/0x420
-	[ 131.756430] ? oom_badness+0x2a/0x130
-	[ 131.757063] out_of_memory+0x11a/0x4a0
-	[ 131.757710] __alloc_pages_slowpath+0x7cc/0xa1e
-	[ 131.758392] ? apic_timer_interrupt+0xa/0x20
-	[131.759040] __alloc_pages_nodemask+0x277/0x290
-	[131.759710] alloc_pages_vma+0x73/0x180
-	[131.760388] do_anonymous_page+0xed/0x5a0
-	[ 131.761067] __handle_mm_fault+0xbb3/0xe70
-	[131.761749] handle_mm_fault+0xfa/0x210
-	[131.762457] __do_page_fault+0x233/0x4c0
-	[131.763136] do_page_fault+0x32/0x140
-	[ 131.763832] ? page_fault+0x8/0x30
-	[131.764523] page_fault+0x1e/0x30
-
-3) контекст oom (сдерживается и выбранная жертва).
-	[ 131.771164] oom-kill:constraint=CONSTRAINT_NONE,nodemask=(null),cpuset=/,mems_allowed=0-1,task=panic,pid=8608,uid=0
-
-
-
-
 
 [https://support.hypernode.com/en/troubleshooting/performance/how-to-debug-out-of-memory-oom-events]
 
