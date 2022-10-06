@@ -610,7 +610,7 @@
     Testing 370 ciphers via OpenSSL plus sockets against the server, ordered by encryption strength
    
    Hexcode  Cipher Suite Name (OpenSSL)       KeyExch.   Encryption  Bits     Cipher Suite Name (IANA/RFC)
-   -----------------------------------------------------------------------------------------------------------------------------
+   ..-----------------------------------------------------------------------------------------------------------------------------
     xc030   ECDHE-RSA-AES256-GCM-SHA384       ECDH 570   AESGCM      256      TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
     xc028   ECDHE-RSA-AES256-SHA384           ECDH 570   AES         256      TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384
     xc014   ECDHE-RSA-AES256-SHA              ECDH 570   AES         256      TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA

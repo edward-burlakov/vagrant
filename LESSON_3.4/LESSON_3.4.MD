@@ -133,10 +133,9 @@
    Ознакомьтесь с метриками, с которыми по умолчанию собираются Netdata и с комментариями, что даны к этим метрикам.
 
 Ответ :    
+![Netdata Screenshot](https://github.com/edward-burlakov/vagrant/blob/main/LESSON_3.4/netdata_screenshot.jpg "Netdata Screenshot")
 
-      https://github.com/edward-burlakov/vagrant/blob/main/netdata_screenshot.jpg
-
-      Готово. Впечатляет. 
+    Готово. Впечатляет. 
       
 
 
