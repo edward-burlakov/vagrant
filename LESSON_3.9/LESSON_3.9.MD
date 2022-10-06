@@ -4,14 +4,14 @@
 
 Ответ:
     
-![Bitwarden](https://github.com/edward-burlakov/vagrant/blob/main/bitwarden.png "Bitwarden wallet"))
+![Bitwarden](https://github.com/edward-burlakov/vagrant/blob/main/LESSON_3.9/bitwarden.png "Bitwarden wallet"))
 
 
 ## 2. Установите Google authenticator на мобильный телефон. Настройте вход в Bitwarden аккаунт через Google authenticator OTP.
 
 Ответ:
 
-![Google_2fa](https://github.com/edward-burlakov/vagrant/blob/main/google_2FA.png "Google_2fa"))
+![Google_2fa](https://github.com/edward-burlakov/vagrant/blob/main/LESSON_3.9/google_2FA.png "Google_2fa"))
 
    
 ## 3. Установите apache2, сгенерируйте самоподписанный сертификат, настройте тестовый сайт для работы по HTTPS.
@@ -1144,5 +1144,5 @@
 
 Открываем файл tcpdump.log  в пакете WiresharkPortable64  - Скриншот ниже
 
-![Tcpdump Log](https://github.com/edward-burlakov/vagrant/blob/main/tcpdump_log.png "Tcpdump Log")
+![Tcpdump Log](https://github.com/edward-burlakov/vagrant/blob/main/LESSON_3.9/tcpdump_log.png "Tcpdump Log")
 
