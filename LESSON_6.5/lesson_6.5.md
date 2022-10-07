@@ -243,7 +243,7 @@ Elasticsearch в логах обычно описывает проблему и 
        green  open   ind-1 LHhtXTnWSNa7D-p9n-OUWw   1   0          0            0       230b           230b
 
 
-3) Получаем статус кластера,нод  и  индексов с помощью API-интерфейса:
+3) Получаем статус кластера, нод и индексов с помощью API-интерфейса:
 
    - Статус однонодового кластера 
 
@@ -278,7 +278,6 @@ Elasticsearch в логах обычно описывает проблему и 
          "number_of_in_flight_fetch" : 0,
          "task_max_waiting_in_queue_millis" : 0,
          "active_shards_percent_as_number" : 100.0
-
          }
 
    - Статус второго  индекса
@@ -506,7 +505,7 @@ Elasticsearch в логах обычно описывает проблему и 
         green  open   test-2 y0p9ufxRQ_iahcEsVNcVcg   1   0          0            0       230b           230b
 
 
-13) Восставливаем снэпшот
+13) Восстанавливаем снэпшот
 
         curl -X POST "localhost:9200/_snapshot/netology_backup/snapshot_1/_restore?pretty"
         {
