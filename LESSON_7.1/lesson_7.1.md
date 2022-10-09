@@ -81,6 +81,8 @@
 ---
 ### Ответ:
 
+Вариант 1
+
 - Переносим в личный рабочий каталог старую версию terraform 12
 
       root@docker:/usr#   cd  &&  mkdir $HOME/.local/bin
@@ -115,3 +117,38 @@
       root@docker:~# terraform --version
       Terraform v1.3.2
       on linux_amd64
+
+Вариант 2
+
+1) Установка приложения tfswitch
+
+       с помощью  curl 
+
+       root@docker:~# curl -L https://raw.githubusercontent.com/warrensbox/terraform-switcher/release/install.sh | bash
+       % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                     Dload  Upload   Total   Spent    Left  Speed
+       100  9216  100  9216    0     0  21333      0 --:--:-- --:--:-- --:--:-- 21284
+       warrensbox/terraform-switcher info checking GitHub for latest tag
+       warrensbox/terraform-switcher info found version: 0.13.1288 for 0.13.1288/linux/amd64
+       warrensbox/terraform-switcher info installed /usr/local/bin/tfswitch
+
+ 2) Выбираем и загружаем версии для использования  в каталог  /root/.terraform.versions ,указывая доступное  в Росси зеркало-репозиторий Yandex Cloud
+
+        root@docker:~# tfswitch  -s 1.2.9 --mirror  https://hashicorp-releases.yandexcloud.net/terraform/  
+        root@docker:~# tfswitch  -s 1.3.2 --mirror  https://hashicorp-releases.yandexcloud.net/terraform/  
+
+ 3) Запускаем tfswitch , указывая ту версию которая в текущий момент необходима
+
+        root@docker:~# tfswitch   1.2.9
+        Switched terraform to version "1.2.9"
+
+ 4) Можно создать  файл в рабочем каталоге tfswitchrc , в котором указана желаемая версия
+
+        root@docker:~#  echo "1.2.9" >> .tfswitchrc 
+
+ 5) Запускаем  tfswitch  заново  без аргументов - конфигурация будет считана из файла  .tfswitchrc . 
+
+        root@docker:~/terraform-switcher-0.13.1288# tfswitch
+        Reading file .tfswitchrc
+        Switched terraform to version "1.2.9"
+
