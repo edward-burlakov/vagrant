@@ -49,6 +49,24 @@
 ---
 ### Ответ:
 
+- Находим  версию 1.2.9 и скачиваем ее c зеркала Yandex-Cloud
+
+      root@docker:/home/bes/# wget  https://hashicorp-releases.yandexcloud.net/terraform/1.2.9/terraform_1.2.9_linux_amd64.zip
+
+- Распаковываем и устанавливаем: 
+
+      root@docker:/home/bes/# unzip terraform_1.2.9_linux_amd64.zip  && rm terraform_1.2.9_linux_amd64.zip
+      root@docker:/home/bes/# mv  terraform  /usr/bin
+
+- Проверяем установку
+
+      root@docker:~# terraform --version
+      Terraform v1.2.9
+      on linux_amd64
+
+      Your version of Terraform is out of date! The latest version
+      is 1.3.2. You can update by downloading from https://www.terraform.io/downloads.html
+
 
 ---
 ### Задача 3. Поддержка легаси кода.
@@ -64,35 +82,35 @@
 
 - Переносим в личный рабочий каталог старую версию terraform 12
 
-                root@docker:/usr#   cd  &&  mkdir $HOME/.local/bin
-                root@docker:#   PATH=$PATH:$HOME/.local/bin 
-                root@docker:#   export PATH
-                root@docker:# mv  terraform  /$HOME/.local/bin/tf12
+      root@docker:/usr#   cd  &&  mkdir $HOME/.local/bin
+      root@docker:#   PATH=$PATH:$HOME/.local/bin 
+      root@docker:#   export PATH
+      root@docker:# mv  terraform  /$HOME/.local/bin/tf12
 
 - Находим свежую версию 1.3.2 и скачиваем ее c зеркала Yandex-Cloud 
 
-                root@docker:/home/bes/# wget  https://hashicorp-releases.yandexcloud.net/terraform/1.3.2/terraform_1.3.2_linux_amd64.zip
+      root@docker:/home/bes/# wget  https://hashicorp-releases.yandexcloud.net/terraform/1.3.2/terraform_1.3.2_linux_amd64.zip
 
 - Распаковываем и устанавливаем: 
 
-                root@docker:/home/bes/# unzip terraform_1.3.2_linux_amd64.zip  && rm terraform_1.3.2_linux_amd64.zip
-                root@docker:/home/bes/# mv  terraform  /usr/bin
+      root@docker:/home/bes/# unzip terraform_1.3.2_linux_amd64.zip  && rm terraform_1.3.2_linux_amd64.zip
+      root@docker:/home/bes/# mv  terraform  /usr/bin
 
 - Проверяем обе версии:
  
       Старая версия:
 
-                root@docker:~# whereis  tf12
-                tf12: /root/.local/bin/tf12
+      root@docker:~# whereis  tf12
+      tf12: /root/.local/bin/tf12
 
--               root@docker:~# tf12 --version | grep v1
-                Terraform v1.2.9
+      root@docker:~# tf12 --version | grep v1
+      Terraform v1.2.9
 
       Новая версия:
 
-               root@docker:~# whereis  terraform
-               terraform: /usr/bin/terraform
+      root@docker:~# whereis  terraform
+      terraform: /usr/bin/terraform
 
-               root@docker:~# terraform --version
-               Terraform v1.3.2
-               on linux_amd64
+      root@docker:~# terraform --version
+      Terraform v1.3.2
+      on linux_amd64
