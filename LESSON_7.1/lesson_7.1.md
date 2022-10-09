@@ -137,7 +137,8 @@
        root@docker:~#   tfswitch  -s  1.3.2  --mirror  https://hashicorp-releases.yandexcloud.net/terraform/
 
 3) Запускаем tfswitch  указывая в виде аргумента ту или иную  версию, которая в текущий момент необходима.
-   tfswitch создает линк terraform на исполняемый файл нужной версии
+
+   Тогда  tfswitch создает линк terraform на исполняемый файл нужной версии:
 
        root@docker:~# tfswitch   1.2.9
        Switched terraform to version "1.2.9"
