@@ -120,9 +120,7 @@
 
 Вариант 2
 
-1) Установка приложения tfswitch
-
-       с помощью  curl 
+1) Установка приложения tfswitch с помощью  curl 
 
        root@docker:~# curl -L https://raw.githubusercontent.com/warrensbox/terraform-switcher/release/install.sh | bash
        % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
@@ -137,7 +135,7 @@
         root@docker:~# tfswitch  -s 1.2.9 --mirror  https://hashicorp-releases.yandexcloud.net/terraform/  
         root@docker:~# tfswitch  -s 1.3.2 --mirror  https://hashicorp-releases.yandexcloud.net/terraform/  
 
- 3) Запускаем tfswitch , указывая ту версию которая в текущий момент необходима
+ 3) Запускаем tfswitch , указывая ту версию, которая в текущий момент необходима
 
         root@docker:~# tfswitch   1.2.9
         Switched terraform to version "1.2.9"
