@@ -130,23 +130,24 @@
        warrensbox/terraform-switcher info found version: 0.13.1288 for 0.13.1288/linux/amd64
        warrensbox/terraform-switcher info installed /usr/local/bin/tfswitch
 
- 2) Выбираем и загружаем версии для использования  в каталог  /root/.terraform.versions ,указывая доступное  в Росси зеркало-репозиторий Yandex Cloud
+2) Выбираем и загружаем версии для использования  в каталог  /root/.terraform.versions, 
+   указывая доступное  в России зеркало-репозиторий Yandex Cloud
 
-        root@docker:~# tfswitch  -s 1.2.9 --mirror  https://hashicorp-releases.yandexcloud.net/terraform/  
-        root@docker:~# tfswitch  -s 1.3.2 --mirror  https://hashicorp-releases.yandexcloud.net/terraform/  
+       root@docker:~# tfswitch  -s 1.2.9 --mirror  https://hashicorp-releases.yandexcloud.net/terraform/  
+       root@docker:~# tfswitch  -s 1.3.2 --mirror  https://hashicorp-releases.yandexcloud.net/terraform/  
 
- 3) Запускаем tfswitch , указывая ту версию, которая в текущий момент необходима
+3) Запускаем tfswitch , указывая ту версию, которая в текущий момент необходима
 
-        root@docker:~# tfswitch   1.2.9
-        Switched terraform to version "1.2.9"
+       root@docker:~# tfswitch   1.2.9
+       Switched terraform to version "1.2.9"
 
- 4) Можно создать  файл в рабочем каталоге tfswitchrc , в котором указана желаемая версия
+4) Можно создать  файл в рабочем каталоге tfswitchrc , в котором указана желаемая версия
 
-        root@docker:~#  echo "1.2.9" >> .tfswitchrc 
+       root@docker:~#  echo "1.2.9" >> .tfswitchrc 
 
- 5) Запускаем  tfswitch  заново  без аргументов - конфигурация будет считана из файла  .tfswitchrc . 
+5) Запускаем  tfswitch  заново  без аргументов - конфигурация будет считана из файла  .tfswitchrc . 
 
-        root@docker:~/terraform-switcher-0.13.1288# tfswitch
-        Reading file .tfswitchrc
-        Switched terraform to version "1.2.9"
+       root@docker:~/terraform-switcher-0.13.1288# tfswitch
+       Reading file .tfswitchrc
+       Switched terraform to version "1.2.9"
 
