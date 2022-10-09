@@ -57,7 +57,7 @@
 - Распаковываем и устанавливаем: 
 
       root@docker:/home/bes/#  unzip terraform_1.2.9_linux_amd64.zip  && rm terraform_1.2.9_linux_amd64.zip
-      root@docker:/home/bes/#  mv  terraform  /usr/bin
+      root@docker:/home/bes/#  mv  terraform  /usr/local/bin
 
 - Проверяем установку
 
