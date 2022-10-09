@@ -62,46 +62,37 @@
 ---
 ### Ответ:
 
-   Создаем два контейнера  с помощью команд
-       root@docker:/home/bes/#  docker run -d -it    --name postgres12   -e POSTGRES_PASSWORD=mysecretpassword   -p 5432:5432  \ 
-          -v $(pwd)/data:/terraform  -v $(pwd)/backup:/backup   terraform_1.2.9
+- Переносим в личный рабочий каталог старую версию terraform 12
 
-       root@docker:/home/bes/#  docker run -d -it    --name postgres12   -e POSTGRES_PASSWORD=mysecretpassword   -p 5432:5432  \ 
-       -v $(pwd)/data:/var/lib/postgresql/data   -v $(pwd)/backup:/backup   terraform_1.3.2
+                root@docker:/usr#   cd  &&  mkdir $HOME/.local/bin
+                root@docker:#   PATH=$PATH:$HOME/.local/bin 
+                root@docker:#   export PATH
+                root@docker:# mv  terraform  /$HOME/.local/bin/tf12
 
-  Вх
+- Находим свежую версию 1.3.2 и скачиваем ее c зеркала Yandex-Cloud 
 
-      Ставим новую версию  
+                root@docker:/home/bes/# wget  https://hashicorp-releases.yandexcloud.net/terraform/1.3.2/terraform_1.3.2_linux_amd64.zip
 
-          wget https://releases.hashicorp.com/terraform/1.3.2/terraform_1.3.2_linux_amd64.zip
-          unzip terraform.zip; 
-          sudo mv terraform /usr/local/bin; 
-          rm terraform.zip;
+- Распаковываем и устанавливаем: 
 
-          
-         https://releases.hashicorp.com/terraform/1.2.9/terraform_1.2.9_linux_amd64.zip
+                root@docker:/home/bes/# unzip terraform_1.3.2_linux_amd64.zip  && rm terraform_1.3.2_linux_amd64.zip
+                root@docker:/home/bes/# mv  terraform  /usr/bin
 
+- Проверяем обе версии:
+ 
+               Старая версия:
 
-      Старая версия:
+               root@docker:~# whereis  tf12
+               tf12: /root/.local/bin/tf12
 
-            root@docker:/home/bes# whereis  terraform
-            terraform: /usr/bin/terraform
-            root@docker:/home/bes#
+               root@docker:~# tf12 --version | grep v1
+               Terraform v1.2.9
 
-            root@docker:/home/bes# terraform --version
-            Terraform v1.2.8
-            on linux_amd64
-            
-            Your version of Terraform is out of date! The latest version
-            is 1.3.2. You can update by downloading from https://www.terraform.io/downloads.html
-            root@docker:/home/bes#**
+               Новая версия:
 
-      Новая версия :
+               root@docker:~# whereis  terraform
+               terraform: /usr/bin/terraform
 
-            root@docker:/home/bes# whereis  terraform2
-
-
-            root@docker:/home/bes# terraform --version
-
-
-
+               root@docker:~# terraform --version
+               Terraform v1.3.2
+               on linux_amd64
