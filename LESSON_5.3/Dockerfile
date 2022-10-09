@@ -4,7 +4,7 @@ RUN apt update
 RUN apt install apache2 -y
 RUN apt install apache2-utils -y
 RUN apt clean
-RUN echo 'Hello Apache server on Ubuntu Docker' > /var/www/html/index.html
+RUN cp $HOME/www/index.html /var/www/html/index.html
 
 EXPOSE 80
 
