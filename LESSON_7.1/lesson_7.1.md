@@ -44,7 +44,8 @@
 ### Задача 2. Установка терраформ.
 Официальный сайт: https://www.terraform.io/
 
-Установите терраформ при помощи менеджера пакетов используемого в вашей операционной системе. В виде результата этой задачи приложите вывод команды terraform --version.
+Установите терраформ при помощи менеджера пакетов используемого в вашей операционной системе. 
+В виде результата этой задачи приложите вывод команды terraform --version.
 
 ---
 ### Ответ:
@@ -55,12 +56,12 @@
 
 - Распаковываем и устанавливаем: 
 
-      root@docker:/home/bes/# unzip terraform_1.2.9_linux_amd64.zip  && rm terraform_1.2.9_linux_amd64.zip
-      root@docker:/home/bes/# mv  terraform  /usr/bin
+      root@docker:/home/bes/#  unzip terraform_1.2.9_linux_amd64.zip  && rm terraform_1.2.9_linux_amd64.zip
+      root@docker:/home/bes/#  mv  terraform  /usr/bin
 
 - Проверяем установку
 
-      root@docker:~# terraform --version
+      root@docker:/home/bes/#  terraform --version
       Terraform v1.2.9
       on linux_amd64
 
