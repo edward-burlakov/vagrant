@@ -1,15 +1,11 @@
-FROM python:3-alpine
+FROM httpd
 
-WORKDIR /code
+RUN apt update
+RUN apt install apache2 -y
+RUN apt install apache2-utils -y
+RUN apt clean
+RUN echo 'Hello Apache server on Ubuntu Docker' > /var/www/html/index.html
 
-COPY requirements.txt  /code
-RUN  mkdir db
-RUN pip install -r requirements.txt
+EXPOSE 80
 
-COPY . /code
-
-EXPOSE  8000
-
-VOLUME ["django-base"]
-
-CMD  sh init.sh  && python3 manage.py runserver 0.0.0.0:8000   
+CMD /usr/sbin/apache2ctl -D FOREGROUND
