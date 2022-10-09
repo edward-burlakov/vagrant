@@ -80,15 +80,15 @@
 
 - Проверяем обе версии:
  
-               Старая версия:
+      Старая версия:
 
-               root@docker:~# whereis  tf12
-               tf12: /root/.local/bin/tf12
+                root@docker:~# whereis  tf12
+                tf12: /root/.local/bin/tf12
 
-               root@docker:~# tf12 --version | grep v1
-               Terraform v1.2.9
+-               root@docker:~# tf12 --version | grep v1
+                Terraform v1.2.9
 
-               Новая версия:
+      Новая версия:
 
                root@docker:~# whereis  terraform
                terraform: /usr/bin/terraform
