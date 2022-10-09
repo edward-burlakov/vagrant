@@ -97,7 +97,7 @@
 - Распаковываем и устанавливаем: 
 
       root@docker:/home/bes/# unzip terraform_1.3.2_linux_amd64.zip  && rm terraform_1.3.2_linux_amd64.zip
-      root@docker:/home/bes/# mv  terraform  /usr/bin
+      root@docker:/home/bes/# mv  terraform  /usr/local/bin
 
 - Проверяем обе версии:
  
@@ -133,21 +133,40 @@
 2) Выбираем и загружаем версии для использования  в каталог  /root/.terraform.versions,  
    указывая доступное  в России зеркало-репозиторий Yandex Cloud
 
-       root@docker:~# tfswitch  -s 1.2.9 --mirror  https://hashicorp-releases.yandexcloud.net/terraform/  
-       root@docker:~# tfswitch  -s 1.3.2 --mirror  https://hashicorp-releases.yandexcloud.net/terraform/  
+       root@docker:~#   tfswitch  -s  1.2.9  --mirror  https://hashicorp-releases.yandexcloud.net/terraform/
+       root@docker:~#   tfswitch  -s  1.3.2  --mirror  https://hashicorp-releases.yandexcloud.net/terraform/
 
-3) Запускаем tfswitch , указывая ту версию, которая в текущий момент необходима
+3) Запускаем tfswitch  указывая в виде аргумента ту или иную  версию, которая в текущий момент необходима.
+   tfswitch создает линк terraform на исполняемый файл нужной версии
 
        root@docker:~# tfswitch   1.2.9
        Switched terraform to version "1.2.9"
+
+       root@docker:~# ls -la  /usr/local/bin
+       total 23256
+       drwxr-xr-x  2 root root     4096 Oct 10 04:29 .
+       drwxr-xr-x 10 root root     4096 Feb 23  2022 ..
+       -rwxr-xr-x  1 root root 13606047 Mar 22  2022 ctop
+       lrwxrwxrwx  1 root root       41 Oct 10 04:29 terraform -> /root/.terraform.versions/terraform_1.2.9
+       -rwxr-xr-x  1 root root 10199040 Oct 10 03:50 tfswitch
+ 
+       root@docker:~# tfswitch   1.3.2
+       root@docker:~# ls -la  /usr/local/bin
+       total 23256
+       drwxr-xr-x  2 root root     4096 Oct 10 04:27 .
+       drwxr-xr-x 10 root root     4096 Feb 23  2022 ..
+       -rwxr-xr-x  1 root root 13606047 Mar 22  2022 ctop
+       lrwxrwxrwx  1 root root       41 Oct 10 04:29 terraform -> /root/.terraform.versions/terraform_1.3.2
+       -rwxr-xr-x  1 root root 10199040 Oct 10 03:50 tfswitch
+
 
 4) Можно создать  файл в рабочем каталоге tfswitchrc, в котором указана желаемая версия
 
        root@docker:~#  echo "1.2.9" >> .tfswitchrc 
 
-5) Запускаем  tfswitch  заново  без аргументов - конфигурация будет считана из файла  .tfswitchrc . 
+5) Тогда при запуске   tfswitch  без аргументов в каталоге с файлом  .tfswitchrc , конфигурация будет считана из него. 
 
-       root@docker:~/terraform-switcher-0.13.1288# tfswitch
+       root@docker:~# tfswitch
        Reading file .tfswitchrc
        Switched terraform to version "1.2.9"
 
