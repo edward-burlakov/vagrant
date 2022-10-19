@@ -106,7 +106,7 @@ export AWS_SECRET_ACCESS_KEY=(your secret access key)
 6) Добавляем  в файл конфигурации /root/terraform/variables.cf  параметры из конфиг-листа ниже
 
         root@docker:~/terraform# yc config list
-        token: y0_AgAEA7qjbCX2AATuwQAAAADNx-_dP9L62XaATFq3ZDEjDT3hOpl-fwo
+        token: y0_AgAEA7qjbCX2AATuwQAAAADNx-_dP9L62XaATFq3ZDEjDT3hOpl-XXX
         cloud-id: b1g3dtd6rmc18p0kufbd
         folder-id: b1gks5lsfvt1r1gh37ib
         compute-default-zone: ru-central1-a
