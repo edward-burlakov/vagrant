@@ -181,10 +181,10 @@ export AWS_SECRET_ACCESS_KEY=(your secret access key)
 ---
 ### Ответ :
 
-####  Hashicorp Packer
+####  1) Hashicorp Packer
 
 
-####  Развертывание инстанса 
+####  2) Развертывание инстанса 
 
  
 1) Настраиваем  провайдера , для этого
