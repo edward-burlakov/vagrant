@@ -75,7 +75,7 @@ ___
 
             root@docker:/home/bes# yc vpc network create --name net --labels my-label=netology --description "my first network via yc"
 
-8)          id: enpgj3k47ptuspj30p2b
+            id: enpgj3k47ptuspj30p2b
             folder_id: b1gks5lsfvt1r1gh37ib
             created_at: "2022-09-02T13:33:45Z"
             name: net
@@ -83,7 +83,7 @@ ___
             labels:
               my-label: netology
  
-9) Инициализируем  подсеть 10.1.2.0/24 
+8) Инициализируем  подсеть 10.1.2.0/24 
 
             root@docker:/home/bes# yc vpc subnet create --name my-subnet-a --zone ru-central1-a  --range 10.1.2.0/24 --network-name net --description "my first subnet via yc"                
 
@@ -156,7 +156,7 @@ ___
            | fd8ugrlfp5paoq5ogdsr | centos-7-base | centos | f2euv1kekdgvc0jrpaet | READY  |
            +----------------------+---------------+--------+----------------------+--------+
 
-    Так выглядит временный образ, созданный packer :
+    Так выглядит временный образ, созданный packer и помещенный пакером в облако YC:
 ---
    ![img.png](img.png)
 ---
@@ -184,7 +184,7 @@ ___
 
          C:\Windows\System32\OpenSSH> scp -r C:\Users\bes\PycharmProjects\Netology_Lessons\vagrant\LESSON_5.4\src\ansible  bes@192.168.1.16:/home/bes
 
-3) Добавляем в файл variables.cf  параметры из конфиг-листа ниже
+3) Добавляем в файл /home/bes/terraform/variables.cf  параметры из конфиг-листа ниже
 
          root@docker:~/terraform# yc config list
          token: y0_AgAEA7qjbCX2AATuwQAAAADNx-_dP9L62XaATFq3ZDEjDT3hOpl-fwo
@@ -246,15 +246,14 @@ ___
     ( $ yc iam key create --service-account-id <id> --output key.json )
 
         root@docker:~/terraform#  yc iam key create --service-account-id ajek2ne5khrks2n72on7 --output key.json
-        root@docker:~/terraform# service_account_id: ajek2ne5khrks2n72on7
-        service_account_id:: command not found
-        root@docker:~/terraform# created_at: "2022-09-04T10:11:32.125628521Z"
-        created_at:: command not found
-        root@docker:~/terraform# key_algorithm: RSA_2048
-        key_algorithm:: command not found
+        id: ajee9lqmtl98k4jbavsg
+        service_account_id: ajek2ne5khrks2n72on7
+        created_at: "2022-10-19T15:45:46.221673134Z"
+        key_algorithm: RSA_2048
+
         root@docker:~/terraform#
 
-11) Создаем виртуальную сеть, подсеть и машину с помощью terraform. 
+12) Создаем виртуальную сеть, подсеть и машину с помощью terraform. 
 
         root@docker:~/terraform# terraform apply
 
@@ -264,7 +263,7 @@ ___
         external_ip_address_node01_yandex_cloud = "84.201.158.119"
         internal_ip_address_node01_yandex_cloud = "192.168.101.19"
 
-12) В свойствах созданной виртуалки разрешаем доступ к SSH-консоли
+13) В свойствах созданной виртуалки разрешаем доступ к SSH-консоли
 
 ---
   ![img_1.png](img_1.png)
