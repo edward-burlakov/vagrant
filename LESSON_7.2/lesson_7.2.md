@@ -65,51 +65,51 @@ export AWS_SECRET_ACCESS_KEY=(your secret access key)
 
 2) Cоздаём новый сервисный эккаунт по руководству https://cloud.yandex.ru/docs/iam/operations/sa/create 
    
-         root@docker:~/ansible# yc iam service-account create --name my-robot
+         root@docker:~/LESSON_7.2# yc iam service-account create --name my-robot
          id: ajek2ne5khrks2n72on7
          folder_id: b1gks5lsfvt1r1gh37ib
          created_at: "2022-09-04T10:02:15.480498083Z"
          name: my-robot
       
-         root@docker:~/ansible# yc iam service-account --folder-id b1gks5lsfvt1r1gh37ib list
+         root@docker:~/LESSON_7.2# yc iam service-account --folder-id b1gks5lsfvt1r1gh37ib list
          +----------------------+----------+
          |          ID          |   NAME   |
          +----------------------+----------+
          | ajek2ne5khrks2n72on7 | my-robot |
          +----------------------+----------+
 
-         root@docker:~/ansible#
+3) Создаём профиль CLI для выполнения операций от имени сервисного аккаунта. Укажите имя профиля:
 
-3) Назначаем роль editor сервисному эккаунту для выбранной Folder ID
+        root@docker:~/terraform#  yc config profile create  netology
+        Результат:
 
-         root@docker:~/ansible# yc resource-manager folder add-access-binding b1gks5lsfvt1r1gh37ib --role editor \
-         --subject serviceAccount:ajek2ne5khrks2n72on7
-         done (1s)
-         root@docker:~/ansible#
+        Profile 'netology' created and activated
 
-4) Создаем первичный  авторизованный ключ для сервисного аккаунта my-robot  и запишем его в файл  key.json 
+4) Назначаем роль editor сервисному эккаунту для выбранной Folder ID
+
+        root@docker:~/LESSON_7.2# yc resource-manager folder add-access-binding b1gks5lsfvt1r1gh37ib --role editor \
+        --subject serviceAccount:ajek2ne5khrks2n72on7
+        done (1s)
+
+
+5) Создаем первичный  авторизованный ключ для сервисного аккаунта my-robot  и запишем его в файл  key.json 
    для доступа terraform под сервисным эккаунтом my-robot в YC
 
-          root@docker:~/terraform#  yc iam key create --service-account-id ajek2ne5khrks2n72on7 --output key.json
-          id: ajee9lqmtl98k4jbavsg
-          service_account_id: ajek2ne5khrks2n72on7
-          created_at: "2022-10-19T15:45:46.221673134Z"
-          key_algorithm: RSA_2048
+        root@docker:~/terraform#  yc iam key create --service-account-id ajek2ne5khrks2n72on7 --output key.json
+        id: ajee9lqmtl98k4jbavsg
+        service_account_id: ajek2ne5khrks2n72on7
+        created_at: "2022-10-19T15:45:46.221673134Z"
+        key_algorithm: RSA_2048
 
-5) Создаём профиль CLI для выполнения операций от имени сервисного аккаунта. Укажите имя профиля:
 
-          root@docker:~/terraform#  yc config profile create  netology
-          Результат:
-
-          Profile 'netology' created and activated
 
 6) Добавляем  в файл конфигурации /root/terraform/variables.cf  параметры из конфиг-листа ниже
 
-         root@docker:~/terraform# yc config list
-         token: y0_AgAEA7qjbCX2AATuwQAAAADNx-_dP9L62XaATFq3ZDEjDT3hOpl-fwo
-         cloud-id: b1g3dtd6rmc18p0kufbd
-         folder-id: b1gks5lsfvt1r1gh37ib
-         compute-default-zone: ru-central1-a
+        root@docker:~/terraform# yc config list
+        token: y0_AgAEA7qjbCX2AATuwQAAAADNx-_dP9L62XaATFq3ZDEjDT3hOpl-fwo
+        cloud-id: b1g3dtd6rmc18p0kufbd
+        folder-id: b1gks5lsfvt1r1gh37ib
+        compute-default-zone: ru-central1-a
 
 7) Задаём конфигурацию профиля:
  
@@ -125,16 +125,15 @@ export AWS_SECRET_ACCESS_KEY=(your secret access key)
 
 8) Добавляем аутентификационные данные в переменные окружения:
 
-          root@docker:~/terraform#  export YC_TOKEN=$(yc iam create-token)
-          root@docker:~/terraform#  export YC_CLOUD_ID=$(yc config get cloud-id)
-          root@docker:~/terraform#  export YC_FOLDER_ID=$(yc config get folder-id)
+        root@docker:~/terraform#  export YC_TOKEN=$(yc iam create-token)
+        root@docker:~/terraform#  export YC_CLOUD_ID=$(yc config get cloud-id)
+        root@docker:~/terraform#  export YC_FOLDER_ID=$(yc config get folder-id)
 
-          Где:
+        Где:
 
-          YC_TOKEN — IAM-токен.
-          YC_CLOUD_ID — идентификатор облака.
-          YC_FOLDER_ID — идентификатор каталога.
-
+        YC_TOKEN — IAM-токен.
+        YC_CLOUD_ID — идентификатор облака.
+        YC_FOLDER_ID — идентификатор каталога.
 
 ---
 ### Задача 2. Создание aws ec2 или yandex_compute_instance через терраформ.
@@ -190,13 +189,13 @@ export AWS_SECRET_ACCESS_KEY=(your secret access key)
  
 1) Настраиваем  провайдера , для этого
 
-- Либо поднимаем VPN-соединение для возможности скачать plugin-конфигурацию провайдера  с репозитория Hashicorp
+  - Либо поднимаем VPN-соединение для возможности скачать plugin-конфигурацию провайдера  с репозитория Hashicorp
 
            root@docker:~/   cd /root/vpnbook && openvpn --config vpnbook-fr1-udp53.ovpn
  
-- Либо настраиваем репозиторий Yandex как основной , добавив следующий блок в  ~/.terraformrc :
-           root@docker:~/terraform# nano ~/.terraformrc
-            
+  - Либо настраиваем репозиторий Yandex как основной , добавив следующий блок в  ~/.terraformrc :
+
+           root@docker:~/terraform# nano ~/.terraformrc            
             
            provider_installation {
              network_mirror {
