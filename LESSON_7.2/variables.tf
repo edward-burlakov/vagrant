@@ -1,6 +1,7 @@
 # Создаем переменную для хранения  токена
 variable "YC_TOKEN" {
-  default = "y0_AgAEA7qjbCX2AATuwQAAAADNx-_dP9L62XaATFq3ZDEjDT3hOpl-fwo"
+  default = "y0_AgAEA7qjbCX2AATuwQAAAADNx-_dP9L62XaATFq3ZDEjDT3hOpl-..."
+  // fwo -> ...
 }
 
 # Заменить на ID своего облака
