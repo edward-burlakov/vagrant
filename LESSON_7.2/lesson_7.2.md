@@ -78,9 +78,9 @@ export AWS_SECRET_ACCESS_KEY=(your secret access key)
          | ajek2ne5khrks2n72on7 | my-robot |
          +----------------------+----------+
 
-3) Создаём профиль CLI для выполнения операций от имени сервисного аккаунта. Укажите имя профиля:
+3) Создаём FolderID (профиль CLI) для выполнения операций от имени сервисного аккаунта. Указываем имя FolderID:
 
-        root@docker:~/terraform#  yc config profile create  netology
+        root@docker:~/terraform#  yc config profile create netology
         Результат:
 
         Profile 'netology' created and activated
@@ -90,7 +90,6 @@ export AWS_SECRET_ACCESS_KEY=(your secret access key)
         root@docker:~/LESSON_7.2# yc resource-manager folder add-access-binding b1gks5lsfvt1r1gh37ib --role editor \
         --subject serviceAccount:ajek2ne5khrks2n72on7
         done (1s)
-
 
 5) Создаем первичный  авторизованный ключ для сервисного аккаунта my-robot  и запишем его в файл  key.json 
    для доступа terraform под сервисным эккаунтом my-robot в YC
@@ -102,16 +101,30 @@ export AWS_SECRET_ACCESS_KEY=(your secret access key)
         key_algorithm: RSA_2048
 
 
-
 6) Добавляем  в файл конфигурации /root/terraform/variables.cf  параметры из конфиг-листа ниже
 
         root@docker:~/terraform# yc config list
-        token: y0_AgAEA7qjbCX2AATuwQAAAADNx-_dP9L62XaATFq3ZDEjDT3hOpl-XXX
+        token: y0_AgAEA7qjbCX2AATuwQAAAADNx-_dP9L62XaATFq3ZDEjDT3hOpl-...
         cloud-id: b1g3dtd6rmc18p0kufbd
         folder-id: b1gks5lsfvt1r1gh37ib
         compute-default-zone: ru-central1-a
 
-7) Задаём конфигурацию профиля:
+7) Генерируем новый Ключ Доступа (IAM) для эккаунта my-robot
+
+        root@docker:~/terraform#   yc iam access-key create --service-account-name my-robot --description "this key is for Lesson 7.2"
+
+8) Проверяем список ключей авторизации для экканута my-robot
+
+          root@docker:~/terraform#   yc iam access-key list --service-account-name my-robot
+
+          +----------------------+----------------------+---------------------------+
+          |          ID          |  SERVICE ACCOUNT ID  |          KEY ID           |
+          +----------------------+----------------------+---------------------------+
+          | ajekm53aops709pmvhce | ajek2ne5khrks2n72on7 | YCAJEQrdiDPW5PSO37M7MuUw0 |
+          +----------------------+----------------------+---------------------------+
+
+
+9) Задаём конфигурацию профиля:
  
         root@docker:~/terraform#   yc config set service-account-key key.json
         root@docker:~/terraform#   yc config set cloud-id b1g3dtd6rmc18p0kufbd
@@ -123,7 +136,7 @@ export AWS_SECRET_ACCESS_KEY=(your secret access key)
         cloud-id — идентификатор облака.
         folder-id — идентификатор каталога (профиля netology).
 
-8) Добавляем аутентификационные данные в переменные окружения:
+10) Добавляем аутентификационные данные в переменные окружения:
 
         root@docker:~/terraform#  export YC_TOKEN=$(yc iam create-token)
         root@docker:~/terraform#  export YC_CLOUD_ID=$(yc config get cloud-id)
@@ -154,12 +167,12 @@ export AWS_SECRET_ACCESS_KEY=(your secret access key)
 
 3) В файле main.tf воспользуйтесь блоком data "aws_ami для поиска ami образа последнего Ubuntu.
 4) В файле main.tf создайте ресурс  
-      - либо ec2 instance.
+      - либо если AWS,  создаем ec2 instance.
         [https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/instance]
         Постарайтесь указать как можно больше параметров для его определения. Минимальный набор параметров 
         указан в первом блоке Example Usage, но желательно, указать большее количество параметров.
    
-      - либо в YC  объект yandex_compute_image.
+      -либо в YC  объект ** yandex_compute_image.** 
         [https://registry.terraform.io/providers/yandex-cloud/yandex/latest/docs/resources/compute_image]
    
 5) Также в случае использования aws:
@@ -192,6 +205,8 @@ export AWS_SECRET_ACCESS_KEY=(your secret access key)
   - Либо поднимаем VPN-соединение для возможности скачать plugin-конфигурацию провайдера  с репозитория Hashicorp
 
            root@docker:~/   cd /root/vpnbook && openvpn --config vpnbook-fr1-udp53.ovpn
+           Username: vpnbook
+           Password: 79c8xza
  
   - Либо настраиваем репозиторий Yandex как основной , добавив следующий блок в  ~/.terraformrc :
 
@@ -224,29 +239,24 @@ export AWS_SECRET_ACCESS_KEY=(your secret access key)
         | fd88d14a6790do254kj7 | centos-7-v20220620  | centos-7    | f2euv1kekdgvc0jrpaet       | READY  |
         | fd8ad4ie6nhfeln6bsof | centos-7-v20220606  | centos-7    | f2egp3k2jkoqh7dl2t0l       | READY  |
    
-   Добавляем ссылку на образ fd88d14a6790do254kj7  в файл конфигурации  variables.tf   
+        Добавляем ссылку на свежий образ fd88d14a6790do254kj7  в файл конфигурации  variables.tf  
 
 
+4) Запускаем проверку плана Terraform и  форматирование файлов конфигурации
 
-
-
-
-
-
-4) Запускаем проверку плана Terraform
-
-        Выполняем  последовательно   terraform validate , terraform plan
+        Выполняем  последовательно   terraform validate , terraform fmt terraform plan
         Когда применяем Terraform план -  соглашаемся - "yes"
         root@docker:~/terraform# terraform plan
  
-       Успешный результат: Plan: 3 to add, 0 to change, 0 to destroy.
+       
+        Plan: 1 to add, 0 to change, 1 to destroy.
 
-       Changes to Outputs:
-       + external_ip_address_node01_yandex_cloud = (known after apply)
-       + internal_ip_address_node01_yandex_cloud = (known after apply)
+        Changes to Outputs:
+        + external_ip_address_node01_yandex_cloud = (known after apply)
+        + internal_ip_address_node01_yandex_cloud = (known after apply)
 
 
-5) Создаем виртуальную сеть, подсеть и сам инстанс  с помощью terraform. 
+5) Создаем виртуальную сеть, подсеть и сам инстанс  с помощью terraform apply. 
 
         root@docker:~/LESSON_7.2# terraform apply
         yandex_vpc_network.default: Refreshing state... [id=enppf11bp3tek2o9vqf9]
@@ -277,9 +287,13 @@ export AWS_SECRET_ACCESS_KEY=(your secret access key)
 
         Outputs:
         
-        external_ip_address_node01_yandex_cloud = "51.250.74.150"
-        internal_ip_address_node01_yandex_cloud = "192.168.101.25"
+       external_ip_address_node01_yandex_cloud = "51.250.82.22"
+       internal_ip_address_node01_yandex_cloud = "192.168.101.31"
+
 
 ---
 ![img.png](img.png)
 ---
+![img_1.png](img_1.png)
+---
+![img_2.png](img_2.png)

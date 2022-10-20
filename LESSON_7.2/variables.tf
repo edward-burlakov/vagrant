@@ -1,3 +1,8 @@
+# Создаем переменную для хранения  токена
+variable "YC_TOKEN" {
+  default = "y0_AgAEA7qjbCX2AATuwQAAAADNx-_dP9L62XaATFq3ZDEjDT3hOpl-fwo"
+}
+
 # Заменить на ID своего облака
 # https://console.cloud.yandex.ru/cloud?section=overview
 variable "yandex_cloud_id" {
@@ -15,6 +20,7 @@ variable "yandex_folder_id" {
 # либо с помощью команды
 # yc compute image list --folder-id standard-images | grep centos-7-v202206
 
-variable "centos7-image" {
+variable "centos7-base-image" {
   default = "fd88d14a6790do254kj7"
 }
+
