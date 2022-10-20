@@ -197,9 +197,10 @@ export AWS_SECRET_ACCESS_KEY=(your secret access key)
 ####  1) Hashicorp Packer
 
 
-####  2) Развертывание инстанса 
-
+####  2) Ссылка на репозиторий с исходной конфигурацией терраформа  для развертывание инстанса 
+[https://github.com/edward-burlakov/vagrant/tree/main/LESSON_7.2]
  
+
 1) Настраиваем  провайдера , для этого
 
   - Либо поднимаем VPN-соединение для возможности скачать plugin-конфигурацию провайдера  с репозитория Hashicorp
