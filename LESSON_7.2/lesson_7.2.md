@@ -80,7 +80,7 @@ export AWS_SECRET_ACCESS_KEY=(your secret access key)
 
 3) Создаём FolderID (профиль CLI) для выполнения операций от имени сервисного аккаунта. Указываем имя FolderID:
 
-        root@docker:~/terraform#  yc config profile create netology
+        root@docker:~/LESSON_7.2#  yc config profile create netology
         Результат:
 
         Profile 'netology' created and activated
@@ -94,7 +94,7 @@ export AWS_SECRET_ACCESS_KEY=(your secret access key)
 5) Создаем первичный  авторизованный ключ для сервисного аккаунта my-robot  и запишем его в файл  key.json 
    для доступа terraform под сервисным эккаунтом my-robot в YC
 
-        root@docker:~/terraform#  yc iam key create --service-account-id ajek2ne5khrks2n72on7 --output key.json
+        root@docker:~/LESSON_7.2#  yc iam key create --service-account-id ajek2ne5khrks2n72on7 --output key.json
         id: ajee9lqmtl98k4jbavsg
         service_account_id: ajek2ne5khrks2n72on7
         created_at: "2022-10-19T15:45:46.221673134Z"
@@ -103,7 +103,7 @@ export AWS_SECRET_ACCESS_KEY=(your secret access key)
 
 6) Добавляем  в файл конфигурации /root/terraform/variables.cf  параметры из конфиг-листа ниже
 
-        root@docker:~/terraform# yc config list
+        root@docker:~/LESSON_7.2# yc config list
         token: y0_AgAEA7qjbCX2AATuwQAAAADNx-_dP9L62XaATFq3ZDEjDT3hOpl-...
         cloud-id: b1g3dtd6rmc18p0kufbd
         folder-id: b1gks5lsfvt1r1gh37ib
@@ -111,11 +111,11 @@ export AWS_SECRET_ACCESS_KEY=(your secret access key)
 
 7) Генерируем новый Ключ Доступа (IAM) для эккаунта my-robot
 
-        root@docker:~/terraform#   yc iam access-key create --service-account-name my-robot --description "this key is for Lesson 7.2"
+        root@docker:~/LESSON_7.2#   yc iam access-key create --service-account-name my-robot --description "this key is for Lesson 7.2"
 
 8) Проверяем список ключей авторизации для экканута my-robot
 
-          root@docker:~/terraform#   yc iam access-key list --service-account-name my-robot
+          root@docker:~/LESSON_7.2#   yc iam access-key list --service-account-name my-robot
 
           +----------------------+----------------------+---------------------------+
           |          ID          |  SERVICE ACCOUNT ID  |          KEY ID           |
@@ -126,9 +126,9 @@ export AWS_SECRET_ACCESS_KEY=(your secret access key)
 
 9) Задаём конфигурацию профиля:
  
-        root@docker:~/terraform#   yc config set service-account-key key.json
-        root@docker:~/terraform#   yc config set cloud-id b1g3dtd6rmc18p0kufbd
-        root@docker:~/terraform#   yc config set folder-id b1gks5lsfvt1r1gh37ib
+        root@docker:~/LESSON_7.2#   yc config set service-account-key key.json
+        root@docker:~/LESSON_7.2#   yc config set cloud-id b1g3dtd6rmc18p0kufbd
+        root@docker:~/LESSON_7.2#   yc config set folder-id b1gks5lsfvt1r1gh37ib
 
         Где:
 
@@ -138,9 +138,9 @@ export AWS_SECRET_ACCESS_KEY=(your secret access key)
 
 10) Добавляем аутентификационные данные в переменные окружения:
 
-        root@docker:~/terraform#  export YC_TOKEN=$(yc iam create-token)
-        root@docker:~/terraform#  export YC_CLOUD_ID=$(yc config get cloud-id)
-        root@docker:~/terraform#  export YC_FOLDER_ID=$(yc config get folder-id)
+        root@docker:~/LESSON_7.2#  export YC_TOKEN=$(yc iam create-token)
+        root@docker:~/LESSON_7.2#  export YC_CLOUD_ID=$(yc config get cloud-id)
+        root@docker:~/LESSON_7.2#  export YC_FOLDER_ID=$(yc config get folder-id)
 
         Где:
 
@@ -212,7 +212,7 @@ export AWS_SECRET_ACCESS_KEY=(your secret access key)
  
   - Либо настраиваем репозиторий Yandex как основной , добавив следующий блок в  ~/.terraformrc :
 
-           root@docker:~/terraform# nano ~/.terraformrc            
+           root@docker:~/LESSON_7.2# nano ~/.terraformrc            
             
            provider_installation {
              network_mirror {
@@ -226,7 +226,7 @@ export AWS_SECRET_ACCESS_KEY=(your secret access key)
 
 2) Инициализируем бэкэнд terraform, связав его с YC c помощью файла provider.tf  - Создаем файл terraform.lock.hcl  
       
-        root@docker:~/terraform# terraform init
+        root@docker:~/LESSON_7.2# terraform init
         Initializing the backend...
 
         Initializing provider plugins...
@@ -248,7 +248,7 @@ export AWS_SECRET_ACCESS_KEY=(your secret access key)
 
         Выполняем  последовательно   terraform validate , terraform fmt terraform plan
         Когда применяем Terraform план -  соглашаемся - "yes"
-        root@docker:~/terraform# terraform plan
+        root@docker:~/LESSON_7.2# terraform plan
  
        
         Plan: 1 to add, 0 to change, 1 to destroy.
