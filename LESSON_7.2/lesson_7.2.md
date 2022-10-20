@@ -197,9 +197,10 @@ export AWS_SECRET_ACCESS_KEY=(your secret access key)
 ####  1) Hashicorp Packer
 
 
-####  2) Ссылка на репозиторий с исходной конфигурацией терраформа  для развертывание инстанса 
+####  2) Ссылка на репозиторий с исходной конфигурацией терраформа  для развертывания инстанса 
 [https://github.com/edward-burlakov/vagrant/tree/main/LESSON_7.2]
  
+### Шаги
 
 1) Настраиваем  провайдера , для этого
 
@@ -233,7 +234,7 @@ export AWS_SECRET_ACCESS_KEY=(your secret access key)
         - Installing yandex-cloud/yandex v0.80.0...
         - Installed yandex-cloud/yandex v0.80.0 (self-signed, key ID E40F590B50BB8E40)
 
-3) Получаем  список доступных  июньских образов в репозиториии YC
+3) Получаем  список доступных  июньских образов в облачном репозитории YC
 
         root@docker:~/LESSON_7.2# yc compute image list --folder-id standard-images | grep centos-7-v202206
         | fd80rnhvc47031anomed | centos-7-v20220613  | centos-7    | f2ed6g56rfbepn59jt09       | READY  |
