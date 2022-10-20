@@ -153,13 +153,13 @@ export AWS_SECRET_ACCESS_KEY=(your secret access key)
      Поэтому в предыдущем задании мы указывали их в виде переменных окружения.
 
 3) В файле main.tf воспользуйтесь блоком data "aws_ami для поиска ami образа последнего Ubuntu.
-4) В файле main.tf создайте ресурс 
+4) В файле main.tf создайте ресурс  
       - либо ec2 instance.
         [https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/instance]
         Постарайтесь указать как можно больше параметров для его определения. Минимальный набор параметров 
         указан в первом блоке Example Usage, но желательно, указать большее количество параметров.
    
-      - либо yandex_compute_image.
+      - либо в YC  объект yandex_compute_image.
         [https://registry.terraform.io/providers/yandex-cloud/yandex/latest/docs/resources/compute_image]
    
 5) Также в случае использования aws:
@@ -225,6 +225,12 @@ export AWS_SECRET_ACCESS_KEY=(your secret access key)
         | fd8ad4ie6nhfeln6bsof | centos-7-v20220606  | centos-7    | f2egp3k2jkoqh7dl2t0l       | READY  |
    
    Добавляем ссылку на образ fd88d14a6790do254kj7  в файл конфигурации  variables.tf   
+
+
+
+
+
+
 
 
 4) Запускаем проверку плана Terraform

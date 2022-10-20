@@ -15,6 +15,6 @@ variable "yandex_folder_id" {
 # либо с помощью команды
 # yc compute image list --folder-id standard-images | grep centos-7-v202206
 
-variable "centos-7-base" {
+variable "centos7-image" {
   default = "fd88d14a6790do254kj7"
 }

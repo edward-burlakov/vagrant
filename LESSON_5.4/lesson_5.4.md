@@ -13,9 +13,9 @@ ___
 
 1) Проверяем версию packer
 
-           root@docker:/home/bes#  packer --version
-           1.7.7
-           root@docker:/home/bes#
+       root@docker:/home/bes#  packer --version
+       1.7.7
+       root@docker:/home/bes#
 
 2) Устанавливаем на Ubuntu  утилиту yc
 
