@@ -26,10 +26,10 @@ resource "yandex_compute_instance" "node01" {
     memory = 2
   }
 
-// Create a new boot disk. Выбираем образ-источник и тип диска.
+// Create a new boot disk. Выбираем базовый образ-источник и тип диска.
   boot_disk {
     initialize_params {
-      image_id    = "${var.centos-7-image}"
+      image_id    = "${var.centos-7-base-image}"
       name        = "root-node01-disk"
       type        = "network-nvme"
       size        = "50"
