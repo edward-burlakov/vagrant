@@ -16,6 +16,20 @@
 Создаем бэкенд в YC а основании документации
 [https://cloud.yandex.ru/docs/tutorials/infrastructure-management/terraform-state-storage]
 ---
+
+
+Создаем статический ключ  для Object Storage в вебинтерфейсе YC
+
+            Идентификатор ключа:
+            YCAJE3QrWRjNZqJIvlbRxDvvL
+            Ваш секретный ключ:
+            YCMHf3VzH7oMYafuz19cGgDhyAzTN6oz7uc2X98b
+
+
+
+
+
+
 ### Задача 2. Инициализируем проект и создаем воркспейсы.
 ---
 
@@ -37,3 +51,23 @@
 
 ---
 ### Ответ :
+
+
+Создам два воркспейса :
+
+$ terraform workspace new staging
+Created and switched to workspace "staging"!
+
+...
+
+$ terraform workspace new production
+Created and switched to workspace "production"!
+
+...
+Copy
+
+Выбираем воркспейс и запускает процесс реконфигурации окружения в облаке YC
+$ terraform workspace select staging
+$ terraform apply
+...
+Copy

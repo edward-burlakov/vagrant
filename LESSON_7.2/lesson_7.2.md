@@ -109,9 +109,9 @@ export AWS_SECRET_ACCESS_KEY=(your secret access key)
         folder-id: b1gks5lsfvt1r1gh37ib
         compute-default-zone: ru-central1-a
 
-7) Генерируем новый Ключ Доступа (IAM) для эккаунта my-robot
+7) Генерируем новый СТАТИЧЕСКИЙ Ключ Доступа (IAM) для эккаунта my-robot
 
-        root@docker:~/LESSON_7.2#   yc iam access-key create --service-account-name my-robot --description "this key is for Lesson 7.2"
+       root@docker:~/LESSON_7.2#   yc iam access-key create --service-account-name my-robot --description "this static key is for Lesson 7.2"
 
 8) Проверяем список ключей авторизации для экканута my-robot
 
